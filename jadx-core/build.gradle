@@ -63,7 +63,8 @@ tasks.withType(JavaCompile) {
 											  "-Xep:NullAway:ERROR",
 											  "-XepOpt:NullAway:AnnotatedPackages=jadx",
 											  "-XepOpt:NullAway:AutoFix=true",
-											  "-XepDisableAllWarnings"]
+											  "-XepDisableAllWarnings",
+											  "-XepOpt:NullAway:FixAnnotations=org.jetbrains.annotations.NotNull,org.jetbrains.annotations.Nullable",]
 
 		options.compilerArgs << "-Xmaxerrs" << "100000"
 	}else{
