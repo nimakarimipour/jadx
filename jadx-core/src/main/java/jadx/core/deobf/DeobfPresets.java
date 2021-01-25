@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -140,14 +141,17 @@ class DeobfPresets {
 		}
 	}
 
+	@Nullable
 	public String getForCls(ClassInfo cls) {
 		return clsPresetMap.get(cls.makeRawFullName());
 	}
 
+	@Nullable
 	public String getForFld(FieldInfo fld) {
 		return fldPresetMap.get(fld.getRawFullId());
 	}
 
+	@Nullable
 	public String getForMth(MethodInfo mth) {
 		return mthPresetMap.get(mth.getRawFullId());
 	}

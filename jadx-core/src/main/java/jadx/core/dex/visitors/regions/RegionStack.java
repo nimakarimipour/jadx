@@ -6,6 +6,7 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,8 @@ final class RegionStack {
 
 	private static final class State {
 		final Set<BlockNode> exits;
+
+		@Nullable
 		IRegion region;
 
 		public State() {
@@ -83,7 +86,7 @@ final class RegionStack {
 	 *
 	 * @param exit boundary node, null will be ignored
 	 */
-	public void addExit(BlockNode exit) {
+	public void addExit(@Nullable BlockNode exit) {
 		if (exit != null) {
 			curState.exits.add(exit);
 		}
@@ -95,7 +98,7 @@ final class RegionStack {
 		}
 	}
 
-	public void removeExit(BlockNode exit) {
+	public void removeExit(@Nullable BlockNode exit) {
 		if (exit != null) {
 			curState.exits.remove(exit);
 		}
@@ -105,6 +108,7 @@ final class RegionStack {
 		return curState.exits.contains(exit);
 	}
 
+	@Nullable
 	public IRegion peekRegion() {
 		return curState.region;
 	}

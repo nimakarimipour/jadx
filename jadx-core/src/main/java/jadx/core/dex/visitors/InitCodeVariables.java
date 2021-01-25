@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.instructions.PhiInsn;
 import jadx.core.dex.instructions.args.ArgType;
@@ -52,7 +54,7 @@ public class InitCodeVariables extends AbstractVisitor {
 		}
 	}
 
-	public static void initCodeVar(SSAVar ssaVar) {
+	public static void initCodeVar(@Nullable SSAVar ssaVar) {
 		if (ssaVar.isCodeVarSet()) {
 			return;
 		}

@@ -173,6 +173,7 @@ public final class JavaClass implements JavaNode {
 		return getRootDecompiler().getDefinitionPosition(this);
 	}
 
+	@Nullable
 	public Integer getSourceLine(int decompiledLine) {
 		return getCodeInfo().getLineMapping().get(decompiledLine);
 	}
@@ -191,6 +192,7 @@ public final class JavaClass implements JavaNode {
 		return cls.getRawName();
 	}
 
+	@Nullable
 	public String getPackage() {
 		return cls.getPackage();
 	}
@@ -205,6 +207,7 @@ public final class JavaClass implements JavaNode {
 		return parent == null ? this : parent.getTopParentClass();
 	}
 
+	@Nullable
 	public AccessInfo getAccessInfo() {
 		return cls.getAccessFlags();
 	}

@@ -1,5 +1,7 @@
 package jadx.core.dex.instructions;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.InsnNode;
 
@@ -7,7 +9,7 @@ public final class ConstClassNode extends InsnNode {
 
 	private final ArgType clsType;
 
-	public ConstClassNode(ArgType clsType) {
+	public ConstClassNode(@Nullable ArgType clsType) {
 		super(InsnType.CONST_CLASS, 0);
 		this.clsType = clsType;
 	}

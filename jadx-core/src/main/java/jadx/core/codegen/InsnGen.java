@@ -94,7 +94,7 @@ public class InsnGen {
 		addArg(code, arg, true);
 	}
 
-	public void addArg(CodeWriter code, InsnArg arg, boolean wrap) throws CodegenException {
+	public void addArg(CodeWriter code, @Nullable InsnArg arg, boolean wrap) throws CodegenException {
 		if (arg.isRegister()) {
 			code.add(mgen.getNameGen().useArg((RegisterArg) arg));
 		} else if (arg.isLiteral()) {
@@ -129,7 +129,7 @@ public class InsnGen {
 		}
 	}
 
-	public void declareVar(CodeWriter code, RegisterArg arg) {
+	public void declareVar(CodeWriter code, @Nullable RegisterArg arg) {
 		declareVar(code, arg.getSVar().getCodeVar());
 	}
 
@@ -146,7 +146,7 @@ public class InsnGen {
 		return TypeGen.literalToString(arg, mth, fallback);
 	}
 
-	private void instanceField(CodeWriter code, FieldInfo field, InsnArg arg) throws CodegenException {
+	private void instanceField(CodeWriter code, @Nullable FieldInfo field, InsnArg arg) throws CodegenException {
 		ClassNode pCls = mth.getParentClass();
 		FieldNode fieldNode = pCls.root().deepResolveField(field);
 		if (fieldNode != null) {
@@ -175,7 +175,7 @@ public class InsnGen {
 		}
 	}
 
-	public static void makeStaticFieldAccess(CodeWriter code, FieldInfo field, ClassGen clsGen) {
+	public static void makeStaticFieldAccess(CodeWriter code, @Nullable FieldInfo field, ClassGen clsGen) {
 		ClassInfo declClass = field.getDeclClass();
 		// TODO
 		boolean fieldFromThisClass = clsGen.getClassNode().getClassInfo().equals(declClass);
@@ -197,7 +197,7 @@ public class InsnGen {
 		}
 	}
 
-	protected void staticField(CodeWriter code, FieldInfo field) {
+	protected void staticField(CodeWriter code, @Nullable FieldInfo field) {
 		makeStaticFieldAccess(code, field, mgen.getClassGen());
 	}
 
@@ -209,7 +209,7 @@ public class InsnGen {
 		mgen.getClassGen().useClass(code, cls);
 	}
 
-	protected void useType(CodeWriter code, ArgType type) {
+	protected void useType(CodeWriter code, @Nullable ArgType type) {
 		mgen.getClassGen().useType(code, type);
 	}
 
@@ -221,7 +221,7 @@ public class InsnGen {
 	private static final Set<Flags> BODY_ONLY_FLAG = EnumSet.of(Flags.BODY_ONLY);
 	private static final Set<Flags> BODY_ONLY_NOWRAP_FLAGS = EnumSet.of(Flags.BODY_ONLY_NOWRAP);
 
-	protected void makeInsn(InsnNode insn, CodeWriter code, Flags flag) throws CodegenException {
+	protected void makeInsn(InsnNode insn, CodeWriter code, @Nullable Flags flag) throws CodegenException {
 		if (insn.getType() == InsnType.REGION_ARG) {
 			return;
 		}

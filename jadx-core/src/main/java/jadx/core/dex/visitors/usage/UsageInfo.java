@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.FieldNode;
@@ -35,11 +37,11 @@ public class UsageInfo {
 		mthUsage.visit((mth, methods) -> mth.setUseIn(sortedList(methods)));
 	}
 
-	public void clsUse(ClassNode cls, ArgType useType) {
+	public void clsUse(ClassNode cls, @Nullable ArgType useType) {
 		processType(useType, depCls -> clsUse(cls, depCls));
 	}
 
-	public void clsUse(MethodNode mth, ArgType useType) {
+	public void clsUse(MethodNode mth, @Nullable ArgType useType) {
 		processType(useType, depCls -> clsUse(mth, depCls));
 	}
 
@@ -78,7 +80,7 @@ public class UsageInfo {
 		clsUse(mth, useFld.getType());
 	}
 
-	private void processType(ArgType type, Consumer<ClassNode> consumer) {
+	private void processType(@Nullable ArgType type, Consumer<ClassNode> consumer) {
 		if (type == null) {
 			return;
 		}

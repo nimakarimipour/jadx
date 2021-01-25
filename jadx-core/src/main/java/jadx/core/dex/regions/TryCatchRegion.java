@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.nodes.IBranchRegion;
 import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.IRegion;
@@ -17,7 +19,11 @@ public final class TryCatchRegion extends AbstractRegion implements IBranchRegio
 
 	private final IContainer tryRegion;
 	private Map<ExceptionHandler, IContainer> catchRegions = Collections.emptyMap();
+
+	@Nullable
 	private IContainer finallyRegion;
+
+	@Nullable
 	private TryCatchBlock tryCatchBlock;
 
 	public TryCatchRegion(IRegion parent, IContainer tryRegion) {
@@ -49,10 +55,12 @@ public final class TryCatchRegion extends AbstractRegion implements IBranchRegio
 		return catchRegions;
 	}
 
+	@Nullable
 	public TryCatchBlock getTryCatchBlock() {
 		return tryCatchBlock;
 	}
 
+	@Nullable
 	public IContainer getFinallyRegion() {
 		return finallyRegion;
 	}

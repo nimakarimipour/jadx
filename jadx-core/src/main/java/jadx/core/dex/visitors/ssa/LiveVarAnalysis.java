@@ -3,6 +3,7 @@ package jadx.core.dex.visitors.ssa;
 import java.util.BitSet;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,9 +19,16 @@ public class LiveVarAnalysis {
 
 	private final MethodNode mth;
 
+	@Nullable
 	private BitSet[] uses;
+
+	@Nullable
 	private BitSet[] defs;
+
+	@Nullable
 	private BitSet[] liveIn;
+
+	@Nullable
 	private BitSet[] assignBlocks;
 
 	public LiveVarAnalysis(MethodNode mth) {

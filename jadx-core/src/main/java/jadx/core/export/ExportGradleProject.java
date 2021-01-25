@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,7 @@ public class ExportGradleProject {
 	private final File srcOutDir;
 	private final File resOutDir;
 
-	public ExportGradleProject(RootNode root, File outDir) {
+	public ExportGradleProject(RootNode root, @Nullable File outDir) {
 		this.root = root;
 		this.outDir = outDir;
 		this.srcOutDir = new File(outDir, "src/main/java");

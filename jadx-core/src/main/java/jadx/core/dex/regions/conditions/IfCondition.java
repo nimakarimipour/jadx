@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AttrNode;
 import jadx.core.dex.instructions.ArithNode;
 import jadx.core.dex.instructions.ArithOp;
@@ -58,7 +60,8 @@ public final class IfCondition extends AttrNode {
 		}
 	}
 
-	public static IfCondition fromIfBlock(BlockNode header) {
+	@Nullable
+	public static IfCondition fromIfBlock(@Nullable BlockNode header) {
 		InsnNode lastInsn = BlockUtils.getLastInsn(header);
 		if (lastInsn == null) {
 			return null;
@@ -115,7 +118,7 @@ public final class IfCondition extends AttrNode {
 		return compare;
 	}
 
-	public static IfCondition invert(IfCondition cond) {
+	public static IfCondition invert(@Nullable IfCondition cond) {
 		Mode mode = cond.getMode();
 		switch (mode) {
 			case COMPARE:
@@ -146,7 +149,7 @@ public final class IfCondition extends AttrNode {
 		return new IfCondition(Mode.NOT, Collections.singletonList(cond));
 	}
 
-	public static IfCondition simplify(IfCondition cond) {
+	public static IfCondition simplify(@Nullable IfCondition cond) {
 		if (cond.isCompare()) {
 			Compare c = cond.getCompare();
 			IfCondition i = simplifyCmpOp(c);
@@ -200,6 +203,7 @@ public final class IfCondition extends AttrNode {
 		return cond;
 	}
 
+	@Nullable
 	private static IfCondition simplifyCmpOp(Compare c) {
 		if (!c.getA().isInsnWrap()) {
 			return null;
@@ -290,7 +294,7 @@ public final class IfCondition extends AttrNode {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

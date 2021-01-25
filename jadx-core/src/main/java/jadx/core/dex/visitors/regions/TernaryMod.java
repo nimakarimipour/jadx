@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.instructions.PhiInsn;
@@ -22,9 +24,6 @@ import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnRemover;
 
-/**
- * Convert 'if' to ternary operation
- */
 public class TernaryMod implements IRegionIterativeVisitor {
 
 	@Override
@@ -169,7 +168,8 @@ public class TernaryMod implements IRegionIterativeVisitor {
 		}
 	}
 
-	private static BlockNode getTernaryInsnBlock(IContainer thenRegion) {
+	@Nullable
+	private static BlockNode getTernaryInsnBlock(@Nullable IContainer thenRegion) {
 		if (thenRegion instanceof Region) {
 			Region r = (Region) thenRegion;
 			if (r.getSubBlocks().size() == 1) {

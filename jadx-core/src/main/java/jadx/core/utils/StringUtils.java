@@ -132,7 +132,7 @@ public class StringUtils {
 		return sb.toString();
 	}
 
-	public static String escapeXML(String str) {
+	public static String escapeXML(@Nullable String str) {
 		int len = str.length();
 		StringBuilder sb = new StringBuilder(len);
 		for (int i = 0; i < len; i++) {
@@ -177,6 +177,7 @@ public class StringUtils {
 		return sb.toString();
 	}
 
+	@Nullable
 	private static String escapeXmlChar(char c) {
 		if (c >= 0 && c <= 0x1F) {
 			return "\\" + (int) c;
@@ -199,6 +200,7 @@ public class StringUtils {
 		}
 	}
 
+	@Nullable
 	private static String escapeWhiteSpaceChar(char c) {
 		switch (c) {
 			case '\n':
@@ -228,7 +230,7 @@ public class StringUtils {
 		}
 	}
 
-	public static boolean notEmpty(String str) {
+	public static boolean notEmpty(@Nullable String str) {
 		return str != null && !str.isEmpty();
 	}
 

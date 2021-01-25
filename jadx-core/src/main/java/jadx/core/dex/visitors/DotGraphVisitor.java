@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.codegen.CodeWriter;
 import jadx.core.codegen.MethodGen;
 import jadx.core.dex.attributes.IAttributeNode;
@@ -76,7 +78,7 @@ public class DotGraphVisitor extends AbstractVisitor {
 		private final CodeWriter conn = new CodeWriter();
 		private final File dir;
 
-		public DumpDotGraph(File dir) {
+		public DumpDotGraph(@Nullable File dir) {
 			this.dir = dir;
 		}
 
@@ -148,7 +150,7 @@ public class DotGraphVisitor extends AbstractVisitor {
 			}
 		}
 
-		private void processRegion(MethodNode mth, IContainer region) {
+		private void processRegion(MethodNode mth, @Nullable IContainer region) {
 			if (region instanceof IRegion) {
 				IRegion r = (IRegion) region;
 				dot.startLine("subgraph " + makeName(region) + " {");
@@ -251,7 +253,7 @@ public class DotGraphVisitor extends AbstractVisitor {
 			return attrs.toString();
 		}
 
-		private String makeName(IContainer c) {
+		private String makeName(@Nullable IContainer c) {
 			String name;
 			if (c instanceof BlockNode) {
 				name = "Node_" + ((BlockNode) c).getId();
@@ -283,7 +285,7 @@ public class DotGraphVisitor extends AbstractVisitor {
 			}
 		}
 
-		private String escape(Object obj) {
+		private String escape(@Nullable Object obj) {
 			if (obj == null) {
 				return "null";
 			}

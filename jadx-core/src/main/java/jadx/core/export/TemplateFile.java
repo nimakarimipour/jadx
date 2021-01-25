@@ -16,10 +16,6 @@ import org.jetbrains.annotations.Nullable;
 
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
-/**
- * Simple template engine
- * Syntax for replace variable with value: '{{variable}}'
- */
 public class TemplateFile {
 
 	private enum State {
@@ -28,6 +24,8 @@ public class TemplateFile {
 
 	private static class ParserState {
 		private State state = State.NONE;
+
+		@Nullable
 		private StringBuilder curVariable;
 		private boolean skip;
 	}

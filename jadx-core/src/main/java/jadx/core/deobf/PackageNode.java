@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 public class PackageNode {
 
 	private static final char SEPARATOR_CHAR = '.';
@@ -14,9 +16,14 @@ public class PackageNode {
 	private List<PackageNode> innerPackages = Collections.emptyList();
 
 	private final String packageName;
+
+	@Nullable
 	private String packageAlias;
 
+	@Nullable
 	private String cachedPackageFullName;
+
+	@Nullable
 	private String cachedPackageFullAlias;
 
 	public PackageNode(String packageName) {
@@ -112,6 +119,7 @@ public class PackageNode {
 	 * @param name inner package name
 	 * @return package node or {@code null}
 	 */
+	@Nullable
 	public PackageNode getInnerPackageByName(String name) {
 		PackageNode result = null;
 		for (PackageNode p : innerPackages) {
@@ -142,6 +150,7 @@ public class PackageNode {
 	}
 
 	@Override
+	@Nullable
 	public String toString() {
 		return packageAlias;
 	}

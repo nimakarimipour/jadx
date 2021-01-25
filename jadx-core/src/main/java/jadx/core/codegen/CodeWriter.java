@@ -33,6 +33,7 @@ public class CodeWriter {
 			INDENT_STR + INDENT_STR + INDENT_STR + INDENT_STR + INDENT_STR,
 	};
 
+	@Nullable
 	private StringBuilder buf;
 	@Nullable
 	private String code;
@@ -105,7 +106,7 @@ public class CodeWriter {
 		return this;
 	}
 
-	public CodeWriter add(String str) {
+	public CodeWriter add(@Nullable String str) {
 		buf.append(str);
 		offset += str.length();
 		return this;
@@ -277,6 +278,7 @@ public class CodeWriter {
 		return buf.length();
 	}
 
+	@Nullable
 	public String getCodeStr() {
 		if (code == null) {
 			finish();

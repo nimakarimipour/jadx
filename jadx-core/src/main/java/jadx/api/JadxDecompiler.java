@@ -41,31 +41,6 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.BinaryXMLParser;
 import jadx.core.xmlgen.ResourcesSaver;
 
-/**
- * Jadx API usage example:
- *
- * <pre>
- * <code>
- * JadxArgs args = new JadxArgs();
- * args.getInputFiles().add(new File("test.apk"));
- * args.setOutDir(new File("jadx-test-output"));
- * try (JadxDecompiler jadx = new JadxDecompiler(args)) {
- *    jadx.load();
- *    jadx.save();
- * }
- * </code>
- * </pre>
- * <p>
- * Instead of 'save()' you can iterate over decompiled classes:
- *
- * <pre>
- * <code>
- *  for(JavaClass cls : jadx.getClasses()) {
- *      System.out.println(cls.getCode());
- *  }
- * </code>
- * </pre>
- */
 public final class JadxDecompiler implements Closeable {
 	private static final Logger LOG = LoggerFactory.getLogger(JadxDecompiler.class);
 
@@ -73,10 +48,16 @@ public final class JadxDecompiler implements Closeable {
 	private final JadxPluginManager pluginManager = new JadxPluginManager();
 	private final List<ILoadResult> loadedInputs = new ArrayList<>();
 
+	@Nullable
 	private RootNode root;
+
+	@Nullable
 	private List<JavaClass> classes;
+
+	@Nullable
 	private List<ResourceFile> resources;
 
+	@Nullable
 	private BinaryXMLParser xmlParser;
 
 	private final Map<ClassNode, JavaClass> classesMap = new ConcurrentHashMap<>();
@@ -210,7 +191,7 @@ public final class JadxDecompiler implements Closeable {
 		return executor;
 	}
 
-	private void appendResourcesSave(ExecutorService executor, File outDir) {
+	private void appendResourcesSave(ExecutorService executor, @Nullable File outDir) {
 		Set<String> inputFileNames = args.getInputFiles().stream().map(File::getAbsolutePath).collect(Collectors.toSet());
 		for (ResourceFile resourceFile : getResources()) {
 			if (resourceFile.getType() != ResourceType.ARSC
@@ -222,7 +203,7 @@ public final class JadxDecompiler implements Closeable {
 		}
 	}
 
-	private void appendSourcesSave(ExecutorService executor, File outDir) {
+	private void appendSourcesSave(ExecutorService executor, @Nullable File outDir) {
 		Predicate<String> classFilter = args.getClassFilter();
 		for (JavaClass cls : getClasses()) {
 			if (cls.getClassNode().contains(AFlag.DONT_GENERATE)) {
@@ -319,6 +300,7 @@ public final class JadxDecompiler implements Closeable {
 	/**
 	 * Internal API. Not Stable!
 	 */
+	@Nullable
 	public RootNode getRoot() {
 		return root;
 	}
@@ -330,7 +312,7 @@ public final class JadxDecompiler implements Closeable {
 		return xmlParser;
 	}
 
-	private void loadJavaClass(JavaClass javaClass) {
+	private void loadJavaClass(@Nullable JavaClass javaClass) {
 		javaClass.getMethods().forEach(mth -> methodsMap.put(mth.getMethodNode(), mth));
 		javaClass.getFields().forEach(fld -> fieldsMap.put(fld.getFieldNode(), fld));
 

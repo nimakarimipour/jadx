@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.instructions.ArithNode;
 import jadx.core.dex.instructions.IfOp;
@@ -28,7 +30,7 @@ public class ConditionGen extends InsnGen {
 			return stack;
 		}
 
-		public void push(IfCondition cond) {
+		public void push(@Nullable IfCondition cond) {
 			stack.add(cond);
 		}
 
@@ -41,15 +43,15 @@ public class ConditionGen extends InsnGen {
 		super(insnGen.mgen, insnGen.fallback);
 	}
 
-	void add(CodeWriter code, IfCondition condition) throws CodegenException {
+	void add(CodeWriter code, @Nullable IfCondition condition) throws CodegenException {
 		add(code, new CondStack(), condition);
 	}
 
-	void wrap(CodeWriter code, IfCondition condition) throws CodegenException {
+	void wrap(CodeWriter code, @Nullable IfCondition condition) throws CodegenException {
 		wrap(code, new CondStack(), condition);
 	}
 
-	private void add(CodeWriter code, CondStack stack, IfCondition condition) throws CodegenException {
+	private void add(CodeWriter code, CondStack stack, @Nullable IfCondition condition) throws CodegenException {
 		stack.push(condition);
 		switch (condition.getMode()) {
 			case COMPARE:
@@ -75,7 +77,7 @@ public class ConditionGen extends InsnGen {
 		stack.pop();
 	}
 
-	private void wrap(CodeWriter code, CondStack stack, IfCondition cond) throws CodegenException {
+	private void wrap(CodeWriter code, CondStack stack, @Nullable IfCondition cond) throws CodegenException {
 		boolean wrap = isWrapNeeded(cond);
 		if (wrap) {
 			code.add('(');
@@ -154,7 +156,7 @@ public class ConditionGen extends InsnGen {
 		}
 	}
 
-	private boolean isWrapNeeded(IfCondition condition) {
+	private boolean isWrapNeeded(@Nullable IfCondition condition) {
 		if (condition.isCompare() || condition.contains(AFlag.DONT_WRAP)) {
 			return false;
 		}

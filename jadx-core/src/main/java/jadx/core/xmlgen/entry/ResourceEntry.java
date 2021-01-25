@@ -2,6 +2,8 @@ package jadx.core.xmlgen.entry;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 public final class ResourceEntry {
 
 	private final int id;
@@ -11,7 +13,11 @@ public final class ResourceEntry {
 	private final String config;
 
 	private int parentRef;
+
+	@Nullable
 	private RawValue simpleValue;
+
+	@Nullable
 	private List<RawNamedValue> namedValues;
 
 	public ResourceEntry(int id, String pkgName, String typeName, String keyName, String config) {
@@ -62,6 +68,7 @@ public final class ResourceEntry {
 		return parentRef;
 	}
 
+	@Nullable
 	public RawValue getSimpleValue() {
 		return simpleValue;
 	}
@@ -74,6 +81,7 @@ public final class ResourceEntry {
 		this.namedValues = namedValues;
 	}
 
+	@Nullable
 	public List<RawNamedValue> getNamedValues() {
 		return namedValues;
 	}

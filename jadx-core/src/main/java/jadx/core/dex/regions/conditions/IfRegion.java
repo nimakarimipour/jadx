@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.IBranchRegion;
 import jadx.core.dex.nodes.IContainer;
@@ -15,16 +17,23 @@ import jadx.core.utils.BlockUtils;
 
 public final class IfRegion extends AbstractRegion implements IBranchRegion {
 
+	@Nullable
 	private List<BlockNode> conditionBlocks;
 
+	@Nullable
 	private IfCondition condition;
+
+	@Nullable
 	private IContainer thenRegion;
+
+	@Nullable
 	private IContainer elseRegion;
 
 	public IfRegion(IRegion parent) {
 		super(parent);
 	}
 
+	@Nullable
 	public IfCondition getCondition() {
 		return condition;
 	}
@@ -33,6 +42,7 @@ public final class IfRegion extends AbstractRegion implements IBranchRegion {
 		this.condition = condition;
 	}
 
+	@Nullable
 	public IContainer getThenRegion() {
 		return thenRegion;
 	}
@@ -41,14 +51,16 @@ public final class IfRegion extends AbstractRegion implements IBranchRegion {
 		this.thenRegion = thenRegion;
 	}
 
+	@Nullable
 	public IContainer getElseRegion() {
 		return elseRegion;
 	}
 
-	public void setElseRegion(IContainer elseRegion) {
+	public void setElseRegion(@Nullable IContainer elseRegion) {
 		this.elseRegion = elseRegion;
 	}
 
+	@Nullable
 	public List<BlockNode> getConditionBlocks() {
 		return conditionBlocks;
 	}

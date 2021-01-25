@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +23,7 @@ public class ResourcesSaver implements Runnable {
 	private final ResourceFile resourceFile;
 	private final File outDir;
 
-	public ResourcesSaver(File outDir, ResourceFile resourceFile) {
+	public ResourcesSaver(@Nullable File outDir, ResourceFile resourceFile) {
 		this.resourceFile = resourceFile;
 		this.outDir = outDir;
 	}
@@ -32,7 +33,7 @@ public class ResourcesSaver implements Runnable {
 		saveResources(resourceFile.loadContent());
 	}
 
-	private void saveResources(ResContainer rc) {
+	private void saveResources(@Nullable ResContainer rc) {
 		if (rc == null) {
 			return;
 		}

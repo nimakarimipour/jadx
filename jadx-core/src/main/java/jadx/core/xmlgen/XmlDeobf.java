@@ -9,10 +9,6 @@ import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.RootNode;
 
-/*
- * modifies android:name attributes and xml tags which are old class names
- * but were changed during deobfuscation
- */
 public class XmlDeobf {
 	private static final Map<String, String> DEOBF_MAP = new HashMap<>();
 
@@ -20,14 +16,15 @@ public class XmlDeobf {
 	}
 
 	@Nullable
-	public static String deobfClassName(RootNode rootNode, String potencialClassName, String packageName) {
+	public static String deobfClassName(RootNode rootNode, @Nullable String potencialClassName, @Nullable String packageName) {
 		if (packageName != null && potencialClassName.startsWith(".")) {
 			potencialClassName = packageName + potencialClassName;
 		}
 		return getNewClassName(rootNode, potencialClassName);
 	}
 
-	private static String getNewClassName(RootNode rootNode, String old) {
+	@Nullable
+	private static String getNewClassName(RootNode rootNode, @Nullable String old) {
 		if (DEOBF_MAP.isEmpty()) {
 			for (ClassNode classNode : rootNode.getClasses(true)) {
 				ClassInfo classInfo = classNode.getClassInfo();

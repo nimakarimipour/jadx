@@ -5,6 +5,7 @@ import java.util.BitSet;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
@@ -26,13 +27,18 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 
 	private List<BlockNode> predecessors = new ArrayList<>(1);
 	private List<BlockNode> successors = new ArrayList<>(1);
+
+	@Nullable
 	private List<BlockNode> cleanSuccessors;
 
 	// all dominators
+	@Nullable
 	private BitSet doms = EmptyBitSet.EMPTY;
 	// dominance frontier
+	@Nullable
 	private BitSet domFrontier;
 	// immediate dominator
+	@Nullable
 	private BlockNode idom;
 	// blocks on which dominates this block
 	private List<BlockNode> dominatesOn = new ArrayList<>(3);
@@ -58,6 +64,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return successors;
 	}
 
+	@Nullable
 	public List<BlockNode> getCleanSuccessors() {
 		return cleanSuccessors;
 	}
@@ -120,37 +127,40 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	/**
 	 * Check if 'block' dominated on this node
 	 */
-	public boolean isDominator(BlockNode block) {
+	public boolean isDominator(@Nullable BlockNode block) {
 		return doms.get(block.getId());
 	}
 
 	/**
 	 * Dominators of this node (exclude itself)
 	 */
+	@Nullable
 	public BitSet getDoms() {
 		return doms;
 	}
 
-	public void setDoms(BitSet doms) {
+	public void setDoms(@Nullable BitSet doms) {
 		this.doms = doms;
 	}
 
+	@Nullable
 	public BitSet getDomFrontier() {
 		return domFrontier;
 	}
 
-	public void setDomFrontier(BitSet domFrontier) {
+	public void setDomFrontier(@Nullable BitSet domFrontier) {
 		this.domFrontier = domFrontier;
 	}
 
 	/**
 	 * Immediate dominator
 	 */
+	@Nullable
 	public BlockNode getIDom() {
 		return idom;
 	}
 
-	public void setIDom(BlockNode idom) {
+	public void setIDom(@Nullable BlockNode idom) {
 		this.idom = idom;
 	}
 
@@ -176,7 +186,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

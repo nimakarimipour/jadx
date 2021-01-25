@@ -2,6 +2,8 @@ package jadx.core.dex.instructions;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.api.plugins.input.insns.InsnData;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
@@ -17,7 +19,10 @@ public class IfNode extends GotoNode {
 
 	protected IfOp op;
 
+	@Nullable
 	private BlockNode thenBlock;
+
+	@Nullable
 	private BlockNode elseBlock;
 
 	public IfNode(InsnData insn, IfOp op) {
@@ -101,10 +106,12 @@ public class IfNode extends GotoNode {
 		return replaced;
 	}
 
+	@Nullable
 	public BlockNode getThenBlock() {
 		return thenBlock;
 	}
 
+	@Nullable
 	public BlockNode getElseBlock() {
 		return elseBlock;
 	}

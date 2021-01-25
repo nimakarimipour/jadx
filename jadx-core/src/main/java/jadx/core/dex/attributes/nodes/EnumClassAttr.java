@@ -2,6 +2,8 @@ package jadx.core.dex.attributes.nodes;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.IAttribute;
 import jadx.core.dex.instructions.mods.ConstructorInsn;
@@ -14,6 +16,8 @@ public class EnumClassAttr implements IAttribute {
 	public static class EnumField {
 		private final FieldNode field;
 		private final ConstructorInsn constrInsn;
+
+		@Nullable
 		private ClassNode cls;
 
 		public EnumField(FieldNode field, ConstructorInsn co) {
@@ -29,6 +33,7 @@ public class EnumClassAttr implements IAttribute {
 			return constrInsn;
 		}
 
+		@Nullable
 		public ClassNode getCls() {
 			return cls;
 		}
@@ -44,6 +49,8 @@ public class EnumClassAttr implements IAttribute {
 	}
 
 	private final List<EnumField> fields;
+
+	@Nullable
 	private MethodNode staticMethod;
 
 	public EnumClassAttr(List<EnumField> fields) {
@@ -54,6 +61,7 @@ public class EnumClassAttr implements IAttribute {
 		return fields;
 	}
 
+	@Nullable
 	public MethodNode getStaticMethod() {
 		return staticMethod;
 	}

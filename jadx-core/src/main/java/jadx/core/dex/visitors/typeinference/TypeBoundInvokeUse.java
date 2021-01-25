@@ -1,14 +1,12 @@
 package jadx.core.dex.visitors.typeinference;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.instructions.BaseInvokeNode;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.RootNode;
 
-/**
- * Special dynamic bound for invoke with generics.
- * Arguments bound type calculated using instance generic type.
- */
 public final class TypeBoundInvokeUse implements ITypeBoundDynamic {
 	private final RootNode root;
 	private final BaseInvokeNode invokeNode;
@@ -28,16 +26,19 @@ public final class TypeBoundInvokeUse implements ITypeBoundDynamic {
 	}
 
 	@Override
+	@Nullable
 	public ArgType getType(TypeUpdateInfo updateInfo) {
 		return getArgType(updateInfo.getType(invokeNode.getInstanceArg()), updateInfo.getType(arg));
 	}
 
 	@Override
+	@Nullable
 	public ArgType getType() {
 		return getArgType(invokeNode.getInstanceArg().getType(), arg.getType());
 	}
 
-	private ArgType getArgType(ArgType instanceType, ArgType argType) {
+	@Nullable
+	private ArgType getArgType(@Nullable ArgType instanceType, @Nullable ArgType argType) {
 		ArgType resultGeneric = root.getTypeUtils().replaceClassGenerics(instanceType, genericArgType);
 		if (resultGeneric != null) {
 			return resultGeneric;

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
@@ -28,7 +29,7 @@ public class TypeSearchState {
 	}
 
 	@NotNull
-	public TypeSearchVarInfo getVarInfo(SSAVar var) {
+	public TypeSearchVarInfo getVarInfo(@Nullable SSAVar var) {
 		TypeSearchVarInfo varInfo = this.varInfoMap.get(var);
 		if (varInfo == null) {
 			throw new JadxRuntimeException("TypeSearchVarInfo not found in map for var: " + var);
@@ -36,7 +37,8 @@ public class TypeSearchState {
 		return varInfo;
 	}
 
-	public ArgType getArgType(InsnArg arg) {
+	@Nullable
+	public ArgType getArgType(@Nullable InsnArg arg) {
 		if (arg.isRegister()) {
 			RegisterArg reg = (RegisterArg) arg;
 			return getVarInfo(reg.getSVar()).getCurrentType();

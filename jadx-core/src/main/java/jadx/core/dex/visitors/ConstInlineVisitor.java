@@ -3,6 +3,8 @@ package jadx.core.dex.visitors;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.BaseInvokeNode;
@@ -107,7 +109,7 @@ public class ConstInlineVisitor extends AbstractVisitor {
 		replaceConst(mth, insn, constArg, toRemove);
 	}
 
-	private static boolean checkForFinallyBlock(SSAVar sVar) {
+	private static boolean checkForFinallyBlock(@Nullable SSAVar sVar) {
 		List<SSAVar> ssaVars = sVar.getCodeVar().getSsaVars();
 		if (ssaVars.size() <= 1) {
 			return false;
@@ -131,7 +133,7 @@ public class ConstInlineVisitor extends AbstractVisitor {
 	/**
 	 * Don't inline null object
 	 */
-	private static boolean forbidNullInlines(SSAVar sVar) {
+	private static boolean forbidNullInlines(@Nullable SSAVar sVar) {
 		List<RegisterArg> useList = sVar.getUseList();
 		if (useList.isEmpty()) {
 			return false;

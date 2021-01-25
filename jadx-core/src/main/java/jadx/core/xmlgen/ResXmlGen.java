@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.api.ICodeInfo;
 import jadx.core.codegen.CodeWriter;
 import jadx.core.utils.StringUtils;
@@ -105,6 +107,7 @@ public class ResXmlGen {
 		}
 	}
 
+	@Nullable
 	private String getTypeAsString(int type) {
 		String s = "";
 		if ((type & ValuesParser.ATTR_TYPE_REFERENCE) != 0) {
@@ -177,7 +180,8 @@ public class ResXmlGen {
 		}
 	}
 
-	private void addSimpleValue(CodeWriter cw, String typeName, String itemTag, String attrName, String attrValue, String valueStr) {
+	private void addSimpleValue(CodeWriter cw, String typeName, String itemTag, @Nullable String attrName, @Nullable String attrValue,
+			@Nullable String valueStr) {
 		if (valueStr == null) {
 			return;
 		}

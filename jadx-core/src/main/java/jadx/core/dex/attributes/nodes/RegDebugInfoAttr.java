@@ -2,6 +2,8 @@ package jadx.core.dex.attributes.nodes;
 
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.IAttribute;
 import jadx.core.dex.instructions.args.ArgType;
@@ -11,7 +13,7 @@ public class RegDebugInfoAttr implements IAttribute {
 	private final ArgType type;
 	private final String name;
 
-	public RegDebugInfoAttr(ArgType type, String name) {
+	public RegDebugInfoAttr(@Nullable ArgType type, String name) {
 		this.type = type;
 		this.name = name;
 	}

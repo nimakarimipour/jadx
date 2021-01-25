@@ -3,6 +3,7 @@ package jadx.core.dex.attributes.nodes;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import jadx.core.codegen.CodeWriter;
 import jadx.core.utils.Utils;
@@ -12,7 +13,7 @@ public class JadxError implements Comparable<JadxError> {
 	private final String error;
 	private final Throwable cause;
 
-	public JadxError(String error, Throwable cause) {
+	public JadxError(String error, @Nullable Throwable cause) {
 		this.error = Objects.requireNonNull(error);
 		this.cause = cause;
 	}

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.fldinit.FieldInitAttr;
@@ -264,7 +266,7 @@ public class ExtractFieldInit extends AbstractVisitor {
 		return assignInsns;
 	}
 
-	private static void addFieldInitAttr(MethodNode classInitMth, FieldNode field, InsnNode insn) {
+	private static void addFieldInitAttr(MethodNode classInitMth, @Nullable FieldNode field, InsnNode insn) {
 		InsnNode assignInsn = InsnNode.wrapArg(insn.getArg(0));
 		field.addAttr(FieldInitAttr.insnValue(classInitMth, assignInsn));
 	}

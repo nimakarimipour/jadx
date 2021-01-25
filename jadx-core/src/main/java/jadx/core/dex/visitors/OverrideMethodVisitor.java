@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.clsp.ClspClass;
 import jadx.core.clsp.ClspMethod;
 import jadx.core.dex.attributes.AType;
@@ -206,6 +208,7 @@ public class OverrideMethodVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private ArgType updateArgType(MethodNode mth, IMethodDetails baseMth, List<ArgType> superTypes, int argNum) {
 		ArgType arg = mth.getArgTypes().get(argNum);
 		ArgType baseArg = baseMth.getArgTypes().get(argNum);

@@ -2,6 +2,8 @@ package jadx.core.dex.instructions.mods;
 
 import java.util.Collection;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
@@ -11,9 +13,10 @@ import jadx.core.utils.InsnUtils;
 
 public final class TernaryInsn extends InsnNode {
 
+	@Nullable
 	private IfCondition condition;
 
-	public TernaryInsn(IfCondition condition, RegisterArg result, InsnArg th, InsnArg els) {
+	public TernaryInsn(@Nullable IfCondition condition, @Nullable RegisterArg result, InsnArg th, InsnArg els) {
 		this();
 		setResult(result);
 
@@ -33,6 +36,7 @@ public final class TernaryInsn extends InsnNode {
 		super(InsnType.TERNARY, 2);
 	}
 
+	@Nullable
 	public IfCondition getCondition() {
 		return condition;
 	}

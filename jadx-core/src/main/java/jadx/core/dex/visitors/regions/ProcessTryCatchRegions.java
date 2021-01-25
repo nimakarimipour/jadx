@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.nodes.BlockNode;
@@ -25,9 +27,6 @@ import jadx.core.dex.trycatch.TryCatchBlock;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.RegionUtils;
 
-/**
- * Extract blocks to separate try/catch region
- */
 public class ProcessTryCatchRegions extends AbstractRegionVisitor {
 
 	public static void process(MethodNode mth) {
@@ -113,7 +112,7 @@ public class ProcessTryCatchRegions extends AbstractRegionVisitor {
 	/**
 	 * Extract all block dominated by 'dominator' to separate region and mark as try/catch block
 	 */
-	private static boolean wrapBlocks(IRegion replaceRegion, TryCatchBlock tb, BlockNode dominator) {
+	private static boolean wrapBlocks(@Nullable IRegion replaceRegion, @Nullable TryCatchBlock tb, BlockNode dominator) {
 		if (replaceRegion == null) {
 			return false;
 		}
@@ -160,7 +159,7 @@ public class ProcessTryCatchRegions extends AbstractRegionVisitor {
 		return true;
 	}
 
-	private static boolean isHandlerPath(TryCatchBlock tb, IContainer cont) {
+	private static boolean isHandlerPath(@Nullable TryCatchBlock tb, IContainer cont) {
 		for (ExceptionHandler h : tb.getHandlers()) {
 			BlockNode handlerBlock = h.getHandlerBlock();
 			if (handlerBlock != null

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.Consts;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.info.MethodInfo;
@@ -44,6 +46,7 @@ import static jadx.core.codegen.CodeWriter.NL;
 		}
 )
 public class MethodInvokeVisitor extends AbstractVisitor {
+	@Nullable
 	private RootNode root;
 
 	@Override
@@ -141,6 +144,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private ArgType getCallClassFromInvoke(MethodNode parentMth, BaseInvokeNode invokeInsn, MethodInfo callMth) {
 		if (invokeInsn instanceof ConstructorInsn) {
 			ConstructorInsn constrInsn = (ConstructorInsn) invokeInsn;
@@ -167,6 +171,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		return Utils.mergeMaps(clsTypeVars, mthTypeVars);
 	}
 
+	@Nullable
 	private ArgType getClsCallType(BaseInvokeNode invokeInsn, ArgType declClsType) {
 		InsnArg instanceArg = invokeInsn.getInstanceArg();
 		if (instanceArg != null) {
@@ -377,6 +382,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 	/**
 	 * Return type as seen by compiler
 	 */
+	@Nullable
 	private ArgType getCompilerVarType(InsnArg arg) {
 		if (arg instanceof LiteralArg) {
 			LiteralArg literalArg = (LiteralArg) arg;

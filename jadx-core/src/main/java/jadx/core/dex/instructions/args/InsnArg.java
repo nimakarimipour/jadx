@@ -15,10 +15,6 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
-/**
- * Instruction argument,
- * argument can be register, literal or instruction
- */
 public abstract class InsnArg extends Typed {
 
 	private static final Logger LOG = LoggerFactory.getLogger(InsnArg.class);
@@ -26,11 +22,11 @@ public abstract class InsnArg extends Typed {
 	@Nullable("Null for method arguments")
 	protected InsnNode parentInsn;
 
-	public static RegisterArg reg(int regNum, ArgType type) {
+	public static RegisterArg reg(int regNum, @Nullable ArgType type) {
 		return new RegisterArg(regNum, type);
 	}
 
-	public static RegisterArg reg(InsnData insn, int argNum, ArgType type) {
+	public static RegisterArg reg(InsnData insn, int argNum, @Nullable ArgType type) {
 		return reg(insn.getReg(argNum), type);
 	}
 
@@ -57,7 +53,7 @@ public abstract class InsnArg extends Typed {
 		return reg;
 	}
 
-	public static LiteralArg lit(long literal, ArgType type) {
+	public static LiteralArg lit(long literal, @Nullable ArgType type) {
 		return LiteralArg.makeWithFixedType(literal, type);
 	}
 

@@ -17,29 +17,8 @@ package jadx.core.xmlgen;
 
 import java.util.Arrays;
 
-/**
- * This class defines the basic XML character properties. The data
- * in this class can be used to verify that a character is a valid
- * XML character or if the character is a space, name start, or name
- * character.
- * <p>
- * A series of convenience methods are supplied to ease the burden
- * of the developer. Because inlining the checks can improve per
- * character performance, the tables of character properties are
- * public. Using the character as an index into the <code>CHARS</code>
- * array and applying the appropriate mask flag (e.g.
- * <code>MASK_VALID</code>), yields the same results as calling the
- * convenience methods. There is one exception: check the comments
- * for the <code>isValid</code> method for details.
- *
- * @author Glenn Marcy, IBM
- * @author Andy Clark, IBM
- * @author Eric Ye, IBM
- * @author Arnaud Le Hors, IBM
- * @author Michael Glavassevich, IBM
- * @author Rahul Srivastava, Sun Microsystems Inc.
- * @version $Id: XMLChar.java 674378 2008-07-07 00:52:45Z mrglavas $
- */
+import org.jetbrains.annotations.Nullable;
+
 public class XMLChar {
 
 	//
@@ -906,7 +885,7 @@ public class XMLChar {
 	 * @param name string to check
 	 * @return true if name is a valid Name
 	 */
-	public static boolean isValidName(String name) {
+	public static boolean isValidName(@Nullable String name) {
 		final int length = name.length();
 		if (length == 0) {
 			return false;

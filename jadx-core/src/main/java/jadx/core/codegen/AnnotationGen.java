@@ -130,6 +130,7 @@ public class AnnotationGen {
 		}
 	}
 
+	@Nullable
 	public EncodedValue getAnnotationDefaultValue(String name) {
 		IAnnotation an = cls.getAnnotation(Consts.DALVIK_ANNOTATION_DEFAULT);
 		if (an != null) {

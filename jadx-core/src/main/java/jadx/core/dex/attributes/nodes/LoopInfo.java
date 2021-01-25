@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.Edge;
@@ -18,6 +20,8 @@ public class LoopInfo {
 	private final Set<BlockNode> loopBlocks;
 
 	private int id;
+
+	@Nullable
 	private LoopInfo parentLoop;
 
 	public LoopInfo(BlockNode start, BlockNode end) {
@@ -84,6 +88,7 @@ public class LoopInfo {
 		this.id = id;
 	}
 
+	@Nullable
 	public LoopInfo getParentLoop() {
 		return parentLoop;
 	}

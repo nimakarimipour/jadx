@@ -100,7 +100,7 @@ public final class PhiInsn extends InsnNode {
 	}
 
 	@Override
-	public boolean replaceArg(InsnArg from, InsnArg to) {
+	public boolean replaceArg(@Nullable InsnArg from, InsnArg to) {
 		if (!(from instanceof RegisterArg) || !(to instanceof RegisterArg)) {
 			return false;
 		}

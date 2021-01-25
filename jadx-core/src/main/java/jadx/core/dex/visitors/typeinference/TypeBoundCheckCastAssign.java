@@ -7,15 +7,11 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.RootNode;
 
-/**
- * Allow to ignore down casts (return arg type instead cast type)
- * Such casts will be removed later.
- */
 public final class TypeBoundCheckCastAssign implements ITypeBoundDynamic {
 	private final RootNode root;
 	private final IndexInsnNode insn;
 
-	public TypeBoundCheckCastAssign(RootNode root, IndexInsnNode insn) {
+	public TypeBoundCheckCastAssign(@Nullable RootNode root, IndexInsnNode insn) {
 		this.root = root;
 		this.insn = insn;
 	}
@@ -26,16 +22,19 @@ public final class TypeBoundCheckCastAssign implements ITypeBoundDynamic {
 	}
 
 	@Override
+	@Nullable
 	public ArgType getType(TypeUpdateInfo updateInfo) {
 		return getReturnType(updateInfo.getType(insn.getArg(0)));
 	}
 
 	@Override
+	@Nullable
 	public ArgType getType() {
 		return getReturnType(insn.getArg(0).getType());
 	}
 
-	private ArgType getReturnType(ArgType argType) {
+	@Nullable
+	private ArgType getReturnType(@Nullable ArgType argType) {
 		ArgType castType = (ArgType) insn.getIndex();
 		TypeCompareEnum result = root.getTypeCompare().compareTypes(argType, castType);
 		return result.isNarrow() ? argType : castType;

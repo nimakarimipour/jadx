@@ -2,19 +2,23 @@ package jadx.core.dex.instructions;
 
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.Utils;
 
 public class IndexInsnNode extends InsnNode {
 
+	@Nullable
 	private Object index;
 
-	public IndexInsnNode(InsnType type, Object index, int argCount) {
+	public IndexInsnNode(InsnType type, @Nullable Object index, int argCount) {
 		super(type, argCount);
 		this.index = index;
 	}
 
+	@Nullable
 	public Object getIndex() {
 		return index;
 	}

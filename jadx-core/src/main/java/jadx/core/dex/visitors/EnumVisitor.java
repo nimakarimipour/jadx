@@ -58,6 +58,7 @@ import static jadx.core.utils.InsnUtils.getWrappedInsn;
 )
 public class EnumVisitor extends AbstractVisitor {
 
+	@Nullable
 	private MethodInfo enumValueOfMth;
 
 	@Override
@@ -219,6 +220,7 @@ public class EnumVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private List<EnumField> extractEnumFieldsFromInvoke(ClassNode cls, BlockNode staticBlock,
 			InvokeNode invokeNode, List<InsnNode> toRemove) {
 		MethodInfo callMth = invokeNode.getCallMth();
@@ -239,6 +241,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return enumFields;
 	}
 
+	@Nullable
 	private BlockInsnPair getValuesInitInsn(MethodNode classInitMth, FieldNode valuesField) {
 		FieldInfo searchField = valuesField.getFieldInfo();
 		for (BlockNode blockNode : classInitMth.getBasicBlocks()) {
@@ -255,6 +258,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return null;
 	}
 
+	@Nullable
 	private List<EnumField> extractEnumFieldsFromFilledArray(ClassNode cls, InsnNode arrFillInsn, BlockNode staticBlock,
 			List<InsnNode> toRemove) {
 		List<EnumField> enumFields = new ArrayList<>();
@@ -332,6 +336,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return createEnumFieldByConstructor(cls, enumFieldNode, (ConstructorInsn) constrInsn);
 	}
 
+	@Nullable
 	private EnumField createEnumFieldByConstructor(ClassNode cls, FieldNode enumFieldNode, ConstructorInsn co) {
 		// usually constructor signature is '<init>(Ljava/lang/String;I)V'.
 		// sometimes for one field enum second arg can be omitted
@@ -439,6 +444,7 @@ public class EnumVisitor extends AbstractVisitor {
 		innerCls.add(AFlag.DONT_GENERATE);
 	}
 
+	@Nullable
 	private ConstructorInsn getConstructorInsn(InsnNode insn) {
 		if (insn.getArgsCount() != 1) {
 			return null;
@@ -454,13 +460,14 @@ public class EnumVisitor extends AbstractVisitor {
 	}
 
 	@Nullable
-	private ConstructorInsn castConstructorInsn(InsnNode coCandidate) {
+	private ConstructorInsn castConstructorInsn(@Nullable InsnNode coCandidate) {
 		if (coCandidate != null && coCandidate.getType() == InsnType.CONSTRUCTOR) {
 			return (ConstructorInsn) coCandidate;
 		}
 		return null;
 	}
 
+	@Nullable
 	private String getConstString(RootNode root, InsnArg arg) {
 		if (arg.isInsnWrap()) {
 			InsnNode constInsn = ((InsnWrapArg) arg).getWrapInsn();

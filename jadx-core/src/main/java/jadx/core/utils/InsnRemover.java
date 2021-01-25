@@ -22,10 +22,6 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.codegen.CodeWriter.NL;
 
-/**
- * Helper class for correct instructions removing,
- * can be used while iterating over instructions list
- */
 public class InsnRemover {
 
 	private final MethodNode mth;
@@ -37,7 +33,7 @@ public class InsnRemover {
 		this(mth, null);
 	}
 
-	public InsnRemover(MethodNode mth, BlockNode block) {
+	public InsnRemover(MethodNode mth, @Nullable BlockNode block) {
 		this.mth = mth;
 		this.toRemove = new ArrayList<>();
 		if (block != null) {

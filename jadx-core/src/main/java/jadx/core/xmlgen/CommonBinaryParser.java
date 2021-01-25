@@ -3,7 +3,10 @@ package jadx.core.xmlgen;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.jetbrains.annotations.Nullable;
+
 public class CommonBinaryParser extends ParserConstants {
+	@Nullable
 	protected ParserStream is;
 
 	protected String[] parseStringPool() throws IOException {

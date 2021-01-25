@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,14 +97,14 @@ public class DebugUtils {
 		printRegion(mth, mth.getRegion(), printInsns);
 	}
 
-	public static void printRegion(MethodNode mth, IRegion region, boolean printInsns) {
+	public static void printRegion(MethodNode mth, @Nullable IRegion region, boolean printInsns) {
 		CodeWriter cw = new CodeWriter();
 		cw.startLine('|').add(mth.toString());
 		printRegion(mth, region, cw, "|  ", printInsns);
 		LOG.debug("{}{}", NL, cw.finish().getCodeStr());
 	}
 
-	private static void printRegion(MethodNode mth, IRegion region, CodeWriter cw, String indent, boolean printInsns) {
+	private static void printRegion(MethodNode mth, @Nullable IRegion region, CodeWriter cw, String indent, boolean printInsns) {
 		printWithAttributes(cw, indent, region.toString(), region);
 		indent += "|  ";
 		for (IContainer container : region.getSubBlocks()) {

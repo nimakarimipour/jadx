@@ -40,6 +40,7 @@ public class AnnotationsList implements IAttribute {
 		this.map = map;
 	}
 
+	@Nullable
 	public IAnnotation get(String className) {
 		return map.get(className);
 	}

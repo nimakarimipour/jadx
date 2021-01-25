@@ -2,24 +2,42 @@ package jadx.core.codegen.json.cls;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 public class JsonClass extends JsonNode {
 	@SerializedName("package")
+	@Nullable
 	private String pkg;
-	private String type; // class, interface, enum
+
+	@Nullable
+	private String type;
+	// class, interface, enum
 	@SerializedName("extends")
+	@Nullable
 	private String superClass;
+
 	@SerializedName("implements")
+	@Nullable
 	private List<String> interfaces;
+
+	@Nullable
 	private String dex;
 
+	@Nullable
 	private List<JsonField> fields;
+
+	@Nullable
 	private List<JsonMethod> methods;
+
+	@Nullable
 	private List<JsonClass> innerClasses;
 
+	@Nullable
 	private List<String> imports;
 
+	@Nullable
 	public String getType() {
 		return type;
 	}
@@ -28,6 +46,7 @@ public class JsonClass extends JsonNode {
 		this.type = type;
 	}
 
+	@Nullable
 	public String getSuperClass() {
 		return superClass;
 	}
@@ -36,6 +55,7 @@ public class JsonClass extends JsonNode {
 		this.superClass = superClass;
 	}
 
+	@Nullable
 	public List<String> getInterfaces() {
 		return interfaces;
 	}
@@ -44,6 +64,7 @@ public class JsonClass extends JsonNode {
 		this.interfaces = interfaces;
 	}
 
+	@Nullable
 	public List<JsonField> getFields() {
 		return fields;
 	}
@@ -52,6 +73,7 @@ public class JsonClass extends JsonNode {
 		this.fields = fields;
 	}
 
+	@Nullable
 	public List<JsonMethod> getMethods() {
 		return methods;
 	}
@@ -60,6 +82,7 @@ public class JsonClass extends JsonNode {
 		this.methods = methods;
 	}
 
+	@Nullable
 	public List<JsonClass> getInnerClasses() {
 		return innerClasses;
 	}
@@ -68,14 +91,16 @@ public class JsonClass extends JsonNode {
 		this.innerClasses = innerClasses;
 	}
 
+	@Nullable
 	public String getPkg() {
 		return pkg;
 	}
 
-	public void setPkg(String pkg) {
+	public void setPkg(@Nullable String pkg) {
 		this.pkg = pkg;
 	}
 
+	@Nullable
 	public String getDex() {
 		return dex;
 	}
@@ -84,6 +109,7 @@ public class JsonClass extends JsonNode {
 		this.dex = dex;
 	}
 
+	@Nullable
 	public List<String> getImports() {
 		return imports;
 	}

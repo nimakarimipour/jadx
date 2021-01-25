@@ -148,7 +148,7 @@ public class ReSugarCode extends AbstractVisitor {
 		instructions.set(replaceIndex, filledArr);
 	}
 
-	private static boolean checkPutInsn(MethodNode mth, InsnNode insn, RegisterArg arrArg, int putIndex) {
+	private static boolean checkPutInsn(MethodNode mth, @Nullable InsnNode insn, RegisterArg arrArg, int putIndex) {
 		if (insn == null || insn.getType() != InsnType.APUT) {
 			return false;
 		}
@@ -261,6 +261,7 @@ public class ReSugarCode extends AbstractVisitor {
 		mapAttr.add(field, literal, fieldNode);
 	}
 
+	@Nullable
 	public static EnumMapInfo checkEnumMapAccess(RootNode root, InsnNode checkInsn) {
 		InsnArg sgetArg = checkInsn.getArg(0);
 		InsnArg invArg = checkInsn.getArg(1);

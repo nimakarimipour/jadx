@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 
@@ -15,20 +17,24 @@ public final class IfInfo {
 	private final BlockNode elseBlock;
 	private final Set<BlockNode> skipBlocks;
 	private final List<InsnNode> forceInlineInsns;
+
+	@Nullable
 	private BlockNode outBlock;
+
 	@Deprecated
+	@Nullable
 	private BlockNode ifBlock;
 
-	public IfInfo(IfCondition condition, BlockNode thenBlock, BlockNode elseBlock) {
+	public IfInfo(IfCondition condition, @Nullable BlockNode thenBlock, @Nullable BlockNode elseBlock) {
 		this(condition, thenBlock, elseBlock, new HashSet<>(), new HashSet<>(), new ArrayList<>());
 	}
 
-	public IfInfo(IfInfo info, BlockNode thenBlock, BlockNode elseBlock) {
+	public IfInfo(IfInfo info, @Nullable BlockNode thenBlock, @Nullable BlockNode elseBlock) {
 		this(info.getCondition(), thenBlock, elseBlock,
 				info.getMergedBlocks(), info.getSkipBlocks(), info.getForceInlineInsns());
 	}
 
-	private IfInfo(IfCondition condition, BlockNode thenBlock, BlockNode elseBlock,
+	private IfInfo(IfCondition condition, @Nullable BlockNode thenBlock, @Nullable BlockNode elseBlock,
 			Set<BlockNode> mergedBlocks, Set<BlockNode> skipBlocks, List<InsnNode> forceInlineInsns) {
 		this.condition = condition;
 		this.thenBlock = thenBlock;
@@ -75,19 +81,21 @@ public final class IfInfo {
 		return elseBlock;
 	}
 
+	@Nullable
 	public BlockNode getOutBlock() {
 		return outBlock;
 	}
 
-	public void setOutBlock(BlockNode outBlock) {
+	public void setOutBlock(@Nullable BlockNode outBlock) {
 		this.outBlock = outBlock;
 	}
 
+	@Nullable
 	public BlockNode getIfBlock() {
 		return ifBlock;
 	}
 
-	public void setIfBlock(BlockNode ifBlock) {
+	public void setIfBlock(@Nullable BlockNode ifBlock) {
 		this.ifBlock = ifBlock;
 	}
 

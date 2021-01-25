@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,6 @@ import jadx.core.xmlgen.ResTableParser;
 import static jadx.core.utils.files.FileUtils.READ_BUFFER_SIZE;
 import static jadx.core.utils.files.FileUtils.copyStream;
 
-// TODO: move to core package
 public final class ResourcesLoader {
 	private static final Logger LOG = LoggerFactory.getLogger(ResourcesLoader.class);
 
@@ -48,9 +48,11 @@ public final class ResourcesLoader {
 	}
 
 	public interface ResourceDecoder<T> {
+		@Nullable
 		T decode(long size, InputStream is) throws IOException;
 	}
 
+	@Nullable
 	public static <T> T decodeStream(ResourceFile rf, ResourceDecoder<T> decoder) throws JadxException {
 		try {
 			ZipRef zipRef = rf.getZipRef();
@@ -78,6 +80,7 @@ public final class ResourcesLoader {
 		}
 	}
 
+	@Nullable
 	static ResContainer loadContent(JadxDecompiler jadxRef, ResourceFile rf) {
 		try {
 			return decodeStream(rf, (size, is) -> loadContent(jadxRef, rf, is));

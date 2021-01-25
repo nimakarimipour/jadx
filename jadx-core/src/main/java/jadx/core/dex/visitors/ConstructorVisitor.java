@@ -156,7 +156,8 @@ public class ConstructorVisitor extends AbstractVisitor {
 	/**
 	 * Remove instructions on 'move' chain until instruction with type 'insnType'
 	 */
-	private static InsnNode removeAssignChain(MethodNode mth, InsnNode insn, InsnRemover remover, InsnType insnType) {
+	@Nullable
+	private static InsnNode removeAssignChain(MethodNode mth, @Nullable InsnNode insn, InsnRemover remover, InsnType insnType) {
 		if (insn == null) {
 			return null;
 		}

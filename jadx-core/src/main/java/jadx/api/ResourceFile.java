@@ -2,6 +2,8 @@ package jadx.api;
 
 import java.io.File;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.api.plugins.utils.ZipSecurity;
 import jadx.core.xmlgen.ResContainer;
 import jadx.core.xmlgen.entry.ResourceEntry;
@@ -34,9 +36,14 @@ public class ResourceFile {
 	private final JadxDecompiler decompiler;
 	private final String name;
 	private final ResourceType type;
+
+	@Nullable
 	private ZipRef zipRef;
+
+	@Nullable
 	private String deobfName;
 
+	@Nullable
 	public static ResourceFile createResourceFile(JadxDecompiler decompiler, String name, ResourceType type) {
 		if (!ZipSecurity.isValidZipEntryName(name)) {
 			return null;
@@ -44,7 +51,7 @@ public class ResourceFile {
 		return new ResourceFile(decompiler, name, type);
 	}
 
-	protected ResourceFile(JadxDecompiler decompiler, String name, ResourceType type) {
+	protected ResourceFile(@Nullable JadxDecompiler decompiler, String name, ResourceType type) {
 		this.decompiler = decompiler;
 		this.name = name;
 		this.type = type;
@@ -62,6 +69,7 @@ public class ResourceFile {
 		return type;
 	}
 
+	@Nullable
 	public ResContainer loadContent() {
 		return ResourcesLoader.loadContent(decompiler, this);
 	}
@@ -79,6 +87,7 @@ public class ResourceFile {
 				index == -1 ? "" : name.substring(index));
 	}
 
+	@Nullable
 	public ZipRef getZipRef() {
 		return zipRef;
 	}

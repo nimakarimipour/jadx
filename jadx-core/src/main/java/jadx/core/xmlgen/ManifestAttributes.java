@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -50,8 +51,10 @@ public class ManifestAttributes {
 
 	private final Map<String, MAttr> attrMap = new HashMap<>();
 
+	@Nullable
 	private static ManifestAttributes instance;
 
+	@Nullable
 	public static ManifestAttributes getInstance() {
 		if (instance == null) {
 			try {
@@ -163,7 +166,8 @@ public class ManifestAttributes {
 		}
 	}
 
-	public String decode(String attrName, long value) {
+	@Nullable
+	public String decode(@Nullable String attrName, long value) {
 		MAttr attr = attrMap.get(attrName);
 		if (attr == null) {
 			return null;

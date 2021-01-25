@@ -17,14 +17,9 @@
 
 package jadx.core.xmlgen.entry;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-/**
- * Original source code can be found
- * <a href=
- * "https://raw.githubusercontent.com/iBotPeaches/Apktool/master/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/data/ResConfigFlags.java">here</a>
- */
 
 public class EntryConfig {
 	public final short mcc;
@@ -71,7 +66,7 @@ public class EntryConfig {
 			byte inputFlags, short screenWidth, short screenHeight,
 			short sdkVersion, byte screenLayout, byte uiMode,
 			short smallestScreenWidthDp, short screenWidthDp,
-			short screenHeightDp, char[] localeScript, char[] localeVariant,
+			short screenHeightDp, @Nullable char[] localeScript, @Nullable char[] localeVariant,
 			byte screenLayout2, byte colorMode, boolean isInvalid, int size) {
 		if (orientation < 0 || orientation > 3) {
 			LOG.warn("Invalid orientation value: {}", orientation);

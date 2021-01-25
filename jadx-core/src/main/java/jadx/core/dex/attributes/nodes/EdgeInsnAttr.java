@@ -2,6 +2,8 @@ package jadx.core.dex.attributes.nodes;
 
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.AttrList;
 import jadx.core.dex.attributes.IAttribute;
@@ -14,7 +16,7 @@ public class EdgeInsnAttr implements IAttribute {
 	private final BlockNode end;
 	private final InsnNode insn;
 
-	public static void addEdgeInsn(BlockNode start, BlockNode end, InsnNode insn) {
+	public static void addEdgeInsn(@Nullable BlockNode start, BlockNode end, InsnNode insn) {
 		EdgeInsnAttr edgeInsnAttr = new EdgeInsnAttr(start, end, insn);
 		if (!start.getAll(AType.EDGE_INSN).contains(edgeInsnAttr)) {
 			start.addAttr(AType.EDGE_INSN, edgeInsnAttr);
@@ -24,7 +26,7 @@ public class EdgeInsnAttr implements IAttribute {
 		}
 	}
 
-	public EdgeInsnAttr(BlockNode start, BlockNode end, InsnNode insn) {
+	public EdgeInsnAttr(@Nullable BlockNode start, BlockNode end, InsnNode insn) {
 		this.start = start;
 		this.end = end;
 		this.insn = insn;

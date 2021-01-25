@@ -61,15 +61,34 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	private List<ArgType> typeParameters;
 
 	// decompilation data, reset on unload
+	@Nullable
 	private RegisterArg thisArg;
+
+	@Nullable
 	private List<RegisterArg> argsList;
+
+	@Nullable
 	private InsnNode[] instructions;
+
+	@Nullable
 	private List<BlockNode> blocks;
+
+	@Nullable
 	private BlockNode enterBlock;
+
+	@Nullable
 	private List<BlockNode> exitBlocks;
+
+	@Nullable
 	private List<SSAVar> sVars;
+
+	@Nullable
 	private List<ExceptionHandler> exceptionHandlers;
+
+	@Nullable
 	private List<LoopInfo> loops;
+
+	@Nullable
 	private Region region;
 
 	private List<MethodNode> useIn = Collections.emptyList();
@@ -309,6 +328,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return noCode;
 	}
 
+	@Nullable
 	public InsnNode[] getInstructions() {
 		return instructions;
 	}
@@ -329,10 +349,12 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		blocks.forEach(BlockNode::lock);
 	}
 
+	@Nullable
 	public List<BlockNode> getBasicBlocks() {
 		return blocks;
 	}
 
+	@Nullable
 	public BlockNode getEnterBlock() {
 		return enterBlock;
 	}
@@ -341,6 +363,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		this.enterBlock = enterBlock;
 	}
 
+	@Nullable
 	public List<BlockNode> getExitBlocks() {
 		return exitBlocks;
 	}
@@ -387,6 +410,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return loops.size();
 	}
 
+	@Nullable
 	public Iterable<LoopInfo> getLoops() {
 		return loops;
 	}
@@ -420,6 +444,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return exceptionHandlers.removeIf(ExceptionHandler::isRemoved);
 	}
 
+	@Nullable
 	public Iterable<ExceptionHandler> getExceptionHandlers() {
 		return exceptionHandlers;
 	}
@@ -518,6 +543,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		sVars.remove(var);
 	}
 
+	@Nullable
 	public List<SSAVar> getSVars() {
 		return sVars;
 	}
@@ -532,6 +558,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		this.accFlags = newAccessFlags;
 	}
 
+	@Nullable
 	public Region getRegion() {
 		return region;
 	}

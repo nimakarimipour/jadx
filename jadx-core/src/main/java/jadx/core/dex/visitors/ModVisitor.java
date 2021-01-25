@@ -60,10 +60,6 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.BlockUtils.replaceInsn;
 
-/**
- * Visitor for modify method instructions
- * (remove, replace, process exception handlers)
- */
 @JadxVisitor(
 		name = "ModVisitor",
 		desc = "Modify method instructions",
@@ -252,7 +248,7 @@ public class ModVisitor extends AbstractVisitor {
 		}
 	}
 
-	public static TernaryInsn makeBooleanConvertInsn(RegisterArg result, InsnArg castArg, ArgType type) {
+	public static TernaryInsn makeBooleanConvertInsn(@Nullable RegisterArg result, InsnArg castArg, @Nullable ArgType type) {
 		InsnArg zero = LiteralArg.make(0, type);
 		long litVal = 1;
 		if (type == ArgType.DOUBLE) {
@@ -507,7 +503,8 @@ public class ModVisitor extends AbstractVisitor {
 		return map;
 	}
 
-	private static InsnNode getParentInsnSkipMove(RegisterArg arg) {
+	@Nullable
+	private static InsnNode getParentInsnSkipMove(@Nullable RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		if (sVar.getUseCount() != 1) {
 			return null;
@@ -528,7 +525,7 @@ public class ModVisitor extends AbstractVisitor {
 	 * If used only once try to follow move chain
 	 */
 	@Nullable
-	private static InsnNode getFirstUseSkipMove(RegisterArg arg) {
+	private static InsnNode getFirstUseSkipMove(@Nullable RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		int useCount = sVar.getUseCount();
 		if (useCount == 0) {

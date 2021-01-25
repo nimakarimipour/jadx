@@ -3,6 +3,7 @@ package jadx.core.dex.visitors;
 import java.io.File;
 import java.io.PrintWriter;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ public class SaveCode {
 	private SaveCode() {
 	}
 
-	public static void save(File dir, ClassNode cls, ICodeInfo code) {
+	public static void save(@Nullable File dir, ClassNode cls, ICodeInfo code) {
 		if (cls.contains(AFlag.DONT_GENERATE)) {
 			return;
 		}
@@ -38,7 +39,7 @@ public class SaveCode {
 		save(codeStr, dir, fileName);
 	}
 
-	public static void save(String code, File dir, String fileName) {
+	public static void save(String code, @Nullable File dir, String fileName) {
 		if (!ZipSecurity.isValidZipEntryName(fileName)) {
 			return;
 		}

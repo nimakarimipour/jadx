@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
@@ -72,7 +74,7 @@ class CollectUsageRegionVisitor extends TracedRegionVisitor {
 		}
 	}
 
-	private VarUsage getUsage(SSAVar ssaVar) {
+	private VarUsage getUsage(@Nullable SSAVar ssaVar) {
 		return usageMap.computeIfAbsent(ssaVar, VarUsage::new);
 	}
 }

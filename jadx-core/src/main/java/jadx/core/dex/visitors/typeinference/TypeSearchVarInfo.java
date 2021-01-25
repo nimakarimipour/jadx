@@ -3,15 +3,23 @@ package jadx.core.dex.visitors.typeinference;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.SSAVar;
 
 public class TypeSearchVarInfo {
 	private final SSAVar var;
 	private boolean typeResolved;
+
+	@Nullable
 	private ArgType currentType;
+
+	@Nullable
 	private List<ArgType> candidateTypes;
 	private int currentIndex = -1;
+
+	@Nullable
 	private List<ITypeConstraint> constraints;
 
 	public TypeSearchVarInfo(SSAVar var) {
@@ -59,6 +67,7 @@ public class TypeSearchVarInfo {
 		this.typeResolved = typeResolved;
 	}
 
+	@Nullable
 	public ArgType getCurrentType() {
 		return currentType;
 	}
@@ -67,6 +76,7 @@ public class TypeSearchVarInfo {
 		this.currentType = currentType;
 	}
 
+	@Nullable
 	public List<ArgType> getCandidateTypes() {
 		return candidateTypes;
 	}
@@ -75,6 +85,7 @@ public class TypeSearchVarInfo {
 		this.candidateTypes = candidateTypes;
 	}
 
+	@Nullable
 	public List<ITypeConstraint> getConstraints() {
 		return constraints;
 	}

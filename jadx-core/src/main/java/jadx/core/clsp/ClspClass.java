@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.instructions.args.ArgType;
 
-/**
- * Class node in classpath graph
- */
 public class ClspClass {
 
 	private final ArgType clsType;
 	private final int id;
+
+	@Nullable
 	private ArgType[] parents;
 	private Map<String, ClspMethod> methodsMap = Collections.emptyMap();
 	private List<ArgType> typeParameters = Collections.emptyList();
@@ -37,11 +38,12 @@ public class ClspClass {
 		return id;
 	}
 
+	@Nullable
 	public ArgType[] getParents() {
 		return parents;
 	}
 
-	public void setParents(ArgType[] parents) {
+	public void setParents(@Nullable ArgType[] parents) {
 		this.parents = parents;
 	}
 

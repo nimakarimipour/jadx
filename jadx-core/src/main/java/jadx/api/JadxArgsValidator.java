@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,7 +91,7 @@ public class JadxArgsValidator {
 		}
 	}
 
-	private static void checkDir(File dir, String desc) {
+	private static void checkDir(@Nullable File dir, String desc) {
 		if (dir != null && dir.exists() && !dir.isDirectory()) {
 			throw new JadxArgsValidateException(desc + " directory exists as file " + dir);
 		}

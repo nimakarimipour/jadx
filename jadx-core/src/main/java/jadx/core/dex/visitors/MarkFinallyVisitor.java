@@ -254,7 +254,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void copyCodeVars(InsnArg fromArg, InsnArg toArg) {
+	private static void copyCodeVars(@Nullable InsnArg fromArg, @Nullable InsnArg toArg) {
 		if (fromArg == null || toArg == null
 				|| !fromArg.isRegister() || !toArg.isRegister()) {
 			return;
@@ -278,6 +278,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		return true;
 	}
 
+	@Nullable
 	private static InsnsSlice searchFromFirstBlock(BlockNode dupBlock, BlockNode startBlock, FinallyExtractInfo extractInfo) {
 		InsnsSlice dupSlice = isStartBlock(dupBlock, startBlock, extractInfo);
 		if (dupSlice == null) {
@@ -309,6 +310,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 	/**
 	 * 'Finally' instructions can start in the middle of the first block.
 	 */
+	@Nullable
 	private static InsnsSlice isStartBlock(BlockNode dupBlock, BlockNode finallyBlock, FinallyExtractInfo extractInfo) {
 		List<InsnNode> dupInsns = dupBlock.getInstructions();
 		List<InsnNode> finallyInsns = finallyBlock.getInstructions();

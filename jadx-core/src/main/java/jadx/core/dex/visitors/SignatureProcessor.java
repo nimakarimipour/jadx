@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.ClassNode;
@@ -20,6 +22,7 @@ import static java.util.Collections.unmodifiableList;
 
 public class SignatureProcessor extends AbstractVisitor {
 
+	@Nullable
 	private RootNode root;
 
 	@Override
@@ -62,7 +65,8 @@ public class SignatureProcessor extends AbstractVisitor {
 		}
 	}
 
-	private ArgType validateClsType(ClassNode cls, ArgType candidateType, ArgType currentType) {
+	@Nullable
+	private ArgType validateClsType(ClassNode cls, @Nullable ArgType candidateType, @Nullable ArgType currentType) {
 		if (!candidateType.isObject()) {
 			cls.addWarnComment("Incorrect class signature, class is not object: " + SignatureParser.getSignature(cls));
 			return currentType;
@@ -125,6 +129,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private List<ArgType> checkArgTypes(MethodNode mth, SignatureParser sp, List<ArgType> parsedArgTypes) {
 		MethodInfo mthInfo = mth.getMethodInfo();
 		List<ArgType> mthArgTypes = mthInfo.getArgumentsTypes();
@@ -156,7 +161,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		return parsedArgTypes;
 	}
 
-	private boolean validateParsedType(ArgType parsedType, ArgType currentType) {
+	private boolean validateParsedType(@Nullable ArgType parsedType, ArgType currentType) {
 		TypeCompareEnum result = root.getTypeCompare().compareTypes(parsedType, currentType);
 		return result != TypeCompareEnum.CONFLICT;
 	}

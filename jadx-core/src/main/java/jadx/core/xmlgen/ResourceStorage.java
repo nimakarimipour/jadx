@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.xmlgen.entry.ResourceEntry;
 
 public class ResourceStorage {
@@ -16,6 +18,8 @@ public class ResourceStorage {
 			.thenComparing(ResourceEntry::getKeyName);
 
 	private final List<ResourceEntry> list = new ArrayList<>();
+
+	@Nullable
 	private String appPackage;
 
 	/**
@@ -49,10 +53,12 @@ public class ResourceStorage {
 		renames.put(id, keyName);
 	}
 
+	@Nullable
 	public String getRename(int id) {
 		return renames.get(id);
 	}
 
+	@Nullable
 	public ResourceEntry searchEntryWithSameName(ResourceEntry resourceEntry) {
 		return uniqNameEntries.get(resourceEntry);
 	}
@@ -67,6 +73,7 @@ public class ResourceStorage {
 		return list;
 	}
 
+	@Nullable
 	public String getAppPackage() {
 		return appPackage;
 	}

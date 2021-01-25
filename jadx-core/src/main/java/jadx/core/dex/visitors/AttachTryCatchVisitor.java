@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.api.plugins.input.data.ICatch;
 import jadx.api.plugins.input.data.ICodeReader;
 import jadx.api.plugins.input.data.ITry;
@@ -37,7 +39,7 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 		initTryCatches(mth, mth.getCodeReader(), mth.getInstructions());
 	}
 
-	private static void initTryCatches(MethodNode mth, ICodeReader codeReader, InsnNode[] insnByOffset) {
+	private static void initTryCatches(MethodNode mth, ICodeReader codeReader, @Nullable InsnNode[] insnByOffset) {
 		List<ITry> tries = codeReader.getTries();
 		if (tries.isEmpty()) {
 			return;
@@ -89,7 +91,7 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 
 	}
 
-	private static void markTryBounds(InsnNode[] insnByOffset, ITry aTry, TryCatchBlock catchBlock) {
+	private static void markTryBounds(@Nullable InsnNode[] insnByOffset, ITry aTry, TryCatchBlock catchBlock) {
 		int offset = aTry.getStartAddress();
 		int end = offset + aTry.getInstructionCount() - 1;
 

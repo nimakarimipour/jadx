@@ -3,6 +3,8 @@ package jadx.core.dex.attributes;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.api.plugins.input.data.annotations.IAnnotation;
 
 public final class EmptyAttrStorage extends AttributeStorage {
@@ -18,11 +20,13 @@ public final class EmptyAttrStorage extends AttributeStorage {
 	}
 
 	@Override
+	@Nullable
 	public <T extends IAttribute> T get(AType<T> type) {
 		return null;
 	}
 
 	@Override
+	@Nullable
 	public IAnnotation getAnnotation(String cls) {
 		return null;
 	}

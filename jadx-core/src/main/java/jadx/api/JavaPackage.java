@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class JavaPackage implements JavaNode, Comparable<JavaPackage> {
 	private final String name;
@@ -30,11 +31,13 @@ public final class JavaPackage implements JavaNode, Comparable<JavaPackage> {
 	}
 
 	@Override
+	@Nullable
 	public JavaClass getDeclaringClass() {
 		return null;
 	}
 
 	@Override
+	@Nullable
 	public JavaClass getTopParentClass() {
 		return null;
 	}

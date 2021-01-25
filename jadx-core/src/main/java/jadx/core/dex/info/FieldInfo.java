@@ -2,6 +2,8 @@ package jadx.core.dex.info;
 
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.api.plugins.input.data.IFieldData;
 import jadx.core.codegen.TypeGen;
 import jadx.core.dex.instructions.args.ArgType;
@@ -14,7 +16,7 @@ public final class FieldInfo {
 	private final ArgType type;
 	private String alias;
 
-	private FieldInfo(ClassInfo declClass, String name, ArgType type) {
+	private FieldInfo(ClassInfo declClass, String name, @Nullable ArgType type) {
 		this.declClass = declClass;
 		this.name = name;
 		this.type = type;
@@ -73,7 +75,7 @@ public final class FieldInfo {
 	}
 
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(@Nullable Object o) {
 		if (this == o) {
 			return true;
 		}

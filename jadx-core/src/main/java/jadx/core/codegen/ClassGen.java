@@ -66,7 +66,7 @@ public class ClassGen {
 		this(cls, parentClsGen, parentClsGen.useImports, parentClsGen.fallback, parentClsGen.showInconsistentCode);
 	}
 
-	public ClassGen(ClassNode cls, ClassGen parentClsGen, boolean useImports, boolean fallback, boolean showBadCode) {
+	public ClassGen(ClassNode cls, @Nullable ClassGen parentClsGen, boolean useImports, boolean fallback, boolean showBadCode) {
 		this.cls = cls;
 		this.parentGen = parentClsGen;
 		this.fallback = fallback;
@@ -465,7 +465,7 @@ public class ClassGen {
 		return 0;
 	}
 
-	private InsnGen makeInsnGen(MethodNode mth) {
+	private InsnGen makeInsnGen(@Nullable MethodNode mth) {
 		MethodGen mthGen = new MethodGen(this, mth);
 		return new InsnGen(mthGen, false);
 	}
@@ -478,7 +478,7 @@ public class ClassGen {
 		}
 	}
 
-	public void useType(CodeWriter code, ArgType type) {
+	public void useType(CodeWriter code, @Nullable ArgType type) {
 		PrimitiveType stype = type.getPrimitiveType();
 		if (stype == null) {
 			code.add(type.toString());
@@ -563,7 +563,7 @@ public class ClassGen {
 		code.add(clsName);
 	}
 
-	private String useClassInternal(ClassInfo useCls, ClassInfo extClsInfo) {
+	private String useClassInternal(ClassInfo useCls, @Nullable ClassInfo extClsInfo) {
 		String fullName = extClsInfo.getAliasFullName();
 		if (fallback || !useImports) {
 			return fullName;
@@ -656,7 +656,7 @@ public class ClassGen {
 		return useCls.equals(b);
 	}
 
-	private static boolean isClassInnerFor(ClassInfo inner, ClassInfo parent) {
+	private static boolean isClassInnerFor(@Nullable ClassInfo inner, ClassInfo parent) {
 		if (inner.isInner()) {
 			ClassInfo p = inner.getParentClass();
 			return Objects.equals(p, parent) || isClassInnerFor(p, parent);
@@ -664,7 +664,7 @@ public class ClassGen {
 		return false;
 	}
 
-	private static boolean searchCollision(RootNode root, ClassInfo useCls, ClassInfo searchCls) {
+	private static boolean searchCollision(RootNode root, @Nullable ClassInfo useCls, ClassInfo searchCls) {
 		if (useCls == null) {
 			return false;
 		}

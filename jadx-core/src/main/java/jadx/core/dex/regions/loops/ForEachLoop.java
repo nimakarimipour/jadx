@@ -1,5 +1,7 @@
 package jadx.core.dex.regions.loops;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.instructions.args.InsnArg;
@@ -30,6 +32,7 @@ public final class ForEachLoop extends LoopType {
 		loopRegion.getHeader().getInstructions().add(0, varArgInsn);
 	}
 
+	@Nullable
 	public RegisterArg getVarArg() {
 		return varArgInsn.getResult();
 	}

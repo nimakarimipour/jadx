@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.api.impl.InMemoryCodeCache;
 
 public class JadxArgs {
@@ -20,8 +22,13 @@ public class JadxArgs {
 
 	private List<File> inputFiles = new ArrayList<>(1);
 
+	@Nullable
 	private File outDir;
+
+	@Nullable
 	private File outDirSrc;
+
+	@Nullable
 	private File outDirRes;
 
 	private ICodeCache codeCache = new InMemoryCodeCache();
@@ -44,6 +51,7 @@ public class JadxArgs {
 	/**
 	 * Predicate that allows to filter the classes to be process based on their full name
 	 */
+	@Nullable
 	private Predicate<String> classFilter = null;
 
 	private boolean deobfuscationOn = false;
@@ -95,6 +103,7 @@ public class JadxArgs {
 		this.inputFiles = inputFiles;
 	}
 
+	@Nullable
 	public File getOutDir() {
 		return outDir;
 	}
@@ -103,6 +112,7 @@ public class JadxArgs {
 		this.outDir = outDir;
 	}
 
+	@Nullable
 	public File getOutDirSrc() {
 		return outDirSrc;
 	}
@@ -111,6 +121,7 @@ public class JadxArgs {
 		this.outDirSrc = outDirSrc;
 	}
 
+	@Nullable
 	public File getOutDirRes() {
 		return outDirRes;
 	}
@@ -199,6 +210,7 @@ public class JadxArgs {
 		this.skipSources = skipSources;
 	}
 
+	@Nullable
 	public Predicate<String> getClassFilter() {
 		return classFilter;
 	}

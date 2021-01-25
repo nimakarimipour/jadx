@@ -24,11 +24,17 @@ public class ExceptionHandler {
 	private final Set<ClassInfo> catchTypes = new TreeSet<>();
 	private final int handleOffset;
 
+	@Nullable
 	private BlockNode handlerBlock;
 	private final List<BlockNode> blocks = new ArrayList<>();
+
+	@Nullable
 	private IContainer handlerRegion;
+
+	@Nullable
 	private InsnArg arg;
 
+	@Nullable
 	private TryCatchBlock tryBlock;
 	private boolean isFinally;
 
@@ -92,6 +98,7 @@ public class ExceptionHandler {
 		return handleOffset;
 	}
 
+	@Nullable
 	public BlockNode getHandlerBlock() {
 		return handlerBlock;
 	}
@@ -108,6 +115,7 @@ public class ExceptionHandler {
 		blocks.add(node);
 	}
 
+	@Nullable
 	public IContainer getHandlerRegion() {
 		return handlerRegion;
 	}
@@ -116,6 +124,7 @@ public class ExceptionHandler {
 		this.handlerRegion = handlerRegion;
 	}
 
+	@Nullable
 	public InsnArg getArg() {
 		return arg;
 	}
@@ -128,6 +137,7 @@ public class ExceptionHandler {
 		this.tryBlock = tryBlock;
 	}
 
+	@Nullable
 	public TryCatchBlock getTryBlock() {
 		return tryBlock;
 	}

@@ -27,10 +27,14 @@ public final class LoopRegion extends AbstractRegion {
 	private IfCondition condition;
 	private final BlockNode conditionBlock;
 	// instruction which must be executed before condition in every loop
+	@Nullable
 	private BlockNode preCondition;
+
+	@Nullable
 	private IRegion body;
 	private final boolean conditionAtEnd;
 
+	@Nullable
 	private LoopType type;
 
 	public LoopRegion(IRegion parent, LoopInfo info, @Nullable BlockNode header, boolean reversed) {
@@ -45,6 +49,7 @@ public final class LoopRegion extends AbstractRegion {
 		return info;
 	}
 
+	@Nullable
 	public IfCondition getCondition() {
 		return condition;
 	}
@@ -57,6 +62,7 @@ public final class LoopRegion extends AbstractRegion {
 		return conditionBlock;
 	}
 
+	@Nullable
 	public IRegion getBody() {
 		return body;
 	}
@@ -76,6 +82,7 @@ public final class LoopRegion extends AbstractRegion {
 		this.preCondition = preCondition;
 	}
 
+	@Nullable
 	private IfNode getIfInsn() {
 		return (IfNode) BlockUtils.getLastInsn(conditionBlock);
 	}
@@ -137,6 +144,7 @@ public final class LoopRegion extends AbstractRegion {
 		return lastInsn == null ? 0 : lastInsn.getSourceLine();
 	}
 
+	@Nullable
 	public LoopType getType() {
 		return type;
 	}

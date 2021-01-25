@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.api.plugins.input.insns.custom.IArrayPayload;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
@@ -24,7 +26,7 @@ public final class FillArrayData extends InsnNode {
 	private final int elemSize;
 	private ArgType elemType;
 
-	public FillArrayData(IArrayPayload payload) {
+	public FillArrayData(@Nullable IArrayPayload payload) {
 		this(payload.getData(), payload.getSize(), payload.getElementSize());
 	}
 
@@ -63,7 +65,7 @@ public final class FillArrayData extends InsnNode {
 		return elemType;
 	}
 
-	public List<LiteralArg> getLiteralArgs(ArgType type) {
+	public List<LiteralArg> getLiteralArgs(@Nullable ArgType type) {
 		List<LiteralArg> list = new ArrayList<>(size);
 		Object array = data;
 		switch (elemSize) {

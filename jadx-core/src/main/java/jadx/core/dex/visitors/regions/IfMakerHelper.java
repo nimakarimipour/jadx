@@ -51,7 +51,8 @@ public class IfMakerHelper {
 		return info;
 	}
 
-	static IfInfo searchNestedIf(IfInfo info) {
+	@Nullable
+	static IfInfo searchNestedIf(@Nullable IfInfo info) {
 		IfInfo next = mergeNestedIfNodes(info);
 		if (next != null) {
 			return next;
@@ -59,7 +60,8 @@ public class IfMakerHelper {
 		return info;
 	}
 
-	static IfInfo restructureIf(MethodNode mth, BlockNode block, IfInfo info) {
+	@Nullable
+	static IfInfo restructureIf(MethodNode mth, BlockNode block, @Nullable IfInfo info) {
 		BlockNode thenBlock = info.getThenBlock();
 		BlockNode elseBlock = info.getElseBlock();
 
@@ -145,11 +147,12 @@ public class IfMakerHelper {
 		return true;
 	}
 
-	private static boolean sameElements(Collection<BlockNode> c1, Collection<BlockNode> c2) {
+	private static boolean sameElements(Collection<BlockNode> c1, @Nullable Collection<BlockNode> c2) {
 		return c1.size() == c2.size() && c1.containsAll(c2);
 	}
 
-	static IfInfo mergeNestedIfNodes(IfInfo currentIf) {
+	@Nullable
+	static IfInfo mergeNestedIfNodes(@Nullable IfInfo currentIf) {
 		BlockNode curThen = currentIf.getThenBlock();
 		BlockNode curElse = currentIf.getElseBlock();
 		if (curThen == curElse) {
@@ -230,6 +233,7 @@ public class IfMakerHelper {
 		return searchNestedIf(result);
 	}
 
+	@Nullable
 	private static IfInfo checkForTernaryInCondition(IfInfo currentIf) {
 		IfInfo nextThen = getNextIf(currentIf, currentIf.getThenBlock());
 		IfInfo nextElse = getNextIf(currentIf, currentIf.getElseBlock());
@@ -333,7 +337,7 @@ public class IfMakerHelper {
 		return first == second || isEqualReturnBlocks(first, second);
 	}
 
-	static void confirmMerge(IfInfo info) {
+	static void confirmMerge(@Nullable IfInfo info) {
 		if (info.getMergedBlocks().size() > 1) {
 			for (BlockNode block : info.getMergedBlocks()) {
 				if (block != info.getIfBlock()) {
@@ -352,6 +356,7 @@ public class IfMakerHelper {
 		}
 	}
 
+	@Nullable
 	private static IfInfo getNextIf(IfInfo info, BlockNode block) {
 		if (!canSelectNext(info, block)) {
 			return null;
@@ -366,6 +371,7 @@ public class IfMakerHelper {
 		return info.getMergedBlocks().containsAll(block.getPredecessors());
 	}
 
+	@Nullable
 	private static IfInfo getNextIfNodeInfo(IfInfo info, BlockNode block) {
 		if (block == null || block.contains(AType.LOOP) || block.contains(AFlag.ADDED_TO_REGION)) {
 			return null;

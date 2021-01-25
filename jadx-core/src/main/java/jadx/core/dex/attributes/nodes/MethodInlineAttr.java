@@ -3,6 +3,8 @@ package jadx.core.dex.attributes.nodes;
 import java.util.List;
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.Consts;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
@@ -46,7 +48,7 @@ public class MethodInlineAttr implements IAttribute {
 	 */
 	private final int[] argsRegNums;
 
-	private MethodInlineAttr(InsnNode insn, int[] argsRegNums) {
+	private MethodInlineAttr(@Nullable InsnNode insn, @Nullable int[] argsRegNums) {
 		this.insn = insn;
 		this.argsRegNums = argsRegNums;
 	}

@@ -58,6 +58,7 @@ public class RegionUtils {
 		}
 	}
 
+	@Nullable
 	public static InsnNode getLastInsn(IContainer container) {
 		if (container instanceof IBlock) {
 			IBlock block = (IBlock) container;
@@ -80,6 +81,7 @@ public class RegionUtils {
 		}
 	}
 
+	@Nullable
 	public static IBlock getLastBlock(IContainer container) {
 		if (container instanceof IBlock) {
 			return (IBlock) container;
@@ -99,11 +101,11 @@ public class RegionUtils {
 	/**
 	 * Return true if last block in region has no successors or jump out insn (return or break)
 	 */
-	public static boolean hasExitBlock(IContainer container) {
+	public static boolean hasExitBlock(@Nullable IContainer container) {
 		return hasExitBlock(container, container);
 	}
 
-	private static boolean hasExitBlock(IContainer rootContainer, IContainer container) {
+	private static boolean hasExitBlock(@Nullable IContainer rootContainer, @Nullable IContainer container) {
 		if (container instanceof BlockNode) {
 			BlockNode blockNode = (BlockNode) container;
 			if (blockNode.getSuccessors().isEmpty()) {
@@ -123,7 +125,7 @@ public class RegionUtils {
 		}
 	}
 
-	private static boolean isInsnExitContainer(IContainer rootContainer, IBlock block) {
+	private static boolean isInsnExitContainer(@Nullable IContainer rootContainer, IBlock block) {
 		InsnNode lastInsn = BlockUtils.getLastInsn(block);
 		if (lastInsn == null) {
 			return false;
@@ -174,7 +176,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static int insnsCount(IContainer container) {
+	public static int insnsCount(@Nullable IContainer container) {
 		if (container instanceof IBlock) {
 			return ((IBlock) container).getInstructions().size();
 		} else if (container instanceof IRegion) {
@@ -189,7 +191,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static boolean isEmpty(IContainer container) {
+	public static boolean isEmpty(@Nullable IContainer container) {
 		return !notEmpty(container);
 	}
 
@@ -218,7 +220,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static void getAllRegionBlocks(IContainer container, Set<IBlock> blocks) {
+	public static void getAllRegionBlocks(@Nullable IContainer container, Set<IBlock> blocks) {
 		if (container instanceof IBlock) {
 			blocks.add((IBlock) container);
 		} else if (container instanceof IRegion) {
@@ -231,7 +233,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static boolean isRegionContainsBlock(IContainer container, BlockNode block) {
+	public static boolean isRegionContainsBlock(@Nullable IContainer container, @Nullable BlockNode block) {
 		if (container instanceof IBlock) {
 			return container == block;
 		} else if (container instanceof IRegion) {
@@ -260,7 +262,7 @@ public class RegionUtils {
 		return Collections.emptyList();
 	}
 
-	private static boolean isRegionContainsExcHandlerRegion(IContainer container, IRegion region) {
+	private static boolean isRegionContainsExcHandlerRegion(@Nullable IContainer container, IRegion region) {
 		if (container == region) {
 			return true;
 		}
@@ -293,7 +295,7 @@ public class RegionUtils {
 	 * For simple region (not from exception handlers) search in parents
 	 * otherwise run recursive search because exception handlers can have several parents
 	 */
-	public static boolean isRegionContainsRegion(IContainer container, IRegion region) {
+	public static boolean isRegionContainsRegion(@Nullable IContainer container, IRegion region) {
 		if (container == region) {
 			return true;
 		}
@@ -314,6 +316,7 @@ public class RegionUtils {
 		return true;
 	}
 
+	@Nullable
 	public static IContainer getBlockContainer(IContainer container, BlockNode block) {
 		if (container instanceof IBlock) {
 			return container == block ? container : null;
@@ -394,7 +397,7 @@ public class RegionUtils {
 		}
 	}
 
-	protected static String unknownContainerType(IContainer container) {
+	protected static String unknownContainerType(@Nullable IContainer container) {
 		if (container == null) {
 			return "Null container variable";
 		}

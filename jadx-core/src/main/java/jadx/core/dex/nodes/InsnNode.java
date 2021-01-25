@@ -26,6 +26,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 public class InsnNode extends LineAttrNode {
 	protected final InsnType insnType;
 
+	@Nullable
 	private RegisterArg result;
 	private final List<InsnArg> arguments;
 	protected int offset;
@@ -85,6 +86,7 @@ public class InsnNode extends LineAttrNode {
 		return insnType;
 	}
 
+	@Nullable
 	public RegisterArg getResult() {
 		return result;
 	}

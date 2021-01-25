@@ -2,6 +2,8 @@ package jadx.core.dex.attributes;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.api.plugins.input.data.annotations.IAnnotation;
 
 public abstract class AttrNode implements IAttributeNode {
@@ -16,7 +18,7 @@ public abstract class AttrNode implements IAttributeNode {
 	}
 
 	@Override
-	public void addAttr(IAttribute attr) {
+	public void addAttr(@Nullable IAttribute attr) {
 		initStorage().add(attr);
 	}
 
@@ -59,11 +61,13 @@ public abstract class AttrNode implements IAttributeNode {
 	}
 
 	@Override
+	@Nullable
 	public <T extends IAttribute> T get(AType<T> type) {
 		return storage.get(type);
 	}
 
 	@Override
+	@Nullable
 	public IAnnotation getAnnotation(String cls) {
 		return storage.getAnnotation(cls);
 	}

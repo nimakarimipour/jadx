@@ -3,6 +3,8 @@ package jadx.core.utils;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 
@@ -28,7 +30,7 @@ public final class InsnList implements Iterable<InsnNode> {
 		remove(block.getInstructions(), insn);
 	}
 
-	public static int getIndex(List<InsnNode> list, InsnNode insn) {
+	public static int getIndex(List<InsnNode> list, @Nullable InsnNode insn) {
 		int size = list.size();
 		for (int i = 0; i < size; i++) {
 			if (list.get(i) == insn) {

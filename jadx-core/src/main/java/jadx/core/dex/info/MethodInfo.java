@@ -21,7 +21,7 @@ public final class MethodInfo implements Comparable<MethodInfo> {
 	private String alias;
 	private boolean aliasFromPreset;
 
-	private MethodInfo(ClassInfo declClass, String name, List<ArgType> args, ArgType retType) {
+	private MethodInfo(ClassInfo declClass, String name, List<ArgType> args, @Nullable ArgType retType) {
 		this.name = name;
 		this.alias = name;
 		this.aliasFromPreset = false;
@@ -49,7 +49,7 @@ public final class MethodInfo implements Comparable<MethodInfo> {
 		return uniqMth;
 	}
 
-	public static MethodInfo fromDetails(RootNode root, ClassInfo declClass, String name, List<ArgType> args, ArgType retType) {
+	public static MethodInfo fromDetails(RootNode root, ClassInfo declClass, String name, List<ArgType> args, @Nullable ArgType retType) {
 		MethodInfo newMth = new MethodInfo(declClass, name, args, retType);
 		return root.getInfoStorage().putMethod(newMth);
 	}
@@ -157,7 +157,7 @@ public final class MethodInfo implements Comparable<MethodInfo> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

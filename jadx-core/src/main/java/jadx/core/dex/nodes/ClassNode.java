@@ -50,7 +50,11 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	private final IClassData clsData;
 
 	private final ClassInfo clsInfo;
+
+	@Nullable
 	private AccessInfo accessFlags;
+
+	@Nullable
 	private ArgType superClass;
 	private List<ArgType> interfaces;
 	private List<ArgType> generics = Collections.emptyList();
@@ -62,8 +66,10 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	private List<ClassNode> inlinedClasses = Collections.emptyList();
 
 	// store smali
+	@Nullable
 	private String smali;
 	// store parent for inner classes or 'this' otherwise
+	@Nullable
 	private ClassNode parentClass;
 
 	private volatile ProcessState state = ProcessState.NOT_LOADED;
@@ -117,7 +123,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		}
 	}
 
-	public void updateGenericClsData(ArgType superClass, List<ArgType> interfaces, List<ArgType> generics) {
+	public void updateGenericClsData(@Nullable ArgType superClass, List<ArgType> interfaces, List<ArgType> generics) {
 		this.superClass = superClass;
 		this.interfaces = interfaces;
 		this.generics = generics;
@@ -330,6 +336,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return fields;
 	}
 
+	@Nullable
 	public FieldNode getConstField(Object obj) {
 		return getConstField(obj, true);
 	}
@@ -344,7 +351,8 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return root().getConstValues().getConstFieldByLiteralArg(this, arg);
 	}
 
-	public FieldNode searchField(FieldInfo field) {
+	@Nullable
+	public FieldNode searchField(@Nullable FieldInfo field) {
 		for (FieldNode f : fields) {
 			if (f.getFieldInfo().equals(field)) {
 				return f;
@@ -353,6 +361,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
+	@Nullable
 	public FieldNode searchFieldByNameAndType(FieldInfo field) {
 		for (FieldNode f : fields) {
 			if (f.getFieldInfo().equalsNameAndType(field)) {
@@ -362,6 +371,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
+	@Nullable
 	public FieldNode searchFieldByName(String name) {
 		for (FieldNode f : fields) {
 			if (f.getName().equals(name)) {
@@ -371,10 +381,12 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
+	@Nullable
 	public MethodNode searchMethod(MethodInfo mth) {
 		return mthInfoMap.get(mth);
 	}
 
+	@Nullable
 	public MethodNode searchMethodByShortId(String shortId) {
 		for (MethodNode m : methods) {
 			if (m.getMethodInfo().getShortId().equals(shortId)) {
@@ -504,6 +516,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	}
 
 	@Override
+	@Nullable
 	public AccessInfo getAccessFlags() {
 		return accessFlags;
 	}
@@ -542,6 +555,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return clsInfo.getAliasFullName();
 	}
 
+	@Nullable
 	public String getPackage() {
 		return clsInfo.getAliasPkg();
 	}

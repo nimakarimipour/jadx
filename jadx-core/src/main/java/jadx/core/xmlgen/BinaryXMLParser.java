@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,42 +22,45 @@ import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.entry.ValuesParser;
 
-/*
- * TODO:
- * Don't die when error occurs
- * Check error cases, maybe checked const values are not always the same
- * Better error messages
- * What to do, when Binary XML Manifest is > size(int)?
- * Check for missing chunk size types
- * Implement missing data types
- * Use line numbers to recreate EXACT AndroidManifest
- * Check Element chunk size
- */
-
 public class BinaryXMLParser extends CommonBinaryParser {
 	private static final Logger LOG = LoggerFactory.getLogger(BinaryXMLParser.class);
 
 	private static final boolean ATTR_NEW_LINE = false;
 
 	private final Map<Integer, String> resNames;
+
+	@Nullable
 	private Map<String, String> nsMap;
+
+	@Nullable
 	private Set<String> nsMapGenerated;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
+	@Nullable
 	private CodeWriter writer;
+
+	@Nullable
 	private String[] strings;
+
+	@Nullable
 	private String currentTag = "ERROR";
 	private boolean firstElement;
+
+	@Nullable
 	private ValuesParser valuesParser;
 	private boolean isLastEnd = true;
 	private boolean isOneLine = true;
 	private int namespaceDepth = 0;
+
+	@Nullable
 	private int[] resourceIds;
 
 	private final RootNode rootNode;
+
+	@Nullable
 	private String appPackageName;
 
-	public BinaryXMLParser(RootNode rootNode) {
+	public BinaryXMLParser(@Nullable RootNode rootNode) {
 		this.rootNode = rootNode;
 		try {
 			ConstStorage constStorage = rootNode.getConstValues();
@@ -296,6 +300,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		writer.add('"');
 	}
 
+	@Nullable
 	private String getAttributeNS(int attributeNS) {
 		String attrUrl = getString(attributeNS);
 		if (attrUrl == null || attrUrl.isEmpty()) {
@@ -358,7 +363,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
-			String shortNsName, String attrName) {
+			@Nullable String shortNsName, @Nullable String attrName) {
 		if (attrValDataType == TYPE_REFERENCE) {
 			// reference custom processing
 			String resName = resNames.get(attrValData);
@@ -418,7 +423,8 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	private String getValidTagAttributeName(String originalName) {
+	@Nullable
+	private String getValidTagAttributeName(@Nullable String originalName) {
 		if (XMLChar.isValidName(originalName)) {
 			return originalName;
 		}
@@ -443,7 +449,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return sb.toString();
 	}
 
-	private void attachClassNode(CodeWriter writer, String attrName, String clsName) {
+	private void attachClassNode(@Nullable CodeWriter writer, @Nullable String attrName, @Nullable String clsName) {
 		if (clsName == null || !attrName.equals("name")) {
 			return;
 		}
@@ -459,7 +465,8 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	private String deobfClassName(String className) {
+	@Nullable
+	private String deobfClassName(@Nullable String className) {
 		String newName = XmlDeobf.deobfClassName(rootNode, className, appPackageName);
 		if (newName != null) {
 			return newName;
@@ -467,7 +474,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return className;
 	}
 
-	private boolean isDeobfCandidateAttr(String shortNsName, String attrName) {
+	private boolean isDeobfCandidateAttr(@Nullable String shortNsName, @Nullable String attrName) {
 		String fullName;
 		if (shortNsName != null) {
 			fullName = shortNsName + ':' + attrName;
@@ -477,7 +484,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return "android:name".equals(fullName);
 	}
 
-	private void memorizePackageName(String attrName, String attrValue) {
+	private void memorizePackageName(@Nullable String attrName, @Nullable String attrValue) {
 		if ("manifest".equals(currentTag) && "package".equals(attrName)) {
 			appPackageName = attrValue;
 		}

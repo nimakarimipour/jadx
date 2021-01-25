@@ -14,6 +14,7 @@ public class EnumMapAttr implements IAttribute {
 	public static class KeyValueMap {
 		private final Map<Object, Object> map = new HashMap<>();
 
+		@Nullable
 		public Object get(Object key) {
 			return map.get(key);
 		}

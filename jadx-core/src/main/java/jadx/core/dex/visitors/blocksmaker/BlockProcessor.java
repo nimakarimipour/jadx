@@ -189,6 +189,7 @@ public class BlockProcessor extends AbstractVisitor {
 		return false;
 	}
 
+	@Nullable
 	private static InsnNode getInsnsFromEnd(BlockNode block, int number) {
 		List<InsnNode> instructions = block.getInstructions();
 		int insnCount = instructions.size();
@@ -223,7 +224,7 @@ public class BlockProcessor extends AbstractVisitor {
 		calcImmediateDominators(basicBlocks, entryBlock);
 	}
 
-	private static void calcDominators(List<BlockNode> basicBlocks, BlockNode entryBlock) {
+	private static void calcDominators(List<BlockNode> basicBlocks, @Nullable BlockNode entryBlock) {
 		entryBlock.getDoms().clear();
 		entryBlock.getDoms().set(entryBlock.getId());
 
@@ -251,7 +252,7 @@ public class BlockProcessor extends AbstractVisitor {
 		} while (changed);
 	}
 
-	private static void calcImmediateDominators(List<BlockNode> basicBlocks, BlockNode entryBlock) {
+	private static void calcImmediateDominators(List<BlockNode> basicBlocks, @Nullable BlockNode entryBlock) {
 		for (BlockNode block : basicBlocks) {
 			if (block == entryBlock) {
 				continue;
@@ -676,6 +677,7 @@ public class BlockProcessor extends AbstractVisitor {
 		return true;
 	}
 
+	@Nullable
 	private static RegisterArg getMoveExceptionRegister(BlockNode block) {
 		InsnNode insn = BlockUtils.getLastInsn(block);
 		if (insn == null || insn.getType() != InsnType.MOVE_EXCEPTION) {

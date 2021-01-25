@@ -3,6 +3,7 @@ package jadx.core.dex.visitors.debuginfo;
 import java.util.List;
 import java.util.Map;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +60,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		setMethodSourceLine(mth, insnArr);
 	}
 
-	private void attachSourceLines(Map<Integer, Integer> lineMapping, InsnNode[] insnArr) {
+	private void attachSourceLines(Map<Integer, Integer> lineMapping, @Nullable InsnNode[] insnArr) {
 		for (InsnNode insn : insnArr) {
 			if (insn != null) {
 				Integer sourceLine = lineMapping.get(insn.getOffset());
@@ -70,7 +71,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		}
 	}
 
-	private void attachDebugInfo(MethodNode mth, List<ILocalVar> localVars, InsnNode[] insnArr) {
+	private void attachDebugInfo(MethodNode mth, List<ILocalVar> localVars, @Nullable InsnNode[] insnArr) {
 		if (localVars.isEmpty()) {
 			return;
 		}
@@ -106,7 +107,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		mth.addAttr(new LocalVarsDebugInfoAttr(localVars));
 	}
 
-	private void attachDebugInfo(InsnArg arg, RegDebugInfoAttr debugInfoAttr, int regNum) {
+	private void attachDebugInfo(@Nullable InsnArg arg, RegDebugInfoAttr debugInfoAttr, int regNum) {
 		if (arg instanceof RegisterArg) {
 			RegisterArg reg = (RegisterArg) arg;
 			if (regNum == reg.getRegNum()) {
@@ -115,6 +116,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	public static ArgType getVarType(MethodNode mth, ILocalVar var) {
 		ArgType type = ArgType.parse(var.getType());
 		String sign = var.getSignature();
@@ -133,7 +135,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		return type;
 	}
 
-	private static boolean checkSignature(ArgType type, ArgType gType) {
+	private static boolean checkSignature(@Nullable ArgType type, ArgType gType) {
 		boolean apply;
 		ArgType el = gType.getArrayRootElement();
 		if (el.isGeneric()) {
@@ -150,7 +152,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 	/**
 	 * Set method source line from first instruction
 	 */
-	private void setMethodSourceLine(MethodNode mth, InsnNode[] insnArr) {
+	private void setMethodSourceLine(MethodNode mth, @Nullable InsnNode[] insnArr) {
 		for (InsnNode insn : insnArr) {
 			if (insn != null) {
 				int line = insn.getSourceLine();

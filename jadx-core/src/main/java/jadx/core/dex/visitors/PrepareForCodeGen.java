@@ -36,11 +36,6 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.exceptions.JadxException;
 
-/**
- * Prepare instructions for code generation pass,
- * most of this modification breaks register dependencies,
- * so this pass must be just before CodeGen.
- */
 @JadxVisitor(
 		name = "PrepareForCodeGen",
 		desc = "Prepare instructions for code generation pass",
@@ -161,7 +156,7 @@ public class PrepareForCodeGen extends AbstractVisitor {
 		}
 	}
 
-	private static void removeParenthesis(IfCondition cond) {
+	private static void removeParenthesis(@Nullable IfCondition cond) {
 		Mode mode = cond.getMode();
 		for (IfCondition c : cond.getArgs()) {
 			if (c.getMode() == mode) {

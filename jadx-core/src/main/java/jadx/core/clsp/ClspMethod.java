@@ -4,15 +4,13 @@ import java.util.List;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.IMethodDetails;
 import jadx.core.utils.Utils;
 
-/**
- * Method node in classpath graph.
- */
 public class ClspMethod implements IMethodDetails, Comparable<ClspMethod> {
 
 	private final MethodInfo methodInfo;
@@ -23,7 +21,7 @@ public class ClspMethod implements IMethodDetails, Comparable<ClspMethod> {
 	private final boolean varArg;
 
 	public ClspMethod(MethodInfo methodInfo,
-			List<ArgType> argTypes, ArgType returnType,
+			List<ArgType> argTypes, @Nullable ArgType returnType,
 			List<ArgType> typeParameters,
 			boolean varArgs, List<ArgType> throwList) {
 		this.methodInfo = methodInfo;

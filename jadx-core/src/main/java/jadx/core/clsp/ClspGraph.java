@@ -23,14 +23,13 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
-/**
- * Classes hierarchy graph with methods additional info
- */
 public class ClspGraph {
 	private static final Logger LOG = LoggerFactory.getLogger(ClspGraph.class);
 
 	private final RootNode root;
 	private final Map<String, Set<String>> superTypesCache = Collections.synchronizedMap(new WeakHashMap<>());
+
+	@Nullable
 	private Map<String, ClspClass> nameMap;
 
 	private final Set<String> missingClasses = new HashSet<>();
@@ -67,6 +66,7 @@ public class ClspGraph {
 		return nameMap.containsKey(fullName);
 	}
 
+	@Nullable
 	public ClspClass getClsDetails(ArgType type) {
 		return nameMap.get(type.getObject());
 	}
@@ -95,6 +95,7 @@ public class ClspGraph {
 		return new SimpleMethodDetails(methodInfo);
 	}
 
+	@Nullable
 	private ClspMethod getMethodFromClass(ClspClass cls, MethodInfo methodInfo) {
 		return cls.getMethodsMap().get(methodInfo.getShortId());
 	}
@@ -125,6 +126,7 @@ public class ClspGraph {
 		return list;
 	}
 
+	@Nullable
 	public String getCommonAncestor(String clsName, String implClsName) {
 		if (clsName.equals(implClsName)) {
 			return clsName;
@@ -141,6 +143,7 @@ public class ClspGraph {
 		return searchCommonParent(anc, cls);
 	}
 
+	@Nullable
 	private String searchCommonParent(Set<String> anc, ClspClass cls) {
 		for (ArgType p : cls.getParents()) {
 			String name = p.getObject();

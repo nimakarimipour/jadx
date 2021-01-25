@@ -22,8 +22,13 @@ public class SwitchInsn extends TargetInsnNode {
 
 	private int def; // next instruction
 
+	@Nullable
 	private Object[] modifiedKeys;
+
+	@Nullable
 	private BlockNode[] targetBlocks;
+
+	@Nullable
 	private BlockNode defTargetBlock;
 
 	public SwitchInsn(InsnArg arg, int dataTarget, boolean packed) {
@@ -170,7 +175,7 @@ public class SwitchInsn extends TargetInsnNode {
 		return getSwitchData().getKeys()[i];
 	}
 
-	public void modifyKey(int i, Object newKey) {
+	public void modifyKey(int i, @Nullable Object newKey) {
 		if (modifiedKeys == null) {
 			int[] keys = getKeys();
 			int caseCount = keys.length;
@@ -183,10 +188,12 @@ public class SwitchInsn extends TargetInsnNode {
 		modifiedKeys[i] = newKey;
 	}
 
+	@Nullable
 	public BlockNode[] getTargetBlocks() {
 		return targetBlocks;
 	}
 
+	@Nullable
 	public BlockNode getDefTargetBlock() {
 		return defTargetBlock;
 	}

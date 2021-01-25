@@ -4,6 +4,8 @@ import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.InsnWrapArg;
@@ -19,6 +21,8 @@ final class ArgsInfo {
 	private final List<RegisterArg> args;
 	private final int pos;
 	private int inlineBorder;
+
+	@Nullable
 	private ArgsInfo inlinedInsn;
 
 	public ArgsInfo(InsnNode insn, List<ArgsInfo> argsList, int pos) {
@@ -59,6 +63,7 @@ final class ArgsInfo {
 		return args;
 	}
 
+	@Nullable
 	public WrapInfo checkInline(int assignPos, RegisterArg arg) {
 		if (assignPos >= inlineBorder || !canMove(assignPos, inlineBorder)) {
 			return null;
@@ -127,6 +132,7 @@ final class ArgsInfo {
 		return new WrapInfo(argsInfo.insn, arg);
 	}
 
+	@Nullable
 	ArgsInfo getInlinedInsn() {
 		if (inlinedInsn != null) {
 			ArgsInfo parent = inlinedInsn.getInlinedInsn();

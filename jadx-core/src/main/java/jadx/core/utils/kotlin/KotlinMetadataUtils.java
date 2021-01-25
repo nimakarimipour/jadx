@@ -12,7 +12,6 @@ import jadx.api.plugins.input.data.annotations.IAnnotation;
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.nodes.ClassNode;
 
-// TODO: parse data from d1 (protobuf encoded) to get original method names and other useful info
 public class KotlinMetadataUtils {
 	private static final Logger LOG = LoggerFactory.getLogger(KotlinMetadataUtils.class);
 
@@ -46,7 +45,8 @@ public class KotlinMetadataUtils {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static List<EncodedValue> getParamAsList(IAnnotation annotation, String paramName) {
+	@Nullable
+	private static List<EncodedValue> getParamAsList(@Nullable IAnnotation annotation, String paramName) {
 		if (annotation == null) {
 			return null;
 		}

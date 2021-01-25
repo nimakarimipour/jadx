@@ -31,6 +31,8 @@ public class SSAVar {
 
 	private RegisterArg assign;
 	private final List<RegisterArg> useList = new ArrayList<>(2);
+
+	@Nullable
 	private List<PhiInsn> usedInPhi = null;
 
 	private final TypeInfo typeInfo = new TypeInfo();
@@ -94,7 +96,7 @@ public class SSAVar {
 		}
 	}
 
-	public void setType(ArgType type) {
+	public void setType(@Nullable ArgType type) {
 		ArgType imType = getImmutableType();
 		if (imType != null && !imType.equals(type)) {
 			throw new JadxRuntimeException("Can't change immutable type " + imType + " to " + type + " for " + this);
@@ -106,7 +108,7 @@ public class SSAVar {
 		updateType(type);
 	}
 
-	private void updateType(ArgType type) {
+	private void updateType(@Nullable ArgType type) {
 		typeInfo.setType(type);
 		if (codeVar != null) {
 			codeVar.setType(type);
@@ -202,7 +204,7 @@ public class SSAVar {
 		return count;
 	}
 
-	public void setName(String name) {
+	public void setName(@Nullable String name) {
 		if (name != null) {
 			if (codeVar == null) {
 				throw new JadxRuntimeException("CodeVar not initialized for name set in SSAVar: " + this);
@@ -211,6 +213,7 @@ public class SSAVar {
 		}
 	}
 
+	@Nullable
 	public String getName() {
 		if (codeVar == null) {
 			return null;

@@ -22,15 +22,6 @@ import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 
-/**
- * Slow and memory consuming multi-variable type search algorithm.
- * Used only if fast type propagation is failed for some variables.
- * <p>
- * Stages description:
- * - find all possible candidate types within bounds
- * - build dynamic constraint list for every variable
- * - run search by checking all candidates
- */
 public class TypeSearch {
 	private static final Logger LOG = LoggerFactory.getLogger(TypeSearch.class);
 
@@ -345,7 +336,7 @@ public class TypeSearch {
 		}
 	}
 
-	private void addConstraint(TypeSearchVarInfo varInfo, ITypeConstraint constraint) {
+	private void addConstraint(TypeSearchVarInfo varInfo, @Nullable ITypeConstraint constraint) {
 		if (constraint != null) {
 			varInfo.getConstraints().add(constraint);
 		}

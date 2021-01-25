@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.PhiListAttr;
@@ -401,7 +403,7 @@ public class SSATransform extends AbstractVisitor {
 		return true;
 	}
 
-	private static void markThisArgs(RegisterArg thisArg) {
+	private static void markThisArgs(@Nullable RegisterArg thisArg) {
 		if (thisArg != null) {
 			markOneArgAsThis(thisArg);
 			thisArg.getSVar().getUseList().forEach(SSATransform::markOneArgAsThis);

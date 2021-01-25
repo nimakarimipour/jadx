@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -260,7 +261,7 @@ public class ProcessVariables extends AbstractVisitor {
 		return true;
 	}
 
-	private static void declareVarInRegion(IContainer region, CodeVar var) {
+	private static void declareVarInRegion(@Nullable IContainer region, CodeVar var) {
 		if (var.isDeclared()) {
 			LOG.warn("Try to declare already declared variable: {}", var);
 			return;

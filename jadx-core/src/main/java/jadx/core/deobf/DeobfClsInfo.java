@@ -1,5 +1,7 @@
 package jadx.core.deobf;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.core.dex.nodes.ClassNode;
 
 class DeobfClsInfo {
@@ -8,7 +10,7 @@ class DeobfClsInfo {
 	private final PackageNode pkg;
 	private final String alias;
 
-	public DeobfClsInfo(Deobfuscator deobfuscator, ClassNode cls, PackageNode pkg, String alias) {
+	public DeobfClsInfo(Deobfuscator deobfuscator, ClassNode cls, @Nullable PackageNode pkg, String alias) {
 		this.deobfuscator = deobfuscator;
 		this.cls = cls;
 		this.pkg = pkg;

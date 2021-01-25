@@ -184,7 +184,7 @@ public class Utils {
 		}
 	}
 
-	public static <T, R> List<R> collectionMap(Collection<T> list, Function<T, R> mapFunc) {
+	public static <T, R> List<R> collectionMap(@Nullable Collection<T> list, Function<T, R> mapFunc) {
 		if (list == null || list.isEmpty()) {
 			return Collections.emptyList();
 		}
@@ -221,7 +221,7 @@ public class Utils {
 		return -1;
 	}
 
-	public static <T> List<T> lockList(List<T> list) {
+	public static <T> List<T> lockList(@Nullable List<T> list) {
 		if (list.isEmpty()) {
 			return Collections.emptyList();
 		}
@@ -285,11 +285,11 @@ public class Utils {
 		return obj;
 	}
 
-	public static <T> boolean isEmpty(Collection<T> col) {
+	public static <T> boolean isEmpty(@Nullable Collection<T> col) {
 		return col == null || col.isEmpty();
 	}
 
-	public static <T> boolean notEmpty(Collection<T> col) {
+	public static <T> boolean notEmpty(@Nullable Collection<T> col) {
 		return col != null && !col.isEmpty();
 	}
 
