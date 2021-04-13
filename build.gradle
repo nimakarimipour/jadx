@@ -11,7 +11,6 @@ println("jadx version: ${jadxVersion}")
 allprojects {
 	apply plugin: 'java'
 	apply plugin: 'jacoco'
-	apply plugin: 'checkstyle'
 
 	version = jadxVersion
 
@@ -70,11 +69,6 @@ allprojects {
 			html.enabled = true
 		}
 	}
-
-	checkstyleMain {
-		// exclude all sources in samples module
-		exclude '**/samples/**'
-	}
 }
 
 sonarqube {
@@ -84,34 +78,6 @@ sonarqube {
 	}
 }
 
-spotless {
-	java {
-		target fileTree(rootDir).matching {
-			include 'jadx-cli/src/**/java/**/*.java'
-			include 'jadx-core/src/**/java/**/*.java'
-			include 'jadx-gui/src/**/java/**/*.java'
-			include 'jadx-plugins/**/java/**/*.java'
-		}
-
-		importOrderFile 'config/code-formatter/eclipse.importorder'
-		eclipse().configFile 'config/code-formatter/eclipse.xml'
-		removeUnusedImports()
-
-		lineEndings(com.diffplug.spotless.LineEnding.UNIX)
-		encoding("UTF-8")
-		trimTrailingWhitespace()
-		endWithNewline()
-	}
-	format 'misc', {
-		target '**/*.gradle', '**/*.md', '**/*.xml', '**/.gitignore', '**/.properties'
-		targetExclude ".gradle/**", ".idea/**", "*/build/**"
-
-		lineEndings(com.diffplug.spotless.LineEnding.UNIX)
-		encoding("UTF-8")
-		trimTrailingWhitespace()
-		endWithNewline()
-	}
-}
 
 dependencyUpdates {
 	resolutionStrategy {

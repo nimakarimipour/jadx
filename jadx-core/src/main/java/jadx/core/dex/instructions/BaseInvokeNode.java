@@ -13,7 +13,7 @@ public abstract class BaseInvokeNode extends InsnNode {
 
 	public abstract MethodInfo getCallMth();
 
-	@Nullable
+	
 	public abstract InsnArg getInstanceArg();
 
 	public abstract boolean isStaticCall();

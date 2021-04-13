@@ -193,7 +193,7 @@ public class RegionUtils {
 		return !notEmpty(container);
 	}
 
-	public static boolean notEmpty(@Nullable IContainer container) {
+	public static boolean notEmpty( IContainer container) {
 		if (container == null) {
 			return false;
 		}

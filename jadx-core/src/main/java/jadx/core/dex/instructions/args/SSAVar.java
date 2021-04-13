@@ -35,7 +35,6 @@ public class SSAVar {
 
 	private final TypeInfo typeInfo = new TypeInfo();
 
-	@Nullable("Set in InitCodeVariables pass")
 	private CodeVar codeVar;
 
 	public SSAVar(int regNum, int v, @NotNull RegisterArg assign) {
@@ -71,7 +70,7 @@ public class SSAVar {
 		return useList.size();
 	}
 
-	@Nullable
+
 	public ArgType getImmutableType() {
 		if (isTypeImmutable()) {
 			return assign.getInitType();
@@ -151,7 +150,7 @@ public class SSAVar {
 		}
 	}
 
-	@Nullable
+
 	public PhiInsn getOnlyOneUseInPhi() {
 		if (usedInPhi != null && usedInPhi.size() == 1) {
 			return usedInPhi.get(0);

@@ -262,15 +262,15 @@ public class Utils {
 		return result;
 	}
 
-	@Nullable
-	public static <T> T getOne(@Nullable List<T> list) {
+	
+	public static <T> T getOne( List<T> list) {
 		if (list == null || list.size() != 1) {
 			return null;
 		}
 		return list.get(0);
 	}
 
-	@Nullable
+	
 	public static <T> T last(List<T> list) {
 		if (list.isEmpty()) {
 			return null;
@@ -278,7 +278,7 @@ public class Utils {
 		return list.get(list.size() - 1);
 	}
 
-	public static <T> T getOrElse(@Nullable T obj, T defaultObj) {
+	public static <T> T getOrElse( T obj, T defaultObj) {
 		if (obj == null) {
 			return defaultObj;
 		}

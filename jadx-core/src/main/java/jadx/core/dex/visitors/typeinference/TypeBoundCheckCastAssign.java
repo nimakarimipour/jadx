@@ -42,7 +42,7 @@ public final class TypeBoundCheckCastAssign implements ITypeBoundDynamic {
 	}
 
 	@Override
-	public @Nullable RegisterArg getArg() {
+	public  RegisterArg getArg() {
 		return insn.getResult();
 	}
 

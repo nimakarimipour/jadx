@@ -279,7 +279,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return argRegs;
 	}
 
-	@Nullable
+	
 	public RegisterArg getThisArg() {
 		return thisArg;
 	}
@@ -357,7 +357,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		loops.add(loop);
 	}
 
-	@Nullable
+	
 	public LoopInfo getLoopForBlock(BlockNode block) {
 		if (loops.isEmpty()) {
 			return null;
@@ -564,7 +564,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return noCode ? 0 : codeReader.getCodeOffset();
 	}
 
-	@Nullable
+	
 	public IDebugInfo getDebugInfo() {
 		return noCode ? null : codeReader.getDebugInfo();
 	}

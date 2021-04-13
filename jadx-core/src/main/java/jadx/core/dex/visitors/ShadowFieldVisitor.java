@@ -152,7 +152,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 		fixFieldAccess(mth, fieldInfo, fieldFixType, arg);
 	}
 
-	@Nullable
+	
 	private static FieldInfo getFieldInfo(InsnNode insn) {
 		switch (insn.getType()) {
 			case IPUT:

@@ -242,7 +242,7 @@ public class PrepareForCodeGen extends AbstractVisitor {
 		}
 	}
 
-	@Nullable
+	
 	private ConstructorInsn searchConstructorCall(MethodNode mth) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			for (InsnNode insn : block.getInstructions()) {

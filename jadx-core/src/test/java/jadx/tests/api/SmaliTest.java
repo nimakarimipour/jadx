@@ -61,7 +61,7 @@ public abstract class SmaliTest extends IntegrationTest {
 		return classes;
 	}
 
-	private List<File> collectSmaliFiles(String pkg, @Nullable String testDir) {
+	private List<File> collectSmaliFiles(String pkg,  String testDir) {
 		String smaliFilesDir;
 		if (testDir == null) {
 			smaliFilesDir = pkg + File.separatorChar;

@@ -351,7 +351,7 @@ public class TypeSearch {
 		}
 	}
 
-	@Nullable
+	
 	private ITypeConstraint makeConstraint(RegisterArg arg) {
 		InsnNode insn = arg.getParentInsn();
 		if (insn == null || arg.isTypeImmutable()) {
@@ -369,7 +369,7 @@ public class TypeSearch {
 		}
 	}
 
-	@Nullable
+	
 	private ITypeConstraint makeMoveConstraint(InsnNode insn, RegisterArg arg) {
 		if (!insn.getArg(0).isRegister()) {
 			return null;

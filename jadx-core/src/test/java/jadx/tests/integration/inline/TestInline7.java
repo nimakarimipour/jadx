@@ -14,7 +14,7 @@ public class TestInline7 extends SmaliTest {
 
 	// @formatter:off
 	/*
-		public void onViewCreated(View view, @Nullable Bundle bundle) {
+		public void onViewCreated(View view,  Bundle bundle) {
 			super.onViewCreated(view, bundle);
 			view.findViewById(R.id.done_button_early_release_failure).setOnClickListener(new SafeClickListener(this));
 			Bundle arguments = getArguments();
@@ -36,6 +36,6 @@ public class TestInline7 extends SmaliTest {
 
 		assertThat(code, not(containsString("Bundle arguments;")));
 		assertThat(code, containsOne("Bundle arguments = getArguments();"));
-		assertThat(code, containsOne("@Nullable Bundle bundle"));
+		assertThat(code, containsOne(" Bundle bundle"));
 	}
 }

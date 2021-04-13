@@ -44,7 +44,7 @@ public class ValuesParser extends ParserConstants {
 		}
 	}
 
-	@Nullable
+	
 	public String getSimpleValueString(ResourceEntry ri) {
 		RawValue simpleValue = ri.getSimpleValue();
 		if (simpleValue == null) {
@@ -53,7 +53,7 @@ public class ValuesParser extends ParserConstants {
 		return decodeValue(simpleValue);
 	}
 
-	@Nullable
+	
 	public String getValueString(ResourceEntry ri) {
 		RawValue simpleValue = ri.getSimpleValue();
 		if (simpleValue != null) {
@@ -73,14 +73,14 @@ public class ValuesParser extends ParserConstants {
 		return strList.toString();
 	}
 
-	@Nullable
+	
 	public String decodeValue(RawValue value) {
 		int dataType = value.getDataType();
 		int data = value.getData();
 		return decodeValue(dataType, data);
 	}
 
-	@Nullable
+	
 	public String decodeValue(int dataType, int data) {
 		switch (dataType) {
 			case TYPE_NULL:
@@ -147,6 +147,7 @@ public class ValuesParser extends ParserConstants {
 		}
 	}
 
+	
 	public String decodeNameRef(int nameRef) {
 		int ref = nameRef;
 		if (isResInternalId(nameRef)) {

@@ -4,17 +4,17 @@ import org.jetbrains.annotations.Nullable;
 
 class ClassAliasInfo {
 	private final String shortName;
-	@Nullable
+	
 	private final String pkg;
-	@Nullable
+	
 	private String fullName;
 
-	ClassAliasInfo(@Nullable String pkg, String shortName) {
+	ClassAliasInfo( String pkg, String shortName) {
 		this.pkg = pkg;
 		this.shortName = shortName;
 	}
 
-	@Nullable
+	
 	public String getPkg() {
 		return pkg;
 	}
@@ -23,12 +23,12 @@ class ClassAliasInfo {
 		return shortName;
 	}
 
-	@Nullable
+	
 	public String getFullName() {
 		return fullName;
 	}
 
-	public void setFullName(@Nullable String fullName) {
+	public void setFullName( String fullName) {
 		this.fullName = fullName;
 	}
 

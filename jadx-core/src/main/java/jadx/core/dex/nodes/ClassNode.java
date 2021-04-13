@@ -301,7 +301,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		}
 	}
 
-	@Nullable
+	
 	public ArgType getSuperClass() {
 		return superClass;
 	}
@@ -334,12 +334,12 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return getConstField(obj, true);
 	}
 
-	@Nullable
+	
 	public FieldNode getConstField(Object obj, boolean searchGlobal) {
 		return root().getConstValues().getConstField(this, obj, searchGlobal);
 	}
 
-	@Nullable
+	
 	public FieldNode getConstFieldByLiteralArg(LiteralArg arg) {
 		return root().getConstValues().getConstFieldByLiteralArg(this, arg);
 	}
@@ -389,7 +389,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	 * Note: methods are not unique by name (class can have several methods with same name but different
 	 * signature)
 	 */
-	@Nullable
+	
 	public MethodNode searchMethodByShortName(String name) {
 		for (MethodNode m : methods) {
 			if (m.getMethodInfo().getName().equals(name)) {
@@ -488,12 +488,12 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return parentClass != null;
 	}
 
-	@Nullable
+	
 	public MethodNode getClassInitMth() {
 		return searchMethodByShortId("<clinit>()V");
 	}
 
-	@Nullable
+	
 	public MethodNode getDefaultConstructor() {
 		for (MethodNode mth : methods) {
 			if (mth.isDefaultConstructor()) {

@@ -170,7 +170,7 @@ public class BlockProcessor extends AbstractVisitor {
 		return false;
 	}
 
-	private static boolean sameArgs(@Nullable InsnArg arg, @Nullable InsnArg otherArg) {
+	private static boolean sameArgs( InsnArg arg,  InsnArg otherArg) {
 		if (arg == otherArg) {
 			return true;
 		}

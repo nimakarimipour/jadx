@@ -455,7 +455,7 @@ public class ClassGen {
 		}
 	}
 
-	private int getEnumCtrSkipArgsCount(@Nullable MethodNode callMth) {
+	private int getEnumCtrSkipArgsCount( MethodNode callMth) {
 		if (callMth != null) {
 			SkipMethodArgsAttr skipArgsAttr = callMth.get(AType.SKIP_MTH_ARGS);
 			if (skipArgsAttr != null) {

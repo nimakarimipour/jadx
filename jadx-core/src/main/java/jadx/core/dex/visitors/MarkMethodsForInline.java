@@ -41,7 +41,7 @@ public class MarkMethodsForInline extends AbstractVisitor {
 	/**
 	 * @return null if method can't be analyzed (not loaded)
 	 */
-	@Nullable
+	
 	public static MethodInlineAttr process(MethodNode mth) {
 		MethodInlineAttr mia = mth.get(AType.METHOD_INLINE);
 		if (mia != null) {
@@ -73,7 +73,7 @@ public class MarkMethodsForInline extends AbstractVisitor {
 		return accessFlags.isSynthetic() && accessFlags.isStatic();
 	}
 
-	@Nullable
+	
 	private static MethodInlineAttr inlineMth(MethodNode mth, BlockNode firstBlock, BlockNode returnBlock) {
 		List<InsnNode> insnList = firstBlock.getInstructions();
 		if (insnList.isEmpty()) {

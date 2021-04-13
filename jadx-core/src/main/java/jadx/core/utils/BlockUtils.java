@@ -177,8 +177,8 @@ public class BlockUtils {
 		return insn != null && insn.getType() == expectedType;
 	}
 
-	@Nullable
-	public static InsnNode getLastInsn(@Nullable IBlock block) {
+	
+	public static InsnNode getLastInsn( IBlock block) {
 		if (block == null) {
 			return null;
 		}
@@ -189,8 +189,8 @@ public class BlockUtils {
 		return insns.get(insns.size() - 1);
 	}
 
-	@Nullable
-	public static BlockNode getBlockByInsn(MethodNode mth, @Nullable InsnNode insn) {
+	
+	public static BlockNode getBlockByInsn(MethodNode mth,  InsnNode insn) {
 		if (insn == null) {
 			return null;
 		}
@@ -309,7 +309,7 @@ public class BlockUtils {
 		return bs;
 	}
 
-	@Nullable
+	
 	public static BlockNode bitSetToOneBlock(MethodNode mth, BitSet bs) {
 		if (bs == null || bs.cardinality() != 1) {
 			return null;
@@ -767,7 +767,7 @@ public class BlockUtils {
 		return map;
 	}
 
-	@Nullable
+	
 	public static BlockNode calcImmediatePostDominator(MethodNode mth, BlockNode block) {
 		BlockNode oneSuccessor = Utils.getOne(block.getSuccessors());
 		if (oneSuccessor != null) {
@@ -776,7 +776,7 @@ public class BlockUtils {
 		return calcImmediatePostDominator(mth, block, calcPostDominance(mth));
 	}
 
-	@Nullable
+	
 	public static BlockNode calcPartialImmediatePostDominator(MethodNode mth, BlockNode block,
 			Collection<BlockNode> blockNodes, BlockNode exitBlock) {
 		BlockNode oneSuccessor = Utils.getOne(block.getSuccessors());
@@ -787,7 +787,7 @@ public class BlockUtils {
 		return calcImmediatePostDominator(mth, block, pDomsMap);
 	}
 
-	@Nullable
+	
 	public static BlockNode calcImmediatePostDominator(MethodNode mth, BlockNode block, Map<BlockNode, BitSet> postDomsMap) {
 		BlockNode oneSuccessor = Utils.getOne(block.getSuccessors());
 		if (oneSuccessor != null) {

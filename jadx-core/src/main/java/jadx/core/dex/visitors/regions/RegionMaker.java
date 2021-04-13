@@ -839,7 +839,7 @@ public class RegionMaker {
 		return out;
 	}
 
-	@Nullable
+	
 	private BlockNode searchFallThroughCase(BlockNode successor, BlockNode out, BitSet caseBlocks) {
 		BitSet df = successor.getDomFrontier();
 		if (df.intersects(caseBlocks)) {
@@ -854,7 +854,7 @@ public class RegionMaker {
 		return null;
 	}
 
-	@Nullable
+	
 	private BlockNode getOneIntersectionBlock(BlockNode out, BitSet caseBlocks, BitSet fallThroughSet) {
 		BitSet caseExits = BlockUtils.copyBlocksBitSet(mth, fallThroughSet);
 		caseExits.clear(out.getId());
@@ -862,7 +862,7 @@ public class RegionMaker {
 		return BlockUtils.bitSetToOneBlock(mth, caseExits);
 	}
 
-	@Nullable
+	
 	private static BlockNode calcPostDomOut(MethodNode mth, BlockNode block, List<BlockNode> exits) {
 		if (exits.size() == 1 && mth.getExitBlocks().equals(exits)) {
 			// simple case: for only one exit which is equal to method exit block

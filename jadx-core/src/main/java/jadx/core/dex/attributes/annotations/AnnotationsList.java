@@ -22,7 +22,7 @@ public class AnnotationsList implements IAttribute {
 		}
 	}
 
-	@Nullable
+	
 	public static AnnotationsList pack(List<IAnnotation> annotationList) {
 		if (annotationList.isEmpty()) {
 			return null;

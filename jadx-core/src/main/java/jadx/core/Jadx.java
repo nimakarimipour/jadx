@@ -7,6 +7,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.Manifest;
 
+import jadx.Initializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +71,7 @@ public class Jadx {
 		}
 	}
 
+	@Initializer
 	public static List<IDexTreeVisitor> getFallbackPassesList() {
 		List<IDexTreeVisitor> passes = new ArrayList<>(3);
 		passes.add(new AttachTryCatchVisitor());

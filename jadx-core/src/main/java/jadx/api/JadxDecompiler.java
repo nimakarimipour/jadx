@@ -340,7 +340,6 @@ public final class JadxDecompiler implements Closeable {
 		}
 	}
 
-	@Nullable("For not generated classes")
 	private JavaClass getJavaClassByNode(ClassNode cls) {
 		JavaClass javaClass = classesMap.get(cls);
 		if (javaClass != null) {
@@ -370,7 +369,7 @@ public final class JadxDecompiler implements Closeable {
 		throw new JadxRuntimeException("JavaClass not found by ClassNode: " + cls);
 	}
 
-	@Nullable
+
 	private JavaMethod getJavaMethodByNode(MethodNode mth) {
 		JavaMethod javaMethod = methodsMap.get(mth);
 		if (javaMethod != null) {
@@ -392,7 +391,7 @@ public final class JadxDecompiler implements Closeable {
 		throw new JadxRuntimeException("JavaMethod not found by MethodNode: " + mth);
 	}
 
-	@Nullable
+
 	private JavaField getJavaFieldByNode(FieldNode fld) {
 		JavaField javaField = fieldsMap.get(fld);
 		if (javaField != null) {
@@ -414,7 +413,7 @@ public final class JadxDecompiler implements Closeable {
 		throw new JadxRuntimeException("JavaField not found by FieldNode: " + fld);
 	}
 
-	@Nullable
+
 	JavaNode convertNode(Object obj) {
 		if (!(obj instanceof LineAttrNode)) {
 			return null;
@@ -442,7 +441,7 @@ public final class JadxDecompiler implements Closeable {
 				.collect(Collectors.toList());
 	}
 
-	@Nullable
+
 	public JavaNode getJavaNodeAtPosition(ICodeInfo codeInfo, int line, int offset) {
 		Map<CodePosition, Object> map = codeInfo.getAnnotations();
 		if (map.isEmpty()) {
@@ -455,7 +454,7 @@ public final class JadxDecompiler implements Closeable {
 		return convertNode(obj);
 	}
 
-	@Nullable
+
 	public CodePosition getDefinitionPosition(JavaNode javaNode) {
 		JavaClass jCls = javaNode.getTopParentClass();
 		jCls.decompile();

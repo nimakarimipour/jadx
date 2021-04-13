@@ -746,7 +746,7 @@ public class InsnGen {
 		generateMethodArguments(code, insn, k, callMthNode);
 	}
 
-	@Nullable
+	
 	private ClassInfo getClassForSuperCall(CodeWriter code, MethodInfo callMth) {
 		ClassNode useCls = mth.getParentClass();
 		ClassInfo insnCls = useCls.getClassInfo();
@@ -777,7 +777,7 @@ public class InsnGen {
 	}
 
 	void generateMethodArguments(CodeWriter code, BaseInvokeNode insn, int startArgNum,
-			@Nullable MethodNode mthNode) throws CodegenException {
+			 MethodNode mthNode) throws CodegenException {
 		int k = startArgNum;
 		if (mthNode != null && mthNode.contains(AFlag.SKIP_FIRST_ARG)) {
 			k++;

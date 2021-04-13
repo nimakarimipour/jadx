@@ -23,10 +23,10 @@ public class EnumMapAttr implements IAttribute {
 		}
 	}
 
-	@Nullable
+	
 	private Map<FieldNode, KeyValueMap> fieldsMap;
 
-	@Nullable
+	
 	public KeyValueMap getMap(FieldNode field) {
 		if (fieldsMap == null) {
 			return null;

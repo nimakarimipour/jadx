@@ -49,7 +49,7 @@ public class InsnNode extends LineAttrNode {
 		return insn;
 	}
 
-	public void setResult(@Nullable RegisterArg res) {
+	public void setResult( RegisterArg res) {
 		this.result = res;
 		if (res != null) {
 			res.setParentInsn(this);

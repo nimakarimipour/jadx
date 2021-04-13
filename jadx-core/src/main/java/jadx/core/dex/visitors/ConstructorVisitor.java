@@ -112,7 +112,7 @@ public class ConstructorVisitor extends AbstractVisitor {
 	 *
 	 * @return insn for replacement or null if replace not needed or not possible.
 	 */
-	@Nullable
+	
 	private static ConstructorInsn processConstructor(MethodNode mth, ConstructorInsn co) {
 		MethodNode callMth = mth.root().resolveMethod(co.getCallMth());
 		if (callMth == null

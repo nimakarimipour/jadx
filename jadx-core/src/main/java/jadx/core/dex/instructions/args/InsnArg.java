@@ -23,7 +23,6 @@ public abstract class InsnArg extends Typed {
 
 	private static final Logger LOG = LoggerFactory.getLogger(InsnArg.class);
 
-	@Nullable("Null for method arguments")
 	protected InsnNode parentInsn;
 
 	public static RegisterArg reg(int regNum, ArgType type) {
@@ -86,21 +85,19 @@ public abstract class InsnArg extends Typed {
 		return false;
 	}
 
-	@Nullable
+
 	public InsnNode getParentInsn() {
 		return parentInsn;
 	}
 
-	public void setParentInsn(@Nullable InsnNode parentInsn) {
+	public void setParentInsn( InsnNode parentInsn) {
 		this.parentInsn = parentInsn;
 	}
 
-	@Nullable("if wrap failed")
 	public InsnArg wrapInstruction(MethodNode mth, InsnNode insn) {
 		return wrapInstruction(mth, insn, true);
 	}
 
-	@Nullable("if wrap failed")
 	public InsnArg wrapInstruction(MethodNode mth, InsnNode insn, boolean unbind) {
 		InsnNode parent = parentInsn;
 		if (parent == null) {

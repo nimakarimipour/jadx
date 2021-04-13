@@ -48,7 +48,7 @@ public final class PhiInsn extends InsnNode {
 		blockBinds.add(pred);
 	}
 
-	@Nullable
+	
 	public BlockNode getBlockByArg(RegisterArg arg) {
 		int index = getArgIndex(arg);
 		if (index == -1) {
@@ -85,7 +85,7 @@ public final class PhiInsn extends InsnNode {
 		return reg;
 	}
 
-	@Nullable
+	
 	public RegisterArg getArgBySsaVar(SSAVar ssaVar) {
 		if (getArgsCount() == 0) {
 			return null;

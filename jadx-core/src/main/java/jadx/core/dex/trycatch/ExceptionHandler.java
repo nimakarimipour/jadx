@@ -34,7 +34,7 @@ public class ExceptionHandler {
 
 	private boolean removed = false;
 
-	public ExceptionHandler(int addr, @Nullable ClassInfo type) {
+	public ExceptionHandler(int addr,  ClassInfo type) {
 		this.handleOffset = addr;
 		addCatchType(type);
 	}
@@ -44,7 +44,7 @@ public class ExceptionHandler {
 	 *
 	 * @param type - null for 'all' or 'Throwable' handler
 	 */
-	public void addCatchType(@Nullable ClassInfo type) {
+	public void addCatchType( ClassInfo type) {
 		if (type != null) {
 			this.catchTypes.add(type);
 		} else {

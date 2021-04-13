@@ -195,7 +195,7 @@ public class EnumVisitor extends AbstractVisitor {
 		InsnRemover.removeWithoutUnbind(classInitMth, staticBlock, co);
 	}
 
-	@Nullable
+	
 	private List<EnumField> extractEnumFieldsFromInsn(ClassNode cls, BlockNode staticBlock,
 			InsnNode wrappedInsn, List<InsnNode> toRemove) {
 		switch (wrappedInsn.getType()) {
@@ -275,7 +275,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return enumFields;
 	}
 
-	@Nullable
+	
 	private EnumField processEnumFieldByField(ClassNode cls, InsnNode sgetInsn, BlockNode staticBlock, List<InsnNode> toRemove) {
 		if (sgetInsn.getType() != InsnType.SGET) {
 			return null;
@@ -302,7 +302,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return createEnumFieldByConstructor(cls, enumFieldNode, co);
 	}
 
-	@Nullable
+	
 	private EnumField processEnumFiledByRegister(ClassNode cls, RegisterArg arg, BlockNode staticBlock, List<InsnNode> toRemove) {
 		InsnNode assignInsn = arg.getAssignInsn();
 		if (assignInsn != null && assignInsn.getType() == InsnType.SGET) {
@@ -353,7 +353,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return new EnumField(enumFieldNode, co);
 	}
 
-	@Nullable
+	
 	private InsnNode searchFieldPutInsn(ClassNode cls, BlockNode staticBlock, FieldNode enumFieldNode) {
 		for (InsnNode sputInsn : staticBlock.getInstructions()) {
 			if (sputInsn != null && sputInsn.getType() == InsnType.SPUT) {
@@ -453,7 +453,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return null;
 	}
 
-	@Nullable
+	
 	private ConstructorInsn castConstructorInsn(InsnNode coCandidate) {
 		if (coCandidate != null && coCandidate.getType() == InsnType.CONSTRUCTOR) {
 			return (ConstructorInsn) coCandidate;

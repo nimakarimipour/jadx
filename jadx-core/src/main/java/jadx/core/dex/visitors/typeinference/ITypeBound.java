@@ -14,6 +14,6 @@ public interface ITypeBound {
 
 	ArgType getType();
 
-	@Nullable
+	
 	RegisterArg getArg();
 }

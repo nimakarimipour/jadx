@@ -39,7 +39,7 @@ public class ErrorsCounter {
 		return msg + " in " + node.typeName() + ": " + node + ", file: " + node.getInputFileName();
 	}
 
-	private synchronized <N extends IDexNode & IAttributeNode> String addError(N node, String error, @Nullable Throwable e) {
+	private synchronized <N extends IDexNode & IAttributeNode> String addError(N node, String error,  Throwable e) {
 		errorNodes.add(node);
 		errorsCount++;
 

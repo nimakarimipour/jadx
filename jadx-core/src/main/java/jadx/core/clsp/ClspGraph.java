@@ -71,7 +71,7 @@ public class ClspGraph {
 		return nameMap.get(type.getObject());
 	}
 
-	@Nullable
+	
 	public IMethodDetails getMethodDetails(MethodInfo methodInfo) {
 		ClspClass cls = nameMap.get(methodInfo.getDeclClass().getRawName());
 		if (cls == null) {
@@ -199,7 +199,7 @@ public class ClspGraph {
 		}
 	}
 
-	@Nullable
+	
 	private ClspClass getClspClass(ArgType clsType) {
 		ClspClass clspClass = nameMap.get(clsType.getObject());
 		if (clspClass == null) {

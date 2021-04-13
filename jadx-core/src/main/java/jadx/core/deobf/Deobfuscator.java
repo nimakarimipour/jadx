@@ -472,7 +472,7 @@ public class Deobfuscator {
 		return result;
 	}
 
-	@Nullable
+	
 	private String getAliasFromSourceFile(ClassNode cls) {
 		SourceFileAttr sourceFileAttr = cls.get(AType.SOURCE_FILE);
 		if (sourceFileAttr == null) {
@@ -503,7 +503,7 @@ public class Deobfuscator {
 		return name;
 	}
 
-	@Nullable
+	
 	private String getFieldAlias(FieldNode field) {
 		FieldInfo fieldInfo = field.getFieldInfo();
 		String alias = fldMap.get(fieldInfo);
@@ -521,7 +521,7 @@ public class Deobfuscator {
 		return null;
 	}
 
-	@Nullable
+	
 	private String getMethodAlias(MethodNode mth) {
 		MethodInfo methodInfo = mth.getMethodInfo();
 		if (methodInfo.isClassInit() || methodInfo.isConstructor()) {

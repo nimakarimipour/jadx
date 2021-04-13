@@ -37,7 +37,7 @@ public class IfMakerHelper {
 	private IfMakerHelper() {
 	}
 
-	@Nullable
+	
 	static IfInfo makeIfInfo(BlockNode ifBlock) {
 		InsnNode lastInsn = BlockUtils.getLastInsn(ifBlock);
 		if (lastInsn == null || lastInsn.getType() != InsnType.IF) {

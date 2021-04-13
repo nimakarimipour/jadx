@@ -17,7 +17,7 @@ import static jadx.core.utils.BlockUtils.getBlockByOffset;
 public class SwitchInsn extends TargetInsnNode {
 	private final int dataTarget;
 	private final boolean packed; // type of switch insn, if true can contain filler keys
-	@Nullable
+	
 	private SwitchData switchData;
 
 	private int def; // next instruction

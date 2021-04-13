@@ -23,7 +23,7 @@ public abstract class NotificationAttrNode extends LineAttrNode implements ICode
 		addWarnComment(warn, null);
 	}
 
-	public void addWarnComment(String warn, @Nullable Throwable exc) {
+	public void addWarnComment(String warn,  Throwable exc) {
 		String commentStr = "JADX WARN: " + warn;
 		addAttr(AType.COMMENTS, commentStr);
 		if (exc != null) {

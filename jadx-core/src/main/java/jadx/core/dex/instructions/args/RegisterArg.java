@@ -56,7 +56,7 @@ public class RegisterArg extends InsnArg implements Named {
 		this.type = type;
 	}
 
-	@Nullable
+	
 	public ArgType getImmutableType() {
 		if (sVar != null) {
 			return sVar.getImmutableType();
@@ -137,11 +137,11 @@ public class RegisterArg extends InsnArg implements Named {
 		return duplicate;
 	}
 
-	public RegisterArg duplicate(int regNum, @Nullable SSAVar sVar) {
+	public RegisterArg duplicate(int regNum,  SSAVar sVar) {
 		return duplicate(regNum, getInitType(), sVar);
 	}
 
-	public RegisterArg duplicate(int regNum, ArgType initType, @Nullable SSAVar sVar) {
+	public RegisterArg duplicate(int regNum, ArgType initType,  SSAVar sVar) {
 		RegisterArg dup = new RegisterArg(regNum, initType);
 		if (sVar != null) {
 			// only 'set' here, 'assign' or 'use' will binds later
@@ -150,7 +150,7 @@ public class RegisterArg extends InsnArg implements Named {
 		return copyCommonParams(dup);
 	}
 
-	@Nullable
+	
 	public InsnNode getAssignInsn() {
 		if (sVar == null) {
 			return null;

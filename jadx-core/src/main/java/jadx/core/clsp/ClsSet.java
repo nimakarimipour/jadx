@@ -271,7 +271,7 @@ public class ClsSet {
 		}
 	}
 
-	private static void writeArgTypesArray(DataOutputStream out, @Nullable ArgType[] arr, Map<String, ClspClass> names) throws IOException {
+	private static void writeArgTypesArray(DataOutputStream out,  ArgType[] arr, Map<String, ClspClass> names) throws IOException {
 		if (arr == null) {
 			out.writeByte(-1);
 			return;
@@ -412,7 +412,7 @@ public class ClsSet {
 		return list;
 	}
 
-	@Nullable
+	
 	private ArgType[] readArgTypesArray(DataInputStream in) throws IOException {
 		int count = in.readByte();
 		if (count == -1) {

@@ -23,7 +23,7 @@ public final class ProcessClass {
 	private ProcessClass() {
 	}
 
-	@Nullable
+	
 	private static ICodeInfo process(ClassNode cls, boolean codegen) {
 		if (!codegen && cls.getState() == PROCESS_COMPLETE) {
 			// nothing to do

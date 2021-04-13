@@ -23,7 +23,7 @@ public class KotlinMetadataUtils {
 	/**
 	 * Try to get class info from Kotlin Metadata annotation
 	 */
-	@Nullable
+	
 	public static ClassInfo getClassName(ClassNode cls) {
 		IAnnotation metadataAnnotation = cls.getAnnotation(KOTLIN_METADATA_ANNOTATION);
 		List<EncodedValue> d2Param = getParamAsList(metadataAnnotation, KOTLIN_METADATA_D2_PARAMETER);

@@ -458,7 +458,7 @@ public class SimplifyVisitor extends AbstractVisitor {
 		return InsnArg.wrapArg(new ConstStringNode(str));
 	}
 
-	@Nullable
+	
 	private static String getConstString(InsnArg arg) {
 		if (arg.isLiteral()) {
 			return TypeGen.literalToRawString((LiteralArg) arg);

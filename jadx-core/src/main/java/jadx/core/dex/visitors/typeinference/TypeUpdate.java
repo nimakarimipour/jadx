@@ -368,8 +368,8 @@ public final class TypeUpdate {
 		return allSame ? SAME : CHANGED;
 	}
 
-	@Nullable
-	private ArgType checkType(Set<ArgType> knownTypeVars, @Nullable ArgType type) {
+	
+	private ArgType checkType(Set<ArgType> knownTypeVars,  ArgType type) {
 		if (type == null) {
 			return null;
 		}

@@ -321,7 +321,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return new TypeBoundConst(BoundEnum.ASSIGN, boundType);
 	}
 
-	@Nullable
+	
 	private ITypeBound makeUseBound(RegisterArg regArg) {
 		InsnNode insn = regArg.getParentInsn();
 		if (insn == null) {
@@ -371,7 +371,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	private List<ArgType> makePossibleTypesList(ArgType type, @Nullable SSAVar var) {
+	private List<ArgType> makePossibleTypesList(ArgType type,  SSAVar var) {
 		if (type.isArray()) {
 			List<ArgType> list = new ArrayList<>();
 			for (ArgType arrElemType : makePossibleTypesList(type.getArrayElement(), null)) {
@@ -661,7 +661,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return insertMovesForPhi(mth, phiInsn, true);
 	}
 
-	@Nullable
+	
 	private ArgType getCommonTypeForPhiArgs(PhiInsn phiInsn) {
 		ArgType phiArgType = null;
 		for (InsnArg arg : phiInsn.getArguments()) {
@@ -722,7 +722,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		phiInsn.replaceArg(reg, reg.duplicate(regNum, newSsaVar));
 	}
 
-	@Nullable
+	
 	private BlockNode checkBlockForInsnInsert(BlockNode blockNode) {
 		if (blockNode.isSynthetic()) {
 			return null;
@@ -893,7 +893,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		}
 	}
 
-	@Nullable
+	
 	private static ArgType getSsaImmutableType(SSAVar ssaVar) {
 		if (ssaVar.getAssign().contains(AFlag.IMMUTABLE_TYPE)) {
 			return ssaVar.getAssign().getInitType();

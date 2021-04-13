@@ -45,7 +45,7 @@ public abstract class BaseExternalTest extends IntegrationTest {
 		decompile(jadxArgs, clsPatternStr, null);
 	}
 
-	protected void decompile(JadxArgs jadxArgs, @Nullable String clsPatternStr, @Nullable String mthPatternStr) {
+	protected void decompile(JadxArgs jadxArgs,  String clsPatternStr,  String mthPatternStr) {
 		JadxDecompiler jadx = new JadxDecompiler(jadxArgs);
 		jadx.load();
 
@@ -64,7 +64,7 @@ public abstract class BaseExternalTest extends IntegrationTest {
 		}
 	}
 
-	private void processByPatterns(JadxDecompiler jadx, String clsPattern, @Nullable String mthPattern) {
+	private void processByPatterns(JadxDecompiler jadx, String clsPattern,  String mthPattern) {
 		RootNode root = JadxInternalAccess.getRoot(jadx);
 		int processed = 0;
 		for (ClassNode classNode : root.getClasses(true)) {
@@ -78,7 +78,7 @@ public abstract class BaseExternalTest extends IntegrationTest {
 		assertThat("No classes processed", processed, greaterThan(0));
 	}
 
-	private boolean processCls(@Nullable String mthPattern, ClassNode classNode) {
+	private boolean processCls( String mthPattern, ClassNode classNode) {
 		classNode.load();
 		boolean decompile = false;
 		if (mthPattern == null) {

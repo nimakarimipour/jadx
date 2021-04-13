@@ -527,7 +527,7 @@ public class ModVisitor extends AbstractVisitor {
 	 * Return first usage instruction for arg.
 	 * If used only once try to follow move chain
 	 */
-	@Nullable
+	
 	private static InsnNode getFirstUseSkipMove(RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		int useCount = sVar.getUseCount();

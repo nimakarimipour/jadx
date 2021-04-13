@@ -73,7 +73,7 @@ public class StringUtils {
 		return unescapeChar(ch, false);
 	}
 
-	@Nullable
+	
 	private String getSpecialStringForChar(int c) {
 		switch (c) {
 			case '\n':

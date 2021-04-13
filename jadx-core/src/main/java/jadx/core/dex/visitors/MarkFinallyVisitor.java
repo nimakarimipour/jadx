@@ -290,7 +290,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		return checkTempSlice(dupSlice);
 	}
 
-	@Nullable
+	
 	private static InsnsSlice checkTempSlice(InsnsSlice slice) {
 		List<InsnNode> insnsList = slice.getInsnsList();
 		if (insnsList.isEmpty()) {

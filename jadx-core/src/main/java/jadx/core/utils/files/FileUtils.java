@@ -66,7 +66,7 @@ public class FileUtils {
 
 	private static final Object MKDIR_SYNC = new Object();
 
-	public static void makeDirs(@Nullable File dir) {
+	public static void makeDirs( File dir) {
 		if (dir != null) {
 			synchronized (MKDIR_SYNC) {
 				if (!dir.mkdirs() && !dir.isDirectory()) {
@@ -76,7 +76,7 @@ public class FileUtils {
 		}
 	}
 
-	public static void makeDirs(@Nullable Path dir) {
+	public static void makeDirs( Path dir) {
 		if (dir != null) {
 			makeDirs(dir.toFile());
 		}

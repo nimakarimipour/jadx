@@ -23,7 +23,7 @@ public final class LoopRegion extends AbstractRegion {
 	/**
 	 * loop header contains one 'if' insn, equals null for infinite loop
 	 */
-	@Nullable
+	
 	private IfCondition condition;
 	private final BlockNode conditionBlock;
 	// instruction which must be executed before condition in every loop
@@ -33,7 +33,7 @@ public final class LoopRegion extends AbstractRegion {
 
 	private LoopType type;
 
-	public LoopRegion(IRegion parent, LoopInfo info, @Nullable BlockNode header, boolean reversed) {
+	public LoopRegion(IRegion parent, LoopInfo info,  BlockNode header, boolean reversed) {
 		super(parent);
 		this.info = info;
 		this.conditionBlock = header;

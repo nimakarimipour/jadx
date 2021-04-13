@@ -30,7 +30,7 @@ public class InsnRemover {
 
 	private final MethodNode mth;
 	private final List<InsnNode> toRemove;
-	@Nullable
+	
 	private List<InsnNode> instrList;
 
 	public InsnRemover(MethodNode mth) {
@@ -73,19 +73,19 @@ public class InsnRemover {
 		toRemove.clear();
 	}
 
-	public static void unbindInsn(@Nullable MethodNode mth, InsnNode insn) {
+	public static void unbindInsn( MethodNode mth, InsnNode insn) {
 		unbindAllArgs(mth, insn);
 		unbindResult(mth, insn);
 		insn.add(AFlag.DONT_GENERATE);
 	}
 
-	public static void unbindInsns(@Nullable MethodNode mth, List<InsnNode> insns) {
+	public static void unbindInsns( MethodNode mth, List<InsnNode> insns) {
 		for (InsnNode insn : insns) {
 			unbindInsn(mth, insn);
 		}
 	}
 
-	public static void unbindAllArgs(@Nullable MethodNode mth, InsnNode insn) {
+	public static void unbindAllArgs( MethodNode mth, InsnNode insn) {
 		for (InsnArg arg : insn.getArguments()) {
 			unbindArgUsage(mth, arg);
 		}
@@ -100,7 +100,7 @@ public class InsnRemover {
 		insn.add(AFlag.DONT_GENERATE);
 	}
 
-	public static void unbindResult(@Nullable MethodNode mth, InsnNode insn) {
+	public static void unbindResult( MethodNode mth, InsnNode insn) {
 		RegisterArg r = insn.getResult();
 		if (r != null && mth != null) {
 			SSAVar ssaVar = r.getSVar();
@@ -143,7 +143,7 @@ public class InsnRemover {
 		}
 	}
 
-	public static void unbindArgUsage(@Nullable MethodNode mth, InsnArg arg) {
+	public static void unbindArgUsage( MethodNode mth, InsnArg arg) {
 		if (arg instanceof RegisterArg) {
 			RegisterArg reg = (RegisterArg) arg;
 			SSAVar sVar = reg.getSVar();

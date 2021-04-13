@@ -84,7 +84,7 @@ public class InsnUtils {
 	 *
 	 * @return LiteralArg, String, ArgType or null
 	 */
-	@Nullable
+	
 	public static Object getConstValueByInsn(RootNode root, InsnNode insn) {
 		switch (insn.getType()) {
 			case CONST:
@@ -111,7 +111,7 @@ public class InsnUtils {
 		}
 	}
 
-	@Nullable
+	
 	public static InsnNode searchSingleReturnInsn(MethodNode mth, Predicate<InsnNode> test) {
 		if (!mth.isNoCode() && mth.getExitBlocks().size() == 1) {
 			return searchInsn(mth, InsnType.RETURN, test);
@@ -123,7 +123,7 @@ public class InsnUtils {
 	 * Search instruction of specific type and condition in method.
 	 * This method support inlined instructions.
 	 */
-	@Nullable
+	
 	public static InsnNode searchInsn(MethodNode mth, InsnType insnType, Predicate<InsnNode> test) {
 		if (mth.isNoCode()) {
 			return null;
@@ -155,7 +155,7 @@ public class InsnUtils {
 		return null;
 	}
 
-	@Nullable
+	
 	public static InsnArg getSingleArg(InsnNode insn) {
 		if (insn != null && insn.getArgsCount() == 1) {
 			return insn.getArg(0);
@@ -163,15 +163,15 @@ public class InsnUtils {
 		return null;
 	}
 
-	@Nullable
-	public static InsnNode checkInsnType(@Nullable InsnNode insn, InsnType insnType) {
+	
+	public static InsnNode checkInsnType( InsnNode insn, InsnType insnType) {
 		if (insn != null && insn.getType() == insnType) {
 			return insn;
 		}
 		return null;
 	}
 
-	@Nullable
+	
 	public static InsnNode getWrappedInsn(InsnArg arg) {
 		if (arg != null && arg.isInsnWrap()) {
 			return ((InsnWrapArg) arg).getWrapInsn();

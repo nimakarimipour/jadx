@@ -41,7 +41,7 @@ public class TryCatchBlock {
 		return handlers.containsAll(tb.handlers);
 	}
 
-	public ExceptionHandler addHandler(MethodNode mth, int addr, @Nullable ClassInfo type) {
+	public ExceptionHandler addHandler(MethodNode mth, int addr,  ClassInfo type) {
 		ExceptionHandler handler = new ExceptionHandler(addr, type);
 		handler.setTryBlock(this);
 		ExceptionHandler addedHandler = mth.addExceptionHandler(handler);

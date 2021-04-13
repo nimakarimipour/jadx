@@ -34,7 +34,7 @@ public class CodeWriter {
 	};
 
 	private StringBuilder buf;
-	@Nullable
+	
 	private String code;
 	private String indentStr;
 	private int indent;

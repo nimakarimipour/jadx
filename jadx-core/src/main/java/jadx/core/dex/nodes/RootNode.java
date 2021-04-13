@@ -64,9 +64,9 @@ public class RootNode {
 	private final Map<ClassInfo, ClassNode> clsMap = new HashMap<>();
 
 	private ClspGraph clsp;
-	@Nullable
+	
 	private String appPackage;
-	@Nullable
+	
 	private ClassNode appResClass;
 
 	public RootNode(JadxArgs args) {
@@ -262,12 +262,12 @@ public class RootNode {
 		return notInnerClasses;
 	}
 
-	@Nullable
+	
 	public ClassNode resolveClass(ClassInfo clsInfo) {
 		return clsMap.get(clsInfo);
 	}
 
-	@Nullable
+	
 	public ClassNode resolveClass(ArgType clsType) {
 		if (!clsType.isTypeKnown() || clsType.isGenericType()) {
 			return null;
@@ -281,13 +281,13 @@ public class RootNode {
 		return resolveClass(ClassInfo.fromType(this, clsType));
 	}
 
-	@Nullable
+	
 	public ClassNode resolveClass(String fullName) {
 		ClassInfo clsInfo = ClassInfo.fromName(this, fullName);
 		return resolveClass(clsInfo);
 	}
 
-	@Nullable
+	
 	public ClassNode searchClassByFullAlias(String fullName) {
 		for (ClassNode cls : classes) {
 			ClassInfo classInfo = cls.getClassInfo();
@@ -309,7 +309,7 @@ public class RootNode {
 		return list;
 	}
 
-	@Nullable
+	
 	public MethodNode resolveMethod(@NotNull MethodInfo mth) {
 		ClassNode cls = resolveClass(mth.getDeclClass());
 		if (cls != null) {
@@ -318,7 +318,7 @@ public class RootNode {
 		return null;
 	}
 
-	@Nullable
+	
 	public MethodNode deepResolveMethod(@NotNull MethodInfo mth) {
 		ClassNode cls = resolveClass(mth.getDeclClass());
 		if (cls == null) {
@@ -331,7 +331,7 @@ public class RootNode {
 		return deepResolveMethod(cls, mth.makeSignature(false));
 	}
 
-	@Nullable
+	
 	private MethodNode deepResolveMethod(@NotNull ClassNode cls, String signature) {
 		for (MethodNode m : cls.getMethods()) {
 			if (m.getMethodInfo().getShortId().startsWith(signature)) {
@@ -361,7 +361,7 @@ public class RootNode {
 		return null;
 	}
 
-	@Nullable
+	
 	public FieldNode resolveField(FieldInfo field) {
 		ClassNode cls = resolveClass(field.getDeclClass());
 		if (cls != null) {
@@ -370,7 +370,7 @@ public class RootNode {
 		return null;
 	}
 
-	@Nullable
+	
 	public FieldNode deepResolveField(@NotNull FieldInfo field) {
 		ClassNode cls = resolveClass(field.getDeclClass());
 		if (cls == null) {
@@ -379,7 +379,7 @@ public class RootNode {
 		return deepResolveField(cls, field);
 	}
 
-	@Nullable
+	
 	private FieldNode deepResolveField(@NotNull ClassNode cls, FieldInfo fieldInfo) {
 		FieldNode field = cls.searchFieldByNameAndType(fieldInfo);
 		if (field != null) {
@@ -429,12 +429,12 @@ public class RootNode {
 		return errorsCounter;
 	}
 
-	@Nullable
+	
 	public String getAppPackage() {
 		return appPackage;
 	}
 
-	@Nullable
+	
 	public ClassNode getAppResClass() {
 		return appResClass;
 	}

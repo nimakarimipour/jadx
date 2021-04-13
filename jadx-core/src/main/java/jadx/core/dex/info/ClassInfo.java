@@ -13,12 +13,11 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 public final class ClassInfo implements Comparable<ClassInfo> {
 	private final ArgType type;
 	private String name;
-	@Nullable("for inner classes")
 	private String pkg;
 	private String fullName;
-	@Nullable
+
 	private ClassInfo parentClass;
-	@Nullable
+
 	private ClassAliasInfo alias;
 
 	private ClassInfo(RootNode root, ArgType type, boolean inner) {
@@ -216,7 +215,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		return parentClass.getAliasNameWithoutPackage() + '.' + getAliasShortName();
 	}
 
-	@Nullable
+
 	public ClassInfo getParentClass() {
 		return parentClass;
 	}

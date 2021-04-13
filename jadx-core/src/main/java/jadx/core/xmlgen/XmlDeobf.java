@@ -19,7 +19,7 @@ public class XmlDeobf {
 	private XmlDeobf() {
 	}
 
-	@Nullable
+	
 	public static String deobfClassName(RootNode rootNode, String potencialClassName, String packageName) {
 		if (packageName != null && potencialClassName.startsWith(".")) {
 			potencialClassName = packageName + potencialClassName;

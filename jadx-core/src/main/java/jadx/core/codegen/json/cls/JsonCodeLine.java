@@ -27,7 +27,7 @@ public class JsonCodeLine {
 		return sourceLine;
 	}
 
-	public void setSourceLine(@Nullable Integer sourceLine) {
+	public void setSourceLine( Integer sourceLine) {
 		this.sourceLine = sourceLine;
 	}
 }

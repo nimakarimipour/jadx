@@ -65,7 +65,7 @@ public final class ConstructorInsn extends BaseInvokeNode {
 	}
 
 	@Override
-	@Nullable
+	
 	public RegisterArg getInstanceArg() {
 		return null;
 	}

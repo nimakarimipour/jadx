@@ -34,7 +34,7 @@ public class SignatureParser {
 		mark = 0;
 	}
 
-	@Nullable
+	
 	public static SignatureParser fromNode(IAttributeNode node) {
 		String signature = getSignature(node);
 		if (signature == null) {
@@ -44,7 +44,7 @@ public class SignatureParser {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Nullable
+	
 	public static String getSignature(IAttributeNode node) {
 		IAnnotation a = node.getAnnotation(Consts.DALVIK_SIGNATURE);
 		if (a == null) {
@@ -130,7 +130,7 @@ public class SignatureParser {
 		return false;
 	}
 
-	@Nullable
+	
 	public String consumeUntil(char lastChar) {
 		mark();
 		return skipUntil(lastChar) ? inclusiveSlice() : null;

@@ -221,7 +221,7 @@ public class ReSugarCode extends AbstractVisitor {
 		}
 	}
 
-	@Nullable
+	
 	private static EnumMapAttr.KeyValueMap getEnumMap(MethodNode mth, FieldNode field) {
 		ClassNode syntheticClass = field.getParentClass();
 		EnumMapAttr mapAttr = syntheticClass.get(AType.ENUM_MAP);

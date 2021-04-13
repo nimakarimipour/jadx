@@ -125,7 +125,7 @@ public class RenameVisitor extends AbstractVisitor {
 		}
 	}
 
-	@Nullable
+	
 	private static String fixClsShortName(JadxArgs args, String clsName) {
 		char firstChar = clsName.charAt(0);
 		boolean renameValid = args.isRenameValid();
@@ -230,7 +230,7 @@ public class RenameVisitor extends AbstractVisitor {
 		return rootPkgs;
 	}
 
-	@Nullable
+	
 	private static String getRootPkg(String pkg) {
 		if (pkg.isEmpty()) {
 			return null;
