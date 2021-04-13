@@ -1,5 +1,7 @@
 package jadx.core.codegen;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -10,8 +12,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.api.ICodeInfo;
 import jadx.api.JadxArgs;
@@ -66,7 +66,7 @@ public class ClassGen {
 		this(cls, parentClsGen, parentClsGen.useImports, parentClsGen.fallback, parentClsGen.showInconsistentCode);
 	}
 
-	public ClassGen(ClassNode cls, ClassGen parentClsGen, boolean useImports, boolean fallback, boolean showBadCode) {
+	public ClassGen(ClassNode cls, @Nullable ClassGen parentClsGen, boolean useImports, boolean fallback, boolean showBadCode) {
 		this.cls = cls;
 		this.parentGen = parentClsGen;
 		this.fallback = fallback;

@@ -1,5 +1,9 @@
 package jadx.core.dex.instructions.args;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -7,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,10 +34,13 @@ public class SSAVar {
 
 	private RegisterArg assign;
 	private final List<RegisterArg> useList = new ArrayList<>(2);
+
+	@Nullable
 	private List<PhiInsn> usedInPhi = null;
 
 	private final TypeInfo typeInfo = new TypeInfo();
 
+	@Nullable
 	private CodeVar codeVar;
 
 	public SSAVar(int regNum, int v, @NotNull RegisterArg assign) {
@@ -71,6 +77,7 @@ public class SSAVar {
 	}
 
 
+	@Nullable
 	public ArgType getImmutableType() {
 		if (isTypeImmutable()) {
 			return assign.getInitType();
@@ -105,6 +112,7 @@ public class SSAVar {
 		updateType(type);
 	}
 
+	@Initializer
 	private void updateType(ArgType type) {
 		typeInfo.setType(type);
 		if (codeVar != null) {
@@ -151,6 +159,7 @@ public class SSAVar {
 	}
 
 
+	@Nullable
 	public PhiInsn getOnlyOneUseInPhi() {
 		if (usedInPhi != null && usedInPhi.size() == 1) {
 			return usedInPhi.get(0);
@@ -210,6 +219,7 @@ public class SSAVar {
 		}
 	}
 
+	@Nullable
 	public String getName() {
 		if (codeVar == null) {
 			return null;

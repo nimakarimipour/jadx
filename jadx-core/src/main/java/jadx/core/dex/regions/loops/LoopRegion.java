@@ -1,10 +1,12 @@
 package jadx.core.dex.regions.loops;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.attributes.nodes.LoopInfo;
 import jadx.core.dex.instructions.IfNode;
@@ -27,13 +29,14 @@ public final class LoopRegion extends AbstractRegion {
 	private IfCondition condition;
 	private final BlockNode conditionBlock;
 	// instruction which must be executed before condition in every loop
+	@Nullable
 	private BlockNode preCondition;
 	private IRegion body;
 	private final boolean conditionAtEnd;
 
 	private LoopType type;
 
-	public LoopRegion(IRegion parent, LoopInfo info,  BlockNode header, boolean reversed) {
+	public LoopRegion(IRegion parent, LoopInfo info,  @Nullable BlockNode header, boolean reversed) {
 		super(parent);
 		this.info = info;
 		this.conditionBlock = header;
@@ -61,6 +64,7 @@ public final class LoopRegion extends AbstractRegion {
 		return body;
 	}
 
+	@Initializer
 	public void setBody(IRegion body) {
 		this.body = body;
 	}
@@ -72,6 +76,7 @@ public final class LoopRegion extends AbstractRegion {
 	/**
 	 * Set instructions which must be executed before condition in every loop
 	 */
+	@Initializer
 	public void setPreCondition(BlockNode preCondition) {
 		this.preCondition = preCondition;
 	}
@@ -141,6 +146,7 @@ public final class LoopRegion extends AbstractRegion {
 		return type;
 	}
 
+	@Initializer
 	public void setType(LoopType type) {
 		this.type = type;
 	}

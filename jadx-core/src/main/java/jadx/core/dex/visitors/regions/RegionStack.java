@@ -1,5 +1,9 @@
 package jadx.core.dex.visitors.regions;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
@@ -28,12 +32,15 @@ final class RegionStack {
 
 	private static final class State {
 		final Set<BlockNode> exits;
+
+		@Nullable
 		IRegion region;
 
 		public State() {
 			exits = new HashSet<>(4);
 		}
 
+		@Initializer
 		private State(State c, IRegion region) {
 			this.exits = new HashSet<>(c.exits);
 			this.region = region;
@@ -83,7 +90,7 @@ final class RegionStack {
 	 *
 	 * @param exit boundary node, null will be ignored
 	 */
-	public void addExit(BlockNode exit) {
+	public void addExit(@Nullable BlockNode exit) {
 		if (exit != null) {
 			curState.exits.add(exit);
 		}
@@ -95,7 +102,7 @@ final class RegionStack {
 		}
 	}
 
-	public void removeExit(BlockNode exit) {
+	public void removeExit(@Nullable BlockNode exit) {
 		if (exit != null) {
 			curState.exits.remove(exit);
 		}

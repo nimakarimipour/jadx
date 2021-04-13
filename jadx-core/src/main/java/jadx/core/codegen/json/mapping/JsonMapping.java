@@ -1,5 +1,7 @@
 package jadx.core.codegen.json.mapping;
 
+import jadx.Initializer;
+
 import java.util.List;
 
 public class JsonMapping {
@@ -9,6 +11,7 @@ public class JsonMapping {
 		return classes;
 	}
 
+	@Initializer
 	public void setClasses(List<JsonClsMapping> classes) {
 		this.classes = classes;
 	}

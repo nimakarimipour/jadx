@@ -1,12 +1,15 @@
 package jadx.core.dex.nodes;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,15 +64,28 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	private List<ArgType> typeParameters;
 
 	// decompilation data, reset on unload
+	@Nullable
 	private RegisterArg thisArg;
+
+	@Nullable
 	private List<RegisterArg> argsList;
+
+	@Nullable
 	private InsnNode[] instructions;
+
+	@Nullable
 	private List<BlockNode> blocks;
+
+	@Nullable
 	private BlockNode enterBlock;
+
+	@Nullable
 	private List<BlockNode> exitBlocks;
 	private List<SSAVar> sVars;
 	private List<ExceptionHandler> exceptionHandlers;
 	private List<LoopInfo> loops;
+
+	@Nullable
 	private Region region;
 
 	private List<MethodNode> useIn = Collections.emptyList();
@@ -192,6 +208,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		}
 	}
 
+	@Initializer
 	private void initArguments(List<ArgType> args) {
 		int pos;
 		if (noCode) {
@@ -268,6 +285,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return argsList;
 	}
 
+	@Initializer
 	public List<RegisterArg> getAllArgRegs() {
 		List<RegisterArg> argRegs = getArgRegs();
 		if (thisArg != null) {
@@ -322,6 +340,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		exitBlocks = new ArrayList<>(1);
 	}
 
+	@Initializer
 	public void finishBasicBlocks() {
 		blocks = lockList(blocks);
 		exitBlocks = lockList(exitBlocks);
@@ -337,6 +356,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return enterBlock;
 	}
 
+	@Initializer
 	public void setEnterBlock(BlockNode enterBlock) {
 		this.enterBlock = enterBlock;
 	}
@@ -358,6 +378,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	}
 
 	
+	@Nullable
 	public LoopInfo getLoopForBlock(BlockNode block) {
 		if (loops.isEmpty()) {
 			return null;
@@ -391,6 +412,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return loops;
 	}
 
+	@Initializer
 	public ExceptionHandler addExceptionHandler(ExceptionHandler handler) {
 		if (exceptionHandlers.isEmpty()) {
 			exceptionHandlers = new ArrayList<>(2);
@@ -494,6 +516,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return makeNewSVar(regNum, getNextSVarVersion(regNum), assignArg);
 	}
 
+	@Initializer
 	public SSAVar makeNewSVar(int regNum, int version, @NotNull RegisterArg assignArg) {
 		SSAVar var = new SSAVar(regNum, version, assignArg);
 		if (sVars.isEmpty()) {
@@ -536,6 +559,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return region;
 	}
 
+	@Initializer
 	public void setRegion(Region region) {
 		this.region = region;
 	}
@@ -565,6 +589,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	}
 
 	
+	@Nullable
 	public IDebugInfo getDebugInfo() {
 		return noCode ? null : codeReader.getDebugInfo();
 	}
@@ -572,6 +597,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	/**
 	 * Calculate instructions count at currect stage
 	 */
+	@Initializer
 	public long countInsns() {
 		if (instructions != null) {
 			return instructions.length;

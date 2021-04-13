@@ -1,5 +1,9 @@
 package jadx.core.dex.visitors;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -125,6 +129,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private List<ArgType> checkArgTypes(MethodNode mth, SignatureParser sp, List<ArgType> parsedArgTypes) {
 		MethodInfo mthInfo = mth.getMethodInfo();
 		List<ArgType> mthArgTypes = mthInfo.getArgumentsTypes();
@@ -156,6 +161,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		return parsedArgTypes;
 	}
 
+	@Initializer
 	private boolean validateParsedType(ArgType parsedType, ArgType currentType) {
 		TypeCompareEnum result = root.getTypeCompare().compareTypes(parsedType, currentType);
 		return result != TypeCompareEnum.CONFLICT;

@@ -1,9 +1,12 @@
 package jadx.core.dex.instructions.args;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,10 +18,6 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
-/**
- * Instruction argument,
- * argument can be register, literal or instruction
- */
 public abstract class InsnArg extends Typed {
 
 	private static final Logger LOG = LoggerFactory.getLogger(InsnArg.class);
@@ -90,6 +89,7 @@ public abstract class InsnArg extends Typed {
 		return parentInsn;
 	}
 
+	@Initializer
 	public void setParentInsn( InsnNode parentInsn) {
 		this.parentInsn = parentInsn;
 	}
@@ -98,6 +98,7 @@ public abstract class InsnArg extends Typed {
 		return wrapInstruction(mth, insn, true);
 	}
 
+	@Nullable
 	public InsnArg wrapInstruction(MethodNode mth, InsnNode insn, boolean unbind) {
 		InsnNode parent = parentInsn;
 		if (parent == null) {

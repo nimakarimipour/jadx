@@ -1,5 +1,7 @@
 package jadx.core.dex.regions.conditions;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -58,6 +60,7 @@ public final class IfCondition extends AttrNode {
 		}
 	}
 
+	@Nullable
 	public static IfCondition fromIfBlock(BlockNode header) {
 		InsnNode lastInsn = BlockUtils.getLastInsn(header);
 		if (lastInsn == null) {
@@ -200,6 +203,7 @@ public final class IfCondition extends AttrNode {
 		return cond;
 	}
 
+	@Nullable
 	private static IfCondition simplifyCmpOp(Compare c) {
 		if (!c.getA().isInsnWrap()) {
 			return null;

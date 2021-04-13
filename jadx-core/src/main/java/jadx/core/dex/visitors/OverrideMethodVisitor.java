@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -206,6 +208,7 @@ public class OverrideMethodVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private ArgType updateArgType(MethodNode mth, IMethodDetails baseMth, List<ArgType> superTypes, int argNum) {
 		ArgType arg = mth.getArgTypes().get(argNum);
 		ArgType baseArg = baseMth.getArgTypes().get(argNum);

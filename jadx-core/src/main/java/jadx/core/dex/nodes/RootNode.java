@@ -1,5 +1,9 @@
 package jadx.core.dex.nodes;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -7,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -147,12 +150,14 @@ public class RootNode {
 		}
 	}
 
+	@Initializer
 	public void processResources(ResourceStorage resStorage) {
 		constValues.setResourcesNames(resStorage.getResourcesNames());
 		appPackage = resStorage.getAppPackage();
 		appResClass = AndroidResourcesUtils.searchAppResClass(this, resStorage);
 	}
 
+	@Initializer
 	public void initClassPath() {
 		try {
 			if (this.clsp == null) {
@@ -263,11 +268,13 @@ public class RootNode {
 	}
 
 	
+	@Nullable
 	public ClassNode resolveClass(ClassInfo clsInfo) {
 		return clsMap.get(clsInfo);
 	}
 
 	
+	@Nullable
 	public ClassNode resolveClass(ArgType clsType) {
 		if (!clsType.isTypeKnown() || clsType.isGenericType()) {
 			return null;
@@ -288,6 +295,7 @@ public class RootNode {
 	}
 
 	
+	@Nullable
 	public ClassNode searchClassByFullAlias(String fullName) {
 		for (ClassNode cls : classes) {
 			ClassInfo classInfo = cls.getClassInfo();
@@ -310,6 +318,7 @@ public class RootNode {
 	}
 
 	
+	@Nullable
 	public MethodNode resolveMethod(@NotNull MethodInfo mth) {
 		ClassNode cls = resolveClass(mth.getDeclClass());
 		if (cls != null) {
@@ -319,6 +328,7 @@ public class RootNode {
 	}
 
 	
+	@Nullable
 	public MethodNode deepResolveMethod(@NotNull MethodInfo mth) {
 		ClassNode cls = resolveClass(mth.getDeclClass());
 		if (cls == null) {
@@ -332,6 +342,7 @@ public class RootNode {
 	}
 
 	
+	@Nullable
 	private MethodNode deepResolveMethod(@NotNull ClassNode cls, String signature) {
 		for (MethodNode m : cls.getMethods()) {
 			if (m.getMethodInfo().getShortId().startsWith(signature)) {
@@ -362,6 +373,7 @@ public class RootNode {
 	}
 
 	
+	@Nullable
 	public FieldNode resolveField(FieldInfo field) {
 		ClassNode cls = resolveClass(field.getDeclClass());
 		if (cls != null) {
@@ -371,6 +383,7 @@ public class RootNode {
 	}
 
 	
+	@Nullable
 	public FieldNode deepResolveField(@NotNull FieldInfo field) {
 		ClassNode cls = resolveClass(field.getDeclClass());
 		if (cls == null) {
@@ -380,6 +393,7 @@ public class RootNode {
 	}
 
 	
+	@Nullable
 	private FieldNode deepResolveField(@NotNull ClassNode cls, FieldInfo fieldInfo) {
 		FieldNode field = cls.searchFieldByNameAndType(fieldInfo);
 		if (field != null) {

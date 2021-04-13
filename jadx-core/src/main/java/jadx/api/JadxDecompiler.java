@@ -1,5 +1,9 @@
 package jadx.api;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.io.Closeable;
 import java.io.File;
 import java.nio.file.Path;
@@ -18,8 +22,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,31 +43,6 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.BinaryXMLParser;
 import jadx.core.xmlgen.ResourcesSaver;
 
-/**
- * Jadx API usage example:
- *
- * <pre>
- * <code>
- * JadxArgs args = new JadxArgs();
- * args.getInputFiles().add(new File("test.apk"));
- * args.setOutDir(new File("jadx-test-output"));
- * try (JadxDecompiler jadx = new JadxDecompiler(args)) {
- *    jadx.load();
- *    jadx.save();
- * }
- * </code>
- * </pre>
- * <p>
- * Instead of 'save()' you can iterate over decompiled classes:
- *
- * <pre>
- * <code>
- *  for(JavaClass cls : jadx.getClasses()) {
- *      System.out.println(cls.getCode());
- *  }
- * </code>
- * </pre>
- */
 public final class JadxDecompiler implements Closeable {
 	private static final Logger LOG = LoggerFactory.getLogger(JadxDecompiler.class);
 
@@ -73,10 +50,16 @@ public final class JadxDecompiler implements Closeable {
 	private final JadxPluginManager pluginManager = new JadxPluginManager();
 	private final List<ILoadResult> loadedInputs = new ArrayList<>();
 
+	@Nullable
 	private RootNode root;
+
+	@Nullable
 	private List<JavaClass> classes;
+
+	@Nullable
 	private List<ResourceFile> resources;
 
+	@Nullable
 	private BinaryXMLParser xmlParser;
 
 	private final Map<ClassNode, JavaClass> classesMap = new ConcurrentHashMap<>();
@@ -180,6 +163,7 @@ public final class JadxDecompiler implements Closeable {
 		return getSaveExecutor(!args.isSkipSources(), !args.isSkipResources());
 	}
 
+	@Initializer
 	private ExecutorService getSaveExecutor(boolean saveSources, boolean saveResources) {
 		if (root == null) {
 			throw new JadxRuntimeException("No loaded files");
@@ -262,6 +246,7 @@ public final class JadxDecompiler implements Closeable {
 		return classes;
 	}
 
+	@Initializer
 	public List<ResourceFile> getResources() {
 		if (resources == null) {
 			if (root == null) {
@@ -323,6 +308,7 @@ public final class JadxDecompiler implements Closeable {
 		return root;
 	}
 
+	@Initializer
 	synchronized BinaryXMLParser getXmlParser() {
 		if (xmlParser == null) {
 			xmlParser = new BinaryXMLParser(root);
@@ -330,7 +316,7 @@ public final class JadxDecompiler implements Closeable {
 		return xmlParser;
 	}
 
-	private void loadJavaClass(JavaClass javaClass) {
+	private void loadJavaClass(@Nullable JavaClass javaClass) {
 		javaClass.getMethods().forEach(mth -> methodsMap.put(mth.getMethodNode(), mth));
 		javaClass.getFields().forEach(fld -> fieldsMap.put(fld.getFieldNode(), fld));
 
@@ -340,6 +326,7 @@ public final class JadxDecompiler implements Closeable {
 		}
 	}
 
+	@Nullable
 	private JavaClass getJavaClassByNode(ClassNode cls) {
 		JavaClass javaClass = classesMap.get(cls);
 		if (javaClass != null) {
@@ -370,6 +357,7 @@ public final class JadxDecompiler implements Closeable {
 	}
 
 
+	@Nullable
 	private JavaMethod getJavaMethodByNode(MethodNode mth) {
 		JavaMethod javaMethod = methodsMap.get(mth);
 		if (javaMethod != null) {
@@ -392,6 +380,7 @@ public final class JadxDecompiler implements Closeable {
 	}
 
 
+	@Nullable
 	private JavaField getJavaFieldByNode(FieldNode fld) {
 		JavaField javaField = fieldsMap.get(fld);
 		if (javaField != null) {
@@ -414,6 +403,7 @@ public final class JadxDecompiler implements Closeable {
 	}
 
 
+	@Nullable
 	JavaNode convertNode(Object obj) {
 		if (!(obj instanceof LineAttrNode)) {
 			return null;
@@ -442,6 +432,7 @@ public final class JadxDecompiler implements Closeable {
 	}
 
 
+	@Nullable
 	public JavaNode getJavaNodeAtPosition(ICodeInfo codeInfo, int line, int offset) {
 		Map<CodePosition, Object> map = codeInfo.getAnnotations();
 		if (map.isEmpty()) {
@@ -455,6 +446,7 @@ public final class JadxDecompiler implements Closeable {
 	}
 
 
+	@Nullable
 	public CodePosition getDefinitionPosition(JavaNode javaNode) {
 		JavaClass jCls = javaNode.getTopParentClass();
 		jCls.decompile();

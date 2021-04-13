@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -24,10 +26,6 @@ import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxException;
 
-/**
- * Remove primitives boxing
- * i.e convert 'Integer.valueOf(1)' to '1'
- */
 @JadxVisitor(
 		name = "DeboxingVisitor",
 		desc = "Remove primitives boxing",
@@ -38,6 +36,7 @@ import jadx.core.utils.exceptions.JadxException;
 )
 public class DeboxingVisitor extends AbstractVisitor {
 
+	@Nullable
 	private Set<MethodInfo> valueOfMths;
 
 	@Override
@@ -82,6 +81,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private InsnNode checkForReplace(InvokeNode insnNode) {
 		if (insnNode.getInvokeType() != InvokeType.STATIC
 				|| insnNode.getResult() == null) {

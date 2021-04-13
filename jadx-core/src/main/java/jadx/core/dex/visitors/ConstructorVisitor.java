@@ -1,8 +1,8 @@
 package jadx.core.dex.visitors;
 
-import java.util.ArrayList;
-
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
 
 import jadx.core.codegen.TypeGen;
 import jadx.core.dex.info.MethodInfo;
@@ -113,6 +113,7 @@ public class ConstructorVisitor extends AbstractVisitor {
 	 * @return insn for replacement or null if replace not needed or not possible.
 	 */
 	
+	@Nullable
 	private static ConstructorInsn processConstructor(MethodNode mth, ConstructorInsn co) {
 		MethodNode callMth = mth.root().resolveMethod(co.getCallMth());
 		if (callMth == null
@@ -156,6 +157,7 @@ public class ConstructorVisitor extends AbstractVisitor {
 	/**
 	 * Remove instructions on 'move' chain until instruction with type 'insnType'
 	 */
+	@Nullable
 	private static InsnNode removeAssignChain(MethodNode mth, InsnNode insn, InsnRemover remover, InsnType insnType) {
 		if (insn == null) {
 			return null;

@@ -1,11 +1,11 @@
 package jadx.core.dex.attributes.annotations;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.api.plugins.input.data.annotations.IAnnotation;
 import jadx.core.dex.attributes.AType;
@@ -23,6 +23,7 @@ public class AnnotationsList implements IAttribute {
 	}
 
 	
+	@Nullable
 	public static AnnotationsList pack(List<IAnnotation> annotationList) {
 		if (annotationList.isEmpty()) {
 			return null;
@@ -40,6 +41,7 @@ public class AnnotationsList implements IAttribute {
 		this.map = map;
 	}
 
+	@Nullable
 	public IAnnotation get(String className) {
 		return map.get(className);
 	}

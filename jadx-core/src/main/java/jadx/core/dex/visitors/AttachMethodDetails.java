@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors;
 
+import jadx.Initializer;
+
 import jadx.core.dex.instructions.BaseInvokeNode;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.IMethodDetails;
@@ -44,6 +46,7 @@ public class AttachMethodDetails extends AbstractVisitor {
 		}
 	}
 
+	@Initializer
 	private void attachMethodDetails(BaseInvokeNode insn) {
 		IMethodDetails methodDetails = methodUtils.getMethodDetails(insn.getCallMth());
 		if (methodDetails != null) {

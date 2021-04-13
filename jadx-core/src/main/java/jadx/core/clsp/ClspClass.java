@@ -1,5 +1,7 @@
 package jadx.core.clsp;
 
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,9 +11,6 @@ import java.util.Objects;
 
 import jadx.core.dex.instructions.args.ArgType;
 
-/**
- * Class node in classpath graph
- */
 public class ClspClass {
 
 	private final ArgType clsType;
@@ -41,6 +40,7 @@ public class ClspClass {
 		return parents;
 	}
 
+	@Initializer
 	public void setParents(ArgType[] parents) {
 		this.parents = parents;
 	}

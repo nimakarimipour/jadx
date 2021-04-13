@@ -1,5 +1,7 @@
 package jadx.core.utils;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -13,8 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.api.JadxDecompiler;
 import jadx.core.codegen.CodeWriter;
@@ -263,6 +263,7 @@ public class Utils {
 	}
 
 	
+	@Nullable
 	public static <T> T getOne( List<T> list) {
 		if (list == null || list.size() != 1) {
 			return null;
@@ -271,6 +272,7 @@ public class Utils {
 	}
 
 	
+	@Nullable
 	public static <T> T last(List<T> list) {
 		if (list.isEmpty()) {
 			return null;

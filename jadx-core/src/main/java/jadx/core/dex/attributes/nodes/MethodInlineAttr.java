@@ -1,5 +1,7 @@
 package jadx.core.dex.attributes.nodes;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -46,7 +48,7 @@ public class MethodInlineAttr implements IAttribute {
 	 */
 	private final int[] argsRegNums;
 
-	private MethodInlineAttr(InsnNode insn, int[] argsRegNums) {
+	private MethodInlineAttr(@Nullable InsnNode insn, int[] argsRegNums) {
 		this.insn = insn;
 		this.argsRegNums = argsRegNums;
 	}

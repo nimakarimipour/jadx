@@ -1,5 +1,9 @@
 package jadx.api;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,6 +48,7 @@ public class JadxArgs {
 	/**
 	 * Predicate that allows to filter the classes to be process based on their full name
 	 */
+	@Nullable
 	private Predicate<String> classFilter = null;
 
 	private boolean deobfuscationOn = false;
@@ -99,6 +104,7 @@ public class JadxArgs {
 		return outDir;
 	}
 
+	@Initializer
 	public void setOutDir(File outDir) {
 		this.outDir = outDir;
 	}
@@ -107,6 +113,7 @@ public class JadxArgs {
 		return outDirSrc;
 	}
 
+	@Initializer
 	public void setOutDirSrc(File outDirSrc) {
 		this.outDirSrc = outDirSrc;
 	}
@@ -115,6 +122,7 @@ public class JadxArgs {
 		return outDirRes;
 	}
 
+	@Initializer
 	public void setOutDirRes(File outDirRes) {
 		this.outDirRes = outDirRes;
 	}

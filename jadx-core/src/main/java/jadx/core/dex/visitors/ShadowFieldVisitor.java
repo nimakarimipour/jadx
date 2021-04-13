@@ -1,12 +1,12 @@
 package jadx.core.dex.visitors;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.info.FieldInfo;
@@ -31,6 +31,7 @@ import jadx.core.utils.exceptions.JadxException;
 		runBefore = CodeShrinkVisitor.class
 )
 public class ShadowFieldVisitor extends AbstractVisitor {
+	@Nullable
 	private Map<String, FieldFixInfo> fixInfoMap;
 
 	@Override
@@ -56,6 +57,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 	}
 
 	private static class FieldFixInfo {
+		@Nullable
 		Map<FieldInfo, FieldFixType> fieldFixMap;
 	}
 
@@ -153,6 +155,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private static FieldInfo getFieldInfo(InsnNode insn) {
 		switch (insn.getType()) {
 			case IPUT:

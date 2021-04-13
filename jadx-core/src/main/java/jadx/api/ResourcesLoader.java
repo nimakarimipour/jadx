@@ -1,5 +1,7 @@
 package jadx.api;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,7 +30,6 @@ import jadx.core.xmlgen.ResTableParser;
 import static jadx.core.utils.files.FileUtils.READ_BUFFER_SIZE;
 import static jadx.core.utils.files.FileUtils.copyStream;
 
-// TODO: move to core package
 public final class ResourcesLoader {
 	private static final Logger LOG = LoggerFactory.getLogger(ResourcesLoader.class);
 
@@ -48,9 +49,11 @@ public final class ResourcesLoader {
 	}
 
 	public interface ResourceDecoder<T> {
+		@Nullable
 		T decode(long size, InputStream is) throws IOException;
 	}
 
+	@Nullable
 	public static <T> T decodeStream(ResourceFile rf, ResourceDecoder<T> decoder) throws JadxException {
 		try {
 			ZipRef zipRef = rf.getZipRef();

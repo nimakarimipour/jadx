@@ -1,9 +1,12 @@
 package jadx.core.dex.instructions;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.codegen.CodeWriter;
 import jadx.core.dex.instructions.args.InsnArg;
@@ -23,7 +26,11 @@ public class SwitchInsn extends TargetInsnNode {
 	private int def; // next instruction
 
 	private Object[] modifiedKeys;
+
+	@Nullable
 	private BlockNode[] targetBlocks;
+
+	@Nullable
 	private BlockNode defTargetBlock;
 
 	public SwitchInsn(InsnArg arg, int dataTarget, boolean packed) {
@@ -33,6 +40,7 @@ public class SwitchInsn extends TargetInsnNode {
 		this.packed = packed;
 	}
 
+	@Initializer
 	public void attachSwitchData(SwitchData data, int def) {
 		this.switchData = data;
 		this.def = def;
@@ -163,6 +171,7 @@ public class SwitchInsn extends TargetInsnNode {
 		return getSwitchData().getKeys();
 	}
 
+	@Initializer
 	public Object getKey(int i) {
 		if (modifiedKeys != null) {
 			return modifiedKeys[i];

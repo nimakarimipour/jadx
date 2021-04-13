@@ -1,5 +1,7 @@
 package jadx.core.xmlgen;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -105,6 +107,7 @@ public class ResXmlGen {
 		}
 	}
 
+	@Nullable
 	private String getTypeAsString(int type) {
 		String s = "";
 		if ((type & ValuesParser.ATTR_TYPE_REFERENCE) != 0) {
@@ -177,7 +180,7 @@ public class ResXmlGen {
 		}
 	}
 
-	private void addSimpleValue(CodeWriter cw, String typeName, String itemTag, String attrName, String attrValue, String valueStr) {
+	private void addSimpleValue(CodeWriter cw, String typeName, String itemTag, @Nullable String attrName, @Nullable String attrValue, String valueStr) {
 		if (valueStr == null) {
 			return;
 		}

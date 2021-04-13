@@ -1,5 +1,7 @@
 package jadx.core.utils.files;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -23,7 +25,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -208,6 +209,7 @@ public class FileUtils {
 		return new File(file.getParentFile(), name);
 	}
 
+	@Nullable
 	private static String bytesToHex(byte[] bytes) {
 		char[] hexArray = "0123456789abcdef".toCharArray();
 		if (bytes == null || bytes.length <= 0) {
@@ -286,6 +288,7 @@ public class FileUtils {
 		return fileName.substring(0, extEndIndex);
 	}
 
+	@Nullable
 	public static File toFile(String path) {
 		if (path == null) {
 			return null;

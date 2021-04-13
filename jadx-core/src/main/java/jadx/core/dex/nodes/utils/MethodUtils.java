@@ -1,9 +1,9 @@
 package jadx.core.dex.nodes.utils;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.clsp.ClspClass;
 import jadx.core.clsp.ClspMethod;
@@ -56,6 +56,7 @@ public class MethodUtils {
 	}
 
 	
+	@Nullable
 	public ArgType getMethodGenericReturnType(BaseInvokeNode invokeNode) {
 		IMethodDetails methodDetails = getMethodDetails(invokeNode);
 		if (methodDetails != null) {
@@ -67,7 +68,7 @@ public class MethodUtils {
 		return null;
 	}
 
-	public boolean processMethodArgsOverloaded(ArgType startCls, MethodInfo mthInfo,  List<IMethodDetails> collectedMths) {
+	public boolean processMethodArgsOverloaded(ArgType startCls, MethodInfo mthInfo,  @Nullable List<IMethodDetails> collectedMths) {
 		if (startCls == null || !startCls.isObject()) {
 			return false;
 		}

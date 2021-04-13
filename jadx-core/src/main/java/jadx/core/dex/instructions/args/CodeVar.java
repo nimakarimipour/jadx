@@ -1,5 +1,7 @@
 package jadx.core.dex.instructions.args;
 
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +32,7 @@ public class CodeVar {
 		return name;
 	}
 
+	@Initializer
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -38,6 +41,7 @@ public class CodeVar {
 		return type;
 	}
 
+	@Initializer
 	public void setType(ArgType type) {
 		this.type = type;
 	}

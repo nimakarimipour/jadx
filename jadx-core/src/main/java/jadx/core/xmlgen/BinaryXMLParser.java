@@ -1,5 +1,9 @@
 package jadx.core.xmlgen;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -21,32 +25,28 @@ import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.entry.ValuesParser;
 
-/*
- * TODO:
- * Don't die when error occurs
- * Check error cases, maybe checked const values are not always the same
- * Better error messages
- * What to do, when Binary XML Manifest is > size(int)?
- * Check for missing chunk size types
- * Implement missing data types
- * Use line numbers to recreate EXACT AndroidManifest
- * Check Element chunk size
- */
-
 public class BinaryXMLParser extends CommonBinaryParser {
 	private static final Logger LOG = LoggerFactory.getLogger(BinaryXMLParser.class);
 
 	private static final boolean ATTR_NEW_LINE = false;
 
 	private final Map<Integer, String> resNames;
+
+	@Nullable
 	private Map<String, String> nsMap;
+
+	@Nullable
 	private Set<String> nsMapGenerated;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
 	private CodeWriter writer;
+
+	@Nullable
 	private String[] strings;
 	private String currentTag = "ERROR";
 	private boolean firstElement;
+
+	@Nullable
 	private ValuesParser valuesParser;
 	private boolean isLastEnd = true;
 	private boolean isOneLine = true;
@@ -54,6 +54,8 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	private int[] resourceIds;
 
 	private final RootNode rootNode;
+
+	@Nullable
 	private String appPackageName;
 
 	public BinaryXMLParser(RootNode rootNode) {
@@ -134,6 +136,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
+	@Initializer
 	private void parseResourceMap() throws IOException {
 		if (is.readInt16() != 0x8) {
 			die("Header size of resmap is not 8!");
@@ -146,6 +149,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
+	@Initializer
 	private void parseNameSpace() throws IOException {
 		if (is.readInt16() != 0x10) {
 			die("NAMESPACE header is not 0x0010");
@@ -208,6 +212,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		is.skip(size - 2);
 	}
 
+	@Initializer
 	private void parseElement() throws IOException {
 		if (firstElement) {
 			firstElement = false;
@@ -296,6 +301,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		writer.add('"');
 	}
 
+	@Nullable
 	private String getAttributeNS(int attributeNS) {
 		String attrUrl = getString(attributeNS);
 		if (attrUrl == null || attrUrl.isEmpty()) {
@@ -358,7 +364,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
-			String shortNsName, String attrName) {
+			@Nullable String shortNsName, String attrName) {
 		if (attrValDataType == TYPE_REFERENCE) {
 			// reference custom processing
 			String resName = resNames.get(attrValData);
@@ -467,7 +473,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return className;
 	}
 
-	private boolean isDeobfCandidateAttr(String shortNsName, String attrName) {
+	private boolean isDeobfCandidateAttr(@Nullable String shortNsName, String attrName) {
 		String fullName;
 		if (shortNsName != null) {
 			fullName = shortNsName + ':' + attrName;

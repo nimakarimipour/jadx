@@ -1,11 +1,13 @@
 package jadx.core.codegen;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +35,7 @@ public class CodeWriter {
 			INDENT_STR + INDENT_STR + INDENT_STR + INDENT_STR + INDENT_STR,
 	};
 
+	@Nullable
 	private StringBuilder buf;
 	
 	private String code;
@@ -244,6 +247,7 @@ public class CodeWriter {
 		lineMap.put(decompiledLine, sourceLine);
 	}
 
+	@Initializer
 	public ICodeInfo finish() {
 		removeFirstEmptyLine();
 		processDefinitionAnnotations();

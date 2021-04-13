@@ -1,9 +1,9 @@
 package jadx.core.dex.visitors;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -222,6 +222,7 @@ public class ReSugarCode extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private static EnumMapAttr.KeyValueMap getEnumMap(MethodNode mth, FieldNode field) {
 		ClassNode syntheticClass = field.getParentClass();
 		EnumMapAttr mapAttr = syntheticClass.get(AType.ENUM_MAP);
@@ -261,6 +262,7 @@ public class ReSugarCode extends AbstractVisitor {
 		mapAttr.add(field, literal, fieldNode);
 	}
 
+	@Nullable
 	public static EnumMapInfo checkEnumMapAccess(RootNode root, InsnNode checkInsn) {
 		InsnArg sgetArg = checkInsn.getArg(0);
 		InsnArg invArg = checkInsn.getArg(1);

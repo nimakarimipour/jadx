@@ -1,18 +1,14 @@
 package jadx.core.xmlgen;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.RootNode;
 
-/*
- * modifies android:name attributes and xml tags which are old class names
- * but were changed during deobfuscation
- */
 public class XmlDeobf {
 	private static final Map<String, String> DEOBF_MAP = new HashMap<>();
 
@@ -27,6 +23,7 @@ public class XmlDeobf {
 		return getNewClassName(rootNode, potencialClassName);
 	}
 
+	@Nullable
 	private static String getNewClassName(RootNode rootNode, String old) {
 		if (DEOBF_MAP.isEmpty()) {
 			for (ClassNode classNode : rootNode.getClasses(true)) {

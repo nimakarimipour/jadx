@@ -1,5 +1,7 @@
 package jadx.api;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -29,12 +31,12 @@ public final class JavaPackage implements JavaNode, Comparable<JavaPackage> {
 		return classes;
 	}
 
-	@Override
+	@Override@Nullable
 	public JavaClass getDeclaringClass() {
 		return null;
 	}
 
-	@Override
+	@Override@Nullable
 	public JavaClass getTopParentClass() {
 		return null;
 	}

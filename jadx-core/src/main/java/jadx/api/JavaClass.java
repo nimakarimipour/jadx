@@ -1,13 +1,13 @@
 package jadx.api;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.info.AccessInfo;
@@ -173,6 +173,7 @@ public final class JavaClass implements JavaNode {
 		return getRootDecompiler().getDefinitionPosition(this);
 	}
 
+	@Nullable
 	public Integer getSourceLine(int decompiledLine) {
 		return getCodeInfo().getLineMapping().get(decompiledLine);
 	}

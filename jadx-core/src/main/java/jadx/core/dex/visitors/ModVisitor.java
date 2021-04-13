@@ -1,12 +1,12 @@
 package jadx.core.dex.visitors;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,10 +60,6 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.BlockUtils.replaceInsn;
 
-/**
- * Visitor for modify method instructions
- * (remove, replace, process exception handlers)
- */
 @JadxVisitor(
 		name = "ModVisitor",
 		desc = "Modify method instructions",
@@ -507,6 +503,7 @@ public class ModVisitor extends AbstractVisitor {
 		return map;
 	}
 
+	@Nullable
 	private static InsnNode getParentInsnSkipMove(RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		if (sVar.getUseCount() != 1) {
@@ -528,6 +525,7 @@ public class ModVisitor extends AbstractVisitor {
 	 * If used only once try to follow move chain
 	 */
 	
+	@Nullable
 	private static InsnNode getFirstUseSkipMove(RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		int useCount = sVar.getUseCount();

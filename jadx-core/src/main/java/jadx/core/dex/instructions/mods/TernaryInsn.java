@@ -1,5 +1,9 @@
 package jadx.core.dex.instructions.mods;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.Collection;
 
 import jadx.core.dex.instructions.InsnType;
@@ -11,9 +15,11 @@ import jadx.core.utils.InsnUtils;
 
 public final class TernaryInsn extends InsnNode {
 
+	@Nullable
 	private IfCondition condition;
 
-	public TernaryInsn(IfCondition condition, RegisterArg result, InsnArg th, InsnArg els) {
+	@Initializer
+	public TernaryInsn(IfCondition condition, @Nullable RegisterArg result, InsnArg th, InsnArg els) {
 		this();
 		setResult(result);
 

@@ -1,5 +1,7 @@
 package jadx.core.codegen.json.cls;
 
+import jadx.Initializer;
+
 import java.util.List;
 
 public class JsonMethod extends JsonNode {
@@ -13,6 +15,7 @@ public class JsonMethod extends JsonNode {
 		return signature;
 	}
 
+	@Initializer
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
@@ -21,6 +24,7 @@ public class JsonMethod extends JsonNode {
 		return returnType;
 	}
 
+	@Initializer
 	public void setReturnType(String returnType) {
 		this.returnType = returnType;
 	}
@@ -29,6 +33,7 @@ public class JsonMethod extends JsonNode {
 		return arguments;
 	}
 
+	@Initializer
 	public void setArguments(List<String> arguments) {
 		this.arguments = arguments;
 	}
@@ -37,6 +42,7 @@ public class JsonMethod extends JsonNode {
 		return lines;
 	}
 
+	@Initializer
 	public void setLines(List<JsonCodeLine> lines) {
 		this.lines = lines;
 	}
@@ -45,6 +51,7 @@ public class JsonMethod extends JsonNode {
 		return offset;
 	}
 
+	@Initializer
 	public void setOffset(String offset) {
 		this.offset = offset;
 	}

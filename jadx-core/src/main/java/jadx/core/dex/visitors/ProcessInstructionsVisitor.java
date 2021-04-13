@@ -140,6 +140,7 @@ public class ProcessInstructionsVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private static InsnNode getInsnAtOffset(InsnNode[] insnByOffset, int offset) {
 		int len = insnByOffset.length;
 		for (int i = offset; i < len; i++) {

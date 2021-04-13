@@ -1,5 +1,7 @@
 package jadx.core.codegen;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -373,7 +375,7 @@ public class MethodGen {
 		return false;
 	}
 
-	private static boolean needLabel(InsnNode insn, InsnNode prevInsn) {
+	private static boolean needLabel(InsnNode insn, @Nullable InsnNode prevInsn) {
 		if (insn.contains(AType.EXC_HANDLER)) {
 			return true;
 		}

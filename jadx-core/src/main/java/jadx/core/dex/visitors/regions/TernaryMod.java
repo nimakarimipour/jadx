@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors.regions;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +24,6 @@ import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnRemover;
 
-/**
- * Convert 'if' to ternary operation
- */
 public class TernaryMod implements IRegionIterativeVisitor {
 
 	@Override
@@ -169,6 +168,7 @@ public class TernaryMod implements IRegionIterativeVisitor {
 		}
 	}
 
+	@Nullable
 	private static BlockNode getTernaryInsnBlock(IContainer thenRegion) {
 		if (thenRegion instanceof Region) {
 			Region r = (Region) thenRegion;

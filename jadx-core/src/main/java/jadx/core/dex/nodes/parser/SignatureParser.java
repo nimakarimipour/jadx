@@ -1,11 +1,11 @@
 package jadx.core.dex.nodes.parser;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +35,7 @@ public class SignatureParser {
 	}
 
 	
+	@Nullable
 	public static SignatureParser fromNode(IAttributeNode node) {
 		String signature = getSignature(node);
 		if (signature == null) {
@@ -43,7 +44,7 @@ public class SignatureParser {
 		return new SignatureParser(signature);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")@Nullable
 	
 	public static String getSignature(IAttributeNode node) {
 		IAnnotation a = node.getAnnotation(Consts.DALVIK_SIGNATURE);
@@ -131,11 +132,13 @@ public class SignatureParser {
 	}
 
 	
+	@Nullable
 	public String consumeUntil(char lastChar) {
 		mark();
 		return skipUntil(lastChar) ? inclusiveSlice() : null;
 	}
 
+	@Nullable
 	public ArgType consumeType() {
 		char ch = next();
 		switch (ch) {
@@ -175,6 +178,7 @@ public class SignatureParser {
 		throw new JadxRuntimeException("Can't parse type: " + debugString() + ", unexpected: " + ch);
 	}
 
+	@Nullable
 	private ArgType consumeObjectType(boolean innerType) {
 		mark();
 		int ch;

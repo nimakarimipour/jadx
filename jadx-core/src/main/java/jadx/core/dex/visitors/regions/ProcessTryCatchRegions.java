@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors.regions;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,9 +27,6 @@ import jadx.core.dex.trycatch.TryCatchBlock;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.RegionUtils;
 
-/**
- * Extract blocks to separate try/catch region
- */
 public class ProcessTryCatchRegions extends AbstractRegionVisitor {
 
 	public static void process(MethodNode mth) {
@@ -113,7 +112,7 @@ public class ProcessTryCatchRegions extends AbstractRegionVisitor {
 	/**
 	 * Extract all block dominated by 'dominator' to separate region and mark as try/catch block
 	 */
-	private static boolean wrapBlocks(IRegion replaceRegion, TryCatchBlock tb, BlockNode dominator) {
+	private static boolean wrapBlocks(IRegion replaceRegion, @Nullable TryCatchBlock tb, BlockNode dominator) {
 		if (replaceRegion == null) {
 			return false;
 		}

@@ -1,5 +1,7 @@
 package jadx.core.dex.instructions.args;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -166,7 +168,7 @@ public abstract class ArgType {
 			return getPrimitiveType() == type;
 		}
 
-		@Override
+		@Override@Nullable
 		public ArgType selectFirst() {
 			return null;
 		}
@@ -561,6 +563,7 @@ public abstract class ArgType {
 		return false;
 	}
 
+	@Nullable
 	public PrimitiveType getPrimitiveType() {
 		return null;
 	}
@@ -585,6 +588,7 @@ public abstract class ArgType {
 		return false;
 	}
 
+	@Nullable
 	public List<ArgType> getGenericTypes() {
 		return null;
 	}
@@ -596,10 +600,12 @@ public abstract class ArgType {
 	public void setExtendTypes(List<ArgType> extendTypes) {
 	}
 
+	@Nullable
 	public ArgType getWildcardType() {
 		return null;
 	}
 
+	@Nullable
 	public WildcardBound getWildcardBound() {
 		return null;
 	}
@@ -608,10 +614,12 @@ public abstract class ArgType {
 		return false;
 	}
 
+	@Nullable
 	public ArgType getOuterType() {
 		return null;
 	}
 
+	@Nullable
 	public ArgType getInnerType() {
 		return null;
 	}
@@ -624,6 +632,7 @@ public abstract class ArgType {
 		return 0;
 	}
 
+	@Nullable
 	public ArgType getArrayElement() {
 		return null;
 	}
@@ -733,6 +742,7 @@ public abstract class ArgType {
 		}
 	}
 
+	@Nullable
 	public static ArgType parse(char f) {
 		switch (f) {
 			case 'Z':
@@ -819,6 +829,7 @@ public abstract class ArgType {
 	 * Recursively visit all subtypes of this type.
 	 * To exit return non-null value.
 	 */
+	@Nullable
 	public <R> R visitTypes(Function<ArgType, R> visitor) {
 		R r = visitor.apply(this);
 		if (r != null) {

@@ -1,5 +1,9 @@
 package jadx.core.dex.regions.conditions;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,7 +49,7 @@ public final class IfRegion extends AbstractRegion implements IBranchRegion {
 		return elseRegion;
 	}
 
-	public void setElseRegion(IContainer elseRegion) {
+	public void setElseRegion(@Nullable IContainer elseRegion) {
 		this.elseRegion = elseRegion;
 	}
 
@@ -53,6 +57,7 @@ public final class IfRegion extends AbstractRegion implements IBranchRegion {
 		return conditionBlocks;
 	}
 
+	@Initializer
 	public void setConditionBlocks(List<BlockNode> conditionBlocks) {
 		this.conditionBlocks = conditionBlocks;
 	}
@@ -72,6 +77,7 @@ public final class IfRegion extends AbstractRegion implements IBranchRegion {
 		return false;
 	}
 
+	@Initializer
 	public void invert() {
 		condition = IfCondition.invert(condition);
 		// swap regions

@@ -1,5 +1,7 @@
 package jadx.core.dex.instructions;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +26,7 @@ public final class FillArrayData extends InsnNode {
 	private final int elemSize;
 	private ArgType elemType;
 
-	public FillArrayData(IArrayPayload payload) {
+	public FillArrayData(@Nullable IArrayPayload payload) {
 		this(payload.getData(), payload.getSize(), payload.getElementSize());
 	}
 

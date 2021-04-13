@@ -1,9 +1,11 @@
 package jadx.core.dex.attributes.nodes;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.IAttribute;
@@ -14,6 +16,7 @@ public class EnumMapAttr implements IAttribute {
 	public static class KeyValueMap {
 		private final Map<Object, Object> map = new HashMap<>();
 
+		@Nullable
 		public Object get(Object key) {
 			return map.get(key);
 		}
@@ -27,6 +30,7 @@ public class EnumMapAttr implements IAttribute {
 	private Map<FieldNode, KeyValueMap> fieldsMap;
 
 	
+	@Initializer@Nullable
 	public KeyValueMap getMap(FieldNode field) {
 		if (fieldsMap == null) {
 			return null;

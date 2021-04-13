@@ -1,5 +1,7 @@
 package jadx.core.dex.instructions;
 
+import org.jetbrains.annotations.Nullable;
+
 import jadx.api.plugins.input.insns.custom.ISwitchPayload;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.InsnUtils;
@@ -9,7 +11,7 @@ public class SwitchData extends InsnNode {
 	private final int[] keys;
 	private final int[] targets;
 
-	public SwitchData(ISwitchPayload payload) {
+	public SwitchData(@Nullable ISwitchPayload payload) {
 		super(InsnType.SWITCH_DATA, 0);
 		this.size = payload.getSize();
 		this.keys = payload.getKeys();

@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors.typeinference;
 
+import jadx.Initializer;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class TypeSearchVarInfo {
 		this.var = var;
 	}
 
+	@Initializer
 	public void markResolved(ArgType type) {
 		this.currentType = type;
 		this.typeResolved = true;
@@ -79,6 +82,7 @@ public class TypeSearchVarInfo {
 		return constraints;
 	}
 
+	@Initializer
 	public void setConstraints(List<ITypeConstraint> constraints) {
 		this.constraints = constraints;
 	}

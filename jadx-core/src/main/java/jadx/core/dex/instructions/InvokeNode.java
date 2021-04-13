@@ -46,7 +46,7 @@ public final class InvokeNode extends BaseInvokeNode {
 		return mth;
 	}
 
-	@Override
+	@Override@Nullable
 	
 	public InsnArg getInstanceArg() {
 		if (type != InvokeType.STATIC && getArgsCount() > 0) {

@@ -1,5 +1,7 @@
 package jadx.core.dex.attributes;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -13,11 +15,6 @@ import jadx.core.dex.attributes.annotations.AnnotationsList;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
-/**
- * Storage for different attribute types:
- * 1. flags - boolean attribute (set or not)
- * 2. attribute - class instance associated with attribute type.
- */
 public class AttributeStorage {
 
 	static {
@@ -65,11 +62,12 @@ public class AttributeStorage {
 		return attributes.containsKey(type);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")@Nullable
 	public <T extends IAttribute> T get(AType<T> type) {
 		return (T) attributes.get(type);
 	}
 
+	@Nullable
 	public IAnnotation getAnnotation(String cls) {
 		AnnotationsList aList = get(AType.ANNOTATION_LIST);
 		return aList == null ? null : aList.get(cls);

@@ -1,13 +1,13 @@
 package jadx.core.xmlgen.entry;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.InputStream;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +18,7 @@ import jadx.core.xmlgen.ParserConstants;
 public class ValuesParser extends ParserConstants {
 	private static final Logger LOG = LoggerFactory.getLogger(ValuesParser.class);
 
+	@Nullable
 	private static Map<Integer, String> androidResMap;
 
 	private final String[] strings;
@@ -45,6 +46,7 @@ public class ValuesParser extends ParserConstants {
 	}
 
 	
+	@Nullable
 	public String getSimpleValueString(ResourceEntry ri) {
 		RawValue simpleValue = ri.getSimpleValue();
 		if (simpleValue == null) {
@@ -81,6 +83,7 @@ public class ValuesParser extends ParserConstants {
 	}
 
 	
+	@Nullable
 	public String decodeValue(int dataType, int data) {
 		switch (dataType) {
 			case TYPE_NULL:
@@ -148,6 +151,7 @@ public class ValuesParser extends ParserConstants {
 	}
 
 	
+	@Nullable
 	public String decodeNameRef(int nameRef) {
 		int ref = nameRef;
 		if (isResInternalId(nameRef)) {

@@ -1,5 +1,7 @@
 package jadx.core.dex.attributes.nodes;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
 
 import jadx.core.dex.attributes.AType;
@@ -14,7 +16,7 @@ public class EdgeInsnAttr implements IAttribute {
 	private final BlockNode end;
 	private final InsnNode insn;
 
-	public static void addEdgeInsn(BlockNode start, BlockNode end, InsnNode insn) {
+	public static void addEdgeInsn(@Nullable BlockNode start, BlockNode end, InsnNode insn) {
 		EdgeInsnAttr edgeInsnAttr = new EdgeInsnAttr(start, end, insn);
 		if (!start.getAll(AType.EDGE_INSN).contains(edgeInsnAttr)) {
 			start.addAttr(AType.EDGE_INSN, edgeInsnAttr);

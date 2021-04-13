@@ -1,5 +1,7 @@
 package jadx.core.dex.trycatch;
 
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -96,6 +98,7 @@ public class ExceptionHandler {
 		return handlerBlock;
 	}
 
+	@Initializer
 	public void setHandlerBlock(BlockNode handlerBlock) {
 		this.handlerBlock = handlerBlock;
 	}
@@ -112,6 +115,7 @@ public class ExceptionHandler {
 		return handlerRegion;
 	}
 
+	@Initializer
 	public void setHandlerRegion(IContainer handlerRegion) {
 		this.handlerRegion = handlerRegion;
 	}
@@ -120,10 +124,12 @@ public class ExceptionHandler {
 		return arg;
 	}
 
+	@Initializer
 	public void setArg(InsnArg arg) {
 		this.arg = arg;
 	}
 
+	@Initializer
 	public void setTryBlock(TryCatchBlock tryBlock) {
 		this.tryBlock = tryBlock;
 	}

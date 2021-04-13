@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors.ssa;
 
+import jadx.Initializer;
+
 import java.util.BitSet;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class LiveVarAnalysis {
 		this.mth = mth;
 	}
 
+	@Initializer
 	public void runAnalysis() {
 		int bbCount = mth.getBasicBlocks().size();
 		int regsCount = mth.getRegsCount();
@@ -77,6 +80,7 @@ public class LiveVarAnalysis {
 		}
 	}
 
+	@Initializer
 	private void processLiveInfo() {
 		int bbCount = mth.getBasicBlocks().size();
 		int regsCount = mth.getRegsCount();

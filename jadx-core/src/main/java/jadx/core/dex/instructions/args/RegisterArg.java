@@ -1,9 +1,12 @@
 package jadx.core.dex.instructions.args;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.nodes.InsnNode;
@@ -57,6 +60,7 @@ public class RegisterArg extends InsnArg implements Named {
 	}
 
 	
+	@Initializer@Nullable
 	public ArgType getImmutableType() {
 		if (sVar != null) {
 			return sVar.getImmutableType();
@@ -83,7 +87,7 @@ public class RegisterArg extends InsnArg implements Named {
 		this.sVar = sVar;
 	}
 
-	@Override
+	@Override@Nullable
 	public String getName() {
 		if (isSuper()) {
 			return SUPER_ARG_NAME;
@@ -137,11 +141,11 @@ public class RegisterArg extends InsnArg implements Named {
 		return duplicate;
 	}
 
-	public RegisterArg duplicate(int regNum,  SSAVar sVar) {
+	public RegisterArg duplicate(int regNum,  @Nullable SSAVar sVar) {
 		return duplicate(regNum, getInitType(), sVar);
 	}
 
-	public RegisterArg duplicate(int regNum, ArgType initType,  SSAVar sVar) {
+	public RegisterArg duplicate(int regNum, ArgType initType,  @Nullable SSAVar sVar) {
 		RegisterArg dup = new RegisterArg(regNum, initType);
 		if (sVar != null) {
 			// only 'set' here, 'assign' or 'use' will binds later
@@ -151,6 +155,7 @@ public class RegisterArg extends InsnArg implements Named {
 	}
 
 	
+	@Nullable
 	public InsnNode getAssignInsn() {
 		if (sVar == null) {
 			return null;

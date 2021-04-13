@@ -1,5 +1,7 @@
 package jadx.core.dex.attributes.nodes;
 
+import jadx.Initializer;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -88,6 +90,7 @@ public class LoopInfo {
 		return parentLoop;
 	}
 
+	@Initializer
 	public void setParentLoop(LoopInfo parentLoop) {
 		this.parentLoop = parentLoop;
 	}

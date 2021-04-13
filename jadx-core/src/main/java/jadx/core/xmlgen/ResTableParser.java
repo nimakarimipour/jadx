@@ -1,5 +1,9 @@
 package jadx.core.xmlgen;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,7 +39,7 @@ public class ResTableParser extends CommonBinaryParser {
 		private final String[] typeStrings;
 		private final String[] keyStrings;
 
-		private PackageChunk(int id, String name, String[] typeStrings, String[] keyStrings) {
+		private PackageChunk(int id, String name, String[] typeStrings, @Nullable String[] keyStrings) {
 			this.id = id;
 			this.name = name;
 			this.typeStrings = typeStrings;
@@ -111,6 +115,7 @@ public class ResTableParser extends CommonBinaryParser {
 		return strings;
 	}
 
+	@Initializer
 	void decodeTableChunk() throws IOException {
 		is.checkInt16(RES_TABLE_TYPE, "Not a table chunk");
 		is.checkInt16(0x000c, "Unexpected table header size");

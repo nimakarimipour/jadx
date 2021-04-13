@@ -1,5 +1,7 @@
 package jadx.core.xmlgen.entry;
 
+import jadx.Initializer;
+
 import java.util.List;
 
 public final class ResourceEntry {
@@ -66,10 +68,12 @@ public final class ResourceEntry {
 		return simpleValue;
 	}
 
+	@Initializer
 	public void setSimpleValue(RawValue simpleValue) {
 		this.simpleValue = simpleValue;
 	}
 
+	@Initializer
 	public void setNamedValues(List<RawNamedValue> namedValues) {
 		this.namedValues = namedValues;
 	}

@@ -1,12 +1,12 @@
 package jadx.core.codegen.json;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -57,7 +57,7 @@ public class JsonCodeGen {
 		return GSON.toJson(jsonCls);
 	}
 
-	private JsonClass processCls(ClassNode cls,  ClassGen parentCodeGen) {
+	private JsonClass processCls(ClassNode cls,  @Nullable ClassGen parentCodeGen) {
 		ClassGen classGen;
 		if (parentCodeGen == null) {
 			classGen = new ClassGen(cls, args);

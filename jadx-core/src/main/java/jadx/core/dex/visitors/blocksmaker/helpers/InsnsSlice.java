@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors.blocksmaker.helpers;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.LinkedHashSet;
@@ -7,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
@@ -37,6 +37,7 @@ public class InsnsSlice {
 	}
 
 	
+	@Nullable
 	public BlockNode getBlock(InsnNode insn) {
 		return insnMap.get(insn);
 	}

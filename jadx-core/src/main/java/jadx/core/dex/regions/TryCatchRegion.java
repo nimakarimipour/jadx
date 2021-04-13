@@ -1,5 +1,7 @@
 package jadx.core.dex.regions;
 
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -25,6 +27,7 @@ public final class TryCatchRegion extends AbstractRegion implements IBranchRegio
 		this.tryRegion = tryRegion;
 	}
 
+	@Initializer
 	public void setTryCatchBlock(TryCatchBlock tryCatchBlock) {
 		this.tryCatchBlock = tryCatchBlock;
 		int count = tryCatchBlock.getHandlersCount();
@@ -57,6 +60,7 @@ public final class TryCatchRegion extends AbstractRegion implements IBranchRegio
 		return finallyRegion;
 	}
 
+	@Initializer
 	public void setFinallyRegion(IContainer finallyRegion) {
 		this.finallyRegion = finallyRegion;
 	}

@@ -1,5 +1,7 @@
 package jadx.core.dex.instructions;
 
+import jadx.Initializer;
+
 import java.util.List;
 
 import jadx.api.plugins.input.insns.InsnData;
@@ -63,6 +65,7 @@ public class IfNode extends GotoNode {
 		return op;
 	}
 
+	@Initializer
 	public void invertCondition() {
 		op = op.invert();
 		BlockNode tmp = thenBlock;

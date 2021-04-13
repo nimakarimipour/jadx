@@ -1,5 +1,7 @@
 package jadx.core.codegen.json.cls;
 
+import jadx.Initializer;
+
 public class JsonNode {
 	private String name;
 	private String alias;
@@ -10,6 +12,7 @@ public class JsonNode {
 		return name;
 	}
 
+	@Initializer
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -18,6 +21,7 @@ public class JsonNode {
 		return alias;
 	}
 
+	@Initializer
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
@@ -26,6 +30,7 @@ public class JsonNode {
 		return declaration;
 	}
 
+	@Initializer
 	public void setDeclaration(String declaration) {
 		this.declaration = declaration;
 	}

@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors.typeinference;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +11,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -369,6 +370,7 @@ public final class TypeUpdate {
 	}
 
 	
+	@Nullable
 	private ArgType checkType(Set<ArgType> knownTypeVars,  ArgType type) {
 		if (type == null) {
 			return null;

@@ -1,10 +1,10 @@
 package jadx.core.dex.trycatch;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
@@ -41,7 +41,7 @@ public class TryCatchBlock {
 		return handlers.containsAll(tb.handlers);
 	}
 
-	public ExceptionHandler addHandler(MethodNode mth, int addr,  ClassInfo type) {
+	public ExceptionHandler addHandler(MethodNode mth, int addr,  @Nullable ClassInfo type) {
 		ExceptionHandler handler = new ExceptionHandler(addr, type);
 		handler.setTryBlock(this);
 		ExceptionHandler addedHandler = mth.addExceptionHandler(handler);

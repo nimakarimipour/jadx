@@ -1,5 +1,7 @@
 package jadx.core.dex.info;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ public class InfoStorage {
 	// can contain same method with different ids (from different dex files)
 	private final Map<Integer, MethodInfo> methods = new HashMap<>();
 
+	@Nullable
 	public ClassInfo getCls(ArgType type) {
 		return classes.get(type);
 	}
@@ -25,6 +28,7 @@ public class InfoStorage {
 		}
 	}
 
+	@Nullable
 	public MethodInfo getByUniqId(int id) {
 		synchronized (methods) {
 			return methods.get(id);

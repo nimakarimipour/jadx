@@ -1,11 +1,11 @@
 package jadx.core.utils;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
@@ -58,6 +58,7 @@ public class RegionUtils {
 		}
 	}
 
+	@Nullable
 	public static InsnNode getLastInsn(IContainer container) {
 		if (container instanceof IBlock) {
 			IBlock block = (IBlock) container;
@@ -80,6 +81,7 @@ public class RegionUtils {
 		}
 	}
 
+	@Nullable
 	public static IBlock getLastBlock(IContainer container) {
 		if (container instanceof IBlock) {
 			return (IBlock) container;
@@ -314,6 +316,7 @@ public class RegionUtils {
 		return true;
 	}
 
+	@Nullable
 	public static IContainer getBlockContainer(IContainer container, BlockNode block) {
 		if (container instanceof IBlock) {
 			return container == block ? container : null;

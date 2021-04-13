@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors;
 
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +106,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Initializer
 	private void processOverloaded(MethodNode parentMth, BaseInvokeNode invokeInsn, IMethodDetails mthDetails) {
 		MethodInfo callMth = invokeInsn.getCallMth();
 		ArgType callCls = getCallClassFromInvoke(parentMth, invokeInsn, callMth);

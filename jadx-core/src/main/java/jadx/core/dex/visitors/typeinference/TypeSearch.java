@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors.typeinference;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -7,8 +9,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,15 +22,6 @@ import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 
-/**
- * Slow and memory consuming multi-variable type search algorithm.
- * Used only if fast type propagation is failed for some variables.
- * <p>
- * Stages description:
- * - find all possible candidate types within bounds
- * - build dynamic constraint list for every variable
- * - run search by checking all candidates
- */
 public class TypeSearch {
 	private static final Logger LOG = LoggerFactory.getLogger(TypeSearch.class);
 
@@ -352,6 +343,7 @@ public class TypeSearch {
 	}
 
 	
+	@Nullable
 	private ITypeConstraint makeConstraint(RegisterArg arg) {
 		InsnNode insn = arg.getParentInsn();
 		if (insn == null || arg.isTypeImmutable()) {
@@ -370,6 +362,7 @@ public class TypeSearch {
 	}
 
 	
+	@Nullable
 	private ITypeConstraint makeMoveConstraint(InsnNode insn, RegisterArg arg) {
 		if (!insn.getArg(0).isRegister()) {
 			return null;

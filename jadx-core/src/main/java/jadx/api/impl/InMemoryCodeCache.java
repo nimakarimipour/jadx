@@ -1,9 +1,9 @@
 package jadx.api.impl;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.api.ICodeCache;
 import jadx.api.ICodeInfo;
@@ -22,7 +22,7 @@ public class InMemoryCodeCache implements ICodeCache {
 		storage.remove(clsFullName);
 	}
 
-	@Override
+	@Override@Nullable
 	public  ICodeInfo get(String clsFullName) {
 		return storage.get(clsFullName);
 	}

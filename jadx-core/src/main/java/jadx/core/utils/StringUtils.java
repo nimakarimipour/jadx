@@ -74,6 +74,7 @@ public class StringUtils {
 	}
 
 	
+	@Nullable
 	private String getSpecialStringForChar(int c) {
 		switch (c) {
 			case '\n':
@@ -177,6 +178,7 @@ public class StringUtils {
 		return sb.toString();
 	}
 
+	@Nullable
 	private static String escapeXmlChar(char c) {
 		if (c >= 0 && c <= 0x1F) {
 			return "\\" + (int) c;
@@ -199,6 +201,7 @@ public class StringUtils {
 		}
 	}
 
+	@Nullable
 	private static String escapeWhiteSpaceChar(char c) {
 		switch (c) {
 			case '\n':

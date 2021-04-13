@@ -16,6 +16,7 @@ public class EncodedValueUtils {
 	 * @return LiteralArg, String, ArgType or null
 	 */
 	
+	@Nullable
 	public static Object convertToConstValue(RootNode root, EncodedValue encodedValue) {
 		if (encodedValue == null) {
 			return null;

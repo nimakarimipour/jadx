@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors.usage;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -18,6 +20,7 @@ public class UseSet<K, V> {
 		set.add(use);
 	}
 
+	@Nullable
 	public Set<V> get(K obj) {
 		return useMap.get(obj);
 	}

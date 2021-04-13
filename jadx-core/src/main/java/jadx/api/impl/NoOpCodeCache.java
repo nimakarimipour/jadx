@@ -17,7 +17,7 @@ public class NoOpCodeCache implements ICodeCache {
 		// do nothing
 	}
 
-	@Override
+	@Override@Nullable
 	public  ICodeInfo get(String clsFullName) {
 		return null;
 	}

@@ -1,5 +1,9 @@
 package jadx.core.dex.nodes;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
@@ -66,6 +70,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		cleanSuccessors = cleanSuccessors(this);
 	}
 
+	@Initializer
 	public void lock() {
 		cleanSuccessors = lockList(cleanSuccessors);
 		successors = lockList(successors);
@@ -131,7 +136,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return doms;
 	}
 
-	public void setDoms(BitSet doms) {
+	public void setDoms(@Nullable BitSet doms) {
 		this.doms = doms;
 	}
 
@@ -139,7 +144,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return domFrontier;
 	}
 
-	public void setDomFrontier(BitSet domFrontier) {
+	public void setDomFrontier(@Nullable BitSet domFrontier) {
 		this.domFrontier = domFrontier;
 	}
 
@@ -150,7 +155,8 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return idom;
 	}
 
-	public void setIDom(BlockNode idom) {
+	@Initializer
+	public void setIDom(@Nullable BlockNode idom) {
 		this.idom = idom;
 	}
 
@@ -176,7 +182,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

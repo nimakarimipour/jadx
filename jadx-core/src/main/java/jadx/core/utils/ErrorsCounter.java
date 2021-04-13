@@ -1,12 +1,12 @@
 package jadx.core.utils;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +35,7 @@ public class ErrorsCounter {
 		return node.root().getErrorsCounter().addWarning(node, warnMsg);
 	}
 
-	public static String formatMsg(IDexNode node, String msg) {
+	public static String formatMsg(IDexNode node, @Nullable String msg) {
 		return msg + " in " + node.typeName() + ": " + node + ", file: " + node.getInputFileName();
 	}
 

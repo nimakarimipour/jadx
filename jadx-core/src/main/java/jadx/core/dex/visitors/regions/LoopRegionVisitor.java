@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors.regions;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -146,6 +148,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 		return true;
 	}
 
+	@Nullable
 	private static LoopType checkArrayForEach(MethodNode mth, LoopRegion loopRegion, InsnNode initInsn, InsnNode incrInsn,
 			IfCondition condition) {
 		if (!(incrInsn instanceof ArithNode)) {
@@ -378,7 +381,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 	/**
 	 * Check if instruction is a interface invoke with corresponding parameters.
 	 */
-	private static boolean checkInvoke(InsnNode insn, String declClsFullName, String mthId) {
+	private static boolean checkInvoke(InsnNode insn, @Nullable String declClsFullName, String mthId) {
 		if (insn == null) {
 			return false;
 		}

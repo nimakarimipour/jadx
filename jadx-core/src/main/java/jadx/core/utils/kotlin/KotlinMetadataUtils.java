@@ -1,8 +1,8 @@
 package jadx.core.utils.kotlin;
 
-import java.util.List;
-
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +12,6 @@ import jadx.api.plugins.input.data.annotations.IAnnotation;
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.nodes.ClassNode;
 
-// TODO: parse data from d1 (protobuf encoded) to get original method names and other useful info
 public class KotlinMetadataUtils {
 	private static final Logger LOG = LoggerFactory.getLogger(KotlinMetadataUtils.class);
 
@@ -24,6 +23,7 @@ public class KotlinMetadataUtils {
 	 * Try to get class info from Kotlin Metadata annotation
 	 */
 	
+	@Nullable
 	public static ClassInfo getClassName(ClassNode cls) {
 		IAnnotation metadataAnnotation = cls.getAnnotation(KOTLIN_METADATA_ANNOTATION);
 		List<EncodedValue> d2Param = getParamAsList(metadataAnnotation, KOTLIN_METADATA_D2_PARAMETER);
@@ -45,7 +45,7 @@ public class KotlinMetadataUtils {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")@Nullable
 	private static List<EncodedValue> getParamAsList(IAnnotation annotation, String paramName) {
 		if (annotation == null) {
 			return null;

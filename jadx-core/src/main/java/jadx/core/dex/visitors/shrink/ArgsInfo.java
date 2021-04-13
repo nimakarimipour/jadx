@@ -1,5 +1,9 @@
 package jadx.core.dex.visitors.shrink;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,6 +63,7 @@ final class ArgsInfo {
 		return args;
 	}
 
+	@Nullable
 	public WrapInfo checkInline(int assignPos, RegisterArg arg) {
 		if (assignPos >= inlineBorder || !canMove(assignPos, inlineBorder)) {
 			return null;
@@ -127,6 +132,7 @@ final class ArgsInfo {
 		return new WrapInfo(argsInfo.insn, arg);
 	}
 
+	@Initializer
 	ArgsInfo getInlinedInsn() {
 		if (inlinedInsn != null) {
 			ArgsInfo parent = inlinedInsn.getInlinedInsn();

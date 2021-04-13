@@ -1,5 +1,9 @@
 package jadx.core.xmlgen;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -49,10 +53,12 @@ public class ResourceStorage {
 		renames.put(id, keyName);
 	}
 
+	@Nullable
 	public String getRename(int id) {
 		return renames.get(id);
 	}
 
+	@Nullable
 	public ResourceEntry searchEntryWithSameName(ResourceEntry resourceEntry) {
 		return uniqNameEntries.get(resourceEntry);
 	}
@@ -71,6 +77,7 @@ public class ResourceStorage {
 		return appPackage;
 	}
 
+	@Initializer
 	public void setAppPackage(String appPackage) {
 		this.appPackage = appPackage;
 	}

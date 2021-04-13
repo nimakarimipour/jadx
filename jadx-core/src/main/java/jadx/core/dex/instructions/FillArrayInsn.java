@@ -1,5 +1,7 @@
 package jadx.core.dex.instructions;
 
+import jadx.Initializer;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -22,6 +24,7 @@ public final class FillArrayInsn extends InsnNode {
 		return target;
 	}
 
+	@Initializer
 	public void setArrayData(FillArrayData arrayData) {
 		this.arrayData = arrayData;
 	}

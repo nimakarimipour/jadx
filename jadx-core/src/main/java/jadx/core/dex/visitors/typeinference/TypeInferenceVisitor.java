@@ -1,5 +1,9 @@
 package jadx.core.dex.visitors.typeinference;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,7 +15,6 @@ import java.util.Set;
 import java.util.function.Function;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +73,8 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 
 	private RootNode root;
 	private TypeUpdate typeUpdate;
+
+	@Nullable
 	private List<Function<MethodNode, Boolean>> resolvers;
 
 	@Override
@@ -218,6 +223,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return result == TypeUpdateResult.CHANGED;
 	}
 
+	@Initializer
 	private Optional<ArgType> selectBestTypeFromBounds(Set<ITypeBound> bounds) {
 		return bounds.stream()
 				.map(ITypeBound::getType)
@@ -304,6 +310,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Initializer
 	private ITypeBound makeAssignInvokeBound(InvokeNode invokeNode) {
 		ArgType boundType = invokeNode.getCallMth().getReturnType();
 		ArgType genericReturnType = root.getMethodUtils().getMethodGenericReturnType(invokeNode);
@@ -322,6 +329,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private ITypeBound makeUseBound(RegisterArg regArg) {
 		InsnNode insn = regArg.getParentInsn();
 		if (insn == null) {
@@ -340,6 +348,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return new TypeBoundConst(BoundEnum.USE, regArg.getInitType(), regArg);
 	}
 
+	@Nullable
 	private TypeBoundInvokeUse makeInvokeUseBound(RegisterArg regArg, BaseInvokeNode invoke) {
 		InsnArg instanceArg = invoke.getInstanceArg();
 		if (instanceArg == null || instanceArg == regArg) {
@@ -371,7 +380,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	private List<ArgType> makePossibleTypesList(ArgType type,  SSAVar var) {
+	private List<ArgType> makePossibleTypesList(ArgType type,  @Nullable SSAVar var) {
 		if (type.isArray()) {
 			List<ArgType> list = new ArrayList<>();
 			for (ArgType arrElemType : makePossibleTypesList(type.getArrayElement(), null)) {
@@ -662,6 +671,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private ArgType getCommonTypeForPhiArgs(PhiInsn phiInsn) {
 		ArgType phiArgType = null;
 		for (InsnArg arg : phiInsn.getArguments()) {
@@ -723,6 +733,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private BlockNode checkBlockForInsnInsert(BlockNode blockNode) {
 		if (blockNode.isSynthetic()) {
 			return null;
@@ -894,6 +905,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private static ArgType getSsaImmutableType(SSAVar ssaVar) {
 		if (ssaVar.getAssign().contains(AFlag.IMMUTABLE_TYPE)) {
 			return ssaVar.getAssign().getInitType();

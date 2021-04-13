@@ -1,5 +1,9 @@
 package jadx.core.deobf;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +32,7 @@ public class PackageNode {
 		return packageName;
 	}
 
+	@Initializer
 	public String getFullName() {
 		if (cachedPackageFullName == null) {
 			Deque<PackageNode> pp = getParentPackages();
@@ -46,6 +51,7 @@ public class PackageNode {
 		return cachedPackageFullName;
 	}
 
+	@Initializer
 	public String getAlias() {
 		if (packageAlias != null) {
 			return packageAlias;
@@ -71,6 +77,7 @@ public class PackageNode {
 		return false;
 	}
 
+	@Initializer
 	public String getFullAlias() {
 		if (cachedPackageFullAlias == null) {
 			Deque<PackageNode> pp = getParentPackages();
@@ -112,6 +119,7 @@ public class PackageNode {
 	 * @param name inner package name
 	 * @return package node or {@code null}
 	 */
+	@Nullable
 	public PackageNode getInnerPackageByName(String name) {
 		PackageNode result = null;
 		for (PackageNode p : innerPackages) {

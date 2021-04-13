@@ -2,6 +2,8 @@ package jadx.core.codegen.json.cls;
 
 import org.jetbrains.annotations.Nullable;
 
+import jadx.Initializer;
+
 public class JsonCodeLine {
 	private String code;
 	private String offset;
@@ -11,6 +13,7 @@ public class JsonCodeLine {
 		return code;
 	}
 
+	@Initializer
 	public void setCode(String code) {
 		this.code = code;
 	}
@@ -19,6 +22,7 @@ public class JsonCodeLine {
 		return offset;
 	}
 
+	@Initializer
 	public void setOffset(String offset) {
 		this.offset = offset;
 	}
@@ -27,7 +31,8 @@ public class JsonCodeLine {
 		return sourceLine;
 	}
 
-	public void setSourceLine( Integer sourceLine) {
+	@Initializer
+	public void setSourceLine( @Nullable Integer sourceLine) {
 		this.sourceLine = sourceLine;
 	}
 }

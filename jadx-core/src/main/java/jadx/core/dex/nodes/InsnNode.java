@@ -1,12 +1,14 @@
 package jadx.core.dex.nodes;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.api.plugins.input.insns.InsnData;
 import jadx.core.codegen.CodeWriter;
@@ -49,7 +51,8 @@ public class InsnNode extends LineAttrNode {
 		return insn;
 	}
 
-	public void setResult( RegisterArg res) {
+	@Initializer
+	public void setResult( @Nullable RegisterArg res) {
 		this.result = res;
 		if (res != null) {
 			res.setParentInsn(this);

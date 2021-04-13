@@ -1,5 +1,7 @@
 package jadx.core.deobf;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -140,14 +142,17 @@ class DeobfPresets {
 		}
 	}
 
+	@Nullable
 	public String getForCls(ClassInfo cls) {
 		return clsPresetMap.get(cls.makeRawFullName());
 	}
 
+	@Nullable
 	public String getForFld(FieldInfo fld) {
 		return fldPresetMap.get(fld.getRawFullId());
 	}
 
+	@Nullable
 	public String getForMth(MethodInfo mth) {
 		return mthPresetMap.get(mth.getRawFullId());
 	}

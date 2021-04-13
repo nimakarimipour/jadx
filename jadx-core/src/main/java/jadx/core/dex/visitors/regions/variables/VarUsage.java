@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors.regions.variables;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,7 @@ class VarUsage {
 	private final List<UsePlace> assigns = new ArrayList<>(3);
 	private final List<UsePlace> uses = new ArrayList<>(3);
 
-	VarUsage(SSAVar var) {
+	VarUsage(@Nullable SSAVar var) {
 		this.var = var;
 	}
 

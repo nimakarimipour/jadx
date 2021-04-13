@@ -1,5 +1,7 @@
 package jadx.core.dex.attributes;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -17,12 +19,12 @@ public final class EmptyAttrStorage extends AttributeStorage {
 		return false;
 	}
 
-	@Override
+	@Override@Nullable
 	public <T extends IAttribute> T get(AType<T> type) {
 		return null;
 	}
 
-	@Override
+	@Override@Nullable
 	public IAnnotation getAnnotation(String cls) {
 		return null;
 	}

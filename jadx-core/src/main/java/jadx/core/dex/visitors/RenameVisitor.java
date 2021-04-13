@@ -1,13 +1,13 @@
 package jadx.core.dex.visitors;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.api.JadxArgs;
 import jadx.core.Consts;
@@ -126,6 +126,7 @@ public class RenameVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private static String fixClsShortName(JadxArgs args, String clsName) {
 		char firstChar = clsName.charAt(0);
 		boolean renameValid = args.isRenameValid();
@@ -231,6 +232,7 @@ public class RenameVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private static String getRootPkg(String pkg) {
 		if (pkg.isEmpty()) {
 			return null;

@@ -1,5 +1,9 @@
 package jadx.core.clsp;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
@@ -22,8 +26,6 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,9 +43,6 @@ import jadx.core.utils.files.FileUtils;
 
 import static jadx.core.utils.Utils.notEmpty;
 
-/**
- * Classes list for import into classpath graph
- */
 public class ClsSet {
 	private static final Logger LOG = LoggerFactory.getLogger(ClsSet.class);
 
@@ -91,6 +90,7 @@ public class ClsSet {
 		}
 	}
 
+	@Initializer
 	public void loadFrom(RootNode root) {
 		List<ClassNode> list = root.getClasses(true);
 		Map<String, ClspClass> names = new HashMap<>(list.size());
@@ -176,6 +176,7 @@ public class ClsSet {
 		return getCls(clsType.getObject(), names);
 	}
 
+	@Nullable
 	private static ClspClass getCls(String fullName, Map<String, ClspClass> names) {
 		ClspClass cls = names.get(fullName);
 		if (cls == null) {
@@ -413,6 +414,7 @@ public class ClsSet {
 	}
 
 	
+	@Nullable
 	private ArgType[] readArgTypesArray(DataInputStream in) throws IOException {
 		int count = in.readByte();
 		if (count == -1) {
@@ -428,6 +430,7 @@ public class ClsSet {
 		return arr;
 	}
 
+	@Nullable
 	private ArgType readArgType(DataInputStream in) throws IOException {
 		int ordinal = in.readByte();
 		if (ordinal == -1) {

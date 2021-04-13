@@ -99,6 +99,7 @@ public class TypeGen {
 	}
 
 	
+	@Nullable
 	public static String literalToRawString(LiteralArg arg) {
 		ArgType type = arg.getType();
 		if (type == null) {

@@ -1,5 +1,9 @@
 package jadx.core.dex.regions.conditions;
 
+import org.jetbrains.annotations.Nullable;
+
+import jadx.Initializer;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +27,7 @@ public final class IfInfo {
 		this(condition, thenBlock, elseBlock, new HashSet<>(), new HashSet<>(), new ArrayList<>());
 	}
 
-	public IfInfo(IfInfo info, BlockNode thenBlock, BlockNode elseBlock) {
+	public IfInfo(IfInfo info, @Nullable BlockNode thenBlock, @Nullable BlockNode elseBlock) {
 		this(info.getCondition(), thenBlock, elseBlock,
 				info.getMergedBlocks(), info.getSkipBlocks(), info.getForceInlineInsns());
 	}
@@ -79,7 +83,8 @@ public final class IfInfo {
 		return outBlock;
 	}
 
-	public void setOutBlock(BlockNode outBlock) {
+	@Initializer
+	public void setOutBlock(@Nullable BlockNode outBlock) {
 		this.outBlock = outBlock;
 	}
 
@@ -87,6 +92,7 @@ public final class IfInfo {
 		return ifBlock;
 	}
 
+	@Initializer
 	public void setIfBlock(BlockNode ifBlock) {
 		this.ifBlock = ifBlock;
 	}

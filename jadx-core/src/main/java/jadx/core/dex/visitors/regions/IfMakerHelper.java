@@ -1,12 +1,12 @@
 package jadx.core.dex.visitors.regions;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +38,7 @@ public class IfMakerHelper {
 	}
 
 	
+	@Nullable
 	static IfInfo makeIfInfo(BlockNode ifBlock) {
 		InsnNode lastInsn = BlockUtils.getLastInsn(ifBlock);
 		if (lastInsn == null || lastInsn.getType() != InsnType.IF) {
@@ -59,6 +60,7 @@ public class IfMakerHelper {
 		return info;
 	}
 
+	@Nullable
 	static IfInfo restructureIf(MethodNode mth, BlockNode block, IfInfo info) {
 		BlockNode thenBlock = info.getThenBlock();
 		BlockNode elseBlock = info.getElseBlock();
@@ -149,6 +151,7 @@ public class IfMakerHelper {
 		return c1.size() == c2.size() && c1.containsAll(c2);
 	}
 
+	@Nullable
 	static IfInfo mergeNestedIfNodes(IfInfo currentIf) {
 		BlockNode curThen = currentIf.getThenBlock();
 		BlockNode curElse = currentIf.getElseBlock();
@@ -230,6 +233,7 @@ public class IfMakerHelper {
 		return searchNestedIf(result);
 	}
 
+	@Nullable
 	private static IfInfo checkForTernaryInCondition(IfInfo currentIf) {
 		IfInfo nextThen = getNextIf(currentIf, currentIf.getThenBlock());
 		IfInfo nextElse = getNextIf(currentIf, currentIf.getElseBlock());
@@ -352,6 +356,7 @@ public class IfMakerHelper {
 		}
 	}
 
+	@Nullable
 	private static IfInfo getNextIf(IfInfo info, BlockNode block) {
 		if (!canSelectNext(info, block)) {
 			return null;
@@ -366,6 +371,7 @@ public class IfMakerHelper {
 		return info.getMergedBlocks().containsAll(block.getPredecessors());
 	}
 
+	@Nullable
 	private static IfInfo getNextIfNodeInfo(IfInfo info, BlockNode block) {
 		if (block == null || block.contains(AType.LOOP) || block.contains(AFlag.ADDED_TO_REGION)) {
 			return null;

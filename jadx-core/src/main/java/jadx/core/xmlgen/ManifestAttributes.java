@@ -1,5 +1,7 @@
 package jadx.core.xmlgen;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -50,6 +52,7 @@ public class ManifestAttributes {
 
 	private final Map<String, MAttr> attrMap = new HashMap<>();
 
+	@Nullable
 	private static ManifestAttributes instance;
 
 	public static ManifestAttributes getInstance() {
@@ -163,6 +166,7 @@ public class ManifestAttributes {
 		}
 	}
 
+	@Nullable
 	public String decode(String attrName, long value) {
 		MAttr attr = attrMap.get(attrName);
 		if (attr == null) {

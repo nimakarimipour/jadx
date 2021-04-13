@@ -1,11 +1,11 @@
 package jadx.core.codegen;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.api.plugins.input.data.IFieldData;
 import jadx.api.plugins.input.data.annotations.EncodedValue;
@@ -130,6 +130,7 @@ public class AnnotationGen {
 		}
 	}
 
+	@Nullable
 	public EncodedValue getAnnotationDefaultValue(String name) {
 		IAnnotation an = cls.getAnnotation(Consts.DALVIK_ANNOTATION_DEFAULT);
 		if (an != null) {

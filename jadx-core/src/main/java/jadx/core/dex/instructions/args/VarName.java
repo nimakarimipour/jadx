@@ -1,5 +1,7 @@
 package jadx.core.dex.instructions.args;
 
+import jadx.Initializer;
+
 public class VarName {
 	private String name;
 
@@ -7,6 +9,7 @@ public class VarName {
 		return name;
 	}
 
+	@Initializer
 	public void setName(String name) {
 		this.name = name;
 	}

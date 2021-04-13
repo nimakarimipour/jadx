@@ -1,7 +1,8 @@
 package jadx.core;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import org.jetbrains.annotations.NotNull;
 
 import jadx.api.ICodeInfo;
 import jadx.core.codegen.CodeGen;
@@ -24,6 +25,7 @@ public final class ProcessClass {
 	}
 
 	
+	@Nullable
 	private static ICodeInfo process(ClassNode cls, boolean codegen) {
 		if (!codegen && cls.getState() == PROCESS_COMPLETE) {
 			// nothing to do

@@ -1,10 +1,11 @@
 package jadx.core.dex.instructions;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.instructions.args.ArgType;
@@ -49,6 +50,7 @@ public final class PhiInsn extends InsnNode {
 	}
 
 	
+	@Nullable
 	public BlockNode getBlockByArg(RegisterArg arg) {
 		int index = getArgIndex(arg);
 		if (index == -1) {
@@ -86,6 +88,7 @@ public final class PhiInsn extends InsnNode {
 	}
 
 	
+	@Nullable
 	public RegisterArg getArgBySsaVar(SSAVar ssaVar) {
 		if (getArgsCount() == 0) {
 			return null;

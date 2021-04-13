@@ -1,5 +1,7 @@
 package jadx.core.deobf;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -177,6 +177,7 @@ public class Deobfuscator {
 		}
 	}
 
+	@Nullable
 	private OverridedMethodsNode getOverrideMethodsNode(Set<MethodInfo> overrideSet) {
 		for (MethodInfo overrideMth : overrideSet) {
 			OverridedMethodsNode node = ovrdMap.get(overrideMth);
@@ -187,6 +188,7 @@ public class Deobfuscator {
 		return null;
 	}
 
+	@Nullable
 	private MethodInfo getMthOverride(List<MethodNode> methods, String mthSignature) {
 		for (MethodNode m : methods) {
 			MethodInfo mthInfo = m.getMethodInfo();
@@ -473,6 +475,7 @@ public class Deobfuscator {
 	}
 
 	
+	@Nullable
 	private String getAliasFromSourceFile(ClassNode cls) {
 		SourceFileAttr sourceFileAttr = cls.get(AType.SOURCE_FILE);
 		if (sourceFileAttr == null) {
@@ -504,6 +507,7 @@ public class Deobfuscator {
 	}
 
 	
+	@Nullable
 	private String getFieldAlias(FieldNode field) {
 		FieldInfo fieldInfo = field.getFieldInfo();
 		String alias = fldMap.get(fieldInfo);
@@ -522,6 +526,7 @@ public class Deobfuscator {
 	}
 
 	
+	@Nullable
 	private String getMethodAlias(MethodNode mth) {
 		MethodInfo methodInfo = mth.getMethodInfo();
 		if (methodInfo.isClassInit() || methodInfo.isConstructor()) {

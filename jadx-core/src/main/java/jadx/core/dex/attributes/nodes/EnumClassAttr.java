@@ -1,5 +1,7 @@
 package jadx.core.dex.attributes.nodes;
 
+import jadx.Initializer;
+
 import java.util.List;
 
 import jadx.core.dex.attributes.AType;
@@ -33,6 +35,7 @@ public class EnumClassAttr implements IAttribute {
 			return cls;
 		}
 
+		@Initializer
 		public void setCls(ClassNode cls) {
 			this.cls = cls;
 		}
@@ -58,6 +61,7 @@ public class EnumClassAttr implements IAttribute {
 		return staticMethod;
 	}
 
+	@Initializer
 	public void setStaticMethod(MethodNode staticMethod) {
 		this.staticMethod = staticMethod;
 	}

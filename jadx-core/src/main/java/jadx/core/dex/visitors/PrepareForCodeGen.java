@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -7,8 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
@@ -36,11 +36,6 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.exceptions.JadxException;
 
-/**
- * Prepare instructions for code generation pass,
- * most of this modification breaks register dependencies,
- * so this pass must be just before CodeGen.
- */
 @JadxVisitor(
 		name = "PrepareForCodeGen",
 		desc = "Prepare instructions for code generation pass",
@@ -243,6 +238,7 @@ public class PrepareForCodeGen extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private ConstructorInsn searchConstructorCall(MethodNode mth) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			for (InsnNode insn : block.getInstructions()) {

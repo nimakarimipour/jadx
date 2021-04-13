@@ -1,11 +1,11 @@
 package jadx.core.codegen;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -221,7 +221,7 @@ public class InsnGen {
 	private static final Set<Flags> BODY_ONLY_FLAG = EnumSet.of(Flags.BODY_ONLY);
 	private static final Set<Flags> BODY_ONLY_NOWRAP_FLAGS = EnumSet.of(Flags.BODY_ONLY_NOWRAP);
 
-	protected void makeInsn(InsnNode insn, CodeWriter code, Flags flag) throws CodegenException {
+	protected void makeInsn(InsnNode insn, CodeWriter code, @Nullable Flags flag) throws CodegenException {
 		if (insn.getType() == InsnType.REGION_ARG) {
 			return;
 		}
@@ -747,6 +747,7 @@ public class InsnGen {
 	}
 
 	
+	@Nullable
 	private ClassInfo getClassForSuperCall(CodeWriter code, MethodInfo callMth) {
 		ClassNode useCls = mth.getParentClass();
 		ClassInfo insnCls = useCls.getClassInfo();

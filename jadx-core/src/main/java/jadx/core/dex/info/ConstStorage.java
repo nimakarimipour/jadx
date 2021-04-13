@@ -1,5 +1,7 @@
 package jadx.core.dex.info;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -8,8 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.jetbrains.annotations.Nullable;
 
 import jadx.api.JadxArgs;
 import jadx.core.dex.attributes.AType;
@@ -30,6 +30,7 @@ public class ConstStorage {
 			return values;
 		}
 
+		@Nullable
 		public FieldNode get(Object key) {
 			return values.get(key);
 		}
@@ -110,6 +111,7 @@ public class ConstStorage {
 	}
 
 	
+	@Nullable
 	public FieldNode getConstField(ClassNode cls, Object value, boolean searchGlobal) {
 		if (!replaceEnabled) {
 			return null;
@@ -150,6 +152,7 @@ public class ConstStorage {
 	}
 
 	
+	@Nullable
 	private FieldNode getResourceField(Integer value, RootNode root) {
 		String str = resourcesNames.get(value);
 		if (str == null) {
@@ -175,6 +178,7 @@ public class ConstStorage {
 	}
 
 	
+	@Nullable
 	public FieldNode getConstFieldByLiteralArg(ClassNode cls, LiteralArg arg) {
 		PrimitiveType type = arg.getType().getPrimitiveType();
 		if (type == null) {

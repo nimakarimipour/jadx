@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors.blocksmaker;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
@@ -7,8 +9,6 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -189,6 +189,7 @@ public class BlockProcessor extends AbstractVisitor {
 		return false;
 	}
 
+	@Nullable
 	private static InsnNode getInsnsFromEnd(BlockNode block, int number) {
 		List<InsnNode> instructions = block.getInstructions();
 		int insnCount = instructions.size();
@@ -676,6 +677,7 @@ public class BlockProcessor extends AbstractVisitor {
 		return true;
 	}
 
+	@Nullable
 	private static RegisterArg getMoveExceptionRegister(BlockNode block) {
 		InsnNode insn = BlockUtils.getLastInsn(block);
 		if (insn == null || insn.getType() != InsnType.MOVE_EXCEPTION) {
