@@ -1,85 +1,94 @@
 package jadx.core.xmlgen.entry;
 
 import java.util.List;
+import jadx.Initializer;
 
 public final class ResourceEntry {
 
-	private final int id;
-	private final String pkgName;
-	private final String typeName;
-	private final String keyName;
-	private final String config;
+    private final int id;
 
-	private int parentRef;
-	private RawValue simpleValue;
-	private List<RawNamedValue> namedValues;
+    private final String pkgName;
 
-	public ResourceEntry(int id, String pkgName, String typeName, String keyName, String config) {
-		this.id = id;
-		this.pkgName = pkgName;
-		this.typeName = typeName;
-		this.keyName = keyName;
-		this.config = config;
-	}
+    private final String typeName;
 
-	public ResourceEntry copy(String newKeyName) {
-		ResourceEntry copy = new ResourceEntry(id, pkgName, typeName, newKeyName, config);
-		copy.parentRef = this.parentRef;
-		copy.simpleValue = this.simpleValue;
-		copy.namedValues = this.namedValues;
-		return copy;
-	}
+    private final String keyName;
 
-	public ResourceEntry copyWithId() {
-		return copy(keyName + "_RES_" + id);
-	}
+    private final String config;
 
-	public int getId() {
-		return id;
-	}
+    private int parentRef;
 
-	public String getPkgName() {
-		return pkgName;
-	}
+    private RawValue simpleValue;
 
-	public String getTypeName() {
-		return typeName;
-	}
+    private List<RawNamedValue> namedValues;
 
-	public String getKeyName() {
-		return keyName;
-	}
+    public ResourceEntry(int id, String pkgName, String typeName, String keyName, String config) {
+        this.id = id;
+        this.pkgName = pkgName;
+        this.typeName = typeName;
+        this.keyName = keyName;
+        this.config = config;
+    }
 
-	public String getConfig() {
-		return config;
-	}
+    public ResourceEntry copy(String newKeyName) {
+        ResourceEntry copy = new ResourceEntry(id, pkgName, typeName, newKeyName, config);
+        copy.parentRef = this.parentRef;
+        copy.simpleValue = this.simpleValue;
+        copy.namedValues = this.namedValues;
+        return copy;
+    }
 
-	public void setParentRef(int parentRef) {
-		this.parentRef = parentRef;
-	}
+    public ResourceEntry copyWithId() {
+        return copy(keyName + "_RES_" + id);
+    }
 
-	public int getParentRef() {
-		return parentRef;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public RawValue getSimpleValue() {
-		return simpleValue;
-	}
+    public String getPkgName() {
+        return pkgName;
+    }
 
-	public void setSimpleValue(RawValue simpleValue) {
-		this.simpleValue = simpleValue;
-	}
+    public String getTypeName() {
+        return typeName;
+    }
 
-	public void setNamedValues(List<RawNamedValue> namedValues) {
-		this.namedValues = namedValues;
-	}
+    public String getKeyName() {
+        return keyName;
+    }
 
-	public List<RawNamedValue> getNamedValues() {
-		return namedValues;
-	}
+    public String getConfig() {
+        return config;
+    }
 
-	@Override
-	public String toString() {
-		return "  0x" + Integer.toHexString(id) + " (" + id + ')' + config + " = " + typeName + '.' + keyName;
-	}
+    public void setParentRef(int parentRef) {
+        this.parentRef = parentRef;
+    }
+
+    public int getParentRef() {
+        return parentRef;
+    }
+
+    public RawValue getSimpleValue() {
+        return simpleValue;
+    }
+
+    @Initializer()
+    public void setSimpleValue(RawValue simpleValue) {
+        this.simpleValue = simpleValue;
+    }
+
+    @Initializer()
+    public void setNamedValues(List<RawNamedValue> namedValues) {
+        this.namedValues = namedValues;
+    }
+
+    public List<RawNamedValue> getNamedValues() {
+        return namedValues;
+    }
+
+    @Override
+    public String toString() {
+        return "  0x" + Integer.toHexString(id) + " (" + id + ')' + config + " = " + typeName + '.' + keyName;
+    }
 }

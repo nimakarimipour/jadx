@@ -1,18 +1,21 @@
 package jadx.api;
 
 import java.util.List;
+import org.jetbrains.annotations.Nullable;
 
 public interface JavaNode {
 
-	String getName();
+    String getName();
 
-	String getFullName();
+    String getFullName();
 
-	JavaClass getDeclaringClass();
+    @Nullable()
+    JavaClass getDeclaringClass();
 
-	JavaClass getTopParentClass();
+    @Nullable()
+    JavaClass getTopParentClass();
 
-	int getDecompiledLine();
+    int getDecompiledLine();
 
-	List<JavaNode> getUseIn();
+    List<JavaNode> getUseIn();
 }

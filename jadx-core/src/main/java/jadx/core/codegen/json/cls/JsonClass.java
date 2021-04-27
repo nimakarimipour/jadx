@@ -1,94 +1,111 @@
 package jadx.core.codegen.json.cls;
 
 import java.util.List;
-
 import com.google.gson.annotations.SerializedName;
+import jadx.Initializer;
 
 public class JsonClass extends JsonNode {
-	@SerializedName("package")
-	private String pkg;
-	private String type; // class, interface, enum
-	@SerializedName("extends")
-	private String superClass;
-	@SerializedName("implements")
-	private List<String> interfaces;
-	private String dex;
 
-	private List<JsonField> fields;
-	private List<JsonMethod> methods;
-	private List<JsonClass> innerClasses;
+    @SerializedName("package")
+    private String pkg;
 
-	private List<String> imports;
+    // class, interface, enum
+    private String type;
 
-	public String getType() {
-		return type;
-	}
+    @SerializedName("extends")
+    private String superClass;
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    @SerializedName("implements")
+    private List<String> interfaces;
 
-	public String getSuperClass() {
-		return superClass;
-	}
+    private String dex;
 
-	public void setSuperClass(String superClass) {
-		this.superClass = superClass;
-	}
+    private List<JsonField> fields;
 
-	public List<String> getInterfaces() {
-		return interfaces;
-	}
+    private List<JsonMethod> methods;
 
-	public void setInterfaces(List<String> interfaces) {
-		this.interfaces = interfaces;
-	}
+    private List<JsonClass> innerClasses;
 
-	public List<JsonField> getFields() {
-		return fields;
-	}
+    private List<String> imports;
 
-	public void setFields(List<JsonField> fields) {
-		this.fields = fields;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public List<JsonMethod> getMethods() {
-		return methods;
-	}
+    @Initializer()
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setMethods(List<JsonMethod> methods) {
-		this.methods = methods;
-	}
+    public String getSuperClass() {
+        return superClass;
+    }
 
-	public List<JsonClass> getInnerClasses() {
-		return innerClasses;
-	}
+    @Initializer()
+    public void setSuperClass(String superClass) {
+        this.superClass = superClass;
+    }
 
-	public void setInnerClasses(List<JsonClass> innerClasses) {
-		this.innerClasses = innerClasses;
-	}
+    public List<String> getInterfaces() {
+        return interfaces;
+    }
 
-	public String getPkg() {
-		return pkg;
-	}
+    @Initializer()
+    public void setInterfaces(List<String> interfaces) {
+        this.interfaces = interfaces;
+    }
 
-	public void setPkg(String pkg) {
-		this.pkg = pkg;
-	}
+    public List<JsonField> getFields() {
+        return fields;
+    }
 
-	public String getDex() {
-		return dex;
-	}
+    @Initializer()
+    public void setFields(List<JsonField> fields) {
+        this.fields = fields;
+    }
 
-	public void setDex(String dex) {
-		this.dex = dex;
-	}
+    public List<JsonMethod> getMethods() {
+        return methods;
+    }
 
-	public List<String> getImports() {
-		return imports;
-	}
+    @Initializer()
+    public void setMethods(List<JsonMethod> methods) {
+        this.methods = methods;
+    }
 
-	public void setImports(List<String> imports) {
-		this.imports = imports;
-	}
+    public List<JsonClass> getInnerClasses() {
+        return innerClasses;
+    }
+
+    @Initializer()
+    public void setInnerClasses(List<JsonClass> innerClasses) {
+        this.innerClasses = innerClasses;
+    }
+
+    public String getPkg() {
+        return pkg;
+    }
+
+    @Initializer()
+    public void setPkg(String pkg) {
+        this.pkg = pkg;
+    }
+
+    public String getDex() {
+        return dex;
+    }
+
+    @Initializer()
+    public void setDex(String dex) {
+        this.dex = dex;
+    }
+
+    public List<String> getImports() {
+        return imports;
+    }
+
+    @Initializer()
+    public void setImports(List<String> imports) {
+        this.imports = imports;
+    }
 }

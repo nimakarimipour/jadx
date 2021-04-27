@@ -2,77 +2,81 @@ package jadx.api;
 
 import java.util.Collections;
 import java.util.List;
-
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class JavaPackage implements JavaNode, Comparable<JavaPackage> {
-	private final String name;
-	private final List<JavaClass> classes;
 
-	JavaPackage(String name, List<JavaClass> classes) {
-		this.name = name;
-		this.classes = classes;
-	}
+    private final String name;
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    private final List<JavaClass> classes;
 
-	@Override
-	public String getFullName() {
-		// TODO: store full package name
-		return name;
-	}
+    JavaPackage(String name, List<JavaClass> classes) {
+        this.name = name;
+        this.classes = classes;
+    }
 
-	public List<JavaClass> getClasses() {
-		return classes;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public JavaClass getDeclaringClass() {
-		return null;
-	}
+    @Override
+    public String getFullName() {
+        // TODO: store full package name
+        return name;
+    }
 
-	@Override
-	public JavaClass getTopParentClass() {
-		return null;
-	}
+    public List<JavaClass> getClasses() {
+        return classes;
+    }
 
-	@Override
-	public int getDecompiledLine() {
-		return 0;
-	}
+    @Override
+    @Nullable()
+    public JavaClass getDeclaringClass() {
+        return null;
+    }
 
-	@Override
-	public List<JavaNode> getUseIn() {
-		return Collections.emptyList();
-	}
+    @Override
+    @Nullable()
+    public JavaClass getTopParentClass() {
+        return null;
+    }
 
-	@Override
-	public int compareTo(@NotNull JavaPackage o) {
-		return name.compareTo(o.name);
-	}
+    @Override
+    public int getDecompiledLine() {
+        return 0;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		JavaPackage that = (JavaPackage) o;
-		return name.equals(that.name);
-	}
+    @Override
+    public List<JavaNode> getUseIn() {
+        return Collections.emptyList();
+    }
 
-	@Override
-	public int hashCode() {
-		return name.hashCode();
-	}
+    @Override
+    public int compareTo(@NotNull JavaPackage o) {
+        return name.compareTo(o.name);
+    }
 
-	@Override
-	public String toString() {
-		return name;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        JavaPackage that = (JavaPackage) o;
+        return name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

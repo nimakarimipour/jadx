@@ -6,80 +6,83 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import jadx.core.xmlgen.entry.ResourceEntry;
+import jadx.Initializer;
+import org.jetbrains.annotations.Nullable;
 
 public class ResourceStorage {
-	private static final Comparator<ResourceEntry> RES_ENTRY_NAME_COMPARATOR = Comparator
-			.comparing(ResourceEntry::getConfig)
-			.thenComparing(ResourceEntry::getTypeName)
-			.thenComparing(ResourceEntry::getKeyName);
 
-	private final List<ResourceEntry> list = new ArrayList<>();
-	private String appPackage;
+    private static final Comparator<ResourceEntry> RES_ENTRY_NAME_COMPARATOR = Comparator.comparing(ResourceEntry::getConfig).thenComparing(ResourceEntry::getTypeName).thenComparing(ResourceEntry::getKeyName);
 
-	/**
-	 * Names in one config and type must be unique
-	 */
-	private final Map<ResourceEntry, ResourceEntry> uniqNameEntries = new TreeMap<>(RES_ENTRY_NAME_COMPARATOR);
+    private final List<ResourceEntry> list = new ArrayList<>();
 
-	/**
-	 * Preserve same name for same id across different configs
-	 */
-	private final Map<Integer, String> renames = new HashMap<>();
+    private String appPackage;
 
-	public void add(ResourceEntry resEntry) {
-		list.add(resEntry);
-		uniqNameEntries.put(resEntry, resEntry);
-	}
+    /**
+     * Names in one config and type must be unique
+     */
+    private final Map<ResourceEntry, ResourceEntry> uniqNameEntries = new TreeMap<>(RES_ENTRY_NAME_COMPARATOR);
 
-	public void replace(ResourceEntry prevResEntry, ResourceEntry newResEntry) {
-		int idx = list.indexOf(prevResEntry);
-		if (idx != -1) {
-			list.set(idx, newResEntry);
-		}
-		// don't remove from unique names so old name stays occupied
-	}
+    /**
+     * Preserve same name for same id across different configs
+     */
+    private final Map<Integer, String> renames = new HashMap<>();
 
-	public void addRename(ResourceEntry entry) {
-		addRename(entry.getId(), entry.getKeyName());
-	}
+    public void add(ResourceEntry resEntry) {
+        list.add(resEntry);
+        uniqNameEntries.put(resEntry, resEntry);
+    }
 
-	public void addRename(int id, String keyName) {
-		renames.put(id, keyName);
-	}
+    public void replace(ResourceEntry prevResEntry, ResourceEntry newResEntry) {
+        int idx = list.indexOf(prevResEntry);
+        if (idx != -1) {
+            list.set(idx, newResEntry);
+        }
+        // don't remove from unique names so old name stays occupied
+    }
 
-	public String getRename(int id) {
-		return renames.get(id);
-	}
+    public void addRename(ResourceEntry entry) {
+        addRename(entry.getId(), entry.getKeyName());
+    }
 
-	public ResourceEntry searchEntryWithSameName(ResourceEntry resourceEntry) {
-		return uniqNameEntries.get(resourceEntry);
-	}
+    public void addRename(int id, String keyName) {
+        renames.put(id, keyName);
+    }
 
-	public void finish() {
-		list.sort(Comparator.comparingInt(ResourceEntry::getId));
-		uniqNameEntries.clear();
-		renames.clear();
-	}
+    @Nullable()
+    public String getRename(int id) {
+        return renames.get(id);
+    }
 
-	public Iterable<ResourceEntry> getResources() {
-		return list;
-	}
+    @Nullable()
+    public ResourceEntry searchEntryWithSameName(ResourceEntry resourceEntry) {
+        return uniqNameEntries.get(resourceEntry);
+    }
 
-	public String getAppPackage() {
-		return appPackage;
-	}
+    public void finish() {
+        list.sort(Comparator.comparingInt(ResourceEntry::getId));
+        uniqNameEntries.clear();
+        renames.clear();
+    }
 
-	public void setAppPackage(String appPackage) {
-		this.appPackage = appPackage;
-	}
+    public Iterable<ResourceEntry> getResources() {
+        return list;
+    }
 
-	public Map<Integer, String> getResourcesNames() {
-		Map<Integer, String> map = new HashMap<>();
-		for (ResourceEntry entry : list) {
-			map.put(entry.getId(), entry.getTypeName() + '/' + entry.getKeyName());
-		}
-		return map;
-	}
+    public String getAppPackage() {
+        return appPackage;
+    }
+
+    @Initializer()
+    public void setAppPackage(String appPackage) {
+        this.appPackage = appPackage;
+    }
+
+    public Map<Integer, String> getResourcesNames() {
+        Map<Integer, String> map = new HashMap<>();
+        for (ResourceEntry entry : list) {
+            map.put(entry.getId(), entry.getTypeName() + '/' + entry.getKeyName());
+        }
+        return map;
+    }
 }

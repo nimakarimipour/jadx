@@ -5,144 +5,151 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
+import jadx.Initializer;
+import org.jetbrains.annotations.Nullable;
 
 public class PackageNode {
 
-	private static final char SEPARATOR_CHAR = '.';
+    private static final char SEPARATOR_CHAR = '.';
 
-	private PackageNode parentPackage;
-	private List<PackageNode> innerPackages = Collections.emptyList();
+    private PackageNode parentPackage;
 
-	private final String packageName;
-	private String packageAlias;
+    private List<PackageNode> innerPackages = Collections.emptyList();
 
-	private String cachedPackageFullName;
-	private String cachedPackageFullAlias;
+    private final String packageName;
 
-	public PackageNode(String packageName) {
-		this.packageName = packageName;
-		this.parentPackage = this;
-	}
+    private String packageAlias;
 
-	public String getName() {
-		return packageName;
-	}
+    private String cachedPackageFullName;
 
-	public String getFullName() {
-		if (cachedPackageFullName == null) {
-			Deque<PackageNode> pp = getParentPackages();
-			if (pp.isEmpty()) {
-				cachedPackageFullName = "";
-			} else {
-				StringBuilder result = new StringBuilder();
-				result.append(pp.pop().getName());
-				while (!pp.isEmpty()) {
-					result.append(SEPARATOR_CHAR);
-					result.append(pp.pop().getName());
-				}
-				cachedPackageFullName = result.toString();
-			}
-		}
-		return cachedPackageFullName;
-	}
+    private String cachedPackageFullAlias;
 
-	public String getAlias() {
-		if (packageAlias != null) {
-			return packageAlias;
-		}
-		return packageName;
-	}
+    public PackageNode(String packageName) {
+        this.packageName = packageName;
+        this.parentPackage = this;
+    }
 
-	public void setAlias(String alias) {
-		packageAlias = alias;
-	}
+    public String getName() {
+        return packageName;
+    }
 
-	public boolean hasAlias() {
-		return packageAlias != null;
-	}
+    @Initializer()
+    public String getFullName() {
+        if (cachedPackageFullName == null) {
+            Deque<PackageNode> pp = getParentPackages();
+            if (pp.isEmpty()) {
+                cachedPackageFullName = "";
+            } else {
+                StringBuilder result = new StringBuilder();
+                result.append(pp.pop().getName());
+                while (!pp.isEmpty()) {
+                    result.append(SEPARATOR_CHAR);
+                    result.append(pp.pop().getName());
+                }
+                cachedPackageFullName = result.toString();
+            }
+        }
+        return cachedPackageFullName;
+    }
 
-	public boolean hasAnyAlias() {
-		if (hasAlias()) {
-			return true;
-		}
-		if (parentPackage != this) {
-			return parentPackage.hasAnyAlias();
-		}
-		return false;
-	}
+    @Initializer()
+    public String getAlias() {
+        if (packageAlias != null) {
+            return packageAlias;
+        }
+        return packageName;
+    }
 
-	public String getFullAlias() {
-		if (cachedPackageFullAlias == null) {
-			Deque<PackageNode> pp = getParentPackages();
-			StringBuilder result = new StringBuilder();
+    public void setAlias(String alias) {
+        packageAlias = alias;
+    }
 
-			if (!pp.isEmpty()) {
-				result.append(pp.pop().getAlias());
-				while (!pp.isEmpty()) {
-					result.append(SEPARATOR_CHAR);
-					result.append(pp.pop().getAlias());
-				}
-			} else {
-				result.append(this.getAlias());
-			}
-			cachedPackageFullAlias = result.toString();
-		}
-		return cachedPackageFullAlias;
-	}
+    public boolean hasAlias() {
+        return packageAlias != null;
+    }
 
-	public PackageNode getParentPackage() {
-		return parentPackage;
-	}
+    public boolean hasAnyAlias() {
+        if (hasAlias()) {
+            return true;
+        }
+        if (parentPackage != this) {
+            return parentPackage.hasAnyAlias();
+        }
+        return false;
+    }
 
-	public List<PackageNode> getInnerPackages() {
-		return innerPackages;
-	}
+    @Initializer()
+    public String getFullAlias() {
+        if (cachedPackageFullAlias == null) {
+            Deque<PackageNode> pp = getParentPackages();
+            StringBuilder result = new StringBuilder();
+            if (!pp.isEmpty()) {
+                result.append(pp.pop().getAlias());
+                while (!pp.isEmpty()) {
+                    result.append(SEPARATOR_CHAR);
+                    result.append(pp.pop().getAlias());
+                }
+            } else {
+                result.append(this.getAlias());
+            }
+            cachedPackageFullAlias = result.toString();
+        }
+        return cachedPackageFullAlias;
+    }
 
-	public void addInnerPackage(PackageNode pkg) {
-		if (innerPackages.isEmpty()) {
-			innerPackages = new ArrayList<>();
-		}
-		innerPackages.add(pkg);
-		pkg.parentPackage = this;
-	}
+    public PackageNode getParentPackage() {
+        return parentPackage;
+    }
 
-	/**
-	 * Gets inner package node by name
-	 *
-	 * @param name inner package name
-	 * @return package node or {@code null}
-	 */
-	public PackageNode getInnerPackageByName(String name) {
-		PackageNode result = null;
-		for (PackageNode p : innerPackages) {
-			if (p.getName().equals(name)) {
-				result = p;
-				break;
-			}
-		}
-		return result;
-	}
+    public List<PackageNode> getInnerPackages() {
+        return innerPackages;
+    }
 
-	/**
-	 * Fills stack with parent packages exclude root node
-	 *
-	 * @return stack with parent packages
-	 */
-	private Deque<PackageNode> getParentPackages() {
-		Deque<PackageNode> pp = new ArrayDeque<>();
+    public void addInnerPackage(PackageNode pkg) {
+        if (innerPackages.isEmpty()) {
+            innerPackages = new ArrayList<>();
+        }
+        innerPackages.add(pkg);
+        pkg.parentPackage = this;
+    }
 
-		PackageNode currentPkg = this;
-		PackageNode parentPkg = currentPkg.getParentPackage();
-		while (currentPkg != parentPkg) {
-			pp.push(currentPkg);
-			currentPkg = parentPkg;
-			parentPkg = currentPkg.getParentPackage();
-		}
-		return pp;
-	}
+    /**
+     * Gets inner package node by name
+     *
+     * @param name inner package name
+     * @return package node or {@code null}
+     */
+    @Nullable()
+    public PackageNode getInnerPackageByName(String name) {
+        PackageNode result = null;
+        for (PackageNode p : innerPackages) {
+            if (p.getName().equals(name)) {
+                result = p;
+                break;
+            }
+        }
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return packageAlias;
-	}
+    /**
+     * Fills stack with parent packages exclude root node
+     *
+     * @return stack with parent packages
+     */
+    private Deque<PackageNode> getParentPackages() {
+        Deque<PackageNode> pp = new ArrayDeque<>();
+        PackageNode currentPkg = this;
+        PackageNode parentPkg = currentPkg.getParentPackage();
+        while (currentPkg != parentPkg) {
+            pp.push(currentPkg);
+            currentPkg = parentPkg;
+            parentPkg = currentPkg.getParentPackage();
+        }
+        return pp;
+    }
+
+    @Override
+    public String toString() {
+        return packageAlias;
+    }
 }

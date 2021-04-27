@@ -10,45 +10,37 @@ import jadx.core.dex.nodes.utils.MethodUtils;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.Initializer;
 
-@JadxVisitor(
-		name = "Attach Method Details",
-		desc = "Attach method details for invoke instructions",
-		runBefore = {
-				CodeShrinkVisitor.class,
-				TypeInferenceVisitor.class,
-				MethodInvokeVisitor.class,
-				OverrideMethodVisitor.class
-		}
-)
+@JadxVisitor(name = "Attach Method Details", desc = "Attach method details for invoke instructions", runBefore = { CodeShrinkVisitor.class, TypeInferenceVisitor.class, MethodInvokeVisitor.class, OverrideMethodVisitor.class })
 public class AttachMethodDetails extends AbstractVisitor {
 
-	private MethodUtils methodUtils;
+    private MethodUtils methodUtils;
 
-	@Override
-	public void init(RootNode root) {
-		methodUtils = root.getMethodUtils();
-	}
+    @Override
+    public void init(RootNode root) {
+        methodUtils = root.getMethodUtils();
+    }
 
-	@Override
-	public void visit(MethodNode mth) throws JadxException {
-		if (mth.isNoCode()) {
-			return;
-		}
-		for (BlockNode blockNode : mth.getBasicBlocks()) {
-			for (InsnNode insn : blockNode.getInstructions()) {
-				if (insn instanceof BaseInvokeNode) {
-					attachMethodDetails((BaseInvokeNode) insn);
-				}
-			}
-		}
-	}
+    @Override
+    public void visit(MethodNode mth) throws JadxException {
+        if (mth.isNoCode()) {
+            return;
+        }
+        for (BlockNode blockNode : mth.getBasicBlocks()) {
+            for (InsnNode insn : blockNode.getInstructions()) {
+                if (insn instanceof BaseInvokeNode) {
+                    attachMethodDetails((BaseInvokeNode) insn);
+                }
+            }
+        }
+    }
 
-	private void attachMethodDetails(BaseInvokeNode insn) {
-		IMethodDetails methodDetails = methodUtils.getMethodDetails(insn.getCallMth());
-		if (methodDetails != null) {
-			insn.addAttr(methodDetails);
-		}
-	}
-
+    @Initializer()
+    private void attachMethodDetails(BaseInvokeNode insn) {
+        IMethodDetails methodDetails = methodUtils.getMethodDetails(insn.getCallMth());
+        if (methodDetails != null) {
+            insn.addAttr(methodDetails);
+        }
+    }
 }

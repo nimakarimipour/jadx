@@ -1,7 +1,6 @@
 package jadx.core.dex.instructions.mods;
 
 import org.jetbrains.annotations.Nullable;
-
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.BaseInvokeNode;
@@ -13,117 +12,121 @@ import jadx.core.dex.nodes.MethodNode;
 
 public final class ConstructorInsn extends BaseInvokeNode {
 
-	private final MethodInfo callMth;
-	private final CallType callType;
+    private final MethodInfo callMth;
 
-	public enum CallType {
-		CONSTRUCTOR, // just new instance
-		SUPER, // super call
-		THIS, // call constructor from other constructor
-		SELF // call itself
-	}
+    private final CallType callType;
 
-	public ConstructorInsn(MethodNode mth, InvokeNode invoke) {
-		super(InsnType.CONSTRUCTOR, invoke.getArgsCount() - 1);
-		this.callMth = invoke.getCallMth();
-		ClassInfo classType = callMth.getDeclClass();
-		RegisterArg instanceArg = (RegisterArg) invoke.getArg(0);
+    public enum CallType {
 
-		if (instanceArg.isThis()) {
-			if (classType.equals(mth.getParentClass().getClassInfo())) {
-				if (callMth.getShortId().equals(mth.getMethodInfo().getShortId())) {
-					// self constructor
-					callType = CallType.SELF;
-				} else {
-					callType = CallType.THIS;
-				}
-			} else {
-				callType = CallType.SUPER;
-			}
-		} else {
-			callType = CallType.CONSTRUCTOR;
-			setResult(instanceArg);
-			// convert from 'use' to 'assign'
-			instanceArg.getSVar().setAssign(instanceArg);
-		}
-		instanceArg.getSVar().removeUse(instanceArg);
-		int argsCount = invoke.getArgsCount();
-		for (int i = 1; i < argsCount; i++) {
-			addArg(invoke.getArg(i));
-		}
-	}
+        // just new instance
+        CONSTRUCTOR,
+        // super call
+        SUPER,
+        // call constructor from other constructor
+        THIS,
+        // call itself
+        SELF
+    }
 
-	public ConstructorInsn(MethodInfo callMth, CallType callType) {
-		super(InsnType.CONSTRUCTOR, callMth.getArgsCount());
-		this.callMth = callMth;
-		this.callType = callType;
-	}
+    public ConstructorInsn(MethodNode mth, InvokeNode invoke) {
+        super(InsnType.CONSTRUCTOR, invoke.getArgsCount() - 1);
+        this.callMth = invoke.getCallMth();
+        ClassInfo classType = callMth.getDeclClass();
+        RegisterArg instanceArg = (RegisterArg) invoke.getArg(0);
+        if (instanceArg.isThis()) {
+            if (classType.equals(mth.getParentClass().getClassInfo())) {
+                if (callMth.getShortId().equals(mth.getMethodInfo().getShortId())) {
+                    // self constructor
+                    callType = CallType.SELF;
+                } else {
+                    callType = CallType.THIS;
+                }
+            } else {
+                callType = CallType.SUPER;
+            }
+        } else {
+            callType = CallType.CONSTRUCTOR;
+            setResult(instanceArg);
+            // convert from 'use' to 'assign'
+            instanceArg.getSVar().setAssign(instanceArg);
+        }
+        instanceArg.getSVar().removeUse(instanceArg);
+        int argsCount = invoke.getArgsCount();
+        for (int i = 1; i < argsCount; i++) {
+            addArg(invoke.getArg(i));
+        }
+    }
 
-	@Override
-	public MethodInfo getCallMth() {
-		return callMth;
-	}
+    public ConstructorInsn(MethodInfo callMth, CallType callType) {
+        super(InsnType.CONSTRUCTOR, callMth.getArgsCount());
+        this.callMth = callMth;
+        this.callType = callType;
+    }
 
-	@Override
-	
-	public RegisterArg getInstanceArg() {
-		return null;
-	}
+    @Override
+    public MethodInfo getCallMth() {
+        return callMth;
+    }
 
-	public ClassInfo getClassType() {
-		return callMth.getDeclClass();
-	}
+    @Override
+    @Nullable()
+    public RegisterArg getInstanceArg() {
+        return null;
+    }
 
-	public CallType getCallType() {
-		return callType;
-	}
+    public ClassInfo getClassType() {
+        return callMth.getDeclClass();
+    }
 
-	public boolean isNewInstance() {
-		return callType == CallType.CONSTRUCTOR;
-	}
+    public CallType getCallType() {
+        return callType;
+    }
 
-	public boolean isSuper() {
-		return callType == CallType.SUPER;
-	}
+    public boolean isNewInstance() {
+        return callType == CallType.CONSTRUCTOR;
+    }
 
-	public boolean isThis() {
-		return callType == CallType.THIS;
-	}
+    public boolean isSuper() {
+        return callType == CallType.SUPER;
+    }
 
-	public boolean isSelf() {
-		return callType == CallType.SELF;
-	}
+    public boolean isThis() {
+        return callType == CallType.THIS;
+    }
 
-	@Override
-	public boolean isStaticCall() {
-		return false;
-	}
+    public boolean isSelf() {
+        return callType == CallType.SELF;
+    }
 
-	@Override
-	public int getFirstArgOffset() {
-		return 0;
-	}
+    @Override
+    public boolean isStaticCall() {
+        return false;
+    }
 
-	@Override
-	public boolean isSame(InsnNode obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof ConstructorInsn) || !super.isSame(obj)) {
-			return false;
-		}
-		ConstructorInsn other = (ConstructorInsn) obj;
-		return callMth.equals(other.callMth)
-				&& callType == other.callType;
-	}
+    @Override
+    public int getFirstArgOffset() {
+        return 0;
+    }
 
-	@Override
-	public InsnNode copy() {
-		return copyCommonParams(new ConstructorInsn(callMth, callType));
-	}
+    @Override
+    public boolean isSame(InsnNode obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof ConstructorInsn) || !super.isSame(obj)) {
+            return false;
+        }
+        ConstructorInsn other = (ConstructorInsn) obj;
+        return callMth.equals(other.callMth) && callType == other.callType;
+    }
 
-	@Override
-	public String toString() {
-		return super.toString() + " call: " + callMth + " type: " + callType;
-	}
+    @Override
+    public InsnNode copy() {
+        return copyCommonParams(new ConstructorInsn(callMth, callType));
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " call: " + callMth + " type: " + callType;
+    }
 }

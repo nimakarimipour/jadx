@@ -2,98 +2,106 @@ package jadx.core.dex.visitors.typeinference;
 
 import java.util.Collections;
 import java.util.List;
-
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.SSAVar;
+import jadx.Initializer;
 
 public class TypeSearchVarInfo {
-	private final SSAVar var;
-	private boolean typeResolved;
-	private ArgType currentType;
-	private List<ArgType> candidateTypes;
-	private int currentIndex = -1;
-	private List<ITypeConstraint> constraints;
 
-	public TypeSearchVarInfo(SSAVar var) {
-		this.var = var;
-	}
+    private final SSAVar var;
 
-	public void markResolved(ArgType type) {
-		this.currentType = type;
-		this.typeResolved = true;
-		this.candidateTypes = Collections.emptyList();
-	}
+    private boolean typeResolved;
 
-	public void reset() {
-		if (typeResolved) {
-			return;
-		}
-		currentIndex = 0;
-		currentType = candidateTypes.get(0);
-	}
+    private ArgType currentType;
 
-	/**
-	 * Switch {@code currentType} to next candidate
-	 *
-	 * @return true - if this is the first candidate
-	 */
-	public boolean nextType() {
-		if (typeResolved) {
-			return false;
-		}
-		int len = candidateTypes.size();
-		currentIndex = (currentIndex + 1) % len;
-		currentType = candidateTypes.get(currentIndex);
-		return currentIndex == 0;
-	}
+    private List<ArgType> candidateTypes;
 
-	public SSAVar getVar() {
-		return var;
-	}
+    private int currentIndex = -1;
 
-	public boolean isTypeResolved() {
-		return typeResolved;
-	}
+    private List<ITypeConstraint> constraints;
 
-	public void setTypeResolved(boolean typeResolved) {
-		this.typeResolved = typeResolved;
-	}
+    public TypeSearchVarInfo(SSAVar var) {
+        this.var = var;
+    }
 
-	public ArgType getCurrentType() {
-		return currentType;
-	}
+    @Initializer()
+    public void markResolved(ArgType type) {
+        this.currentType = type;
+        this.typeResolved = true;
+        this.candidateTypes = Collections.emptyList();
+    }
 
-	public void setCurrentType(ArgType currentType) {
-		this.currentType = currentType;
-	}
+    public void reset() {
+        if (typeResolved) {
+            return;
+        }
+        currentIndex = 0;
+        currentType = candidateTypes.get(0);
+    }
 
-	public List<ArgType> getCandidateTypes() {
-		return candidateTypes;
-	}
+    /**
+     * Switch {@code currentType} to next candidate
+     *
+     * @return true - if this is the first candidate
+     */
+    public boolean nextType() {
+        if (typeResolved) {
+            return false;
+        }
+        int len = candidateTypes.size();
+        currentIndex = (currentIndex + 1) % len;
+        currentType = candidateTypes.get(currentIndex);
+        return currentIndex == 0;
+    }
 
-	public void setCandidateTypes(List<ArgType> candidateTypes) {
-		this.candidateTypes = candidateTypes;
-	}
+    public SSAVar getVar() {
+        return var;
+    }
 
-	public List<ITypeConstraint> getConstraints() {
-		return constraints;
-	}
+    public boolean isTypeResolved() {
+        return typeResolved;
+    }
 
-	public void setConstraints(List<ITypeConstraint> constraints) {
-		this.constraints = constraints;
-	}
+    public void setTypeResolved(boolean typeResolved) {
+        this.typeResolved = typeResolved;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(var.toShortString());
-		if (typeResolved) {
-			sb.append(", resolved type: ").append(currentType);
-		} else {
-			sb.append(", currentType=").append(currentType);
-			sb.append(", candidateTypes=").append(candidateTypes);
-			sb.append(", constraints=").append(constraints);
-		}
-		return sb.toString();
-	}
+    public ArgType getCurrentType() {
+        return currentType;
+    }
+
+    public void setCurrentType(ArgType currentType) {
+        this.currentType = currentType;
+    }
+
+    public List<ArgType> getCandidateTypes() {
+        return candidateTypes;
+    }
+
+    public void setCandidateTypes(List<ArgType> candidateTypes) {
+        this.candidateTypes = candidateTypes;
+    }
+
+    public List<ITypeConstraint> getConstraints() {
+        return constraints;
+    }
+
+    @Initializer()
+    public void setConstraints(List<ITypeConstraint> constraints) {
+        this.constraints = constraints;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(var.toShortString());
+        if (typeResolved) {
+            sb.append(", resolved type: ").append(currentType);
+        } else {
+            sb.append(", currentType=").append(currentType);
+            sb.append(", candidateTypes=").append(candidateTypes);
+            sb.append(", constraints=").append(constraints);
+        }
+        return sb.toString();
+    }
 }

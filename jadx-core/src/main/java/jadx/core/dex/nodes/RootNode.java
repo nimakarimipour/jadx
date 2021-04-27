@@ -5,12 +5,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import jadx.api.ICodeCache;
 import jadx.api.JadxArgs;
 import jadx.api.ResourceFile;
@@ -41,441 +39,452 @@ import jadx.core.xmlgen.ResTableParser;
 import jadx.core.xmlgen.ResourceStorage;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import jadx.core.xmlgen.entry.ValuesParser;
+import jadx.Initializer;
 
 public class RootNode {
-	private static final Logger LOG = LoggerFactory.getLogger(RootNode.class);
 
-	private final JadxArgs args;
-	private final List<IDexTreeVisitor> preDecompilePasses;
-	private final List<IDexTreeVisitor> passes;
+    private static final Logger LOG = LoggerFactory.getLogger(RootNode.class);
 
-	private final ErrorsCounter errorsCounter = new ErrorsCounter();
-	private final StringUtils stringUtils;
-	private final ConstStorage constValues;
-	private final InfoStorage infoStorage = new InfoStorage();
-	private final CacheStorage cacheStorage = new CacheStorage();
-	private final TypeUpdate typeUpdate;
-	private final MethodUtils methodUtils;
-	private final TypeUtils typeUtils;
+    private final JadxArgs args;
 
-	private final ICodeCache codeCache;
+    private final List<IDexTreeVisitor> preDecompilePasses;
 
-	private final List<ClassNode> classes = new ArrayList<>();
-	private final Map<ClassInfo, ClassNode> clsMap = new HashMap<>();
+    private final List<IDexTreeVisitor> passes;
 
-	private ClspGraph clsp;
-	
-	private String appPackage;
-	
-	private ClassNode appResClass;
+    private final ErrorsCounter errorsCounter = new ErrorsCounter();
 
-	public RootNode(JadxArgs args) {
-		this.args = args;
-		this.preDecompilePasses = Jadx.getPreDecompilePassesList();
-		this.passes = Jadx.getPassesList(args);
-		this.stringUtils = new StringUtils(args);
-		this.constValues = new ConstStorage(args);
-		this.typeUpdate = new TypeUpdate(this);
-		this.codeCache = args.getCodeCache();
-		this.methodUtils = new MethodUtils(this);
-		this.typeUtils = new TypeUtils(this);
-	}
+    private final StringUtils stringUtils;
 
-	public void loadClasses(List<ILoadResult> loadedInputs) {
-		for (ILoadResult loadedInput : loadedInputs) {
-			loadedInput.visitClasses(cls -> {
-				try {
-					addClassNode(new ClassNode(RootNode.this, cls));
-				} catch (Exception e) {
-					addDummyClass(cls, e);
-				}
-			});
-		}
-		// sort classes by name, expect top classes before inner
-		classes.sort(Comparator.comparing(ClassNode::getFullName));
-		initInnerClasses();
-		LOG.debug("Classes loaded: {}", classes.size());
-	}
+    private final ConstStorage constValues;
 
-	private void addDummyClass(IClassData classData, Exception exc) {
-		String typeStr = classData.getType();
-		String name = null;
-		try {
-			ClassInfo clsInfo = ClassInfo.fromName(this, typeStr);
-			if (clsInfo != null) {
-				name = clsInfo.getShortName();
-			}
-		} catch (Exception e) {
-			LOG.error("Failed to get name for class with type {}", typeStr, e);
-		}
-		if (name == null || name.isEmpty()) {
-			name = "CLASS_" + typeStr;
-		}
-		ClassNode clsNode = ClassNode.addSyntheticClass(this, name, classData.getAccessFlags());
-		ErrorsCounter.error(clsNode, "Load error", exc);
-	}
+    private final InfoStorage infoStorage = new InfoStorage();
 
-	public void addClassNode(ClassNode clsNode) {
-		classes.add(clsNode);
-		clsMap.put(clsNode.getClassInfo(), clsNode);
-	}
+    private final CacheStorage cacheStorage = new CacheStorage();
 
-	public void loadResources(List<ResourceFile> resources) {
-		ResourceFile arsc = null;
-		for (ResourceFile rf : resources) {
-			if (rf.getType() == ResourceType.ARSC) {
-				arsc = rf;
-				break;
-			}
-		}
-		if (arsc == null) {
-			LOG.debug("'.arsc' file not found");
-			return;
-		}
-		try {
-			ResTableParser parser = ResourcesLoader.decodeStream(arsc, (size, is) -> {
-				ResTableParser tableParser = new ResTableParser(this);
-				tableParser.decode(is);
-				return tableParser;
-			});
-			if (parser != null) {
-				processResources(parser.getResStorage());
-				updateObfuscatedFiles(parser, resources);
-			}
-		} catch (Exception e) {
-			LOG.error("Failed to parse '.arsc' file", e);
-		}
-	}
+    private final TypeUpdate typeUpdate;
 
-	public void processResources(ResourceStorage resStorage) {
-		constValues.setResourcesNames(resStorage.getResourcesNames());
-		appPackage = resStorage.getAppPackage();
-		appResClass = AndroidResourcesUtils.searchAppResClass(this, resStorage);
-	}
+    private final MethodUtils methodUtils;
 
-	public void initClassPath() {
-		try {
-			if (this.clsp == null) {
-				ClspGraph newClsp = new ClspGraph(this);
-				newClsp.load();
-				newClsp.addApp(classes);
-				this.clsp = newClsp;
-			}
-		} catch (Exception e) {
-			throw new JadxRuntimeException("Error loading jadx class set", e);
-		}
-	}
+    private final TypeUtils typeUtils;
 
-	private void updateObfuscatedFiles(ResTableParser parser, List<ResourceFile> resources) {
-		if (args.isSkipResources()) {
-			return;
-		}
-		long start = System.currentTimeMillis();
-		int renamedCount = 0;
-		ResourceStorage resStorage = parser.getResStorage();
-		ValuesParser valuesParser = new ValuesParser(parser.getStrings(), resStorage.getResourcesNames());
-		Map<String, ResourceEntry> entryNames = new HashMap<>();
-		for (ResourceEntry resEntry : resStorage.getResources()) {
-			String val = valuesParser.getSimpleValueString(resEntry);
-			if (val != null) {
-				entryNames.put(val, resEntry);
-			}
-		}
-		for (ResourceFile resource : resources) {
-			ResourceEntry resEntry = entryNames.get(resource.getOriginalName());
-			if (resEntry != null) {
-				resource.setAlias(resEntry);
-				renamedCount++;
-			}
-		}
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Renamed obfuscated resources: {}, duration: {}ms", renamedCount, System.currentTimeMillis() - start);
-		}
-	}
+    private final ICodeCache codeCache;
 
-	private void initInnerClasses() {
-		// move inner classes
-		List<ClassNode> inner = new ArrayList<>();
-		for (ClassNode cls : classes) {
-			if (cls.getClassInfo().isInner()) {
-				inner.add(cls);
-			}
-		}
-		List<ClassNode> updated = new ArrayList<>();
-		for (ClassNode cls : inner) {
-			ClassInfo clsInfo = cls.getClassInfo();
-			ClassNode parent = resolveClass(clsInfo.getParentClass());
-			if (parent == null) {
-				clsMap.remove(clsInfo);
-				clsInfo.notInner(this);
-				clsMap.put(clsInfo, cls);
-				updated.add(cls);
-			} else {
-				parent.addInnerClass(cls);
-			}
-		}
-		// reload names for inner classes of updated parents
-		for (ClassNode updCls : updated) {
-			for (ClassNode innerCls : updCls.getInnerClasses()) {
-				innerCls.getClassInfo().updateNames(this);
-			}
-		}
-	}
+    private final List<ClassNode> classes = new ArrayList<>();
 
-	public void runPreDecompileStage() {
-		for (IDexTreeVisitor pass : preDecompilePasses) {
-			try {
-				pass.init(this);
-			} catch (Exception e) {
-				LOG.error("Visitor init failed: {}", pass.getClass().getSimpleName(), e);
-			}
-			for (ClassNode cls : classes) {
-				DepthTraversal.visit(pass, cls);
-			}
-		}
-	}
+    private final Map<ClassInfo, ClassNode> clsMap = new HashMap<>();
 
-	public void runPreDecompileStageForClass(ClassNode cls) {
-		for (IDexTreeVisitor pass : preDecompilePasses) {
-			DepthTraversal.visit(pass, cls);
-		}
-	}
+    private ClspGraph clsp;
 
-	public List<ClassNode> getClasses() {
-		return classes;
-	}
+    private String appPackage;
 
-	public List<ClassNode> getClassesWithoutInner() {
-		return getClasses(false);
-	}
+    private ClassNode appResClass;
 
-	public List<ClassNode> getClasses(boolean includeInner) {
-		if (includeInner) {
-			return classes;
-		}
-		List<ClassNode> notInnerClasses = new ArrayList<>();
-		for (ClassNode cls : classes) {
-			if (!cls.getClassInfo().isInner()) {
-				notInnerClasses.add(cls);
-			}
-		}
-		return notInnerClasses;
-	}
+    public RootNode(JadxArgs args) {
+        this.args = args;
+        this.preDecompilePasses = Jadx.getPreDecompilePassesList();
+        this.passes = Jadx.getPassesList(args);
+        this.stringUtils = new StringUtils(args);
+        this.constValues = new ConstStorage(args);
+        this.typeUpdate = new TypeUpdate(this);
+        this.codeCache = args.getCodeCache();
+        this.methodUtils = new MethodUtils(this);
+        this.typeUtils = new TypeUtils(this);
+    }
 
-	
-	public ClassNode resolveClass(ClassInfo clsInfo) {
-		return clsMap.get(clsInfo);
-	}
+    public void loadClasses(List<ILoadResult> loadedInputs) {
+        for (ILoadResult loadedInput : loadedInputs) {
+            loadedInput.visitClasses(cls -> {
+                try {
+                    addClassNode(new ClassNode(RootNode.this, cls));
+                } catch (Exception e) {
+                    addDummyClass(cls, e);
+                }
+            });
+        }
+        // sort classes by name, expect top classes before inner
+        classes.sort(Comparator.comparing(ClassNode::getFullName));
+        initInnerClasses();
+        LOG.debug("Classes loaded: {}", classes.size());
+    }
 
-	
-	public ClassNode resolveClass(ArgType clsType) {
-		if (!clsType.isTypeKnown() || clsType.isGenericType()) {
-			return null;
-		}
-		if (clsType.getWildcardBound() == ArgType.WildcardBound.UNBOUND) {
-			return null;
-		}
-		if (clsType.isGeneric()) {
-			clsType = ArgType.object(clsType.getObject());
-		}
-		return resolveClass(ClassInfo.fromType(this, clsType));
-	}
+    private void addDummyClass(IClassData classData, Exception exc) {
+        String typeStr = classData.getType();
+        String name = null;
+        try {
+            ClassInfo clsInfo = ClassInfo.fromName(this, typeStr);
+            if (clsInfo != null) {
+                name = clsInfo.getShortName();
+            }
+        } catch (Exception e) {
+            LOG.error("Failed to get name for class with type {}", typeStr, e);
+        }
+        if (name == null || name.isEmpty()) {
+            name = "CLASS_" + typeStr;
+        }
+        ClassNode clsNode = ClassNode.addSyntheticClass(this, name, classData.getAccessFlags());
+        ErrorsCounter.error(clsNode, "Load error", exc);
+    }
 
-	
-	public ClassNode resolveClass(String fullName) {
-		ClassInfo clsInfo = ClassInfo.fromName(this, fullName);
-		return resolveClass(clsInfo);
-	}
+    public void addClassNode(ClassNode clsNode) {
+        classes.add(clsNode);
+        clsMap.put(clsNode.getClassInfo(), clsNode);
+    }
 
-	
-	public ClassNode searchClassByFullAlias(String fullName) {
-		for (ClassNode cls : classes) {
-			ClassInfo classInfo = cls.getClassInfo();
-			if (classInfo.getFullName().equals(fullName)
-					|| classInfo.getAliasFullName().equals(fullName)) {
-				return cls;
-			}
-		}
-		return null;
-	}
+    public void loadResources(List<ResourceFile> resources) {
+        ResourceFile arsc = null;
+        for (ResourceFile rf : resources) {
+            if (rf.getType() == ResourceType.ARSC) {
+                arsc = rf;
+                break;
+            }
+        }
+        if (arsc == null) {
+            LOG.debug("'.arsc' file not found");
+            return;
+        }
+        try {
+            ResTableParser parser = ResourcesLoader.decodeStream(arsc, (size, is) -> {
+                ResTableParser tableParser = new ResTableParser(this);
+                tableParser.decode(is);
+                return tableParser;
+            });
+            if (parser != null) {
+                processResources(parser.getResStorage());
+                updateObfuscatedFiles(parser, resources);
+            }
+        } catch (Exception e) {
+            LOG.error("Failed to parse '.arsc' file", e);
+        }
+    }
 
-	public List<ClassNode> searchClassByShortName(String shortName) {
-		List<ClassNode> list = new ArrayList<>();
-		for (ClassNode cls : classes) {
-			if (cls.getClassInfo().getShortName().equals(shortName)) {
-				list.add(cls);
-			}
-		}
-		return list;
-	}
+    @Initializer()
+    public void processResources(ResourceStorage resStorage) {
+        constValues.setResourcesNames(resStorage.getResourcesNames());
+        appPackage = resStorage.getAppPackage();
+        appResClass = AndroidResourcesUtils.searchAppResClass(this, resStorage);
+    }
 
-	
-	public MethodNode resolveMethod(@NotNull MethodInfo mth) {
-		ClassNode cls = resolveClass(mth.getDeclClass());
-		if (cls != null) {
-			return cls.searchMethod(mth);
-		}
-		return null;
-	}
+    @Initializer()
+    public void initClassPath() {
+        try {
+            if (this.clsp == null) {
+                ClspGraph newClsp = new ClspGraph(this);
+                newClsp.load();
+                newClsp.addApp(classes);
+                this.clsp = newClsp;
+            }
+        } catch (Exception e) {
+            throw new JadxRuntimeException("Error loading jadx class set", e);
+        }
+    }
 
-	
-	public MethodNode deepResolveMethod(@NotNull MethodInfo mth) {
-		ClassNode cls = resolveClass(mth.getDeclClass());
-		if (cls == null) {
-			return null;
-		}
-		MethodNode methodNode = cls.searchMethod(mth);
-		if (methodNode != null) {
-			return methodNode;
-		}
-		return deepResolveMethod(cls, mth.makeSignature(false));
-	}
+    private void updateObfuscatedFiles(ResTableParser parser, List<ResourceFile> resources) {
+        if (args.isSkipResources()) {
+            return;
+        }
+        long start = System.currentTimeMillis();
+        int renamedCount = 0;
+        ResourceStorage resStorage = parser.getResStorage();
+        ValuesParser valuesParser = new ValuesParser(parser.getStrings(), resStorage.getResourcesNames());
+        Map<String, ResourceEntry> entryNames = new HashMap<>();
+        for (ResourceEntry resEntry : resStorage.getResources()) {
+            String val = valuesParser.getSimpleValueString(resEntry);
+            if (val != null) {
+                entryNames.put(val, resEntry);
+            }
+        }
+        for (ResourceFile resource : resources) {
+            ResourceEntry resEntry = entryNames.get(resource.getOriginalName());
+            if (resEntry != null) {
+                resource.setAlias(resEntry);
+                renamedCount++;
+            }
+        }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Renamed obfuscated resources: {}, duration: {}ms", renamedCount, System.currentTimeMillis() - start);
+        }
+    }
 
-	
-	private MethodNode deepResolveMethod(@NotNull ClassNode cls, String signature) {
-		for (MethodNode m : cls.getMethods()) {
-			if (m.getMethodInfo().getShortId().startsWith(signature)) {
-				return m;
-			}
-		}
-		MethodNode found;
-		ArgType superClass = cls.getSuperClass();
-		if (superClass != null) {
-			ClassNode superNode = resolveClass(superClass);
-			if (superNode != null) {
-				found = deepResolveMethod(superNode, signature);
-				if (found != null) {
-					return found;
-				}
-			}
-		}
-		for (ArgType iFaceType : cls.getInterfaces()) {
-			ClassNode iFaceNode = resolveClass(iFaceType);
-			if (iFaceNode != null) {
-				found = deepResolveMethod(iFaceNode, signature);
-				if (found != null) {
-					return found;
-				}
-			}
-		}
-		return null;
-	}
+    private void initInnerClasses() {
+        // move inner classes
+        List<ClassNode> inner = new ArrayList<>();
+        for (ClassNode cls : classes) {
+            if (cls.getClassInfo().isInner()) {
+                inner.add(cls);
+            }
+        }
+        List<ClassNode> updated = new ArrayList<>();
+        for (ClassNode cls : inner) {
+            ClassInfo clsInfo = cls.getClassInfo();
+            ClassNode parent = resolveClass(clsInfo.getParentClass());
+            if (parent == null) {
+                clsMap.remove(clsInfo);
+                clsInfo.notInner(this);
+                clsMap.put(clsInfo, cls);
+                updated.add(cls);
+            } else {
+                parent.addInnerClass(cls);
+            }
+        }
+        // reload names for inner classes of updated parents
+        for (ClassNode updCls : updated) {
+            for (ClassNode innerCls : updCls.getInnerClasses()) {
+                innerCls.getClassInfo().updateNames(this);
+            }
+        }
+    }
 
-	
-	public FieldNode resolveField(FieldInfo field) {
-		ClassNode cls = resolveClass(field.getDeclClass());
-		if (cls != null) {
-			return cls.searchField(field);
-		}
-		return null;
-	}
+    public void runPreDecompileStage() {
+        for (IDexTreeVisitor pass : preDecompilePasses) {
+            try {
+                pass.init(this);
+            } catch (Exception e) {
+                LOG.error("Visitor init failed: {}", pass.getClass().getSimpleName(), e);
+            }
+            for (ClassNode cls : classes) {
+                DepthTraversal.visit(pass, cls);
+            }
+        }
+    }
 
-	
-	public FieldNode deepResolveField(@NotNull FieldInfo field) {
-		ClassNode cls = resolveClass(field.getDeclClass());
-		if (cls == null) {
-			return null;
-		}
-		return deepResolveField(cls, field);
-	}
+    public void runPreDecompileStageForClass(ClassNode cls) {
+        for (IDexTreeVisitor pass : preDecompilePasses) {
+            DepthTraversal.visit(pass, cls);
+        }
+    }
 
-	
-	private FieldNode deepResolveField(@NotNull ClassNode cls, FieldInfo fieldInfo) {
-		FieldNode field = cls.searchFieldByNameAndType(fieldInfo);
-		if (field != null) {
-			return field;
-		}
-		ArgType superClass = cls.getSuperClass();
-		if (superClass != null) {
-			ClassNode superNode = resolveClass(superClass);
-			if (superNode != null) {
-				FieldNode found = deepResolveField(superNode, fieldInfo);
-				if (found != null) {
-					return found;
-				}
-			}
-		}
-		for (ArgType iFaceType : cls.getInterfaces()) {
-			ClassNode iFaceNode = resolveClass(iFaceType);
-			if (iFaceNode != null) {
-				FieldNode found = deepResolveField(iFaceNode, fieldInfo);
-				if (found != null) {
-					return found;
-				}
-			}
-		}
-		return null;
-	}
+    public List<ClassNode> getClasses() {
+        return classes;
+    }
 
-	public List<IDexTreeVisitor> getPasses() {
-		return passes;
-	}
+    public List<ClassNode> getClassesWithoutInner() {
+        return getClasses(false);
+    }
 
-	public void initPasses() {
-		for (IDexTreeVisitor pass : passes) {
-			try {
-				pass.init(this);
-			} catch (Exception e) {
-				LOG.error("Visitor init failed: {}", pass.getClass().getSimpleName(), e);
-			}
-		}
-	}
+    public List<ClassNode> getClasses(boolean includeInner) {
+        if (includeInner) {
+            return classes;
+        }
+        List<ClassNode> notInnerClasses = new ArrayList<>();
+        for (ClassNode cls : classes) {
+            if (!cls.getClassInfo().isInner()) {
+                notInnerClasses.add(cls);
+            }
+        }
+        return notInnerClasses;
+    }
 
-	public ClspGraph getClsp() {
-		return clsp;
-	}
+    @Nullable()
+    public ClassNode resolveClass(ClassInfo clsInfo) {
+        return clsMap.get(clsInfo);
+    }
 
-	public ErrorsCounter getErrorsCounter() {
-		return errorsCounter;
-	}
+    @Nullable()
+    public ClassNode resolveClass(ArgType clsType) {
+        if (!clsType.isTypeKnown() || clsType.isGenericType()) {
+            return null;
+        }
+        if (clsType.getWildcardBound() == ArgType.WildcardBound.UNBOUND) {
+            return null;
+        }
+        if (clsType.isGeneric()) {
+            clsType = ArgType.object(clsType.getObject());
+        }
+        return resolveClass(ClassInfo.fromType(this, clsType));
+    }
 
-	
-	public String getAppPackage() {
-		return appPackage;
-	}
+    @Nullable()
+    public ClassNode resolveClass(String fullName) {
+        ClassInfo clsInfo = ClassInfo.fromName(this, fullName);
+        return resolveClass(clsInfo);
+    }
 
-	
-	public ClassNode getAppResClass() {
-		return appResClass;
-	}
+    @Nullable()
+    public ClassNode searchClassByFullAlias(String fullName) {
+        for (ClassNode cls : classes) {
+            ClassInfo classInfo = cls.getClassInfo();
+            if (classInfo.getFullName().equals(fullName) || classInfo.getAliasFullName().equals(fullName)) {
+                return cls;
+            }
+        }
+        return null;
+    }
 
-	public StringUtils getStringUtils() {
-		return stringUtils;
-	}
+    public List<ClassNode> searchClassByShortName(String shortName) {
+        List<ClassNode> list = new ArrayList<>();
+        for (ClassNode cls : classes) {
+            if (cls.getClassInfo().getShortName().equals(shortName)) {
+                list.add(cls);
+            }
+        }
+        return list;
+    }
 
-	public ConstStorage getConstValues() {
-		return constValues;
-	}
+    @Nullable()
+    public MethodNode resolveMethod(@NotNull MethodInfo mth) {
+        ClassNode cls = resolveClass(mth.getDeclClass());
+        if (cls != null) {
+            return cls.searchMethod(mth);
+        }
+        return null;
+    }
 
-	public InfoStorage getInfoStorage() {
-		return infoStorage;
-	}
+    @Nullable()
+    public MethodNode deepResolveMethod(@NotNull MethodInfo mth) {
+        ClassNode cls = resolveClass(mth.getDeclClass());
+        if (cls == null) {
+            return null;
+        }
+        MethodNode methodNode = cls.searchMethod(mth);
+        if (methodNode != null) {
+            return methodNode;
+        }
+        return deepResolveMethod(cls, mth.makeSignature(false));
+    }
 
-	public CacheStorage getCacheStorage() {
-		return cacheStorage;
-	}
+    @Nullable()
+    private MethodNode deepResolveMethod(@NotNull ClassNode cls, String signature) {
+        for (MethodNode m : cls.getMethods()) {
+            if (m.getMethodInfo().getShortId().startsWith(signature)) {
+                return m;
+            }
+        }
+        MethodNode found;
+        ArgType superClass = cls.getSuperClass();
+        if (superClass != null) {
+            ClassNode superNode = resolveClass(superClass);
+            if (superNode != null) {
+                found = deepResolveMethod(superNode, signature);
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+        for (ArgType iFaceType : cls.getInterfaces()) {
+            ClassNode iFaceNode = resolveClass(iFaceType);
+            if (iFaceNode != null) {
+                found = deepResolveMethod(iFaceNode, signature);
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+        return null;
+    }
 
-	public JadxArgs getArgs() {
-		return args;
-	}
+    @Nullable()
+    public FieldNode resolveField(FieldInfo field) {
+        ClassNode cls = resolveClass(field.getDeclClass());
+        if (cls != null) {
+            return cls.searchField(field);
+        }
+        return null;
+    }
 
-	public TypeUpdate getTypeUpdate() {
-		return typeUpdate;
-	}
+    @Nullable()
+    public FieldNode deepResolveField(@NotNull FieldInfo field) {
+        ClassNode cls = resolveClass(field.getDeclClass());
+        if (cls == null) {
+            return null;
+        }
+        return deepResolveField(cls, field);
+    }
 
-	public TypeCompare getTypeCompare() {
-		return typeUpdate.getTypeCompare();
-	}
+    @Nullable()
+    private FieldNode deepResolveField(@NotNull ClassNode cls, FieldInfo fieldInfo) {
+        FieldNode field = cls.searchFieldByNameAndType(fieldInfo);
+        if (field != null) {
+            return field;
+        }
+        ArgType superClass = cls.getSuperClass();
+        if (superClass != null) {
+            ClassNode superNode = resolveClass(superClass);
+            if (superNode != null) {
+                FieldNode found = deepResolveField(superNode, fieldInfo);
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+        for (ArgType iFaceType : cls.getInterfaces()) {
+            ClassNode iFaceNode = resolveClass(iFaceType);
+            if (iFaceNode != null) {
+                FieldNode found = deepResolveField(iFaceNode, fieldInfo);
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+        return null;
+    }
 
-	public ICodeCache getCodeCache() {
-		return codeCache;
-	}
+    public List<IDexTreeVisitor> getPasses() {
+        return passes;
+    }
 
-	public MethodUtils getMethodUtils() {
-		return methodUtils;
-	}
+    public void initPasses() {
+        for (IDexTreeVisitor pass : passes) {
+            try {
+                pass.init(this);
+            } catch (Exception e) {
+                LOG.error("Visitor init failed: {}", pass.getClass().getSimpleName(), e);
+            }
+        }
+    }
 
-	public TypeUtils getTypeUtils() {
-		return typeUtils;
-	}
+    public ClspGraph getClsp() {
+        return clsp;
+    }
+
+    public ErrorsCounter getErrorsCounter() {
+        return errorsCounter;
+    }
+
+    public String getAppPackage() {
+        return appPackage;
+    }
+
+    public ClassNode getAppResClass() {
+        return appResClass;
+    }
+
+    public StringUtils getStringUtils() {
+        return stringUtils;
+    }
+
+    public ConstStorage getConstValues() {
+        return constValues;
+    }
+
+    public InfoStorage getInfoStorage() {
+        return infoStorage;
+    }
+
+    public CacheStorage getCacheStorage() {
+        return cacheStorage;
+    }
+
+    public JadxArgs getArgs() {
+        return args;
+    }
+
+    public TypeUpdate getTypeUpdate() {
+        return typeUpdate;
+    }
+
+    public TypeCompare getTypeCompare() {
+        return typeUpdate.getTypeCompare();
+    }
+
+    public ICodeCache getCodeCache() {
+        return codeCache;
+    }
+
+    public MethodUtils getMethodUtils() {
+        return methodUtils;
+    }
+
+    public TypeUtils getTypeUtils() {
+        return typeUtils;
+    }
 }
