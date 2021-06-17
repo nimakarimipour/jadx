@@ -278,6 +278,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		return true;
 	}
 
+	@Nullable
 	private static InsnsSlice searchFromFirstBlock(BlockNode dupBlock, BlockNode startBlock, FinallyExtractInfo extractInfo) {
 		InsnsSlice dupSlice = isStartBlock(dupBlock, startBlock, extractInfo);
 		if (dupSlice == null) {
@@ -291,6 +292,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private static InsnsSlice checkTempSlice(InsnsSlice slice) {
 		List<InsnNode> insnsList = slice.getInsnsList();
 		if (insnsList.isEmpty()) {
@@ -309,6 +311,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 	/**
 	 * 'Finally' instructions can start in the middle of the first block.
 	 */
+	@Nullable
 	private static InsnsSlice isStartBlock(BlockNode dupBlock, BlockNode finallyBlock, FinallyExtractInfo extractInfo) {
 		List<InsnNode> dupInsns = dupBlock.getInstructions();
 		List<InsnNode> finallyInsns = finallyBlock.getInstructions();

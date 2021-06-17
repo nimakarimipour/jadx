@@ -88,6 +88,7 @@ public class TemplateFile {
 	}
 
 	
+	@Nullable
 	private String process(ParserState parser, char ch) {
 		State state = parser.state;
 		switch (ch) {

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 Ryszard Wiśniewski <brut.alll@gmail.com>
+ * Copyright (C) 2018 Ryszard Wi?niewski <brut.alll@gmail.com>
  * Copyright (C) 2018 Connor Tumbleson <connor.tumbleson@gmail.com>
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +19,13 @@ package jadx.core.xmlgen.entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.jetbrains.annotations.Nullable;
 /**
  * Original source code can be found
  * <a href=
  * "https://raw.githubusercontent.com/iBotPeaches/Apktool/master/brut.apktool/apktool-lib/src/main/java/brut/androlib/res/data/ResConfigFlags.java">here</a>
  */
+
 
 public class EntryConfig {
 	public final short mcc;
@@ -71,7 +72,7 @@ public class EntryConfig {
 			byte inputFlags, short screenWidth, short screenHeight,
 			short sdkVersion, byte screenLayout, byte uiMode,
 			short smallestScreenWidthDp, short screenWidthDp,
-			short screenHeightDp, char[] localeScript, char[] localeVariant,
+			short screenHeightDp, @Nullable char[] localeScript, @Nullable char[] localeVariant,
 			byte screenLayout2, byte colorMode, boolean isInvalid, int size) {
 		if (orientation < 0 || orientation > 3) {
 			LOG.warn("Invalid orientation value: {}", orientation);

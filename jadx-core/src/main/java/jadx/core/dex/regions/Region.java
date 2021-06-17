@@ -6,12 +6,13 @@ import java.util.List;
 import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.IRegion;
 import jadx.core.utils.Utils;
+import org.jetbrains.annotations.Nullable;
 
 public final class Region extends AbstractRegion {
 
 	private final List<IContainer> blocks;
 
-	public Region(IRegion parent) {
+	public Region(@Nullable IRegion parent) {
 		super(parent);
 		this.blocks = new ArrayList<>(1);
 	}

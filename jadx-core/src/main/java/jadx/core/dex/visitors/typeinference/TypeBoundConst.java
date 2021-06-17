@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.RegisterArg;
+import org.jetbrains.annotations.Nullable;
 
 public final class TypeBoundConst implements ITypeBound {
 	private final BoundEnum bound;
@@ -14,7 +15,7 @@ public final class TypeBoundConst implements ITypeBound {
 		this(bound, type, null);
 	}
 
-	public TypeBoundConst(BoundEnum bound, ArgType type, RegisterArg arg) {
+	public TypeBoundConst(BoundEnum bound, ArgType type, @Nullable RegisterArg arg) {
 		this.bound = bound;
 		this.type = type;
 		this.arg = arg;

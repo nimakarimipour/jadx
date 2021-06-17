@@ -15,6 +15,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jetbrains.annotations.Nullable;
 
 public class ManifestAttributes {
 	private static final Logger LOG = LoggerFactory.getLogger(ManifestAttributes.class);
@@ -50,6 +51,7 @@ public class ManifestAttributes {
 
 	private final Map<String, MAttr> attrMap = new HashMap<>();
 
+	@Nullable
 	private static ManifestAttributes instance;
 
 	public static ManifestAttributes getInstance() {
@@ -163,6 +165,7 @@ public class ManifestAttributes {
 		}
 	}
 
+	@Nullable
 	public String decode(String attrName, long value) {
 		MAttr attr = attrMap.get(attrName);
 		if (attr == null) {

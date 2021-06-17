@@ -58,6 +58,7 @@ public class RegionUtils {
 		}
 	}
 
+	@Nullable
 	public static InsnNode getLastInsn(IContainer container) {
 		if (container instanceof IBlock) {
 			IBlock block = (IBlock) container;
@@ -80,6 +81,7 @@ public class RegionUtils {
 		}
 	}
 
+	@Nullable
 	public static IBlock getLastBlock(IContainer container) {
 		if (container instanceof IBlock) {
 			return (IBlock) container;
@@ -231,7 +233,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static boolean isRegionContainsBlock(IContainer container, BlockNode block) {
+	public static boolean isRegionContainsBlock(IContainer container, @Nullable BlockNode block) {
 		if (container instanceof IBlock) {
 			return container == block;
 		} else if (container instanceof IRegion) {
@@ -314,6 +316,7 @@ public class RegionUtils {
 		return true;
 	}
 
+	@Nullable
 	public static IContainer getBlockContainer(IContainer container, BlockNode block) {
 		if (container instanceof IBlock) {
 			return container == block ? container : null;

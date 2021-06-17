@@ -163,16 +163,19 @@ public final class JavaClass implements JavaNode {
 
 	
 	@Deprecated
+	@Nullable
 	public JavaNode getJavaNodeAtPosition(int line, int offset) {
 		return getRootDecompiler().getJavaNodeAtPosition(getCodeInfo(), line, offset);
 	}
 
 	
 	@Deprecated
+	@Nullable
 	public CodePosition getDefinitionPosition() {
 		return getRootDecompiler().getDefinitionPosition(this);
 	}
 
+	@Nullable
 	public Integer getSourceLine(int decompiledLine) {
 		return getCodeInfo().getLineMapping().get(decompiledLine);
 	}

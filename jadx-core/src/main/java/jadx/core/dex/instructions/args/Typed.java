@@ -1,6 +1,7 @@
 package jadx.core.dex.instructions.args;
 
 import jadx.core.dex.attributes.AttrNode;
+import jadx.Initializer;
 
 public abstract class Typed extends AttrNode {
 
@@ -10,6 +11,7 @@ public abstract class Typed extends AttrNode {
 		return type;
 	}
 
+	@Initializer
 	public void setType(ArgType type) {
 		this.type = type;
 	}

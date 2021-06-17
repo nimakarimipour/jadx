@@ -11,6 +11,7 @@ import jadx.core.dex.instructions.args.LiteralArg;
 import jadx.core.dex.instructions.args.PrimitiveType;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jetbrains.annotations.Nullable;
 
 public final class FillArrayData extends InsnNode {
 
@@ -24,7 +25,7 @@ public final class FillArrayData extends InsnNode {
 	private final int elemSize;
 	private ArgType elemType;
 
-	public FillArrayData(IArrayPayload payload) {
+	public FillArrayData(@Nullable IArrayPayload payload) {
 		this(payload.getData(), payload.getSize(), payload.getElementSize());
 	}
 

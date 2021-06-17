@@ -40,6 +40,7 @@ import jadx.core.utils.exceptions.JadxOverflowException;
 import static jadx.core.codegen.MethodGen.FallbackOption.BLOCK_DUMP;
 import static jadx.core.codegen.MethodGen.FallbackOption.COMMENTED_DUMP;
 import static jadx.core.codegen.MethodGen.FallbackOption.FALLBACK_MODE;
+import org.jetbrains.annotations.Nullable;
 
 public class MethodGen {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodGen.class);
@@ -373,7 +374,7 @@ public class MethodGen {
 		return false;
 	}
 
-	private static boolean needLabel(InsnNode insn, InsnNode prevInsn) {
+	private static boolean needLabel(InsnNode insn, @Nullable InsnNode prevInsn) {
 		if (insn.contains(AType.EXC_HANDLER)) {
 			return true;
 		}

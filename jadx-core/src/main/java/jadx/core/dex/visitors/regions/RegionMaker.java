@@ -97,6 +97,7 @@ public class RegionMaker {
 	/**
 	 * Recursively traverse all blocks from 'block' until block from 'exits'
 	 */
+	@Nullable
 	private BlockNode traverse(IRegion r, BlockNode block, RegionStack stack) {
 		BlockNode next = null;
 		boolean processed = false;
@@ -150,6 +151,7 @@ public class RegionMaker {
 		return null;
 	}
 
+	@Nullable
 	private BlockNode processLoop(IRegion curRegion, LoopInfo loop, RegionStack stack) {
 		BlockNode loopStart = loop.getStart();
 		Set<BlockNode> exitBlocksSet = loop.getExitNodes();
@@ -248,6 +250,7 @@ public class RegionMaker {
 	/**
 	 * Select loop exit and construct LoopRegion
 	 */
+	@Nullable
 	private LoopRegion makeLoopRegion(IRegion curRegion, LoopInfo loop, List<BlockNode> exitBlocks) {
 		for (BlockNode block : exitBlocks) {
 			if (block.contains(AType.EXC_HANDLER)) {
@@ -330,6 +333,7 @@ public class RegionMaker {
 		return true;
 	}
 
+	@Nullable
 	private BlockNode makeEndlessLoop(IRegion curRegion, RegionStack stack, LoopInfo loop, BlockNode loopStart) {
 		LoopRegion loopRegion = new LoopRegion(curRegion, loop, null, false);
 		curRegion.getSubBlocks().add(loopRegion);
@@ -467,7 +471,7 @@ public class RegionMaker {
 		return true;
 	}
 
-	private void addBreakLabel(Edge exitEdge, BlockNode exit, InsnNode breakInsn) {
+	private void addBreakLabel(Edge exitEdge, @Nullable BlockNode exit, InsnNode breakInsn) {
 		BlockNode outBlock = BlockUtils.getNextBlock(exitEdge.getTarget());
 		if (outBlock == null) {
 			return;
@@ -553,6 +557,7 @@ public class RegionMaker {
 		return true;
 	}
 
+	@Nullable
 	private BlockNode processMonitorEnter(IRegion curRegion, BlockNode block, InsnNode insn, RegionStack stack) {
 		SynchronizedRegion synchRegion = new SynchronizedRegion(curRegion, insn);
 		synchRegion.getSubBlocks().add(block);
@@ -627,6 +632,7 @@ public class RegionMaker {
 	/**
 	 * Traverse from monitor-enter thru successors and search for exit paths cross
 	 */
+	@Nullable
 	private static BlockNode traverseMonitorExitsCross(BlockNode block, Set<BlockNode> exits, Set<BlockNode> visited) {
 		visited.add(block);
 		for (BlockNode node : block.getCleanSuccessors()) {
@@ -651,6 +657,7 @@ public class RegionMaker {
 		return null;
 	}
 
+	@Nullable
 	private BlockNode processIf(IRegion currentRegion, BlockNode block, IfNode ifnode, RegionStack stack) {
 		if (block.contains(AFlag.ADDED_TO_REGION)) {
 			// block already included in other 'if' region
@@ -738,6 +745,7 @@ public class RegionMaker {
 		region.add(start);
 	}
 
+	@Nullable
 	private BlockNode processSwitch(IRegion currentRegion, BlockNode block, SwitchInsn insn, RegionStack stack) {
 		// map case blocks to keys
 		int len = insn.getTargets().length;
@@ -840,6 +848,7 @@ public class RegionMaker {
 	}
 
 	
+	@Nullable
 	private BlockNode searchFallThroughCase(BlockNode successor, BlockNode out, BitSet caseBlocks) {
 		BitSet df = successor.getDomFrontier();
 		if (df.intersects(caseBlocks)) {
@@ -975,6 +984,7 @@ public class RegionMaker {
 		}
 	}
 
+	@Nullable
 	public IRegion processTryCatchBlocks(MethodNode mth) {
 		Set<TryCatchBlock> tcs = new HashSet<>();
 		for (ExceptionHandler handler : mth.getExceptionHandlers()) {
@@ -1020,6 +1030,7 @@ public class RegionMaker {
 	/**
 	 * Search handlers successor blocks not included in any region.
 	 */
+	@Nullable
 	protected IRegion processHandlersOutBlocks(MethodNode mth, Set<TryCatchBlock> tcs) {
 		Set<IBlock> allRegionBlocks = new HashSet<>();
 		RegionUtils.getAllRegionBlocks(mth.getRegion(), allRegionBlocks);

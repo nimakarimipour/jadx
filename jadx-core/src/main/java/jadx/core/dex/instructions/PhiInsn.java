@@ -49,6 +49,7 @@ public final class PhiInsn extends InsnNode {
 	}
 
 	
+	@Nullable
 	public BlockNode getBlockByArg(RegisterArg arg) {
 		int index = getArgIndex(arg);
 		if (index == -1) {
@@ -86,6 +87,7 @@ public final class PhiInsn extends InsnNode {
 	}
 
 	
+	@Nullable
 	public RegisterArg getArgBySsaVar(SSAVar ssaVar) {
 		if (getArgsCount() == 0) {
 			return null;
@@ -100,7 +102,7 @@ public final class PhiInsn extends InsnNode {
 	}
 
 	@Override
-	public boolean replaceArg(InsnArg from, InsnArg to) {
+	public boolean replaceArg(@Nullable InsnArg from, InsnArg to) {
 		if (!(from instanceof RegisterArg) || !(to instanceof RegisterArg)) {
 			return false;
 		}

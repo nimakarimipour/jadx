@@ -10,6 +10,7 @@ import jadx.core.dex.attributes.AType;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.Edge;
 import jadx.core.utils.BlockUtils;
+import jadx.Initializer;
 
 public class LoopInfo {
 
@@ -88,6 +89,7 @@ public class LoopInfo {
 		return parentLoop;
 	}
 
+	@Initializer
 	public void setParentLoop(LoopInfo parentLoop) {
 		this.parentLoop = parentLoop;
 	}

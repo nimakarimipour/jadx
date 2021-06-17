@@ -30,7 +30,7 @@ public class SkipMethodArgsAttr implements IAttribute {
 		attr.skip(argNum);
 	}
 
-	public static boolean isSkip( MethodNode mth, int argNum) {
+	public static boolean isSkip( @Nullable MethodNode mth, int argNum) {
 		if (mth == null) {
 			return false;
 		}

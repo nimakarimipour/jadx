@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import org.jetbrains.annotations.Nullable;
 
 public class UseSet<K, V> {
 	private final Map<K, Set<V>> useMap = new HashMap<>();
@@ -18,6 +19,7 @@ public class UseSet<K, V> {
 		set.add(use);
 	}
 
+	@Nullable
 	public Set<V> get(K obj) {
 		return useMap.get(obj);
 	}

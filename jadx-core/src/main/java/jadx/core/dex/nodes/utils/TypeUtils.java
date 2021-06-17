@@ -117,6 +117,7 @@ public class TypeUtils {
 	 * </ul>
 	 */
 	
+	@Nullable
 	public ArgType replaceClassGenerics(ArgType instanceType, ArgType typeWithGeneric) {
 		if (typeWithGeneric == null) {
 			return null;
@@ -179,6 +180,7 @@ public class TypeUtils {
 	}
 
 	
+	@Nullable
 	public ArgType replaceMethodGenerics(BaseInvokeNode invokeInsn, IMethodDetails details, ArgType typeWithGeneric) {
 		if (typeWithGeneric == null) {
 			return null;
@@ -202,6 +204,7 @@ public class TypeUtils {
 	}
 
 	
+	@Nullable
 	public ArgType replaceTypeVariablesUsingMap(ArgType replaceType, Map<ArgType, ArgType> replaceMap) {
 		if (replaceMap.isEmpty()) {
 			return null;

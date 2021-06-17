@@ -8,12 +8,13 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.regions.conditions.IfCondition;
 import jadx.core.utils.InsnUtils;
+import org.jetbrains.annotations.Nullable;
 
 public final class TernaryInsn extends InsnNode {
 
 	private IfCondition condition;
 
-	public TernaryInsn(IfCondition condition, RegisterArg result, InsnArg th, InsnArg els) {
+	public TernaryInsn(IfCondition condition, @Nullable RegisterArg result, InsnArg th, InsnArg els) {
 		this();
 		setResult(result);
 

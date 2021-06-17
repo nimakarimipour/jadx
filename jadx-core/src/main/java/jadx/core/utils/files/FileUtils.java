@@ -208,6 +208,7 @@ public class FileUtils {
 		return new File(file.getParentFile(), name);
 	}
 
+	@Nullable
 	private static String bytesToHex(byte[] bytes) {
 		char[] hexArray = "0123456789abcdef".toCharArray();
 		if (bytes == null || bytes.length <= 0) {
@@ -286,6 +287,7 @@ public class FileUtils {
 		return fileName.substring(0, extEndIndex);
 	}
 
+	@Nullable
 	public static File toFile(String path) {
 		if (path == null) {
 			return null;

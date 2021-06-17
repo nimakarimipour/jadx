@@ -23,6 +23,8 @@ import jadx.core.xmlgen.entry.RawNamedValue;
 import jadx.core.xmlgen.entry.RawValue;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import jadx.core.xmlgen.entry.ValuesParser;
+import jadx.Initializer;
+import org.jetbrains.annotations.Nullable;
 
 public class ResTableParser extends CommonBinaryParser {
 	private static final Logger LOG = LoggerFactory.getLogger(ResTableParser.class);
@@ -111,6 +113,7 @@ public class ResTableParser extends CommonBinaryParser {
 		return strings;
 	}
 
+	@Initializer
 	void decodeTableChunk() throws IOException {
 		is.checkInt16(RES_TABLE_TYPE, "Not a table chunk");
 		is.checkInt16(0x000c, "Unexpected table header size");

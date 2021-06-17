@@ -177,6 +177,7 @@ public class Deobfuscator {
 		}
 	}
 
+	@Nullable
 	private OverridedMethodsNode getOverrideMethodsNode(Set<MethodInfo> overrideSet) {
 		for (MethodInfo overrideMth : overrideSet) {
 			OverridedMethodsNode node = ovrdMap.get(overrideMth);
@@ -187,6 +188,7 @@ public class Deobfuscator {
 		return null;
 	}
 
+	@Nullable
 	private MethodInfo getMthOverride(List<MethodNode> methods, String mthSignature) {
 		for (MethodNode m : methods) {
 			MethodInfo mthInfo = m.getMethodInfo();
@@ -473,6 +475,7 @@ public class Deobfuscator {
 	}
 
 	
+	@Nullable
 	private String getAliasFromSourceFile(ClassNode cls) {
 		SourceFileAttr sourceFileAttr = cls.get(AType.SOURCE_FILE);
 		if (sourceFileAttr == null) {
@@ -504,6 +507,7 @@ public class Deobfuscator {
 	}
 
 	
+	@Nullable
 	private String getFieldAlias(FieldNode field) {
 		FieldInfo fieldInfo = field.getFieldInfo();
 		String alias = fldMap.get(fieldInfo);
@@ -522,6 +526,7 @@ public class Deobfuscator {
 	}
 
 	
+	@Nullable
 	private String getMethodAlias(MethodNode mth) {
 		MethodInfo methodInfo = mth.getMethodInfo();
 		if (methodInfo.isClassInit() || methodInfo.isConstructor()) {

@@ -17,12 +17,15 @@ import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
 
 import static java.util.Collections.unmodifiableList;
+import jadx.Initializer;
+import org.jetbrains.annotations.Nullable;
 
 public class SignatureProcessor extends AbstractVisitor {
 
 	private RootNode root;
 
 	@Override
+	@Initializer
 	public void init(RootNode root) {
 		this.root = root;
 	}
@@ -125,6 +128,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private List<ArgType> checkArgTypes(MethodNode mth, SignatureParser sp, List<ArgType> parsedArgTypes) {
 		MethodInfo mthInfo = mth.getMethodInfo();
 		List<ArgType> mthArgTypes = mthInfo.getArgumentsTypes();

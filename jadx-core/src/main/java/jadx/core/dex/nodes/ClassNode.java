@@ -42,6 +42,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 import static jadx.core.dex.nodes.ProcessState.LOADED;
 import static jadx.core.dex.nodes.ProcessState.NOT_LOADED;
 import static jadx.core.dex.nodes.ProcessState.PROCESS_COMPLETE;
+import jadx.Initializer;
 
 public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeNode, Comparable<ClassNode> {
 	private static final Logger LOG = LoggerFactory.getLogger(ClassNode.class);
@@ -50,7 +51,9 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	private final IClassData clsData;
 
 	private final ClassInfo clsInfo;
+	@Nullable
 	private AccessInfo accessFlags;
+	@Nullable
 	private ArgType superClass;
 	private List<ArgType> interfaces;
 	private List<ArgType> generics = Collections.emptyList();
@@ -62,8 +65,10 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	private List<ClassNode> inlinedClasses = Collections.emptyList();
 
 	// store smali
+	@Nullable
 	private String smali;
 	// store parent for inner classes or 'this' otherwise
+	@Nullable
 	private ClassNode parentClass;
 
 	private volatile ProcessState state = ProcessState.NOT_LOADED;
@@ -117,6 +122,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		}
 	}
 
+	@Initializer
 	public void updateGenericClsData(ArgType superClass, List<ArgType> interfaces, List<ArgType> generics) {
 		this.superClass = superClass;
 		this.interfaces = interfaces;
@@ -330,20 +336,24 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return fields;
 	}
 
+	@Nullable
 	public FieldNode getConstField(Object obj) {
 		return getConstField(obj, true);
 	}
 
 	
+	@Nullable
 	public FieldNode getConstField(Object obj, boolean searchGlobal) {
 		return root().getConstValues().getConstField(this, obj, searchGlobal);
 	}
 
 	
+	@Nullable
 	public FieldNode getConstFieldByLiteralArg(LiteralArg arg) {
 		return root().getConstValues().getConstFieldByLiteralArg(this, arg);
 	}
 
+	@Nullable
 	public FieldNode searchField(FieldInfo field) {
 		for (FieldNode f : fields) {
 			if (f.getFieldInfo().equals(field)) {
@@ -353,6 +363,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
+	@Nullable
 	public FieldNode searchFieldByNameAndType(FieldInfo field) {
 		for (FieldNode f : fields) {
 			if (f.getFieldInfo().equalsNameAndType(field)) {
@@ -362,6 +373,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
+	@Nullable
 	public FieldNode searchFieldByName(String name) {
 		for (FieldNode f : fields) {
 			if (f.getName().equals(name)) {
@@ -371,10 +383,12 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
+	@Nullable
 	public MethodNode searchMethod(MethodInfo mth) {
 		return mthInfoMap.get(mth);
 	}
 
+	@Nullable
 	public MethodNode searchMethodByShortId(String shortId) {
 		for (MethodNode m : methods) {
 			if (m.getMethodInfo().getShortId().equals(shortId)) {
@@ -390,6 +404,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	 * signature)
 	 */
 	
+	@Nullable
 	public MethodNode searchMethodByShortName(String name) {
 		for (MethodNode m : methods) {
 			if (m.getMethodInfo().getName().equals(name)) {
@@ -489,11 +504,13 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	}
 
 	
+	@Nullable
 	public MethodNode getClassInitMth() {
 		return searchMethodByShortId("<clinit>()V");
 	}
 
 	
+	@Nullable
 	public MethodNode getDefaultConstructor() {
 		for (MethodNode mth : methods) {
 			if (mth.isDefaultConstructor()) {
@@ -546,6 +563,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return clsInfo.getAliasPkg();
 	}
 
+	@Initializer
 	public String getSmali() {
 		if (smali == null) {
 			StringBuilder sb = new StringBuilder();

@@ -1,6 +1,7 @@
 package jadx.core.codegen.json.mapping;
 
 import java.util.List;
+import jadx.Initializer;
 
 public class JsonClsMapping {
 	private String name;
@@ -17,6 +18,7 @@ public class JsonClsMapping {
 		return name;
 	}
 
+	@Initializer
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -25,6 +27,7 @@ public class JsonClsMapping {
 		return alias;
 	}
 
+	@Initializer
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
@@ -33,6 +36,7 @@ public class JsonClsMapping {
 		return json;
 	}
 
+	@Initializer
 	public void setJson(String json) {
 		this.json = json;
 	}
@@ -49,6 +53,7 @@ public class JsonClsMapping {
 		return topClass;
 	}
 
+	@Initializer
 	public void setTopClass(String topClass) {
 		this.topClass = topClass;
 	}
@@ -57,6 +62,7 @@ public class JsonClsMapping {
 		return fields;
 	}
 
+	@Initializer
 	public void setFields(List<JsonFieldMapping> fields) {
 		this.fields = fields;
 	}
@@ -65,6 +71,7 @@ public class JsonClsMapping {
 		return methods;
 	}
 
+	@Initializer
 	public void setMethods(List<JsonMthMapping> methods) {
 		this.methods = methods;
 	}

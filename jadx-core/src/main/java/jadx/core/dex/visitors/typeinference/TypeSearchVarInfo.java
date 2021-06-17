@@ -5,6 +5,7 @@ import java.util.List;
 
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.SSAVar;
+import jadx.Initializer;
 
 public class TypeSearchVarInfo {
 	private final SSAVar var;
@@ -18,6 +19,7 @@ public class TypeSearchVarInfo {
 		this.var = var;
 	}
 
+	@Initializer
 	public void markResolved(ArgType type) {
 		this.currentType = type;
 		this.typeResolved = true;
@@ -79,6 +81,7 @@ public class TypeSearchVarInfo {
 		return constraints;
 	}
 
+	@Initializer
 	public void setConstraints(List<ITypeConstraint> constraints) {
 		this.constraints = constraints;
 	}

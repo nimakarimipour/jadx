@@ -507,6 +507,7 @@ public class ModVisitor extends AbstractVisitor {
 		return map;
 	}
 
+	@Nullable
 	private static InsnNode getParentInsnSkipMove(RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		if (sVar.getUseCount() != 1) {
@@ -528,6 +529,7 @@ public class ModVisitor extends AbstractVisitor {
 	 * If used only once try to follow move chain
 	 */
 	
+	@Nullable
 	private static InsnNode getFirstUseSkipMove(RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		int useCount = sVar.getUseCount();

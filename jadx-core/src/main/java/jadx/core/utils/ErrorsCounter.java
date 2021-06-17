@@ -35,7 +35,7 @@ public class ErrorsCounter {
 		return node.root().getErrorsCounter().addWarning(node, warnMsg);
 	}
 
-	public static String formatMsg(IDexNode node, String msg) {
+	public static String formatMsg(IDexNode node, @Nullable String msg) {
 		return msg + " in " + node.typeName() + ": " + node + ", file: " + node.getInputFileName();
 	}
 

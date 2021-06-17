@@ -13,6 +13,7 @@ import jadx.core.utils.InsnUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.BlockUtils.getBlockByOffset;
+import jadx.Initializer;
 
 public class SwitchInsn extends TargetInsnNode {
 	private final int dataTarget;
@@ -46,6 +47,7 @@ public class SwitchInsn extends TargetInsnNode {
 	}
 
 	@Override
+	@Initializer
 	public void initBlocks(BlockNode curBlock) {
 		if (switchData == null) {
 			throw new JadxRuntimeException("Switch data not yet attached");
@@ -163,6 +165,7 @@ public class SwitchInsn extends TargetInsnNode {
 		return getSwitchData().getKeys();
 	}
 
+	@Initializer
 	public Object getKey(int i) {
 		if (modifiedKeys != null) {
 			return modifiedKeys[i];
@@ -170,7 +173,7 @@ public class SwitchInsn extends TargetInsnNode {
 		return getSwitchData().getKeys()[i];
 	}
 
-	public void modifyKey(int i, Object newKey) {
+	public void modifyKey(int i, @Nullable Object newKey) {
 		if (modifiedKeys == null) {
 			int[] keys = getKeys();
 			int caseCount = keys.length;

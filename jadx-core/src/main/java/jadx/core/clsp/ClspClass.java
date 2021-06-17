@@ -8,10 +8,13 @@ import java.util.Map;
 import java.util.Objects;
 
 import jadx.core.dex.instructions.args.ArgType;
-
+import jadx.Initializer;
 /**
  * Class node in classpath graph
  */
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
+
 public class ClspClass {
 
 	private final ArgType clsType;
@@ -41,6 +44,7 @@ public class ClspClass {
 		return parents;
 	}
 
+	@Initializer
 	public void setParents(ArgType[] parents) {
 		this.parents = parents;
 	}

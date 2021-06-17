@@ -66,7 +66,7 @@ public class ClassGen {
 		this(cls, parentClsGen, parentClsGen.useImports, parentClsGen.fallback, parentClsGen.showInconsistentCode);
 	}
 
-	public ClassGen(ClassNode cls, ClassGen parentClsGen, boolean useImports, boolean fallback, boolean showBadCode) {
+	public ClassGen(ClassNode cls, @Nullable ClassGen parentClsGen, boolean useImports, boolean fallback, boolean showBadCode) {
 		this.cls = cls;
 		this.parentGen = parentClsGen;
 		this.fallback = fallback;
@@ -455,7 +455,7 @@ public class ClassGen {
 		}
 	}
 
-	private int getEnumCtrSkipArgsCount( MethodNode callMth) {
+	private int getEnumCtrSkipArgsCount( @Nullable MethodNode callMth) {
 		if (callMth != null) {
 			SkipMethodArgsAttr skipArgsAttr = callMth.get(AType.SKIP_MTH_ARGS);
 			if (skipArgsAttr != null) {

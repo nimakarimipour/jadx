@@ -12,6 +12,8 @@ import jadx.core.dex.nodes.IRegion;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.regions.AbstractRegion;
 import jadx.core.utils.BlockUtils;
+import jadx.Initializer;
+import org.jetbrains.annotations.Nullable;
 
 public final class IfRegion extends AbstractRegion implements IBranchRegion {
 
@@ -45,7 +47,7 @@ public final class IfRegion extends AbstractRegion implements IBranchRegion {
 		return elseRegion;
 	}
 
-	public void setElseRegion(IContainer elseRegion) {
+	public void setElseRegion(@Nullable IContainer elseRegion) {
 		this.elseRegion = elseRegion;
 	}
 
@@ -72,6 +74,7 @@ public final class IfRegion extends AbstractRegion implements IBranchRegion {
 		return false;
 	}
 
+	@Initializer
 	public void invert() {
 		condition = IfCondition.invert(condition);
 		// swap regions
@@ -94,6 +97,7 @@ public final class IfRegion extends AbstractRegion implements IBranchRegion {
 	}
 
 	@Override
+	@Initializer
 	public List<IContainer> getSubBlocks() {
 		List<IContainer> all = new ArrayList<>(conditionBlocks.size() + 2);
 		all.addAll(conditionBlocks);

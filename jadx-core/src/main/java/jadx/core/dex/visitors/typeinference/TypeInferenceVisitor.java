@@ -55,6 +55,7 @@ import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxOverflowException;
+import jadx.Initializer;
 
 @JadxVisitor(
 		name = "Type Inference",
@@ -73,6 +74,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	private List<Function<MethodNode, Boolean>> resolvers;
 
 	@Override
+	@Initializer
 	public void init(RootNode root) {
 		this.root = root;
 		this.typeUpdate = root.getTypeUpdate();
@@ -246,7 +248,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		}
 	}
 
-	private void addBound(TypeInfo typeInfo, ITypeBound bound) {
+	private void addBound(TypeInfo typeInfo, @Nullable ITypeBound bound) {
 		if (bound == null) {
 			return;
 		}
@@ -322,6 +324,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private ITypeBound makeUseBound(RegisterArg regArg) {
 		InsnNode insn = regArg.getParentInsn();
 		if (insn == null) {
@@ -340,6 +343,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return new TypeBoundConst(BoundEnum.USE, regArg.getInitType(), regArg);
 	}
 
+	@Nullable
 	private TypeBoundInvokeUse makeInvokeUseBound(RegisterArg regArg, BaseInvokeNode invoke) {
 		InsnArg instanceArg = invoke.getInstanceArg();
 		if (instanceArg == null || instanceArg == regArg) {
@@ -371,7 +375,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	private List<ArgType> makePossibleTypesList(ArgType type,  SSAVar var) {
+	private List<ArgType> makePossibleTypesList(ArgType type,  @Nullable SSAVar var) {
 		if (type.isArray()) {
 			List<ArgType> list = new ArrayList<>();
 			for (ArgType arrElemType : makePossibleTypesList(type.getArrayElement(), null)) {
@@ -662,6 +666,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private ArgType getCommonTypeForPhiArgs(PhiInsn phiInsn) {
 		ArgType phiArgType = null;
 		for (InsnArg arg : phiInsn.getArguments()) {
@@ -723,6 +728,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private BlockNode checkBlockForInsnInsert(BlockNode blockNode) {
 		if (blockNode.isSynthetic()) {
 			return null;
@@ -894,6 +900,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private static ArgType getSsaImmutableType(SSAVar ssaVar) {
 		if (ssaVar.getAssign().contains(AFlag.IMMUTABLE_TYPE)) {
 			return ssaVar.getAssign().getInitType();

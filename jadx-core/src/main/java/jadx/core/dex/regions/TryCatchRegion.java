@@ -12,6 +12,7 @@ import jadx.core.dex.nodes.IRegion;
 import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.dex.trycatch.TryCatchBlock;
 import jadx.core.utils.Utils;
+import jadx.Initializer;
 
 public final class TryCatchRegion extends AbstractRegion implements IBranchRegion {
 
@@ -25,6 +26,7 @@ public final class TryCatchRegion extends AbstractRegion implements IBranchRegio
 		this.tryRegion = tryRegion;
 	}
 
+	@Initializer
 	public void setTryCatchBlock(TryCatchBlock tryCatchBlock) {
 		this.tryCatchBlock = tryCatchBlock;
 		int count = tryCatchBlock.getHandlersCount();
@@ -62,6 +64,7 @@ public final class TryCatchRegion extends AbstractRegion implements IBranchRegio
 	}
 
 	@Override
+	@Initializer
 	public List<IContainer> getSubBlocks() {
 		List<IContainer> all = new ArrayList<>(2 + catchRegions.size());
 		all.add(tryRegion);

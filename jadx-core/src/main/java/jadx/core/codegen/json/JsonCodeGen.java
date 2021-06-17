@@ -57,7 +57,7 @@ public class JsonCodeGen {
 		return GSON.toJson(jsonCls);
 	}
 
-	private JsonClass processCls(ClassNode cls,  ClassGen parentCodeGen) {
+	private JsonClass processCls(ClassNode cls,  @Nullable ClassGen parentCodeGen) {
 		ClassGen classGen;
 		if (parentCodeGen == null) {
 			classGen = new ClassGen(cls, args);

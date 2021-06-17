@@ -22,6 +22,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.visitors.typeinference.TypeInfo;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.Initializer;
 
 public class SSAVar {
 	private static final Logger LOG = LoggerFactory.getLogger(SSAVar.class);
@@ -31,10 +32,12 @@ public class SSAVar {
 
 	private RegisterArg assign;
 	private final List<RegisterArg> useList = new ArrayList<>(2);
+	@Nullable
 	private List<PhiInsn> usedInPhi = null;
 
 	private final TypeInfo typeInfo = new TypeInfo();
 
+	@Nullable
 	private CodeVar codeVar;
 
 	public SSAVar(int regNum, int v, @NotNull RegisterArg assign) {
@@ -71,6 +74,7 @@ public class SSAVar {
 	}
 
 
+	@Nullable
 	public ArgType getImmutableType() {
 		if (isTypeImmutable()) {
 			return assign.getInitType();
@@ -105,6 +109,7 @@ public class SSAVar {
 		updateType(type);
 	}
 
+	@Initializer
 	private void updateType(ArgType type) {
 		typeInfo.setType(type);
 		if (codeVar != null) {
@@ -151,6 +156,7 @@ public class SSAVar {
 	}
 
 
+	@Nullable
 	public PhiInsn getOnlyOneUseInPhi() {
 		if (usedInPhi != null && usedInPhi.size() == 1) {
 			return usedInPhi.get(0);

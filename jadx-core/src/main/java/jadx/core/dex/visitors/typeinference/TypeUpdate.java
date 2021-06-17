@@ -369,6 +369,7 @@ public final class TypeUpdate {
 	}
 
 	
+	@Nullable
 	private ArgType checkType(Set<ArgType> knownTypeVars,  ArgType type) {
 		if (type == null) {
 			return null;

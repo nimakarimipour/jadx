@@ -23,11 +23,14 @@ import jadx.core.dex.visitors.regions.variables.ProcessVariables;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxException;
-
+import jadx.Initializer;
 /**
  * Remove primitives boxing
  * i.e convert 'Integer.valueOf(1)' to '1'
  */
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
+
 @JadxVisitor(
 		name = "DeboxingVisitor",
 		desc = "Remove primitives boxing",
@@ -41,6 +44,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 	private Set<MethodInfo> valueOfMths;
 
 	@Override
+	@Initializer
 	public void init(RootNode root) {
 		valueOfMths = new HashSet<>();
 		valueOfMths.add(valueOfMth(root, ArgType.INT, "java.lang.Integer"));
@@ -82,6 +86,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private InsnNode checkForReplace(InvokeNode insnNode) {
 		if (insnNode.getInvokeType() != InvokeType.STATIC
 				|| insnNode.getResult() == null) {

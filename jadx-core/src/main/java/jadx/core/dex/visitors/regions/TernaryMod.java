@@ -21,10 +21,11 @@ import jadx.core.dex.regions.conditions.IfRegion;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnRemover;
-
+import org.jetbrains.annotations.Nullable;
 /**
  * Convert 'if' to ternary operation
  */
+
 public class TernaryMod implements IRegionIterativeVisitor {
 
 	@Override
@@ -169,6 +170,7 @@ public class TernaryMod implements IRegionIterativeVisitor {
 		}
 	}
 
+	@Nullable
 	private static BlockNode getTernaryInsnBlock(IContainer thenRegion) {
 		if (thenRegion instanceof Region) {
 			Region r = (Region) thenRegion;

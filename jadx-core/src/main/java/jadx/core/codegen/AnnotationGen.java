@@ -105,7 +105,7 @@ public class AnnotationGen {
 		}
 	}
 
-	private String getParamName( ClassNode annCls, String paramName) {
+	private String getParamName( @Nullable ClassNode annCls, String paramName) {
 		if (annCls != null) {
 			// TODO: save value type and search using signature
 			MethodNode mth = annCls.searchMethodByShortName(paramName);
@@ -130,6 +130,7 @@ public class AnnotationGen {
 		}
 	}
 
+	@Nullable
 	public EncodedValue getAnnotationDefaultValue(String name) {
 		IAnnotation an = cls.getAnnotation(Consts.DALVIK_ANNOTATION_DEFAULT);
 		if (an != null) {

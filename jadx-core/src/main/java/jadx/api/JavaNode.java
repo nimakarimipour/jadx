@@ -1,6 +1,7 @@
 package jadx.api;
 
 import java.util.List;
+import org.jetbrains.annotations.Nullable;
 
 public interface JavaNode {
 
@@ -8,8 +9,10 @@ public interface JavaNode {
 
 	String getFullName();
 
+	@Nullable
 	JavaClass getDeclaringClass();
 
+	@Nullable
 	JavaClass getTopParentClass();
 
 	int getDecompiledLine();

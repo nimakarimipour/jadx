@@ -18,6 +18,7 @@ import jadx.core.dex.nodes.IContainer;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.Initializer;
 
 public class ExceptionHandler {
 
@@ -34,7 +35,7 @@ public class ExceptionHandler {
 
 	private boolean removed = false;
 
-	public ExceptionHandler(int addr,  ClassInfo type) {
+	public ExceptionHandler(int addr,  @Nullable ClassInfo type) {
 		this.handleOffset = addr;
 		addCatchType(type);
 	}
@@ -44,7 +45,7 @@ public class ExceptionHandler {
 	 *
 	 * @param type - null for 'all' or 'Throwable' handler
 	 */
-	public void addCatchType( ClassInfo type) {
+	public void addCatchType( @Nullable ClassInfo type) {
 		if (type != null) {
 			this.catchTypes.add(type);
 		} else {
@@ -96,6 +97,7 @@ public class ExceptionHandler {
 		return handlerBlock;
 	}
 
+	@Initializer
 	public void setHandlerBlock(BlockNode handlerBlock) {
 		this.handlerBlock = handlerBlock;
 	}
@@ -112,6 +114,7 @@ public class ExceptionHandler {
 		return handlerRegion;
 	}
 
+	@Initializer
 	public void setHandlerRegion(IContainer handlerRegion) {
 		this.handlerRegion = handlerRegion;
 	}
@@ -120,10 +123,12 @@ public class ExceptionHandler {
 		return arg;
 	}
 
+	@Initializer
 	public void setArg(InsnArg arg) {
 		this.arg = arg;
 	}
 
+	@Initializer
 	public void setTryBlock(TryCatchBlock tryBlock) {
 		this.tryBlock = tryBlock;
 	}

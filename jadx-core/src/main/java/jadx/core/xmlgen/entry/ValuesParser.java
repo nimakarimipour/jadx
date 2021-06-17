@@ -45,6 +45,7 @@ public class ValuesParser extends ParserConstants {
 	}
 
 	
+	@Nullable
 	public String getSimpleValueString(ResourceEntry ri) {
 		RawValue simpleValue = ri.getSimpleValue();
 		if (simpleValue == null) {
@@ -148,6 +149,7 @@ public class ValuesParser extends ParserConstants {
 	}
 
 	
+	@Nullable
 	public String decodeNameRef(int nameRef) {
 		int ref = nameRef;
 		if (isResInternalId(nameRef)) {

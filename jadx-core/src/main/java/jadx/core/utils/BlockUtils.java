@@ -63,6 +63,7 @@ public class BlockUtils {
 		}
 	}
 
+	@Nullable
 	public static BlockNode selectOtherSafe(BlockNode node, List<BlockNode> blocks) {
 		int size = blocks.size();
 		if (size == 1) {
@@ -129,7 +130,7 @@ public class BlockUtils {
 		return list;
 	}
 
-	public static boolean isBackEdge(BlockNode from, BlockNode to) {
+	public static boolean isBackEdge(BlockNode from, @Nullable BlockNode to) {
 		if (to == null) {
 			return false;
 		}
@@ -178,7 +179,8 @@ public class BlockUtils {
 	}
 
 	
-	public static InsnNode getLastInsn( IBlock block) {
+	@Nullable
+	public static InsnNode getLastInsn( @Nullable IBlock block) {
 		if (block == null) {
 			return null;
 		}
@@ -190,6 +192,7 @@ public class BlockUtils {
 	}
 
 	
+	@Nullable
 	public static BlockNode getBlockByInsn(MethodNode mth,  InsnNode insn) {
 		if (insn == null) {
 			return null;
@@ -208,6 +211,7 @@ public class BlockUtils {
 		return null;
 	}
 
+	@Nullable
 	public static BlockNode searchBlockWithPhi(MethodNode mth, PhiInsn insn) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			PhiListAttr phiListAttr = block.get(AType.PHI_LIST);
@@ -222,6 +226,7 @@ public class BlockUtils {
 		return null;
 	}
 
+	@Nullable
 	private static BlockNode getBlockByWrappedInsn(MethodNode mth, InsnNode insn) {
 		for (BlockNode bn : mth.getBasicBlocks()) {
 			for (InsnNode bi : bn.getInstructions()) {
@@ -233,6 +238,7 @@ public class BlockUtils {
 		return null;
 	}
 
+	@Nullable
 	public static InsnNode searchInsnParent(MethodNode mth, InsnNode insn) {
 		InsnArg insnArg = searchWrappedInsnParent(mth, insn);
 		if (insnArg == null) {
@@ -241,6 +247,7 @@ public class BlockUtils {
 		return insnArg.getParentInsn();
 	}
 
+	@Nullable
 	public static InsnArg searchWrappedInsnParent(MethodNode mth, InsnNode insn) {
 		if (!insn.contains(AFlag.WRAPPED)) {
 			return null;
@@ -256,6 +263,7 @@ public class BlockUtils {
 		return null;
 	}
 
+	@Nullable
 	private static InsnArg foundWrappedInsn(InsnNode container, InsnNode insn) {
 		for (InsnArg arg : container.getArguments()) {
 			if (arg.isInsnWrap()) {
@@ -275,6 +283,7 @@ public class BlockUtils {
 		return null;
 	}
 
+	@Nullable
 	private static InsnArg foundWrappedInsnInCondition(IfCondition cond, InsnNode insn) {
 		if (cond.isCompare()) {
 			IfNode cmpInsn = cond.getCompare().getInsn();
@@ -293,7 +302,7 @@ public class BlockUtils {
 		return new BitSet(mth.getBasicBlocks().size());
 	}
 
-	public static BitSet copyBlocksBitSet(MethodNode mth, BitSet bitSet) {
+	public static BitSet copyBlocksBitSet(MethodNode mth, @Nullable BitSet bitSet) {
 		BitSet copy = new BitSet(mth.getBasicBlocks().size());
 		if (!bitSet.isEmpty()) {
 			copy.or(bitSet);
@@ -336,6 +345,7 @@ public class BlockUtils {
 	/**
 	 * Return first successor which not exception handler and not follow loop back edge
 	 */
+	@Nullable
 	public static BlockNode getNextBlock(BlockNode block) {
 		List<BlockNode> s = block.getCleanSuccessors();
 		return s.isEmpty() ? null : s.get(0);
@@ -344,6 +354,7 @@ public class BlockUtils {
 	/**
 	 * Return successor on path to 'pathEnd' block
 	 */
+	@Nullable
 	public static BlockNode getNextBlockToPath(BlockNode block, BlockNode pathEnd) {
 		List<BlockNode> successors = block.getCleanSuccessors();
 		if (successors.contains(pathEnd)) {
@@ -423,6 +434,7 @@ public class BlockUtils {
 		return traverseSuccessorsUntil(start, end, new BitSet(), false);
 	}
 
+	@Nullable
 	public static BlockNode getTopBlock(Collection<BlockNode> blocks) {
 		if (blocks.size() == 1) {
 			return blocks.iterator().next();
@@ -462,6 +474,7 @@ public class BlockUtils {
 	/**
 	 * Search for first node which not dominated by dom, starting from start
 	 */
+	@Nullable
 	public static BlockNode traverseWhileDominates(BlockNode dom, BlockNode start) {
 		for (BlockNode node : start.getCleanSuccessors()) {
 			if (!node.isDominator(dom)) {
@@ -476,6 +489,7 @@ public class BlockUtils {
 		return null;
 	}
 
+	@Nullable
 	public static BlockNode getPathCross(MethodNode mth, BlockNode b1, BlockNode b2) {
 		if (b1 == null || b2 == null) {
 			return null;

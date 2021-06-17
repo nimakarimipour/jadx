@@ -1,4 +1,6 @@
 package jadx.core.codegen.json.mapping;
+import jadx.Initializer;
+
 
 public class JsonFieldMapping {
 	private String name;
@@ -8,6 +10,7 @@ public class JsonFieldMapping {
 		return name;
 	}
 
+	@Initializer
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -16,6 +19,7 @@ public class JsonFieldMapping {
 		return alias;
 	}
 
+	@Initializer
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}

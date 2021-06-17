@@ -64,7 +64,7 @@ public final class MethodInfo implements Comparable<MethodInfo> {
 				includeRetType ? retType : null);
 	}
 
-	public static String makeShortId(String name, List<ArgType> argTypes,  ArgType retType) {
+	public static String makeShortId(String name, List<ArgType> argTypes,  @Nullable ArgType retType) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(name);
 		sb.append('(');

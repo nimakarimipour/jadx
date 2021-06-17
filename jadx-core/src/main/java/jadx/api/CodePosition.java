@@ -1,4 +1,6 @@
 package jadx.api;
+import org.jetbrains.annotations.Nullable;
+
 
 public final class CodePosition {
 
@@ -22,6 +24,7 @@ public final class CodePosition {
 		return node;
 	}
 
+	@Nullable
 	public JavaClass getJavaClass() {
 		JavaClass parent = node.getDeclaringClass();
 		if (parent == null && node instanceof JavaClass) {

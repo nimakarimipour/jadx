@@ -16,6 +16,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class ArgType {
 	public static final ArgType INT = primitive(PrimitiveType.INT);
@@ -167,6 +168,7 @@ public abstract class ArgType {
 		}
 
 		@Override
+		@Nullable
 		public ArgType selectFirst() {
 			return null;
 		}
@@ -596,6 +598,7 @@ public abstract class ArgType {
 	public void setExtendTypes(List<ArgType> extendTypes) {
 	}
 
+	@Nullable
 	public ArgType getWildcardType() {
 		return null;
 	}
@@ -608,10 +611,12 @@ public abstract class ArgType {
 		return false;
 	}
 
+	@Nullable
 	public ArgType getOuterType() {
 		return null;
 	}
 
+	@Nullable
 	public ArgType getInnerType() {
 		return null;
 	}
@@ -819,6 +824,7 @@ public abstract class ArgType {
 	 * Recursively visit all subtypes of this type.
 	 * To exit return non-null value.
 	 */
+	@Nullable
 	public <R> R visitTypes(Function<ArgType, R> visitor) {
 		R r = visitor.apply(this);
 		if (r != null) {

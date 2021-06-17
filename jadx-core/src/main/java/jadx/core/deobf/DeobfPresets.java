@@ -18,6 +18,7 @@ import jadx.core.dex.info.FieldInfo;
 import jadx.core.dex.info.MethodInfo;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import org.jetbrains.annotations.Nullable;
 
 class DeobfPresets {
 	private static final Logger LOG = LoggerFactory.getLogger(DeobfPresets.class);
@@ -140,14 +141,17 @@ class DeobfPresets {
 		}
 	}
 
+	@Nullable
 	public String getForCls(ClassInfo cls) {
 		return clsPresetMap.get(cls.makeRawFullName());
 	}
 
+	@Nullable
 	public String getForFld(FieldInfo fld) {
 		return fldPresetMap.get(fld.getRawFullId());
 	}
 
+	@Nullable
 	public String getForMth(MethodInfo mth) {
 		return mthPresetMap.get(mth.getRawFullId());
 	}

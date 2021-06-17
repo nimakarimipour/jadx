@@ -31,6 +31,7 @@ import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.codegen.CodeWriter.NL;
+import jadx.Initializer;
 
 @JadxVisitor(
 		name = "MethodInvokeVisitor",
@@ -47,6 +48,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 	private RootNode root;
 
 	@Override
+	@Initializer
 	public void init(RootNode root) {
 		this.root = root;
 	}

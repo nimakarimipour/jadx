@@ -20,6 +20,7 @@ public class XmlDeobf {
 	}
 
 	
+	@Nullable
 	public static String deobfClassName(RootNode rootNode, String potencialClassName, String packageName) {
 		if (packageName != null && potencialClassName.startsWith(".")) {
 			potencialClassName = packageName + potencialClassName;
@@ -27,6 +28,7 @@ public class XmlDeobf {
 		return getNewClassName(rootNode, potencialClassName);
 	}
 
+	@Nullable
 	private static String getNewClassName(RootNode rootNode, String old) {
 		if (DEOBF_MAP.isEmpty()) {
 			for (ClassNode classNode : rootNode.getClasses(true)) {

@@ -7,6 +7,7 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.LiteralArg;
 import jadx.core.dex.nodes.InsnNode;
+import jadx.Initializer;
 
 public final class FillArrayInsn extends InsnNode {
 	private final int target;
@@ -22,6 +23,7 @@ public final class FillArrayInsn extends InsnNode {
 		return target;
 	}
 
+	@Initializer
 	public void setArrayData(FillArrayData arrayData) {
 		this.arrayData = arrayData;
 	}

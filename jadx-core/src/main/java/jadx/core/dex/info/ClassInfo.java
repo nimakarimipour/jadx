@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.Initializer;
 
 public final class ClassInfo implements Comparable<ClassInfo> {
 	private final ArgType type;
@@ -16,8 +17,10 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 	private String pkg;
 	private String fullName;
 
+	@Nullable
 	private ClassInfo parentClass;
 
+	@Nullable
 	private ClassAliasInfo alias;
 
 	private ClassInfo(RootNode root, ArgType type, boolean inner) {
@@ -77,6 +80,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		}
 	}
 
+	@Initializer
 	private void fillAliasFullName(ClassAliasInfo alias) {
 		if (parentClass == null) {
 			alias.setFullName(makeFullClsName(alias.getPkg(), alias.getShortName(), null, true, false));
@@ -90,6 +94,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		return alias == null ? getPackage() : alias.getPkg();
 	}
 
+	@Initializer
 	public String getAliasShortName() {
 		return alias == null ? getShortName() : alias.getShortName();
 	}
@@ -145,7 +150,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		this.fullName = makeFullName();
 	}
 
-	private static String makeFullClsName(String pkg, String shortName, ClassInfo parentClass, boolean alias, boolean raw) {
+	private static String makeFullClsName(String pkg, String shortName, @Nullable ClassInfo parentClass, boolean alias, boolean raw) {
 		if (parentClass != null) {
 			String innerSep = raw ? "$" : ".";
 			String parentFullName;

@@ -12,6 +12,7 @@ import jadx.core.utils.InsnUtils;
 
 import static jadx.core.utils.BlockUtils.getBlockByOffset;
 import static jadx.core.utils.BlockUtils.selectOther;
+import jadx.Initializer;
 
 public class IfNode extends GotoNode {
 
@@ -63,6 +64,7 @@ public class IfNode extends GotoNode {
 		return op;
 	}
 
+	@Initializer
 	public void invertCondition() {
 		op = op.invert();
 		BlockNode tmp = thenBlock;

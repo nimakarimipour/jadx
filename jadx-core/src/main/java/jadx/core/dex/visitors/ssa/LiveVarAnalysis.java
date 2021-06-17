@@ -12,6 +12,7 @@ import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.Initializer;
 
 public class LiveVarAnalysis {
 	private static final Logger LOG = LoggerFactory.getLogger(LiveVarAnalysis.class);
@@ -27,6 +28,7 @@ public class LiveVarAnalysis {
 		this.mth = mth;
 	}
 
+	@Initializer
 	public void runAnalysis() {
 		int bbCount = mth.getBasicBlocks().size();
 		int regsCount = mth.getRegsCount();
@@ -77,6 +79,7 @@ public class LiveVarAnalysis {
 		}
 	}
 
+	@Initializer
 	private void processLiveInfo() {
 		int bbCount = mth.getBasicBlocks().size();
 		int regsCount = mth.getRegsCount();

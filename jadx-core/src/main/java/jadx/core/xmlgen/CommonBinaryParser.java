@@ -2,10 +2,12 @@ package jadx.core.xmlgen;
 
 import java.io.IOException;
 import java.util.Arrays;
+import jadx.Initializer;
 
 public class CommonBinaryParser extends ParserConstants {
 	protected ParserStream is;
 
+	@Initializer
 	protected String[] parseStringPool() throws IOException {
 		is.checkInt16(RES_STRING_POOL_TYPE, "String pool expected");
 		return parseStringPoolNoType();

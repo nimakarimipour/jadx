@@ -9,6 +9,7 @@ import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.Initializer;
 
 public class RegisterArg extends InsnArg implements Named {
 	public static final String THIS_ARG_NAME = "this";
@@ -37,6 +38,7 @@ public class RegisterArg extends InsnArg implements Named {
 	}
 
 	@Override
+	@Initializer
 	public ArgType getType() {
 		if (sVar != null) {
 			return sVar.getTypeInfo().getType();
@@ -57,6 +59,7 @@ public class RegisterArg extends InsnArg implements Named {
 	}
 
 	
+	@Nullable
 	public ArgType getImmutableType() {
 		if (sVar != null) {
 			return sVar.getImmutableType();
@@ -137,11 +140,11 @@ public class RegisterArg extends InsnArg implements Named {
 		return duplicate;
 	}
 
-	public RegisterArg duplicate(int regNum,  SSAVar sVar) {
+	public RegisterArg duplicate(int regNum,  @Nullable SSAVar sVar) {
 		return duplicate(regNum, getInitType(), sVar);
 	}
 
-	public RegisterArg duplicate(int regNum, ArgType initType,  SSAVar sVar) {
+	public RegisterArg duplicate(int regNum, ArgType initType,  @Nullable SSAVar sVar) {
 		RegisterArg dup = new RegisterArg(regNum, initType);
 		if (sVar != null) {
 			// only 'set' here, 'assign' or 'use' will binds later

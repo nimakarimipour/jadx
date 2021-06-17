@@ -23,6 +23,7 @@ public class AnnotationsList implements IAttribute {
 	}
 
 	
+	@Nullable
 	public static AnnotationsList pack(List<IAnnotation> annotationList) {
 		if (annotationList.isEmpty()) {
 			return null;
@@ -40,6 +41,7 @@ public class AnnotationsList implements IAttribute {
 		this.map = map;
 	}
 
+	@Nullable
 	public IAnnotation get(String className) {
 		return map.get(className);
 	}

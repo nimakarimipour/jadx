@@ -189,6 +189,7 @@ public class BlockProcessor extends AbstractVisitor {
 		return false;
 	}
 
+	@Nullable
 	private static InsnNode getInsnsFromEnd(BlockNode block, int number) {
 		List<InsnNode> instructions = block.getInstructions();
 		int insnCount = instructions.size();
@@ -676,6 +677,7 @@ public class BlockProcessor extends AbstractVisitor {
 		return true;
 	}
 
+	@Nullable
 	private static RegisterArg getMoveExceptionRegister(BlockNode block) {
 		InsnNode insn = BlockUtils.getLastInsn(block);
 		if (insn == null || insn.getType() != InsnType.MOVE_EXCEPTION) {

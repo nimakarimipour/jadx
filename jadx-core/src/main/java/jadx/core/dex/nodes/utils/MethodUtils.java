@@ -24,6 +24,7 @@ public class MethodUtils {
 	}
 
 	
+	@Nullable
 	public IMethodDetails getMethodDetails(BaseInvokeNode invokeNode) {
 		IMethodDetails methodDetails = invokeNode.get(AType.METHOD_DETAILS);
 		if (methodDetails != null) {
@@ -33,6 +34,7 @@ public class MethodUtils {
 	}
 
 	
+	@Nullable
 	public IMethodDetails getMethodDetails(MethodInfo callMth) {
 		MethodNode mthNode = root.deepResolveMethod(callMth);
 		if (mthNode != null) {
@@ -56,6 +58,7 @@ public class MethodUtils {
 	}
 
 	
+	@Nullable
 	public ArgType getMethodGenericReturnType(BaseInvokeNode invokeNode) {
 		IMethodDetails methodDetails = getMethodDetails(invokeNode);
 		if (methodDetails != null) {
@@ -67,7 +70,7 @@ public class MethodUtils {
 		return null;
 	}
 
-	public boolean processMethodArgsOverloaded(ArgType startCls, MethodInfo mthInfo,  List<IMethodDetails> collectedMths) {
+	public boolean processMethodArgsOverloaded(ArgType startCls, MethodInfo mthInfo,  @Nullable List<IMethodDetails> collectedMths) {
 		if (startCls == null || !startCls.isObject()) {
 			return false;
 		}

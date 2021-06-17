@@ -24,6 +24,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxException;
+import org.jetbrains.annotations.Nullable;
 
 @JadxVisitor(
 		name = "ExtractFieldInit",
@@ -264,7 +265,7 @@ public class ExtractFieldInit extends AbstractVisitor {
 		return assignInsns;
 	}
 
-	private static void addFieldInitAttr(MethodNode classInitMth, FieldNode field, InsnNode insn) {
+	private static void addFieldInitAttr(MethodNode classInitMth, @Nullable FieldNode field, InsnNode insn) {
 		InsnNode assignInsn = InsnNode.wrapArg(insn.getArg(0));
 		field.addAttr(FieldInitAttr.insnValue(classInitMth, assignInsn));
 	}

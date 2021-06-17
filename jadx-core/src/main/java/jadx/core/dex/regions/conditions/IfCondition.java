@@ -21,6 +21,7 @@ import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jetbrains.annotations.Nullable;
 
 public final class IfCondition extends AttrNode {
 
@@ -200,6 +201,7 @@ public final class IfCondition extends AttrNode {
 		return cond;
 	}
 
+	@Nullable
 	private static IfCondition simplifyCmpOp(Compare c) {
 		if (!c.getA().isInsnWrap()) {
 			return null;

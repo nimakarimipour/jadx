@@ -10,6 +10,7 @@ import jadx.core.dex.nodes.utils.MethodUtils;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.Initializer;
 
 @JadxVisitor(
 		name = "Attach Method Details",
@@ -26,6 +27,7 @@ public class AttachMethodDetails extends AbstractVisitor {
 	private MethodUtils methodUtils;
 
 	@Override
+	@Initializer
 	public void init(RootNode root) {
 		methodUtils = root.getMethodUtils();
 	}

@@ -21,11 +21,12 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.codegen.CodeWriter.NL;
-
+import jadx.Initializer;
 /**
  * Helper class for correct instructions removing,
  * can be used while iterating over instructions list
  */
+
 public class InsnRemover {
 
 	private final MethodNode mth;
@@ -37,7 +38,7 @@ public class InsnRemover {
 		this(mth, null);
 	}
 
-	public InsnRemover(MethodNode mth, BlockNode block) {
+	public InsnRemover(MethodNode mth, @Nullable BlockNode block) {
 		this.mth = mth;
 		this.toRemove = new ArrayList<>();
 		if (block != null) {
@@ -45,6 +46,7 @@ public class InsnRemover {
 		}
 	}
 
+	@Initializer
 	public void setBlock(BlockNode block) {
 		this.instrList = block.getInstructions();
 	}
@@ -143,7 +145,7 @@ public class InsnRemover {
 		}
 	}
 
-	public static void unbindArgUsage( MethodNode mth, InsnArg arg) {
+	public static void unbindArgUsage( @Nullable MethodNode mth, InsnArg arg) {
 		if (arg instanceof RegisterArg) {
 			RegisterArg reg = (RegisterArg) arg;
 			SSAVar sVar = reg.getSVar();

@@ -3,6 +3,7 @@ package jadx.core.codegen.json.cls;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
+import jadx.Initializer;
 
 public class JsonClass extends JsonNode {
 	@SerializedName("package")
@@ -24,6 +25,7 @@ public class JsonClass extends JsonNode {
 		return type;
 	}
 
+	@Initializer
 	public void setType(String type) {
 		this.type = type;
 	}
@@ -32,6 +34,7 @@ public class JsonClass extends JsonNode {
 		return superClass;
 	}
 
+	@Initializer
 	public void setSuperClass(String superClass) {
 		this.superClass = superClass;
 	}
@@ -40,6 +43,7 @@ public class JsonClass extends JsonNode {
 		return interfaces;
 	}
 
+	@Initializer
 	public void setInterfaces(List<String> interfaces) {
 		this.interfaces = interfaces;
 	}
@@ -48,6 +52,7 @@ public class JsonClass extends JsonNode {
 		return fields;
 	}
 
+	@Initializer
 	public void setFields(List<JsonField> fields) {
 		this.fields = fields;
 	}
@@ -56,6 +61,7 @@ public class JsonClass extends JsonNode {
 		return methods;
 	}
 
+	@Initializer
 	public void setMethods(List<JsonMethod> methods) {
 		this.methods = methods;
 	}
@@ -64,6 +70,7 @@ public class JsonClass extends JsonNode {
 		return innerClasses;
 	}
 
+	@Initializer
 	public void setInnerClasses(List<JsonClass> innerClasses) {
 		this.innerClasses = innerClasses;
 	}
@@ -72,6 +79,7 @@ public class JsonClass extends JsonNode {
 		return pkg;
 	}
 
+	@Initializer
 	public void setPkg(String pkg) {
 		this.pkg = pkg;
 	}
@@ -80,6 +88,7 @@ public class JsonClass extends JsonNode {
 		return dex;
 	}
 
+	@Initializer
 	public void setDex(String dex) {
 		this.dex = dex;
 	}
@@ -88,6 +97,7 @@ public class JsonClass extends JsonNode {
 		return imports;
 	}
 
+	@Initializer
 	public void setImports(List<String> imports) {
 		this.imports = imports;
 	}

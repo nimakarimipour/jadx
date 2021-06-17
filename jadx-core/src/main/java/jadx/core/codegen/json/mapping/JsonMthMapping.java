@@ -1,4 +1,6 @@
 package jadx.core.codegen.json.mapping;
+import jadx.Initializer;
+
 
 public class JsonMthMapping {
 	private String signature;
@@ -10,6 +12,7 @@ public class JsonMthMapping {
 		return signature;
 	}
 
+	@Initializer
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
@@ -18,6 +21,7 @@ public class JsonMthMapping {
 		return name;
 	}
 
+	@Initializer
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -26,6 +30,7 @@ public class JsonMthMapping {
 		return alias;
 	}
 
+	@Initializer
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
@@ -34,6 +39,7 @@ public class JsonMthMapping {
 		return offset;
 	}
 
+	@Initializer
 	public void setOffset(String offset) {
 		this.offset = offset;
 	}

@@ -14,11 +14,12 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-
+import jadx.Initializer;
 /**
  * Instruction argument,
  * argument can be register, literal or instruction
  */
+
 public abstract class InsnArg extends Typed {
 
 	private static final Logger LOG = LoggerFactory.getLogger(InsnArg.class);
@@ -90,14 +91,17 @@ public abstract class InsnArg extends Typed {
 		return parentInsn;
 	}
 
+	@Initializer
 	public void setParentInsn( InsnNode parentInsn) {
 		this.parentInsn = parentInsn;
 	}
 
+	@Nullable
 	public InsnArg wrapInstruction(MethodNode mth, InsnNode insn) {
 		return wrapInstruction(mth, insn, true);
 	}
 
+	@Nullable
 	public InsnArg wrapInstruction(MethodNode mth, InsnNode insn, boolean unbind) {
 		InsnNode parent = parentInsn;
 		if (parent == null) {

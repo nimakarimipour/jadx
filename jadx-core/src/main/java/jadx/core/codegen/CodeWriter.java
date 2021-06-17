@@ -15,6 +15,7 @@ import jadx.api.impl.SimpleCodeInfo;
 import jadx.core.dex.attributes.nodes.LineAttrNode;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.Utils;
+import jadx.Initializer;
 
 public class CodeWriter {
 	private static final Logger LOG = LoggerFactory.getLogger(CodeWriter.class);
@@ -105,7 +106,7 @@ public class CodeWriter {
 		return this;
 	}
 
-	public CodeWriter add(String str) {
+	public CodeWriter add(@Nullable String str) {
 		buf.append(str);
 		offset += str.length();
 		return this;
@@ -244,6 +245,7 @@ public class CodeWriter {
 		lineMap.put(decompiledLine, sourceLine);
 	}
 
+	@Initializer
 	public ICodeInfo finish() {
 		removeFirstEmptyLine();
 		processDefinitionAnnotations();

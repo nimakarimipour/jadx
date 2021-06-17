@@ -23,6 +23,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.Initializer;
 
 @JadxVisitor(
 		name = "ShadowFieldVisitor",
@@ -34,6 +35,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 	private Map<String, FieldFixInfo> fixInfoMap;
 
 	@Override
+	@Initializer
 	public void init(RootNode root) {
 		Map<String, FieldFixInfo> map = new HashMap<>();
 		for (ClassNode cls : root.getClasses(true)) {
@@ -56,6 +58,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 	}
 
 	private static class FieldFixInfo {
+		@Nullable
 		Map<FieldInfo, FieldFixType> fieldFixMap;
 	}
 
@@ -153,6 +156,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 	}
 
 	
+	@Nullable
 	private static FieldInfo getFieldInfo(InsnNode insn) {
 		switch (insn.getType()) {
 			case IPUT:

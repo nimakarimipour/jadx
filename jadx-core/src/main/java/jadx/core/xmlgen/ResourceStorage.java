@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import jadx.core.xmlgen.entry.ResourceEntry;
+import jadx.Initializer;
+import org.jetbrains.annotations.Nullable;
 
 public class ResourceStorage {
 	private static final Comparator<ResourceEntry> RES_ENTRY_NAME_COMPARATOR = Comparator
@@ -49,10 +51,12 @@ public class ResourceStorage {
 		renames.put(id, keyName);
 	}
 
+	@Nullable
 	public String getRename(int id) {
 		return renames.get(id);
 	}
 
+	@Nullable
 	public ResourceEntry searchEntryWithSameName(ResourceEntry resourceEntry) {
 		return uniqNameEntries.get(resourceEntry);
 	}
@@ -71,6 +75,7 @@ public class ResourceStorage {
 		return appPackage;
 	}
 
+	@Initializer
 	public void setAppPackage(String appPackage) {
 		this.appPackage = appPackage;
 	}

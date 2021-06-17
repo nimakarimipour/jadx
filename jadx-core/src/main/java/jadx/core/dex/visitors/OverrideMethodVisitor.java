@@ -20,6 +20,7 @@ import jadx.core.dex.visitors.typeinference.TypeCompare;
 import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.utils.exceptions.JadxException;
+import org.jetbrains.annotations.Nullable;
 
 @JadxVisitor(
 		name = "OverrideMethodVisitor",
@@ -206,6 +207,7 @@ public class OverrideMethodVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private ArgType updateArgType(MethodNode mth, IMethodDetails baseMth, List<ArgType> superTypes, int argNum) {
 		ArgType arg = mth.getArgTypes().get(argNum);
 		ArgType baseArg = baseMth.getArgTypes().get(argNum);

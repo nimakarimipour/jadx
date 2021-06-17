@@ -1,6 +1,7 @@
 package jadx.core.dex.info;
 
 import org.jetbrains.annotations.Nullable;
+import jadx.Initializer;
 
 class ClassAliasInfo {
 	private final String shortName;
@@ -28,6 +29,7 @@ class ClassAliasInfo {
 		return fullName;
 	}
 
+	@Initializer
 	public void setFullName( String fullName) {
 		this.fullName = fullName;
 	}

@@ -24,10 +24,11 @@ import jadx.core.dex.trycatch.SplitterBlockAttr;
 import jadx.core.dex.trycatch.TryCatchBlock;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.RegionUtils;
-
+import org.jetbrains.annotations.Nullable;
 /**
  * Extract blocks to separate try/catch region
  */
+
 public class ProcessTryCatchRegions extends AbstractRegionVisitor {
 
 	public static void process(MethodNode mth) {

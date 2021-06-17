@@ -221,7 +221,7 @@ public class InsnGen {
 	private static final Set<Flags> BODY_ONLY_FLAG = EnumSet.of(Flags.BODY_ONLY);
 	private static final Set<Flags> BODY_ONLY_NOWRAP_FLAGS = EnumSet.of(Flags.BODY_ONLY_NOWRAP);
 
-	protected void makeInsn(InsnNode insn, CodeWriter code, Flags flag) throws CodegenException {
+	protected void makeInsn(InsnNode insn, CodeWriter code, @Nullable Flags flag) throws CodegenException {
 		if (insn.getType() == InsnType.REGION_ARG) {
 			return;
 		}
@@ -747,6 +747,7 @@ public class InsnGen {
 	}
 
 	
+	@Nullable
 	private ClassInfo getClassForSuperCall(CodeWriter code, MethodInfo callMth) {
 		ClassNode useCls = mth.getParentClass();
 		ClassInfo insnCls = useCls.getClassInfo();
@@ -777,7 +778,7 @@ public class InsnGen {
 	}
 
 	void generateMethodArguments(CodeWriter code, BaseInvokeNode insn, int startArgNum,
-			 MethodNode mthNode) throws CodegenException {
+			 @Nullable MethodNode mthNode) throws CodegenException {
 		int k = startArgNum;
 		if (mthNode != null && mthNode.contains(AFlag.SKIP_FIRST_ARG)) {
 			k++;

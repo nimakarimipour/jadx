@@ -40,10 +40,11 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.files.FileUtils;
 
 import static jadx.core.utils.Utils.notEmpty;
-
+import jadx.Initializer;
 /**
  * Classes list for import into classpath graph
  */
+
 public class ClsSet {
 	private static final Logger LOG = LoggerFactory.getLogger(ClsSet.class);
 
@@ -91,6 +92,7 @@ public class ClsSet {
 		}
 	}
 
+	@Initializer
 	public void loadFrom(RootNode root) {
 		List<ClassNode> list = root.getClasses(true);
 		Map<String, ClspClass> names = new HashMap<>(list.size());
@@ -285,7 +287,7 @@ public class ClsSet {
 		}
 	}
 
-	private static void writeArgType(DataOutputStream out, ArgType argType, Map<String, ClspClass> names) throws IOException {
+	private static void writeArgType(DataOutputStream out, @Nullable ArgType argType, Map<String, ClspClass> names) throws IOException {
 		if (argType == null) {
 			out.writeByte(-1);
 			return;
@@ -413,6 +415,7 @@ public class ClsSet {
 	}
 
 	
+	@Nullable
 	private ArgType[] readArgTypesArray(DataInputStream in) throws IOException {
 		int count = in.readByte();
 		if (count == -1) {

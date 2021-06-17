@@ -7,6 +7,7 @@ import jadx.core.dex.attributes.AttrList;
 import jadx.core.dex.attributes.IAttribute;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
+import org.jetbrains.annotations.Nullable;
 
 public class EdgeInsnAttr implements IAttribute {
 

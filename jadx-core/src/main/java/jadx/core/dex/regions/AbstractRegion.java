@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import jadx.core.dex.attributes.AttrNode;
 import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.IRegion;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractRegion extends AttrNode implements IRegion {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractRegion.class);

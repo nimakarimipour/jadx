@@ -25,6 +25,7 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.Utils;
+import org.jetbrains.annotations.Nullable;
 
 public class NameGen {
 
@@ -201,6 +202,7 @@ public class NameGen {
 		return StringUtils.escape(type.toString());
 	}
 
+	@Nullable
 	private static String fromName(String name) {
 		if (name == null || name.isEmpty()) {
 			return null;
@@ -219,10 +221,12 @@ public class NameGen {
 		return null;
 	}
 
+	@Nullable
 	private static String getAliasForObject(String name) {
 		return OBJ_ALIAS.get(name);
 	}
 
+	@Nullable
 	private String makeNameFromInsn(InsnNode insn) {
 		switch (insn.getType()) {
 			case INVOKE:
@@ -256,6 +260,7 @@ public class NameGen {
 		return null;
 	}
 
+	@Nullable
 	private String makeNameFromInvoke(MethodInfo callMth) {
 		String name = callMth.getName();
 		if (name.startsWith("get") || name.startsWith("set")) {

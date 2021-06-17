@@ -8,6 +8,7 @@ import jadx.core.dex.instructions.mods.ConstructorInsn;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.MethodNode;
+import jadx.Initializer;
 
 public class EnumClassAttr implements IAttribute {
 
@@ -33,6 +34,7 @@ public class EnumClassAttr implements IAttribute {
 			return cls;
 		}
 
+		@Initializer
 		public void setCls(ClassNode cls) {
 			this.cls = cls;
 		}
@@ -58,6 +60,7 @@ public class EnumClassAttr implements IAttribute {
 		return staticMethod;
 	}
 
+	@Initializer
 	public void setStaticMethod(MethodNode staticMethod) {
 		this.staticMethod = staticMethod;
 	}

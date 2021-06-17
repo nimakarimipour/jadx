@@ -15,6 +15,7 @@ import jadx.core.dex.visitors.SaveCode;
 import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.files.FileUtils;
+import org.jetbrains.annotations.Nullable;
 
 public class ResourcesSaver implements Runnable {
 	private static final Logger LOG = LoggerFactory.getLogger(ResourcesSaver.class);
@@ -32,7 +33,7 @@ public class ResourcesSaver implements Runnable {
 		saveResources(resourceFile.loadContent());
 	}
 
-	private void saveResources(ResContainer rc) {
+	private void saveResources(@Nullable ResContainer rc) {
 		if (rc == null) {
 			return;
 		}

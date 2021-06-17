@@ -263,6 +263,7 @@ public class Utils {
 	}
 
 	
+	@Nullable
 	public static <T> T getOne( List<T> list) {
 		if (list == null || list.size() != 1) {
 			return null;
@@ -271,6 +272,7 @@ public class Utils {
 	}
 
 	
+	@Nullable
 	public static <T> T last(List<T> list) {
 		if (list.isEmpty()) {
 			return null;

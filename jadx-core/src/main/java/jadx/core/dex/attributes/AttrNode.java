@@ -3,6 +3,7 @@ package jadx.core.dex.attributes;
 import java.util.List;
 
 import jadx.api.plugins.input.data.annotations.IAnnotation;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AttrNode implements IAttributeNode {
 

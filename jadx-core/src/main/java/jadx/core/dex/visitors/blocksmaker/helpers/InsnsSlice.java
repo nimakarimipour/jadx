@@ -37,6 +37,7 @@ public class InsnsSlice {
 	}
 
 	
+	@Nullable
 	public BlockNode getBlock(InsnNode insn) {
 		return insnMap.get(insn);
 	}

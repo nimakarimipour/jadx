@@ -10,6 +10,7 @@ import jadx.core.dex.attributes.IAttribute;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
+import org.jetbrains.annotations.Nullable;
 
 public class MethodInlineAttr implements IAttribute {
 

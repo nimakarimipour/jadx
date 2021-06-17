@@ -12,6 +12,8 @@ import jadx.core.dex.instructions.mods.TernaryInsn;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.EmptyBitSet;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.Initializer;
+import org.jetbrains.annotations.Nullable;
 
 final class ArgsInfo {
 	private final InsnNode insn;
@@ -59,6 +61,7 @@ final class ArgsInfo {
 		return args;
 	}
 
+	@Nullable
 	public WrapInfo checkInline(int assignPos, RegisterArg arg) {
 		if (assignPos >= inlineBorder || !canMove(assignPos, inlineBorder)) {
 			return null;
@@ -127,6 +130,7 @@ final class ArgsInfo {
 		return new WrapInfo(argsInfo.insn, arg);
 	}
 
+	@Initializer
 	ArgsInfo getInlinedInsn() {
 		if (inlinedInsn != null) {
 			ArgsInfo parent = inlinedInsn.getInlinedInsn();

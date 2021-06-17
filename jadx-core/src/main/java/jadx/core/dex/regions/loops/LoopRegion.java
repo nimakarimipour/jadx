@@ -16,6 +16,7 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.regions.AbstractRegion;
 import jadx.core.dex.regions.conditions.IfCondition;
 import jadx.core.utils.BlockUtils;
+import jadx.Initializer;
 
 public final class LoopRegion extends AbstractRegion {
 
@@ -27,6 +28,7 @@ public final class LoopRegion extends AbstractRegion {
 	private IfCondition condition;
 	private final BlockNode conditionBlock;
 	// instruction which must be executed before condition in every loop
+	@Nullable
 	private BlockNode preCondition;
 	private IRegion body;
 	private final boolean conditionAtEnd;
@@ -76,6 +78,7 @@ public final class LoopRegion extends AbstractRegion {
 		this.preCondition = preCondition;
 	}
 
+	@Nullable
 	private IfNode getIfInsn() {
 		return (IfNode) BlockUtils.getLastInsn(conditionBlock);
 	}
@@ -141,11 +144,13 @@ public final class LoopRegion extends AbstractRegion {
 		return type;
 	}
 
+	@Initializer
 	public void setType(LoopType type) {
 		this.type = type;
 	}
 
 	@Override
+	@Initializer
 	public List<IContainer> getSubBlocks() {
 		List<IContainer> all = new ArrayList<>(3);
 		if (preCondition != null) {

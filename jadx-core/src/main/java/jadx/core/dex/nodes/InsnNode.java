@@ -22,10 +22,12 @@ import jadx.core.utils.InsnRemover;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.Initializer;
 
 public class InsnNode extends LineAttrNode {
 	protected final InsnType insnType;
 
+	@Nullable
 	private RegisterArg result;
 	private final List<InsnArg> arguments;
 	protected int offset;
@@ -49,7 +51,8 @@ public class InsnNode extends LineAttrNode {
 		return insn;
 	}
 
-	public void setResult( RegisterArg res) {
+	@Initializer
+	public void setResult( @Nullable RegisterArg res) {
 		this.result = res;
 		if (res != null) {
 			res.setParentInsn(this);
