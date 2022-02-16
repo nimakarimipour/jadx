@@ -124,6 +124,7 @@ public class InsnUtils {
 	 * This method support inlined instructions.
 	 */
 	
+	@Nullable
 	public static InsnNode searchInsn(MethodNode mth, InsnType insnType, Predicate<InsnNode> test) {
 		if (mth.isNoCode()) {
 			return null;
