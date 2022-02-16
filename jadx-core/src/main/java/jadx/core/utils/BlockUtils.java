@@ -233,6 +233,7 @@ public class BlockUtils {
 		return null;
 	}
 
+	@Nullable
 	public static InsnNode searchInsnParent(MethodNode mth, InsnNode insn) {
 		InsnArg insnArg = searchWrappedInsnParent(mth, insn);
 		if (insnArg == null) {
