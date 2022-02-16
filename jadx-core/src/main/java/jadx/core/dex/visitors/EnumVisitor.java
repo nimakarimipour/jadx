@@ -439,6 +439,7 @@ public class EnumVisitor extends AbstractVisitor {
 		innerCls.add(AFlag.DONT_GENERATE);
 	}
 
+	@Nullable
 	private ConstructorInsn getConstructorInsn(InsnNode insn) {
 		if (insn.getArgsCount() != 1) {
 			return null;
