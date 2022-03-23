@@ -2,7 +2,6 @@ package jadx.core.utils;
 
 import java.util.function.Predicate;
 
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +22,8 @@ import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
+
+import javax.annotation.Nullable;
 
 public class InsnUtils {
 
@@ -111,7 +112,7 @@ public class InsnUtils {
 		}
 	}
 
-
+	@Nullable
 	public static InsnNode searchSingleReturnInsn(MethodNode mth, Predicate<InsnNode> test) {
 		if (!mth.isNoCode() && mth.getExitBlocks().size() == 1) {
 			return searchInsn(mth, InsnType.RETURN, test);
@@ -123,6 +124,7 @@ public class InsnUtils {
 	 * Search instruction of specific type and condition in method.
 	 * This method support inlined instructions.
 	 */
+	@Nullable
 	public static InsnNode searchInsn(MethodNode mth, InsnType insnType, Predicate<InsnNode> test) {
 		if (mth.isNoCode()) {
 			return null;
