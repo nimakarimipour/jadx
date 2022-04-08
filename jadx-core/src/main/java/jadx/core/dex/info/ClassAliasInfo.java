@@ -3,37 +3,37 @@ package jadx.core.dex.info;
 import org.jetbrains.annotations.Nullable;
 
 class ClassAliasInfo {
-	private final String shortName;
-	
-	private final String pkg;
-	
-	private String fullName;
 
-	ClassAliasInfo( String pkg, String shortName) {
-		this.pkg = pkg;
-		this.shortName = shortName;
-	}
+    private final String shortName;
 
-	
-	public String getPkg() {
-		return pkg;
-	}
+    private final String pkg;
 
-	public String getShortName() {
-		return shortName;
-	}
+    @Nullable
+    private String fullName;
 
-	
-	public String getFullName() {
-		return fullName;
-	}
+    ClassAliasInfo(String pkg, String shortName) {
+        this.pkg = pkg;
+        this.shortName = shortName;
+    }
 
-	public void setFullName( String fullName) {
-		this.fullName = fullName;
-	}
+    public String getPkg() {
+        return pkg;
+    }
 
-	@Override
-	public String toString() {
-		return "Alias{" + shortName + ", pkg=" + pkg + ", fullName=" + fullName + '}';
-	}
+    public String getShortName() {
+        return shortName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    @Override
+    public String toString() {
+        return "Alias{" + shortName + ", pkg=" + pkg + ", fullName=" + fullName + '}';
+    }
 }

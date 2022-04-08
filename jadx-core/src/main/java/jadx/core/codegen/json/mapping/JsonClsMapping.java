@@ -1,71 +1,83 @@
 package jadx.core.codegen.json.mapping;
 
+import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class JsonClsMapping {
-	private String name;
-	private String alias;
 
-	private String json;
-	private boolean inner;
-	private String topClass;
+    @Nullable
+    private String name;
 
-	private List<JsonFieldMapping> fields;
-	private List<JsonMthMapping> methods;
+    @Nullable
+    private String alias;
 
-	public String getName() {
-		return name;
-	}
+    @Nullable
+    private String json;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private boolean inner;
 
-	public String getAlias() {
-		return alias;
-	}
+    @Nullable
+    private String topClass;
 
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+    @Nullable
+    private List<JsonFieldMapping> fields;
 
-	public String getJson() {
-		return json;
-	}
+    @Nullable
+    private List<JsonMthMapping> methods;
 
-	public void setJson(String json) {
-		this.json = json;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public boolean isInner() {
-		return inner;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setInner(boolean inner) {
-		this.inner = inner;
-	}
+    public String getAlias() {
+        return alias;
+    }
 
-	public String getTopClass() {
-		return topClass;
-	}
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
-	public void setTopClass(String topClass) {
-		this.topClass = topClass;
-	}
+    public String getJson() {
+        return json;
+    }
 
-	public List<JsonFieldMapping> getFields() {
-		return fields;
-	}
+    public void setJson(String json) {
+        this.json = json;
+    }
 
-	public void setFields(List<JsonFieldMapping> fields) {
-		this.fields = fields;
-	}
+    public boolean isInner() {
+        return inner;
+    }
 
-	public List<JsonMthMapping> getMethods() {
-		return methods;
-	}
+    public void setInner(boolean inner) {
+        this.inner = inner;
+    }
 
-	public void setMethods(List<JsonMthMapping> methods) {
-		this.methods = methods;
-	}
+    public String getTopClass() {
+        return topClass;
+    }
+
+    public void setTopClass(String topClass) {
+        this.topClass = topClass;
+    }
+
+    public List<JsonFieldMapping> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<JsonFieldMapping> fields) {
+        this.fields = fields;
+    }
+
+    public List<JsonMthMapping> getMethods() {
+        return methods;
+    }
+
+    public void setMethods(List<JsonMthMapping> methods) {
+        this.methods = methods;
+    }
 }
