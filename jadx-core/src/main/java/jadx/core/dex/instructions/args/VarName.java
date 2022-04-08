@@ -1,18 +1,24 @@
 package jadx.core.dex.instructions.args;
 
+import org.jetbrains.annotations.Nullable;
+
 public class VarName {
-	private String name;
 
-	public String getName() {
-		return name;
-	}
+    @Nullable
+    private String name;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Nullable
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public String toString() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    @Nullable
+    public String toString() {
+        return name;
+    }
 }
