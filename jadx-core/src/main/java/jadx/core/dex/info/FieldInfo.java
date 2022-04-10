@@ -1,7 +1,7 @@
 package jadx.core.dex.info;
 
+import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
-
 import jadx.api.plugins.input.data.IFieldData;
 import jadx.core.codegen.TypeGen;
 import jadx.core.dex.instructions.args.ArgType;
@@ -9,93 +9,94 @@ import jadx.core.dex.nodes.RootNode;
 
 public final class FieldInfo {
 
-	private final ClassInfo declClass;
-	private final String name;
-	private final ArgType type;
-	private String alias;
+    private final ClassInfo declClass;
 
-	private FieldInfo(ClassInfo declClass, String name, ArgType type) {
-		this.declClass = declClass;
-		this.name = name;
-		this.type = type;
-		this.alias = name;
-	}
+    private final String name;
 
-	public static FieldInfo from(RootNode root, ClassInfo declClass, String name, ArgType type) {
-		FieldInfo field = new FieldInfo(declClass, name, type);
-		return root.getInfoStorage().getField(field);
-	}
+    private final ArgType type;
 
-	public static FieldInfo fromData(RootNode root, IFieldData fieldData) {
-		ClassInfo declClass = ClassInfo.fromName(root, fieldData.getParentClassType());
-		FieldInfo field = new FieldInfo(declClass, fieldData.getName(), ArgType.parse(fieldData.getType()));
-		return root.getInfoStorage().getField(field);
-	}
+    private String alias;
 
-	public String getName() {
-		return name;
-	}
+    private FieldInfo(ClassInfo declClass, String name, ArgType type) {
+        this.declClass = declClass;
+        this.name = name;
+        this.type = type;
+        this.alias = name;
+    }
 
-	public ArgType getType() {
-		return type;
-	}
+    public static FieldInfo from(RootNode root, ClassInfo declClass, String name, ArgType type) {
+        FieldInfo field = new FieldInfo(declClass, name, type);
+        return root.getInfoStorage().getField(field);
+    }
 
-	public ClassInfo getDeclClass() {
-		return declClass;
-	}
+    public static FieldInfo fromData(RootNode root, IFieldData fieldData) {
+        ClassInfo declClass = ClassInfo.fromName(root, fieldData.getParentClassType());
+        FieldInfo field = new FieldInfo(declClass, fieldData.getName(), ArgType.parse(fieldData.getType()));
+        return root.getInfoStorage().getField(field);
+    }
 
-	public String getAlias() {
-		return alias;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+    public ArgType getType() {
+        return type;
+    }
 
-	public boolean hasAlias() {
-		return !Objects.equals(name, alias);
-	}
+    public ClassInfo getDeclClass() {
+        return declClass;
+    }
 
-	public String getFullId() {
-		return declClass.getFullName() + '.' + name + ':' + TypeGen.signature(type);
-	}
+    public String getAlias() {
+        return alias;
+    }
 
-	public String getRawFullId() {
-		return declClass.makeRawFullName() + '.' + name + ':' + TypeGen.signature(type);
-	}
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
-	public boolean isRenamed() {
-		return !name.equals(alias);
-	}
+    public boolean hasAlias() {
+        return !Objects.equals(name, alias);
+    }
 
-	public boolean equalsNameAndType(FieldInfo other) {
-		return name.equals(other.name) && type.equals(other.type);
-	}
+    public String getFullId() {
+        return declClass.getFullName() + '.' + name + ':' + TypeGen.signature(type);
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		FieldInfo fieldInfo = (FieldInfo) o;
-		return name.equals(fieldInfo.name)
-				&& type.equals(fieldInfo.type)
-				&& declClass.equals(fieldInfo.declClass);
-	}
+    public String getRawFullId() {
+        return declClass.makeRawFullName() + '.' + name + ':' + TypeGen.signature(type);
+    }
 
-	@Override
-	public int hashCode() {
-		int result = name.hashCode();
-		result = 31 * result + type.hashCode();
-		result = 31 * result + declClass.hashCode();
-		return result;
-	}
+    public boolean isRenamed() {
+        return !name.equals(alias);
+    }
 
-	@Override
-	public String toString() {
-		return declClass + "." + name + ' ' + type;
-	}
+    public boolean equalsNameAndType(FieldInfo other) {
+        return name.equals(other.name) && type.equals(other.type);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        FieldInfo fieldInfo = (FieldInfo) o;
+        return name.equals(fieldInfo.name) && type.equals(fieldInfo.type) && declClass.equals(fieldInfo.declClass);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + type.hashCode();
+        result = 31 * result + declClass.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return declClass + "." + name + ' ' + type;
+    }
 }

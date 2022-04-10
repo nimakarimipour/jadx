@@ -1,40 +1,54 @@
 package jadx.core.codegen.json.mapping;
 
+import org.jetbrains.annotations.Nullable;
+
 public class JsonMthMapping {
-	private String signature;
-	private String name;
-	private String alias;
-	private String offset;
 
-	public String getSignature() {
-		return signature;
-	}
+    @Nullable
+    private String signature;
 
-	public void setSignature(String signature) {
-		this.signature = signature;
-	}
+    @Nullable
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    @Nullable
+    private String alias;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Nullable
+    private String offset;
 
-	public String getAlias() {
-		return alias;
-	}
+    @Nullable
+    public String getSignature() {
+        return signature;
+    }
 
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
 
-	public String getOffset() {
-		return offset;
-	}
+    @Nullable
+    public String getName() {
+        return name;
+    }
 
-	public void setOffset(String offset) {
-		this.offset = offset;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Nullable
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    @Nullable
+    public String getOffset() {
+        return offset;
+    }
+
+    public void setOffset(String offset) {
+        this.offset = offset;
+    }
 }
