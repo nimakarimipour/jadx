@@ -1,51 +1,67 @@
 package jadx.core.codegen.json.cls;
 
+import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class JsonMethod extends JsonNode {
-	private String signature;
-	private String returnType;
-	private List<String> arguments;
-	private List<JsonCodeLine> lines;
-	private String offset;
 
-	public String getSignature() {
-		return signature;
-	}
+    @Nullable
+    private String signature;
 
-	public void setSignature(String signature) {
-		this.signature = signature;
-	}
+    @Nullable
+    private String returnType;
 
-	public String getReturnType() {
-		return returnType;
-	}
+    @Nullable
+    private List<String> arguments;
 
-	public void setReturnType(String returnType) {
-		this.returnType = returnType;
-	}
+    @Nullable
+    private List<JsonCodeLine> lines;
 
-	public List<String> getArguments() {
-		return arguments;
-	}
+    @Nullable
+    private String offset;
 
-	public void setArguments(List<String> arguments) {
-		this.arguments = arguments;
-	}
+    @Nullable
+    public String getSignature() {
+        return signature;
+    }
 
-	public List<JsonCodeLine> getLines() {
-		return lines;
-	}
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
 
-	public void setLines(List<JsonCodeLine> lines) {
-		this.lines = lines;
-	}
+    @Nullable
+    public String getReturnType() {
+        return returnType;
+    }
 
-	public String getOffset() {
-		return offset;
-	}
+    public void setReturnType(String returnType) {
+        this.returnType = returnType;
+    }
 
-	public void setOffset(String offset) {
-		this.offset = offset;
-	}
+    @Nullable
+    public List<String> getArguments() {
+        return arguments;
+    }
+
+    public void setArguments(List<String> arguments) {
+        this.arguments = arguments;
+    }
+
+    @Nullable
+    public List<JsonCodeLine> getLines() {
+        return lines;
+    }
+
+    public void setLines(List<JsonCodeLine> lines) {
+        this.lines = lines;
+    }
+
+    @Nullable
+    public String getOffset() {
+        return offset;
+    }
+
+    public void setOffset(String offset) {
+        this.offset = offset;
+    }
 }
