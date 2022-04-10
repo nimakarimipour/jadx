@@ -1,81 +1,86 @@
 package jadx.core.dex.visitors.typeinference;
 
+import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxOverflowException;
 
 public class TypeUpdateInfo {
-	private final MethodNode mth;
-	private final TypeUpdateFlags flags;
-	private final List<TypeUpdateEntry> updates = new ArrayList<>();
-	private final int updatesLimitCount;
 
-	public TypeUpdateInfo(MethodNode mth, TypeUpdateFlags flags) {
-		this.mth = mth;
-		this.flags = flags;
-		this.updatesLimitCount = mth.getInsnsCount() * 5; // maximum registers count to update at once
-	}
+    private final MethodNode mth;
 
-	public void requestUpdate(InsnArg arg, ArgType changeType) {
-		updates.add(new TypeUpdateEntry(arg, changeType));
-	}
+    private final TypeUpdateFlags flags;
 
-	public void applyUpdates() {
-		for (TypeUpdateEntry updateEntry : updates) {
-			InsnArg arg = updateEntry.getArg();
-			arg.setType(updateEntry.getType());
-		}
-	}
+    private final List<TypeUpdateEntry> updates = new ArrayList<>();
 
-	public boolean isProcessed(InsnArg arg) {
-		if (updates.isEmpty()) {
-			return false;
-		}
-		for (TypeUpdateEntry entry : updates) {
-			if (entry.getArg() == arg) {
-				return true;
-			}
-		}
-		return false;
-	}
+    private final int updatesLimitCount;
 
-	public ArgType getType(InsnArg arg) {
-		for (TypeUpdateEntry update : updates) {
-			if (update.getArg() == arg) {
-				return update.getType();
-			}
-		}
-		return arg.getType();
-	}
+    public TypeUpdateInfo(MethodNode mth, TypeUpdateFlags flags) {
+        this.mth = mth;
+        this.flags = flags;
+        // maximum registers count to update at once
+        this.updatesLimitCount = mth.getInsnsCount() * 5;
+    }
 
-	public void rollbackUpdate(InsnArg arg) {
-		updates.removeIf(updateEntry -> updateEntry.getArg() == arg);
-	}
+    public void requestUpdate(InsnArg arg, ArgType changeType) {
+        updates.add(new TypeUpdateEntry(arg, changeType));
+    }
 
-	public void checkUpdatesCount() {
-		if (updates.size() > updatesLimitCount) {
-			throw new JadxOverflowException("Type inference error: update tree size limit reached");
-		}
-	}
+    public void applyUpdates() {
+        for (TypeUpdateEntry updateEntry : updates) {
+            InsnArg arg = updateEntry.getArg();
+            arg.setType(updateEntry.getType());
+        }
+    }
 
-	public MethodNode getMth() {
-		return mth;
-	}
+    public boolean isProcessed(InsnArg arg) {
+        if (updates.isEmpty()) {
+            return false;
+        }
+        for (TypeUpdateEntry entry : updates) {
+            if (entry.getArg() == arg) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public List<TypeUpdateEntry> getUpdates() {
-		return updates;
-	}
+    public ArgType getType(@Nullable InsnArg arg) {
+        for (TypeUpdateEntry update : updates) {
+            if (update.getArg() == arg) {
+                return update.getType();
+            }
+        }
+        return arg.getType();
+    }
 
-	public TypeUpdateFlags getFlags() {
-		return flags;
-	}
+    public void rollbackUpdate(InsnArg arg) {
+        updates.removeIf(updateEntry -> updateEntry.getArg() == arg);
+    }
 
-	@Override
-	public String toString() {
-		return "TypeUpdateInfo{" + flags + ", updates=" + updates + '}';
-	}
+    public void checkUpdatesCount() {
+        if (updates.size() > updatesLimitCount) {
+            throw new JadxOverflowException("Type inference error: update tree size limit reached");
+        }
+    }
+
+    public MethodNode getMth() {
+        return mth;
+    }
+
+    public List<TypeUpdateEntry> getUpdates() {
+        return updates;
+    }
+
+    public TypeUpdateFlags getFlags() {
+        return flags;
+    }
+
+    @Override
+    public String toString() {
+        return "TypeUpdateInfo{" + flags + ", updates=" + updates + '}';
+    }
 }
