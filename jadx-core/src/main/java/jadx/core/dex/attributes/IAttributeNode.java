@@ -1,40 +1,41 @@
 package jadx.core.dex.attributes;
 
+import org.jetbrains.annotations.Nullable;
 import java.util.List;
-
 import jadx.api.plugins.input.data.annotations.IAnnotation;
 
 public interface IAttributeNode {
 
-	void add(AFlag flag);
+    void add(AFlag flag);
 
-	void addAttr(IAttribute attr);
+    void addAttr(IAttribute attr);
 
-	<T> void addAttr(AType<AttrList<T>> type, T obj);
+    <T> void addAttr(AType<AttrList<T>> type, T obj);
 
-	void copyAttributesFrom(AttrNode attrNode);
+    void copyAttributesFrom(AttrNode attrNode);
 
-	boolean contains(AFlag flag);
+    boolean contains(AFlag flag);
 
-	<T extends IAttribute> boolean contains(AType<T> type);
+    <T extends IAttribute> boolean contains(AType<T> type);
 
-	<T extends IAttribute> T get(AType<T> type);
+    <T extends IAttribute> T get(AType<T> type);
 
-	IAnnotation getAnnotation(String cls);
+    @Nullable
+    IAnnotation getAnnotation(String cls);
 
-	<T> List<T> getAll(AType<AttrList<T>> type);
+    <T> List<T> getAll(AType<AttrList<T>> type);
 
-	void remove(AFlag flag);
+    void remove(AFlag flag);
 
-	<T extends IAttribute> void remove(AType<T> type);
+    <T extends IAttribute> void remove(AType<T> type);
 
-	void removeAttr(IAttribute attr);
+    void removeAttr(IAttribute attr);
 
-	void clearAttributes();
+    void clearAttributes();
 
-	List<String> getAttributesStringsList();
+    List<String> getAttributesStringsList();
 
-	String getAttributesString();
+    String getAttributesString();
 
-	boolean isAttrStorageEmpty();
+    boolean isAttrStorageEmpty();
 }
