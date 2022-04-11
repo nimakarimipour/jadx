@@ -1,82 +1,89 @@
 package jadx.core.dex.visitors.methods;
 
+import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
-
 import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.IMethodDetails;
 
 public class MutableMethodDetails implements IMethodDetails {
 
-	private final MethodInfo mthInfo;
-	private ArgType retType;
-	private List<ArgType> argTypes;
-	private List<ArgType> typeParams;
-	private List<ArgType> throwTypes;
-	private boolean varArg;
+    private final MethodInfo mthInfo;
 
-	public MutableMethodDetails(IMethodDetails base) {
-		this.mthInfo = base.getMethodInfo();
-		this.retType = base.getReturnType();
-		this.argTypes = Collections.unmodifiableList(base.getArgTypes());
-		this.typeParams = Collections.unmodifiableList(base.getTypeParameters());
-		this.throwTypes = Collections.unmodifiableList(base.getThrows());
-		this.varArg = base.isVarArg();
-	}
+    @Nullable
+    private ArgType retType;
 
-	@Override
-	public MethodInfo getMethodInfo() {
-		return mthInfo;
-	}
+    private List<ArgType> argTypes;
 
-	@Override
-	public ArgType getReturnType() {
-		return retType;
-	}
+    private List<ArgType> typeParams;
 
-	@Override
-	public List<ArgType> getArgTypes() {
-		return argTypes;
-	}
+    private List<ArgType> throwTypes;
 
-	@Override
-	public List<ArgType> getTypeParameters() {
-		return typeParams;
-	}
+    private boolean varArg;
 
-	@Override
-	public List<ArgType> getThrows() {
-		return throwTypes;
-	}
+    public MutableMethodDetails(IMethodDetails base) {
+        this.mthInfo = base.getMethodInfo();
+        this.retType = base.getReturnType();
+        this.argTypes = Collections.unmodifiableList(base.getArgTypes());
+        this.typeParams = Collections.unmodifiableList(base.getTypeParameters());
+        this.throwTypes = Collections.unmodifiableList(base.getThrows());
+        this.varArg = base.isVarArg();
+    }
 
-	@Override
-	public boolean isVarArg() {
-		return varArg;
-	}
+    @Override
+    public MethodInfo getMethodInfo() {
+        return mthInfo;
+    }
 
-	public void setRetType(ArgType retType) {
-		this.retType = retType;
-	}
+    @Override
+    @Nullable
+    public ArgType getReturnType() {
+        return retType;
+    }
 
-	public void setArgTypes(List<ArgType> argTypes) {
-		this.argTypes = argTypes;
-	}
+    @Override
+    public List<ArgType> getArgTypes() {
+        return argTypes;
+    }
 
-	public void setTypeParams(List<ArgType> typeParams) {
-		this.typeParams = typeParams;
-	}
+    @Override
+    public List<ArgType> getTypeParameters() {
+        return typeParams;
+    }
 
-	public void setThrowTypes(List<ArgType> throwTypes) {
-		this.throwTypes = throwTypes;
-	}
+    @Override
+    public List<ArgType> getThrows() {
+        return throwTypes;
+    }
 
-	public void setVarArg(boolean varArg) {
-		this.varArg = varArg;
-	}
+    @Override
+    public boolean isVarArg() {
+        return varArg;
+    }
 
-	@Override
-	public String toString() {
-		return "Mutable" + toAttrString();
-	}
+    public void setRetType(@Nullable ArgType retType) {
+        this.retType = retType;
+    }
+
+    public void setArgTypes(List<ArgType> argTypes) {
+        this.argTypes = argTypes;
+    }
+
+    public void setTypeParams(List<ArgType> typeParams) {
+        this.typeParams = typeParams;
+    }
+
+    public void setThrowTypes(List<ArgType> throwTypes) {
+        this.throwTypes = throwTypes;
+    }
+
+    public void setVarArg(boolean varArg) {
+        this.varArg = varArg;
+    }
+
+    @Override
+    public String toString() {
+        return "Mutable" + toAttrString();
+    }
 }

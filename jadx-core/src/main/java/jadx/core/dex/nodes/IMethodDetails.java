@@ -1,7 +1,7 @@
 package jadx.core.dex.nodes;
 
+import org.jetbrains.annotations.Nullable;
 import java.util.List;
-
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.IAttribute;
 import jadx.core.dex.info.MethodInfo;
@@ -10,43 +10,44 @@ import jadx.core.utils.Utils;
 
 public interface IMethodDetails extends IAttribute {
 
-	MethodInfo getMethodInfo();
+    MethodInfo getMethodInfo();
 
-	ArgType getReturnType();
+    @Nullable
+    ArgType getReturnType();
 
-	List<ArgType> getArgTypes();
+    List<ArgType> getArgTypes();
 
-	List<ArgType> getTypeParameters();
+    List<ArgType> getTypeParameters();
 
-	List<ArgType> getThrows();
+    List<ArgType> getThrows();
 
-	boolean isVarArg();
+    boolean isVarArg();
 
-	@Override
-	default AType<IMethodDetails> getType() {
-		return AType.METHOD_DETAILS;
-	}
+    @Override
+    default AType<IMethodDetails> getType() {
+        return AType.METHOD_DETAILS;
+    }
 
-	@Override
-	default String toAttrString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("MD:");
-		if (Utils.notEmpty(getTypeParameters())) {
-			sb.append('<');
-			sb.append(Utils.listToString(getTypeParameters()));
-			sb.append(">:");
-		}
-		sb.append('(');
-		sb.append(Utils.listToString(getArgTypes()));
-		sb.append("):");
-		sb.append(getReturnType());
-		if (isVarArg()) {
-			sb.append(" VARARG");
-		}
-		List<ArgType> throwsList = getThrows();
-		if (Utils.notEmpty(throwsList)) {
-			sb.append(" throws ").append(Utils.listToString(throwsList));
-		}
-		return sb.toString();
-	}
+    @Override
+    default String toAttrString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("MD:");
+        if (Utils.notEmpty(getTypeParameters())) {
+            sb.append('<');
+            sb.append(Utils.listToString(getTypeParameters()));
+            sb.append(">:");
+        }
+        sb.append('(');
+        sb.append(Utils.listToString(getArgTypes()));
+        sb.append("):");
+        sb.append(getReturnType());
+        if (isVarArg()) {
+            sb.append(" VARARG");
+        }
+        List<ArgType> throwsList = getThrows();
+        if (Utils.notEmpty(throwsList)) {
+            sb.append(" throws ").append(Utils.listToString(throwsList));
+        }
+        return sb.toString();
+    }
 }

@@ -1,7 +1,6 @@
 package jadx.core.dex.visitors.typeinference;
 
 import org.jetbrains.annotations.Nullable;
-
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.RegisterArg;
 
@@ -10,10 +9,11 @@ import jadx.core.dex.instructions.args.RegisterArg;
  */
 public interface ITypeBound {
 
-	BoundEnum getBound();
+    BoundEnum getBound();
 
-	ArgType getType();
+    @Nullable
+    ArgType getType();
 
-	
-	RegisterArg getArg();
+    @Nullable
+    RegisterArg getArg();
 }

@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.typeinference;
 
+import org.jetbrains.annotations.Nullable;
 import jadx.core.dex.instructions.args.ArgType;
 
 /**
@@ -8,9 +9,10 @@ import jadx.core.dex.instructions.args.ArgType;
  */
 public interface ITypeBoundDynamic extends ITypeBound {
 
-	/**
-	 * This method will be executed instead of {@link ITypeBound#getType()}
-	 * if {@link TypeUpdateInfo} is available.
-	 */
-	ArgType getType(TypeUpdateInfo updateInfo);
+    /**
+     * This method will be executed instead of {@link ITypeBound#getType()}
+     * if {@link TypeUpdateInfo} is available.
+     */
+    @Nullable
+    ArgType getType(TypeUpdateInfo updateInfo);
 }
