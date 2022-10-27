@@ -1,110 +1,119 @@
 package jadx.core.dex.regions.conditions;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 
 public final class IfInfo {
-	private final MethodNode mth;
-	private final IfCondition condition;
-	private final List<BlockNode> mergedBlocks;
-	private final BlockNode thenBlock;
-	private final BlockNode elseBlock;
-	private final Set<BlockNode> skipBlocks;
-	private final List<InsnNode> forceInlineInsns;
-	private BlockNode outBlock;
 
-	public IfInfo(MethodNode mth, IfCondition condition, BlockNode thenBlock, BlockNode elseBlock) {
-		this(mth, condition, thenBlock, elseBlock, new ArrayList<>(), new HashSet<>(), new ArrayList<>());
-	}
+    private final MethodNode mth;
 
-	public IfInfo(IfInfo info, BlockNode thenBlock, BlockNode elseBlock) {
-		this(info.getMth(), info.getCondition(), thenBlock, elseBlock,
-				info.getMergedBlocks(), info.getSkipBlocks(), info.getForceInlineInsns());
-	}
+    private final IfCondition condition;
 
-	private IfInfo(MethodNode mth, IfCondition condition, BlockNode thenBlock, BlockNode elseBlock,
-			List<BlockNode> mergedBlocks, Set<BlockNode> skipBlocks, List<InsnNode> forceInlineInsns) {
-		this.mth = mth;
-		this.condition = condition;
-		this.thenBlock = thenBlock;
-		this.elseBlock = elseBlock;
-		this.mergedBlocks = mergedBlocks;
-		this.skipBlocks = skipBlocks;
-		this.forceInlineInsns = forceInlineInsns;
-	}
+    private final List<BlockNode> mergedBlocks;
 
-	public static IfInfo invert(IfInfo info) {
-		return new IfInfo(info.getMth(),
-				IfCondition.invert(info.getCondition()),
-				info.getElseBlock(), info.getThenBlock(),
-				info.getMergedBlocks(), info.getSkipBlocks(), info.getForceInlineInsns());
-	}
+    @Nullable
+    private final BlockNode thenBlock;
 
-	public void merge(IfInfo... arr) {
-		for (IfInfo info : arr) {
-			mergedBlocks.addAll(info.getMergedBlocks());
-			skipBlocks.addAll(info.getSkipBlocks());
-			addInsnsForForcedInline(info.getForceInlineInsns());
-		}
-	}
+    @Nullable
+    private final BlockNode elseBlock;
 
-	@Deprecated
-	public BlockNode getFirstIfBlock() {
-		return mergedBlocks.get(0);
-	}
+    private final Set<BlockNode> skipBlocks;
 
-	public MethodNode getMth() {
-		return mth;
-	}
+    private final List<InsnNode> forceInlineInsns;
 
-	public IfCondition getCondition() {
-		return condition;
-	}
+    @Nullable
+    private BlockNode outBlock;
 
-	public List<BlockNode> getMergedBlocks() {
-		return mergedBlocks;
-	}
+    public IfInfo(MethodNode mth, IfCondition condition, @Nullable BlockNode thenBlock, @Nullable BlockNode elseBlock) {
+        this(mth, condition, thenBlock, elseBlock, new ArrayList<>(), new HashSet<>(), new ArrayList<>());
+    }
 
-	public Set<BlockNode> getSkipBlocks() {
-		return skipBlocks;
-	}
+    public IfInfo(IfInfo info, @Nullable BlockNode thenBlock, @Nullable BlockNode elseBlock) {
+        this(info.getMth(), info.getCondition(), thenBlock, elseBlock, info.getMergedBlocks(), info.getSkipBlocks(), info.getForceInlineInsns());
+    }
 
-	public BlockNode getThenBlock() {
-		return thenBlock;
-	}
+    private IfInfo(MethodNode mth, IfCondition condition, @Nullable BlockNode thenBlock, @Nullable BlockNode elseBlock, List<BlockNode> mergedBlocks, Set<BlockNode> skipBlocks, List<InsnNode> forceInlineInsns) {
+        this.mth = mth;
+        this.condition = condition;
+        this.thenBlock = thenBlock;
+        this.elseBlock = elseBlock;
+        this.mergedBlocks = mergedBlocks;
+        this.skipBlocks = skipBlocks;
+        this.forceInlineInsns = forceInlineInsns;
+    }
 
-	public BlockNode getElseBlock() {
-		return elseBlock;
-	}
+    public static IfInfo invert(IfInfo info) {
+        return new IfInfo(info.getMth(), IfCondition.invert(info.getCondition()), info.getElseBlock(), info.getThenBlock(), info.getMergedBlocks(), info.getSkipBlocks(), info.getForceInlineInsns());
+    }
 
-	public BlockNode getOutBlock() {
-		return outBlock;
-	}
+    public void merge(IfInfo... arr) {
+        for (IfInfo info : arr) {
+            mergedBlocks.addAll(info.getMergedBlocks());
+            skipBlocks.addAll(info.getSkipBlocks());
+            addInsnsForForcedInline(info.getForceInlineInsns());
+        }
+    }
 
-	public void setOutBlock(BlockNode outBlock) {
-		this.outBlock = outBlock;
-	}
+    @Deprecated
+    public BlockNode getFirstIfBlock() {
+        return mergedBlocks.get(0);
+    }
 
-	public List<InsnNode> getForceInlineInsns() {
-		return forceInlineInsns;
-	}
+    public MethodNode getMth() {
+        return mth;
+    }
 
-	public void resetForceInlineInsns() {
-		forceInlineInsns.clear();
-	}
+    public IfCondition getCondition() {
+        return condition;
+    }
 
-	public void addInsnsForForcedInline(List<InsnNode> insns) {
-		forceInlineInsns.addAll(insns);
-	}
+    public List<BlockNode> getMergedBlocks() {
+        return mergedBlocks;
+    }
 
-	@Override
-	public String toString() {
-		return "IfInfo: then: " + thenBlock + ", else: " + elseBlock;
-	}
+    public Set<BlockNode> getSkipBlocks() {
+        return skipBlocks;
+    }
+
+    @Nullable
+    public BlockNode getThenBlock() {
+        return thenBlock;
+    }
+
+    @Nullable
+    public BlockNode getElseBlock() {
+        return elseBlock;
+    }
+
+    @Nullable
+    public BlockNode getOutBlock() {
+        return outBlock;
+    }
+
+    public void setOutBlock(@Nullable BlockNode outBlock) {
+        this.outBlock = outBlock;
+    }
+
+    public List<InsnNode> getForceInlineInsns() {
+        return forceInlineInsns;
+    }
+
+    public void resetForceInlineInsns() {
+        forceInlineInsns.clear();
+    }
+
+    public void addInsnsForForcedInline(List<InsnNode> insns) {
+        forceInlineInsns.addAll(insns);
+    }
+
+    @Override
+    public String toString() {
+        return "IfInfo: then: " + thenBlock + ", else: " + elseBlock;
+    }
 }

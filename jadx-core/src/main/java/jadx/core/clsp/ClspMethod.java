@@ -1,10 +1,9 @@
 package jadx.core.clsp;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
-
 import org.jetbrains.annotations.NotNull;
-
 import jadx.api.plugins.input.data.AccessFlags;
 import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
@@ -16,116 +15,119 @@ import jadx.core.utils.Utils;
  */
 public class ClspMethod implements IMethodDetails, Comparable<ClspMethod> {
 
-	private final MethodInfo methodInfo;
-	private final List<ArgType> argTypes;
-	private final ArgType returnType;
-	private final List<ArgType> typeParameters;
-	private final List<ArgType> throwList;
-	private final int accFlags;
+    private final MethodInfo methodInfo;
 
-	public ClspMethod(MethodInfo methodInfo,
-			List<ArgType> argTypes, ArgType returnType,
-			List<ArgType> typeParameters, List<ArgType> throwList, int accFlags) {
-		this.methodInfo = methodInfo;
-		this.argTypes = argTypes;
-		this.returnType = returnType;
-		this.typeParameters = typeParameters;
-		this.throwList = throwList;
-		this.accFlags = accFlags;
-	}
+    private final List<ArgType> argTypes;
 
-	@Override
-	public MethodInfo getMethodInfo() {
-		return methodInfo;
-	}
+    private final ArgType returnType;
 
-	@Override
-	public ArgType getReturnType() {
-		return returnType;
-	}
+    private final List<ArgType> typeParameters;
 
-	@Override
-	public List<ArgType> getArgTypes() {
-		return argTypes;
-	}
+    private final List<ArgType> throwList;
 
-	public boolean containsGenericArgs() {
-		return !Objects.equals(argTypes, methodInfo.getArgumentsTypes());
-	}
+    private final int accFlags;
 
-	public int getArgsCount() {
-		return argTypes.size();
-	}
+    public ClspMethod(MethodInfo methodInfo, List<ArgType> argTypes, ArgType returnType, List<ArgType> typeParameters, List<ArgType> throwList, int accFlags) {
+        this.methodInfo = methodInfo;
+        this.argTypes = argTypes;
+        this.returnType = returnType;
+        this.typeParameters = typeParameters;
+        this.throwList = throwList;
+        this.accFlags = accFlags;
+    }
 
-	@Override
-	public List<ArgType> getTypeParameters() {
-		return typeParameters;
-	}
+    @Override
+    public MethodInfo getMethodInfo() {
+        return methodInfo;
+    }
 
-	@Override
-	public List<ArgType> getThrows() {
-		return throwList;
-	}
+    @Override
+    public ArgType getReturnType() {
+        return returnType;
+    }
 
-	@Override
-	public boolean isVarArg() {
-		return (accFlags & AccessFlags.VARARGS) != 0;
-	}
+    @Override
+    public List<ArgType> getArgTypes() {
+        return argTypes;
+    }
 
-	@Override
-	public int getRawAccessFlags() {
-		return accFlags;
-	}
+    public boolean containsGenericArgs() {
+        return !Objects.equals(argTypes, methodInfo.getArgumentsTypes());
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof ClspMethod)) {
-			return false;
-		}
-		ClspMethod other = (ClspMethod) o;
-		return methodInfo.equals(other.methodInfo);
-	}
+    public int getArgsCount() {
+        return argTypes.size();
+    }
 
-	@Override
-	public int hashCode() {
-		return methodInfo.hashCode();
-	}
+    @Override
+    public List<ArgType> getTypeParameters() {
+        return typeParameters;
+    }
 
-	@Override
-	public int compareTo(@NotNull ClspMethod other) {
-		return this.methodInfo.compareTo(other.methodInfo);
-	}
+    @Override
+    public List<ArgType> getThrows() {
+        return throwList;
+    }
 
-	@Override
-	public String toAttrString() {
-		return IMethodDetails.super.toAttrString() + " (c)";
-	}
+    @Override
+    public boolean isVarArg() {
+        return (accFlags & AccessFlags.VARARGS) != 0;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("ClspMth{");
-		if (Utils.notEmpty(getTypeParameters())) {
-			sb.append('<');
-			sb.append(Utils.listToString(getTypeParameters()));
-			sb.append("> ");
-		}
-		sb.append(getMethodInfo().getFullName());
-		sb.append('(');
-		sb.append(Utils.listToString(getArgTypes()));
-		sb.append("):");
-		sb.append(getReturnType());
-		if (isVarArg()) {
-			sb.append(" VARARG");
-		}
-		List<ArgType> throwsList = getThrows();
-		if (Utils.notEmpty(throwsList)) {
-			sb.append(" throws ").append(Utils.listToString(throwsList));
-		}
-		sb.append('}');
-		return sb.toString();
-	}
+    @Override
+    public int getRawAccessFlags() {
+        return accFlags;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ClspMethod)) {
+            return false;
+        }
+        ClspMethod other = (ClspMethod) o;
+        return methodInfo.equals(other.methodInfo);
+    }
+
+    @Override
+    public int hashCode() {
+        return methodInfo.hashCode();
+    }
+
+    @Override
+    public int compareTo(@NotNull ClspMethod other) {
+        return this.methodInfo.compareTo(other.methodInfo);
+    }
+
+    @Override
+    public String toAttrString() {
+        return IMethodDetails.super.toAttrString() + " (c)";
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ClspMth{");
+        if (Utils.notEmpty(getTypeParameters())) {
+            sb.append('<');
+            sb.append(Utils.listToString(getTypeParameters()));
+            sb.append("> ");
+        }
+        sb.append(getMethodInfo().getFullName());
+        sb.append('(');
+        sb.append(Utils.listToString(getArgTypes()));
+        sb.append("):");
+        sb.append(getReturnType());
+        if (isVarArg()) {
+            sb.append(" VARARG");
+        }
+        List<ArgType> throwsList = getThrows();
+        if (Utils.notEmpty(throwsList)) {
+            sb.append(" throws ").append(Utils.listToString(throwsList));
+        }
+        sb.append('}');
+        return sb.toString();
+    }
 }

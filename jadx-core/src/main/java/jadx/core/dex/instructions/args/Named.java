@@ -1,8 +1,11 @@
 package jadx.core.dex.instructions.args;
 
+import javax.annotation.Nullable;
+
 public interface Named {
 
-	String getName();
+    @Nullable
+    String getName();
 
-	void setName(String name);
+    void setName(String name);
 }

@@ -1,7 +1,7 @@
 package jadx.core.dex.attributes.nodes;
 
+import javax.annotation.Nullable;
 import java.util.List;
-
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.instructions.mods.ConstructorInsn;
@@ -11,64 +11,72 @@ import jadx.core.dex.nodes.MethodNode;
 
 public class EnumClassAttr implements IJadxAttribute {
 
-	public static class EnumField {
-		private final FieldNode field;
-		private final ConstructorInsn constrInsn;
-		private ClassNode cls;
+    public static class EnumField {
 
-		public EnumField(FieldNode field, ConstructorInsn co) {
-			this.field = field;
-			this.constrInsn = co;
-		}
+        private final FieldNode field;
 
-		public FieldNode getField() {
-			return field;
-		}
+        private final ConstructorInsn constrInsn;
 
-		public ConstructorInsn getConstrInsn() {
-			return constrInsn;
-		}
+        @Nullable
+        private ClassNode cls;
 
-		public ClassNode getCls() {
-			return cls;
-		}
+        public EnumField(FieldNode field, ConstructorInsn co) {
+            this.field = field;
+            this.constrInsn = co;
+        }
 
-		public void setCls(ClassNode cls) {
-			this.cls = cls;
-		}
+        public FieldNode getField() {
+            return field;
+        }
 
-		@Override
-		public String toString() {
-			return field + "(" + constrInsn + ") " + cls;
-		}
-	}
+        public ConstructorInsn getConstrInsn() {
+            return constrInsn;
+        }
 
-	private final List<EnumField> fields;
-	private MethodNode staticMethod;
+        @Nullable
+        public ClassNode getCls() {
+            return cls;
+        }
 
-	public EnumClassAttr(List<EnumField> fields) {
-		this.fields = fields;
-	}
+        public void setCls(ClassNode cls) {
+            this.cls = cls;
+        }
 
-	public List<EnumField> getFields() {
-		return fields;
-	}
+        @Override
+        public String toString() {
+            return field + "(" + constrInsn + ") " + cls;
+        }
+    }
 
-	public MethodNode getStaticMethod() {
-		return staticMethod;
-	}
+    private final List<EnumField> fields;
 
-	public void setStaticMethod(MethodNode staticMethod) {
-		this.staticMethod = staticMethod;
-	}
+    @Nullable
+    private MethodNode staticMethod;
 
-	@Override
-	public AType<EnumClassAttr> getAttrType() {
-		return AType.ENUM_CLASS;
-	}
+    public EnumClassAttr(List<EnumField> fields) {
+        this.fields = fields;
+    }
 
-	@Override
-	public String toString() {
-		return "Enum fields: " + fields;
-	}
+    public List<EnumField> getFields() {
+        return fields;
+    }
+
+    @Nullable
+    public MethodNode getStaticMethod() {
+        return staticMethod;
+    }
+
+    public void setStaticMethod(MethodNode staticMethod) {
+        this.staticMethod = staticMethod;
+    }
+
+    @Override
+    public AType<EnumClassAttr> getAttrType() {
+        return AType.ENUM_CLASS;
+    }
+
+    @Override
+    public String toString() {
+        return "Enum fields: " + fields;
+    }
 }

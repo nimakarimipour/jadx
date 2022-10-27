@@ -1,14 +1,15 @@
 package jadx.core.dex.nodes;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public interface IRegion extends IContainer {
 
-	IRegion getParent();
+    IRegion getParent();
 
-	void setParent(IRegion parent);
+    void setParent(IRegion parent);
 
-	List<IContainer> getSubBlocks();
+    List<IContainer> getSubBlocks();
 
-	boolean replaceSubBlock(IContainer oldBlock, IContainer newBlock);
+    boolean replaceSubBlock(IContainer oldBlock, IContainer newBlock);
 }

@@ -1,40 +1,52 @@
 package jadx.core.codegen.json.cls;
 
+import javax.annotation.Nullable;
+
 public class JsonNode {
-	private String name;
-	private String alias;
-	private String declaration;
-	private int accessFlags;
 
-	public String getName() {
-		return name;
-	}
+    @Nullable
+    private String name;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Nullable
+    private String alias;
 
-	public String getAlias() {
-		return alias;
-	}
+    @Nullable
+    private String declaration;
 
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+    private int accessFlags;
 
-	public String getDeclaration() {
-		return declaration;
-	}
+    @Nullable
+    public String getName() {
+        return name;
+    }
 
-	public void setDeclaration(String declaration) {
-		this.declaration = declaration;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getAccessFlags() {
-		return accessFlags;
-	}
+    @Nullable
+    public String getAlias() {
+        return alias;
+    }
 
-	public void setAccessFlags(int accessFlags) {
-		this.accessFlags = accessFlags;
-	}
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    @Nullable
+    public String getDeclaration() {
+        return declaration;
+    }
+
+    public void setDeclaration(String declaration) {
+        this.declaration = declaration;
+    }
+
+    public int getAccessFlags() {
+        return accessFlags;
+    }
+
+    public void setAccessFlags(int accessFlags) {
+        this.accessFlags = accessFlags;
+    }
 }
