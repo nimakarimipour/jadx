@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import jadx.api.ICodeWriter;
 import jadx.core.codegen.RegionGen;
 import jadx.core.dex.nodes.IBranchRegion;
@@ -18,88 +17,93 @@ import jadx.core.utils.exceptions.CodegenException;
 
 public final class TryCatchRegion extends AbstractRegion implements IBranchRegion {
 
-	private final IContainer tryRegion;
-	private Map<ExceptionHandler, IContainer> catchRegions = Collections.emptyMap();
-	private IContainer finallyRegion;
-	private TryCatchBlockAttr tryCatchBlock;
+    private final IContainer tryRegion;
 
-	public TryCatchRegion(IRegion parent, IContainer tryRegion) {
-		super(parent);
-		this.tryRegion = tryRegion;
-	}
+    private Map<ExceptionHandler, IContainer> catchRegions = Collections.emptyMap();
 
-	public void setTryCatchBlock(TryCatchBlockAttr tryCatchBlock) {
-		this.tryCatchBlock = tryCatchBlock;
-		int count = tryCatchBlock.getHandlersCount();
-		this.catchRegions = new LinkedHashMap<>(count);
-		for (ExceptionHandler handler : tryCatchBlock.getHandlers()) {
-			IContainer handlerRegion = handler.getHandlerRegion();
-			if (handlerRegion != null) {
-				if (handler.isFinally()) {
-					finallyRegion = handlerRegion;
-				} else {
-					catchRegions.put(handler, handlerRegion);
-				}
-			}
-		}
-	}
+    @SuppressWarnings("NullAway.Init")
+    private IContainer finallyRegion;
 
-	public IContainer getTryRegion() {
-		return tryRegion;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private TryCatchBlockAttr tryCatchBlock;
 
-	public Map<ExceptionHandler, IContainer> getCatchRegions() {
-		return catchRegions;
-	}
+    public TryCatchRegion(IRegion parent, IContainer tryRegion) {
+        super(parent);
+        this.tryRegion = tryRegion;
+    }
 
-	public TryCatchBlockAttr getTryCatchBlock() {
-		return tryCatchBlock;
-	}
+    public void setTryCatchBlock(TryCatchBlockAttr tryCatchBlock) {
+        this.tryCatchBlock = tryCatchBlock;
+        int count = tryCatchBlock.getHandlersCount();
+        this.catchRegions = new LinkedHashMap<>(count);
+        for (ExceptionHandler handler : tryCatchBlock.getHandlers()) {
+            IContainer handlerRegion = handler.getHandlerRegion();
+            if (handlerRegion != null) {
+                if (handler.isFinally()) {
+                    finallyRegion = handlerRegion;
+                } else {
+                    catchRegions.put(handler, handlerRegion);
+                }
+            }
+        }
+    }
 
-	public IContainer getFinallyRegion() {
-		return finallyRegion;
-	}
+    public IContainer getTryRegion() {
+        return tryRegion;
+    }
 
-	public void setFinallyRegion(IContainer finallyRegion) {
-		this.finallyRegion = finallyRegion;
-	}
+    public Map<ExceptionHandler, IContainer> getCatchRegions() {
+        return catchRegions;
+    }
 
-	@Override
-	public List<IContainer> getSubBlocks() {
-		List<IContainer> all = new ArrayList<>(2 + catchRegions.size());
-		all.add(tryRegion);
-		all.addAll(catchRegions.values());
-		if (finallyRegion != null) {
-			all.add(finallyRegion);
-		}
-		return Collections.unmodifiableList(all);
-	}
+    public TryCatchBlockAttr getTryCatchBlock() {
+        return tryCatchBlock;
+    }
 
-	@Override
-	public List<IContainer> getBranches() {
-		return getSubBlocks();
-	}
+    public IContainer getFinallyRegion() {
+        return finallyRegion;
+    }
 
-	@Override
-	public void generate(RegionGen regionGen, ICodeWriter code) throws CodegenException {
-		regionGen.makeTryCatch(this, code);
-	}
+    public void setFinallyRegion(IContainer finallyRegion) {
+        this.finallyRegion = finallyRegion;
+    }
 
-	@Override
-	public String baseString() {
-		return tryRegion.baseString();
-	}
+    @Override
+    public List<IContainer> getSubBlocks() {
+        List<IContainer> all = new ArrayList<>(2 + catchRegions.size());
+        all.add(tryRegion);
+        all.addAll(catchRegions.values());
+        if (finallyRegion != null) {
+            all.add(finallyRegion);
+        }
+        return Collections.unmodifiableList(all);
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Try: ").append(tryRegion);
-		if (!catchRegions.isEmpty()) {
-			sb.append(" catches: ").append(Utils.listToString(catchRegions.values()));
-		}
-		if (finallyRegion != null) {
-			sb.append(" finally: ").append(finallyRegion);
-		}
-		return sb.toString();
-	}
+    @Override
+    public List<IContainer> getBranches() {
+        return getSubBlocks();
+    }
+
+    @Override
+    public void generate(RegionGen regionGen, ICodeWriter code) throws CodegenException {
+        regionGen.makeTryCatch(this, code);
+    }
+
+    @Override
+    public String baseString() {
+        return tryRegion.baseString();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Try: ").append(tryRegion);
+        if (!catchRegions.isEmpty()) {
+            sb.append(" catches: ").append(Utils.listToString(catchRegions.values()));
+        }
+        if (finallyRegion != null) {
+            sb.append(" finally: ").append(finallyRegion);
+        }
+        return sb.toString();
+    }
 }

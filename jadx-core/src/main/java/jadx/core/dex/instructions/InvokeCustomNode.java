@@ -1,7 +1,6 @@
 package jadx.core.dex.instructions;
 
 import org.jetbrains.annotations.Nullable;
-
 import jadx.api.plugins.input.data.MethodHandleType;
 import jadx.api.plugins.input.insns.InsnData;
 import jadx.core.dex.info.MethodInfo;
@@ -10,122 +9,127 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.InsnUtils;
 
 public class InvokeCustomNode extends InvokeNode {
-	private MethodInfo implMthInfo;
-	private MethodHandleType handleType;
-	private InsnNode callInsn;
-	private boolean inlineInsn;
-	private boolean useRef;
 
-	public InvokeCustomNode(MethodInfo lambdaInfo, InsnData insn, boolean instanceCall, boolean isRange) {
-		super(lambdaInfo, insn, InvokeType.CUSTOM, instanceCall, isRange);
-	}
+    @SuppressWarnings("NullAway.Init")
+    private MethodInfo implMthInfo;
 
-	private InvokeCustomNode(MethodInfo mth, InvokeType invokeType, int argsCount) {
-		super(mth, invokeType, argsCount);
-	}
+    @SuppressWarnings("NullAway.Init")
+    private MethodHandleType handleType;
 
-	@Override
-	public InsnNode copy() {
-		InvokeCustomNode copy = new InvokeCustomNode(getCallMth(), getInvokeType(), getArgsCount());
-		copyCommonParams(copy);
-		copy.setImplMthInfo(implMthInfo);
-		copy.setHandleType(handleType);
-		copy.setCallInsn(callInsn);
-		copy.setInlineInsn(inlineInsn);
-		copy.setUseRef(useRef);
-		return copy;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private InsnNode callInsn;
 
-	@Override
-	public boolean isSame(InsnNode obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof InvokeCustomNode) || !super.isSame(obj)) {
-			return false;
-		}
-		InvokeCustomNode other = (InvokeCustomNode) obj;
-		return handleType == other.handleType
-				&& implMthInfo.equals(other.implMthInfo)
-				&& callInsn.isSame(other.callInsn)
-				&& inlineInsn == other.inlineInsn
-				&& useRef == other.useRef;
-	}
+    private boolean inlineInsn;
 
-	public MethodInfo getImplMthInfo() {
-		return implMthInfo;
-	}
+    private boolean useRef;
 
-	public void setImplMthInfo(MethodInfo implMthInfo) {
-		this.implMthInfo = implMthInfo;
-	}
+    public InvokeCustomNode(MethodInfo lambdaInfo, InsnData insn, boolean instanceCall, boolean isRange) {
+        super(lambdaInfo, insn, InvokeType.CUSTOM, instanceCall, isRange);
+    }
 
-	public MethodHandleType getHandleType() {
-		return handleType;
-	}
+    private InvokeCustomNode(MethodInfo mth, InvokeType invokeType, int argsCount) {
+        super(mth, invokeType, argsCount);
+    }
 
-	public void setHandleType(MethodHandleType handleType) {
-		this.handleType = handleType;
-	}
+    @Override
+    public InsnNode copy() {
+        InvokeCustomNode copy = new InvokeCustomNode(getCallMth(), getInvokeType(), getArgsCount());
+        copyCommonParams(copy);
+        copy.setImplMthInfo(implMthInfo);
+        copy.setHandleType(handleType);
+        copy.setCallInsn(callInsn);
+        copy.setInlineInsn(inlineInsn);
+        copy.setUseRef(useRef);
+        return copy;
+    }
 
-	public InsnNode getCallInsn() {
-		return callInsn;
-	}
+    @Override
+    public boolean isSame(InsnNode obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof InvokeCustomNode) || !super.isSame(obj)) {
+            return false;
+        }
+        InvokeCustomNode other = (InvokeCustomNode) obj;
+        return handleType == other.handleType && implMthInfo.equals(other.implMthInfo) && callInsn.isSame(other.callInsn) && inlineInsn == other.inlineInsn && useRef == other.useRef;
+    }
 
-	public void setCallInsn(InsnNode callInsn) {
-		this.callInsn = callInsn;
-	}
+    public MethodInfo getImplMthInfo() {
+        return implMthInfo;
+    }
 
-	public boolean isInlineInsn() {
-		return inlineInsn;
-	}
+    public void setImplMthInfo(MethodInfo implMthInfo) {
+        this.implMthInfo = implMthInfo;
+    }
 
-	public void setInlineInsn(boolean inlineInsn) {
-		this.inlineInsn = inlineInsn;
-	}
+    public MethodHandleType getHandleType() {
+        return handleType;
+    }
 
-	public boolean isUseRef() {
-		return useRef;
-	}
+    public void setHandleType(MethodHandleType handleType) {
+        this.handleType = handleType;
+    }
 
-	public void setUseRef(boolean useRef) {
-		this.useRef = useRef;
-	}
+    public InsnNode getCallInsn() {
+        return callInsn;
+    }
 
-	@Nullable
-	public BaseInvokeNode getInvokeCall() {
-		if (callInsn.getType() == InsnType.INVOKE) {
-			return (BaseInvokeNode) callInsn;
-		}
-		return null;
-	}
+    public void setCallInsn(InsnNode callInsn) {
+        this.callInsn = callInsn;
+    }
 
-	@Override
-	public @Nullable InsnArg getInstanceArg() {
-		return null;
-	}
+    public boolean isInlineInsn() {
+        return inlineInsn;
+    }
 
-	@Override
-	public boolean isStaticCall() {
-		return true;
-	}
+    public void setInlineInsn(boolean inlineInsn) {
+        this.inlineInsn = inlineInsn;
+    }
 
-	@Override
-	public int getFirstArgOffset() {
-		return 0;
-	}
+    public boolean isUseRef() {
+        return useRef;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(InsnUtils.formatOffset(offset)).append(": INVOKE_CUSTOM ");
-		if (getResult() != null) {
-			sb.append(getResult()).append(" = ");
-		}
-		appendArgs(sb);
-		sb.append("\n handle type: ").append(handleType);
-		sb.append("\n lambda: ").append(implMthInfo);
-		sb.append("\n call insn: ").append(callInsn);
-		return sb.toString();
-	}
+    public void setUseRef(boolean useRef) {
+        this.useRef = useRef;
+    }
+
+    @Nullable
+    public BaseInvokeNode getInvokeCall() {
+        if (callInsn.getType() == InsnType.INVOKE) {
+            return (BaseInvokeNode) callInsn;
+        }
+        return null;
+    }
+
+    @Override
+    @Nullable
+    public InsnArg getInstanceArg() {
+        return null;
+    }
+
+    @Override
+    public boolean isStaticCall() {
+        return true;
+    }
+
+    @Override
+    public int getFirstArgOffset() {
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(InsnUtils.formatOffset(offset)).append(": INVOKE_CUSTOM ");
+        if (getResult() != null) {
+            sb.append(getResult()).append(" = ");
+        }
+        appendArgs(sb);
+        sb.append("\n handle type: ").append(handleType);
+        sb.append("\n lambda: ").append(implMthInfo);
+        sb.append("\n call insn: ").append(callInsn);
+        return sb.toString();
+    }
 }

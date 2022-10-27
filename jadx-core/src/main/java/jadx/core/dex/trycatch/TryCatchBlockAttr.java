@@ -3,7 +3,6 @@ package jadx.core.dex.trycatch;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import jadx.api.plugins.input.data.attributes.IJadxAttrType;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
 import jadx.core.dex.attributes.AType;
@@ -13,169 +12,170 @@ import jadx.core.utils.Utils;
 
 public class TryCatchBlockAttr implements IJadxAttribute {
 
-	private final int id;
-	private final List<ExceptionHandler> handlers;
-	private List<BlockNode> blocks;
+    private final int id;
 
-	private TryCatchBlockAttr outerTryBlock;
-	private List<TryCatchBlockAttr> innerTryBlocks = Collections.emptyList();
-	private boolean merged = false;
+    private final List<ExceptionHandler> handlers;
 
-	private BlockNode topSplitter;
+    private List<BlockNode> blocks;
 
-	public TryCatchBlockAttr(int id, List<ExceptionHandler> handlers, List<BlockNode> blocks) {
-		this.id = id;
-		this.handlers = handlers;
-		this.blocks = blocks;
+    @SuppressWarnings("NullAway.Init")
+    private TryCatchBlockAttr outerTryBlock;
 
-		handlers.forEach(h -> h.setTryBlock(this));
-	}
+    private List<TryCatchBlockAttr> innerTryBlocks = Collections.emptyList();
 
-	public boolean isAllHandler() {
-		return handlers.size() == 1 && handlers.get(0).isCatchAll();
-	}
+    private boolean merged = false;
 
-	public boolean isThrowOnly() {
-		boolean throwFound = false;
-		for (BlockNode block : blocks) {
-			List<InsnNode> insns = block.getInstructions();
-			if (insns.size() != 1) {
-				return false;
-			}
-			InsnNode insn = insns.get(0);
-			switch (insn.getType()) {
-				case MOVE_EXCEPTION:
-				case MONITOR_EXIT:
-					// allowed instructions
-					break;
+    @SuppressWarnings("NullAway.Init")
+    private BlockNode topSplitter;
 
-				case THROW:
-					throwFound = true;
-					break;
+    public TryCatchBlockAttr(int id, List<ExceptionHandler> handlers, List<BlockNode> blocks) {
+        this.id = id;
+        this.handlers = handlers;
+        this.blocks = blocks;
+        handlers.forEach(h -> h.setTryBlock(this));
+    }
 
-				default:
-					return false;
-			}
-		}
-		return throwFound;
-	}
+    public boolean isAllHandler() {
+        return handlers.size() == 1 && handlers.get(0).isCatchAll();
+    }
 
-	public int getId() {
-		return id;
-	}
+    public boolean isThrowOnly() {
+        boolean throwFound = false;
+        for (BlockNode block : blocks) {
+            List<InsnNode> insns = block.getInstructions();
+            if (insns.size() != 1) {
+                return false;
+            }
+            InsnNode insn = insns.get(0);
+            switch(insn.getType()) {
+                case MOVE_EXCEPTION:
+                case MONITOR_EXIT:
+                    // allowed instructions
+                    break;
+                case THROW:
+                    throwFound = true;
+                    break;
+                default:
+                    return false;
+            }
+        }
+        return throwFound;
+    }
 
-	public List<ExceptionHandler> getHandlers() {
-		return handlers;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public int getHandlersCount() {
-		return handlers.size();
-	}
+    public List<ExceptionHandler> getHandlers() {
+        return handlers;
+    }
 
-	public List<BlockNode> getBlocks() {
-		return blocks;
-	}
+    public int getHandlersCount() {
+        return handlers.size();
+    }
 
-	public void setBlocks(List<BlockNode> blocks) {
-		this.blocks = blocks;
-	}
+    public List<BlockNode> getBlocks() {
+        return blocks;
+    }
 
-	public void clear() {
-		blocks.clear();
-		handlers.forEach(ExceptionHandler::markForRemove);
-		handlers.clear();
-	}
+    public void setBlocks(List<BlockNode> blocks) {
+        this.blocks = blocks;
+    }
 
-	public void removeBlock(BlockNode block) {
-		blocks.remove(block);
-	}
+    public void clear() {
+        blocks.clear();
+        handlers.forEach(ExceptionHandler::markForRemove);
+        handlers.clear();
+    }
 
-	public void removeHandler(ExceptionHandler handler) {
-		handlers.remove(handler);
-		handler.markForRemove();
-	}
+    public void removeBlock(BlockNode block) {
+        blocks.remove(block);
+    }
 
-	public List<TryCatchBlockAttr> getInnerTryBlocks() {
-		return innerTryBlocks;
-	}
+    public void removeHandler(ExceptionHandler handler) {
+        handlers.remove(handler);
+        handler.markForRemove();
+    }
 
-	public void addInnerTryBlock(TryCatchBlockAttr inner) {
-		if (this.innerTryBlocks.isEmpty()) {
-			this.innerTryBlocks = new ArrayList<>();
-		}
-		this.innerTryBlocks.add(inner);
-	}
+    public List<TryCatchBlockAttr> getInnerTryBlocks() {
+        return innerTryBlocks;
+    }
 
-	public TryCatchBlockAttr getOuterTryBlock() {
-		return outerTryBlock;
-	}
+    public void addInnerTryBlock(TryCatchBlockAttr inner) {
+        if (this.innerTryBlocks.isEmpty()) {
+            this.innerTryBlocks = new ArrayList<>();
+        }
+        this.innerTryBlocks.add(inner);
+    }
 
-	public void setOuterTryBlock(TryCatchBlockAttr outerTryBlock) {
-		this.outerTryBlock = outerTryBlock;
-	}
+    public TryCatchBlockAttr getOuterTryBlock() {
+        return outerTryBlock;
+    }
 
-	public BlockNode getTopSplitter() {
-		return topSplitter;
-	}
+    public void setOuterTryBlock(TryCatchBlockAttr outerTryBlock) {
+        this.outerTryBlock = outerTryBlock;
+    }
 
-	public void setTopSplitter(BlockNode topSplitter) {
-		this.topSplitter = topSplitter;
-	}
+    public BlockNode getTopSplitter() {
+        return topSplitter;
+    }
 
-	public boolean isMerged() {
-		return merged;
-	}
+    public void setTopSplitter(BlockNode topSplitter) {
+        this.topSplitter = topSplitter;
+    }
 
-	public void setMerged(boolean merged) {
-		this.merged = merged;
-	}
+    public boolean isMerged() {
+        return merged;
+    }
 
-	public int id() {
-		return id;
-	}
+    public void setMerged(boolean merged) {
+        this.merged = merged;
+    }
 
-	@Override
-	public IJadxAttrType<? extends IJadxAttribute> getAttrType() {
-		return AType.TRY_BLOCK;
-	}
+    public int id() {
+        return id;
+    }
 
-	@Override
-	public int hashCode() {
-		return handlers.hashCode() + 31 * blocks.hashCode();
-	}
+    @Override
+    public IJadxAttrType<? extends IJadxAttribute> getAttrType() {
+        return AType.TRY_BLOCK;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass()) {
-			return false;
-		}
-		TryCatchBlockAttr other = (TryCatchBlockAttr) obj;
-		return id == other.id
-				&& handlers.equals(other.handlers)
-				&& blocks.equals(other.blocks);
-	}
+    @Override
+    public int hashCode() {
+        return handlers.hashCode() + 31 * blocks.hashCode();
+    }
 
-	@Override
-	public String toString() {
-		if (merged) {
-			return "Merged into " + outerTryBlock;
-		}
-		StringBuilder sb = new StringBuilder();
-		sb.append("TryCatch #").append(id).append(" {").append(Utils.listToString(handlers));
-		sb.append(", blocks: (").append(Utils.listToString(blocks)).append(')');
-		if (topSplitter != null) {
-			sb.append(", top: ").append(topSplitter);
-		}
-		if (outerTryBlock != null) {
-			sb.append(", outer: #").append(outerTryBlock.id);
-		}
-		if (!innerTryBlocks.isEmpty()) {
-			sb.append(", inners: ").append(Utils.listToString(innerTryBlocks, inner -> "#" + inner.id));
-		}
-		sb.append(" }");
-		return sb.toString();
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        TryCatchBlockAttr other = (TryCatchBlockAttr) obj;
+        return id == other.id && handlers.equals(other.handlers) && blocks.equals(other.blocks);
+    }
+
+    @Override
+    public String toString() {
+        if (merged) {
+            return "Merged into " + outerTryBlock;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("TryCatch #").append(id).append(" {").append(Utils.listToString(handlers));
+        sb.append(", blocks: (").append(Utils.listToString(blocks)).append(')');
+        if (topSplitter != null) {
+            sb.append(", top: ").append(topSplitter);
+        }
+        if (outerTryBlock != null) {
+            sb.append(", outer: #").append(outerTryBlock.id);
+        }
+        if (!innerTryBlocks.isEmpty()) {
+            sb.append(", inners: ").append(Utils.listToString(innerTryBlocks, inner -> "#" + inner.id));
+        }
+        sb.append(" }");
+        return sb.toString();
+    }
 }

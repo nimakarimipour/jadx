@@ -1,10 +1,9 @@
 package jadx.core.dex.regions.loops;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.jetbrains.annotations.Nullable;
-
 import jadx.api.ICodeWriter;
 import jadx.core.codegen.RegionGen;
 import jadx.core.dex.attributes.nodes.LoopInfo;
@@ -21,163 +20,172 @@ import jadx.core.utils.exceptions.CodegenException;
 
 public final class LoopRegion extends ConditionRegion {
 
-	private final LoopInfo info;
-	private final boolean conditionAtEnd;
-	private final @Nullable BlockNode header;
-	// instruction which must be executed before condition in every loop
-	private @Nullable BlockNode preCondition;
+    private final LoopInfo info;
 
-	private IRegion body;
-	private LoopType type;
+    private final boolean conditionAtEnd;
 
-	public LoopRegion(IRegion parent, LoopInfo info, @Nullable BlockNode header, boolean reversed) {
-		super(parent);
-		this.info = info;
-		this.header = header;
-		this.conditionAtEnd = reversed;
-		if (header != null) {
-			updateCondition(header);
-		}
-	}
+    @Nullable
+    private final BlockNode header;
 
-	public LoopInfo getInfo() {
-		return info;
-	}
+    // instruction which must be executed before condition in every loop
+    @Nullable
+    private BlockNode preCondition;
 
-	@Nullable
-	public BlockNode getHeader() {
-		return header;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private IRegion body;
 
-	public boolean isEndless() {
-		return header == null;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private LoopType type;
 
-	public IRegion getBody() {
-		return body;
-	}
+    public LoopRegion(IRegion parent, LoopInfo info, @Nullable BlockNode header, boolean reversed) {
+        super(parent);
+        this.info = info;
+        this.header = header;
+        this.conditionAtEnd = reversed;
+        if (header != null) {
+            updateCondition(header);
+        }
+    }
 
-	public void setBody(IRegion body) {
-		this.body = body;
-	}
+    public LoopInfo getInfo() {
+        return info;
+    }
 
-	public boolean isConditionAtEnd() {
-		return conditionAtEnd;
-	}
+    @Nullable
+    public BlockNode getHeader() {
+        return header;
+    }
 
-	/**
-	 * Set instructions which must be executed before condition in every loop
-	 */
-	public void setPreCondition(BlockNode preCondition) {
-		this.preCondition = preCondition;
-	}
+    public boolean isEndless() {
+        return header == null;
+    }
 
-	/**
-	 * Check if pre-conditions can be inlined into loop condition
-	 */
-	public boolean checkPreCondition() {
-		List<InsnNode> insns = preCondition.getInstructions();
-		if (insns.isEmpty()) {
-			return true;
-		}
-		IfCondition condition = getCondition();
-		if (condition == null) {
-			return false;
-		}
-		List<RegisterArg> conditionArgs = condition.getRegisterArgs();
-		if (conditionArgs.isEmpty()) {
-			return false;
-		}
-		int size = insns.size();
-		for (int i = 0; i < size; i++) {
-			InsnNode insn = insns.get(i);
-			if (insn.getResult() == null) {
-				return false;
-			}
-			RegisterArg res = insn.getResult();
-			if (res.getSVar().getUseCount() > 1) {
-				return false;
-			}
-			boolean found = false;
-			// search result arg in other insns
-			for (int j = i + 1; j < size; j++) {
-				if (insns.get(i).containsVar(res)) {
-					found = true;
-				}
-			}
-			// or in if insn
-			if (!found && InsnUtils.containsVar(conditionArgs, res)) {
-				found = true;
-			}
-			if (!found) {
-				return false;
-			}
-		}
-		return true;
-	}
+    public IRegion getBody() {
+        return body;
+    }
 
-	/**
-	 * Move all preCondition block instructions before conditionBlock instructions
-	 */
-	public void mergePreCondition() {
-		if (preCondition != null && header != null) {
-			List<InsnNode> condInsns = header.getInstructions();
-			List<InsnNode> preCondInsns = preCondition.getInstructions();
-			preCondInsns.addAll(condInsns);
-			condInsns.clear();
-			condInsns.addAll(preCondInsns);
-			preCondInsns.clear();
-			preCondition = null;
-		}
-	}
+    public void setBody(IRegion body) {
+        this.body = body;
+    }
 
-	public int getSourceLine() {
-		InsnNode lastInsn = BlockUtils.getLastInsn(header);
-		int headerLine = lastInsn == null ? 0 : lastInsn.getSourceLine();
-		if (headerLine != 0) {
-			return headerLine;
-		}
-		return getConditionSourceLine();
-	}
+    public boolean isConditionAtEnd() {
+        return conditionAtEnd;
+    }
 
-	public LoopType getType() {
-		return type;
-	}
+    /**
+     * Set instructions which must be executed before condition in every loop
+     */
+    public void setPreCondition(BlockNode preCondition) {
+        this.preCondition = preCondition;
+    }
 
-	public void setType(LoopType type) {
-		this.type = type;
-	}
+    /**
+     * Check if pre-conditions can be inlined into loop condition
+     */
+    @NullUnmarked
+    public boolean checkPreCondition() {
+        List<InsnNode> insns = preCondition.getInstructions();
+        if (insns.isEmpty()) {
+            return true;
+        }
+        IfCondition condition = getCondition();
+        if (condition == null) {
+            return false;
+        }
+        List<RegisterArg> conditionArgs = condition.getRegisterArgs();
+        if (conditionArgs.isEmpty()) {
+            return false;
+        }
+        int size = insns.size();
+        for (int i = 0; i < size; i++) {
+            InsnNode insn = insns.get(i);
+            if (insn.getResult() == null) {
+                return false;
+            }
+            RegisterArg res = insn.getResult();
+            if (res.getSVar().getUseCount() > 1) {
+                return false;
+            }
+            boolean found = false;
+            // search result arg in other insns
+            for (int j = i + 1; j < size; j++) {
+                if (insns.get(i).containsVar(res)) {
+                    found = true;
+                }
+            }
+            // or in if insn
+            if (!found && InsnUtils.containsVar(conditionArgs, res)) {
+                found = true;
+            }
+            if (!found) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	@Override
-	public List<IContainer> getSubBlocks() {
-		List<IContainer> all = new ArrayList<>(2 + getConditionBlocks().size());
-		if (preCondition != null) {
-			all.add(preCondition);
-		}
-		all.addAll(getConditionBlocks());
-		if (body != null) {
-			all.add(body);
-		}
-		return all;
-	}
+    /**
+     * Move all preCondition block instructions before conditionBlock instructions
+     */
+    public void mergePreCondition() {
+        if (preCondition != null && header != null) {
+            List<InsnNode> condInsns = header.getInstructions();
+            List<InsnNode> preCondInsns = preCondition.getInstructions();
+            preCondInsns.addAll(condInsns);
+            condInsns.clear();
+            condInsns.addAll(preCondInsns);
+            preCondInsns.clear();
+            preCondition = null;
+        }
+    }
 
-	@Override
-	public boolean replaceSubBlock(IContainer oldBlock, IContainer newBlock) {
-		return false;
-	}
+    public int getSourceLine() {
+        InsnNode lastInsn = BlockUtils.getLastInsn(header);
+        int headerLine = lastInsn == null ? 0 : lastInsn.getSourceLine();
+        if (headerLine != 0) {
+            return headerLine;
+        }
+        return getConditionSourceLine();
+    }
 
-	@Override
-	public void generate(RegionGen regionGen, ICodeWriter code) throws CodegenException {
-		regionGen.makeLoop(this, code);
-	}
+    public LoopType getType() {
+        return type;
+    }
 
-	@Override
-	public String baseString() {
-		return body == null ? "-" : body.baseString();
-	}
+    public void setType(LoopType type) {
+        this.type = type;
+    }
 
-	@Override
-	public String toString() {
-		return "LOOP:" + info.getId() + ": " + baseString();
-	}
+    @Override
+    public List<IContainer> getSubBlocks() {
+        List<IContainer> all = new ArrayList<>(2 + getConditionBlocks().size());
+        if (preCondition != null) {
+            all.add(preCondition);
+        }
+        all.addAll(getConditionBlocks());
+        if (body != null) {
+            all.add(body);
+        }
+        return all;
+    }
+
+    @Override
+    public boolean replaceSubBlock(IContainer oldBlock, IContainer newBlock) {
+        return false;
+    }
+
+    @Override
+    public void generate(RegionGen regionGen, ICodeWriter code) throws CodegenException {
+        regionGen.makeLoop(this, code);
+    }
+
+    @Override
+    public String baseString() {
+        return body == null ? "-" : body.baseString();
+    }
+
+    @Override
+    public String toString() {
+        return "LOOP:" + info.getId() + ": " + baseString();
+    }
 }

@@ -1,40 +1,48 @@
 package jadx.core.codegen.json.mapping;
 
 public class JsonMthMapping {
-	private String signature;
-	private String name;
-	private String alias;
-	private String offset;
 
-	public String getSignature() {
-		return signature;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private String signature;
 
-	public void setSignature(String signature) {
-		this.signature = signature;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private String alias;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private String offset;
 
-	public String getAlias() {
-		return alias;
-	}
+    public String getSignature() {
+        return signature;
+    }
 
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
 
-	public String getOffset() {
-		return offset;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setOffset(String offset) {
-		this.offset = offset;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public String getOffset() {
+        return offset;
+    }
+
+    public void setOffset(String offset) {
+        this.offset = offset;
+    }
 }

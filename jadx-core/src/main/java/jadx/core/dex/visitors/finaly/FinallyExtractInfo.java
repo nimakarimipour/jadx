@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
@@ -12,79 +11,87 @@ import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.utils.Utils;
 
 public class FinallyExtractInfo {
-	private final MethodNode mth;
-	private final ExceptionHandler finallyHandler;
-	private final List<BlockNode> allHandlerBlocks;
-	private final List<InsnsSlice> duplicateSlices = new ArrayList<>();
-	private final Set<BlockNode> checkedBlocks = new HashSet<>();
-	private final InsnsSlice finallyInsnsSlice = new InsnsSlice();
-	private final BlockNode startBlock;
 
-	private InsnsSlice curDupSlice;
-	private List<InsnNode> curDupInsns;
-	private int curDupInsnsOffset;
+    private final MethodNode mth;
 
-	public FinallyExtractInfo(MethodNode mth, ExceptionHandler finallyHandler, BlockNode startBlock, List<BlockNode> allHandlerBlocks) {
-		this.mth = mth;
-		this.finallyHandler = finallyHandler;
-		this.startBlock = startBlock;
-		this.allHandlerBlocks = allHandlerBlocks;
-	}
+    private final ExceptionHandler finallyHandler;
 
-	public MethodNode getMth() {
-		return mth;
-	}
+    private final List<BlockNode> allHandlerBlocks;
 
-	public ExceptionHandler getFinallyHandler() {
-		return finallyHandler;
-	}
+    private final List<InsnsSlice> duplicateSlices = new ArrayList<>();
 
-	public List<BlockNode> getAllHandlerBlocks() {
-		return allHandlerBlocks;
-	}
+    private final Set<BlockNode> checkedBlocks = new HashSet<>();
 
-	public InsnsSlice getFinallyInsnsSlice() {
-		return finallyInsnsSlice;
-	}
+    private final InsnsSlice finallyInsnsSlice = new InsnsSlice();
 
-	public List<InsnsSlice> getDuplicateSlices() {
-		return duplicateSlices;
-	}
+    private final BlockNode startBlock;
 
-	public Set<BlockNode> getCheckedBlocks() {
-		return checkedBlocks;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private InsnsSlice curDupSlice;
 
-	public BlockNode getStartBlock() {
-		return startBlock;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private List<InsnNode> curDupInsns;
 
-	public InsnsSlice getCurDupSlice() {
-		return curDupSlice;
-	}
+    private int curDupInsnsOffset;
 
-	public void setCurDupSlice(InsnsSlice curDupSlice) {
-		this.curDupSlice = curDupSlice;
-	}
+    public FinallyExtractInfo(MethodNode mth, ExceptionHandler finallyHandler, BlockNode startBlock, List<BlockNode> allHandlerBlocks) {
+        this.mth = mth;
+        this.finallyHandler = finallyHandler;
+        this.startBlock = startBlock;
+        this.allHandlerBlocks = allHandlerBlocks;
+    }
 
-	public List<InsnNode> getCurDupInsns() {
-		return curDupInsns;
-	}
+    public MethodNode getMth() {
+        return mth;
+    }
 
-	public int getCurDupInsnsOffset() {
-		return curDupInsnsOffset;
-	}
+    public ExceptionHandler getFinallyHandler() {
+        return finallyHandler;
+    }
 
-	public void setCurDupInsns(List<InsnNode> insns, int offset) {
-		this.curDupInsns = insns;
-		this.curDupInsnsOffset = offset;
-	}
+    public List<BlockNode> getAllHandlerBlocks() {
+        return allHandlerBlocks;
+    }
 
-	@Override
-	public String toString() {
-		return "FinallyExtractInfo{"
-				+ "\n finally:\n  " + finallyInsnsSlice
-				+ "\n dups:\n  " + Utils.listToString(duplicateSlices, "\n  ")
-				+ "\n}";
-	}
+    public InsnsSlice getFinallyInsnsSlice() {
+        return finallyInsnsSlice;
+    }
+
+    public List<InsnsSlice> getDuplicateSlices() {
+        return duplicateSlices;
+    }
+
+    public Set<BlockNode> getCheckedBlocks() {
+        return checkedBlocks;
+    }
+
+    public BlockNode getStartBlock() {
+        return startBlock;
+    }
+
+    public InsnsSlice getCurDupSlice() {
+        return curDupSlice;
+    }
+
+    public void setCurDupSlice(InsnsSlice curDupSlice) {
+        this.curDupSlice = curDupSlice;
+    }
+
+    public List<InsnNode> getCurDupInsns() {
+        return curDupInsns;
+    }
+
+    public int getCurDupInsnsOffset() {
+        return curDupInsnsOffset;
+    }
+
+    public void setCurDupInsns(List<InsnNode> insns, int offset) {
+        this.curDupInsns = insns;
+        this.curDupInsnsOffset = offset;
+    }
+
+    @Override
+    public String toString() {
+        return "FinallyExtractInfo{" + "\n finally:\n  " + finallyInsnsSlice + "\n dups:\n  " + Utils.listToString(duplicateSlices, "\n  ") + "\n}";
+    }
 }

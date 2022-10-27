@@ -1,33 +1,41 @@
 package jadx.core.codegen.json.cls;
 
+import jadx.core.NullUnmarked;
 import org.jetbrains.annotations.Nullable;
 
 public class JsonCodeLine {
-	private String code;
-	private String offset;
-	private Integer sourceLine;
 
-	public String getCode() {
-		return code;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private String code;
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private String offset;
 
-	public String getOffset() {
-		return offset;
-	}
+    @SuppressWarnings("NullAway.Init")
+    private Integer sourceLine;
 
-	public void setOffset(String offset) {
-		this.offset = offset;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public Integer getSourceLine() {
-		return sourceLine;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setSourceLine(@Nullable Integer sourceLine) {
-		this.sourceLine = sourceLine;
-	}
+    public String getOffset() {
+        return offset;
+    }
+
+    public void setOffset(String offset) {
+        this.offset = offset;
+    }
+
+    public Integer getSourceLine() {
+        return sourceLine;
+    }
+
+    @NullUnmarked
+    public void setSourceLine(@Nullable Integer sourceLine) {
+        this.sourceLine = sourceLine;
+    }
 }
