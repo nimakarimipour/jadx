@@ -1,4 +1,4 @@
 package jadx.core;
 
-public class NullUnmarked {
+public @interface NullUnmarked {
 }
