@@ -5,6 +5,7 @@ import jadx.core.dex.attributes.AttrNode;
 
 public abstract class Typed extends AttrNode {
 
+    @SuppressWarnings("NullAway.Init")
     protected ArgType type;
 
     public ArgType getType() {

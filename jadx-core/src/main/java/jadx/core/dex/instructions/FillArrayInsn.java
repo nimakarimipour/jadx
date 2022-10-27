@@ -12,6 +12,7 @@ public final class FillArrayInsn extends InsnNode {
 
     private final int target;
 
+    @SuppressWarnings("NullAway.Init")
     private FillArrayData arrayData;
 
     public FillArrayInsn(InsnArg arg, int target) {

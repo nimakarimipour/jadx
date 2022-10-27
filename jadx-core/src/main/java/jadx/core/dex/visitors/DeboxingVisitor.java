@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.HashSet;
@@ -77,6 +78,7 @@ public class DeboxingVisitor extends AbstractVisitor {
     }
 
     @Nullable
+    @NullUnmarked
     private InsnNode checkForReplace(InvokeNode insnNode) {
         if (insnNode.getInvokeType() != InvokeType.STATIC || insnNode.getResult() == null) {
             return null;

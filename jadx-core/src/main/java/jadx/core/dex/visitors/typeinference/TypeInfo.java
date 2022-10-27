@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.typeinference;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -14,6 +15,7 @@ public class TypeInfo {
     private final Set<ITypeBound> bounds = new LinkedHashSet<>();
 
     @NotNull
+    @NullUnmarked
     public ArgType getType() {
         return type;
     }

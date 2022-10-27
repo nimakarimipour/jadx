@@ -1,5 +1,6 @@
 package jadx.core.codegen;
 
+import jadx.core.NullUnmarked;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -60,6 +61,7 @@ public class MethodGen {
 
     private final NameGen nameGen;
 
+    @NullUnmarked
     public MethodGen(ClassGen classGen, @Nullable MethodNode mth) {
         this.mth = mth;
         this.classGen = classGen;
@@ -529,6 +531,7 @@ public class MethodGen {
         return new MethodGen(clsGen, mth);
     }
 
+    @NullUnmarked
     public static String getLabelName(@Nullable BlockNode block) {
         return String.format("L%d", block.getId());
     }

@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.typeinference;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class TypeUpdateInfo {
         return false;
     }
 
+    @NullUnmarked
     public ArgType getType(@Nullable InsnArg arg) {
         for (TypeUpdateEntry update : updates) {
             if (update.getArg() == arg) {

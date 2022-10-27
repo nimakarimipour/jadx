@@ -1,5 +1,6 @@
 package jadx.core.deobf;
 
+import jadx.core.NullUnmarked;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -285,6 +286,7 @@ public class Deobfuscator {
      * @return package node object or {@code null} if no package found and <b>create</b> set to
      *         {@code false}
      */
+    @NullUnmarked
     private PackageNode getPackageNode(String fullPkgName, boolean create) {
         if (fullPkgName.isEmpty() || fullPkgName.equals(CLASS_NAME_SEPARATOR)) {
             return rootPackage;
@@ -356,6 +358,7 @@ public class Deobfuscator {
         return makeClsAlias(cls, true);
     }
 
+    @NullUnmarked
     public String getPkgAlias(ClassNode cls) {
         ClassInfo classInfo = cls.getClassInfo();
         if (classInfo.hasAliasPkg()) {

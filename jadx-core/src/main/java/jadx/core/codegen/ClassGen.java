@@ -1,5 +1,6 @@
 package jadx.core.codegen;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -490,6 +491,7 @@ public class ClassGen {
         }
     }
 
+    @NullUnmarked
     public void useType(ICodeWriter code, @Nullable ArgType type) {
         PrimitiveType stype = type.getPrimitiveType();
         if (stype == null) {
@@ -524,6 +526,7 @@ public class ClassGen {
         addGenerics(code, type);
     }
 
+    @NullUnmarked
     private void addInnerType(ICodeWriter code, ArgType baseType) {
         ArgType innerType = baseType.getInnerType();
         ArgType outerType = innerType.getOuterType();
@@ -552,6 +555,7 @@ public class ClassGen {
         addGenerics(code, type);
     }
 
+    @NullUnmarked
     private void addGenerics(ICodeWriter code, ArgType type) {
         List<ArgType> generics = type.getGenericTypes();
         if (generics != null) {
@@ -596,6 +600,7 @@ public class ClassGen {
         code.add(clsName);
     }
 
+    @NullUnmarked
     private String useClassInternal(ClassInfo useCls, @Nullable ClassInfo extClsInfo) {
         String fullName = extClsInfo.getAliasFullName();
         if (fallback || !useImports) {
@@ -692,6 +697,7 @@ public class ClassGen {
         return useCls.equals(b);
     }
 
+    @NullUnmarked
     private static boolean isClassInnerFor(@Nullable ClassInfo inner, ClassInfo parent) {
         if (inner.isInner()) {
             ClassInfo p = inner.getParentClass();
@@ -722,6 +728,7 @@ public class ClassGen {
     /**
      * Check if class with same name exists in current package
      */
+    @NullUnmarked
     private static boolean checkInPackageCollision(RootNode root, ClassInfo useCls, ClassInfo searchCls) {
         String currentPkg = useCls.getAliasPkg();
         if (currentPkg.equals(searchCls.getAliasPkg())) {

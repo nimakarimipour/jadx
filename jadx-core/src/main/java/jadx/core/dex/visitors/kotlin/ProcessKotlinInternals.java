@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.kotlin;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -98,6 +99,7 @@ public class ProcessKotlinInternals extends AbstractVisitor {
         }
     }
 
+    @NullUnmarked
     private void processInvoke(MethodNode mth, InsnNode insn) {
         int argsCount = insn.getArgsCount();
         if (argsCount < 2) {

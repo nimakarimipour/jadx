@@ -1,5 +1,6 @@
 package jadx.core.xmlgen.entry;
 
+import jadx.core.NullUnmarked;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class ValuesParser extends ParserConstants {
 
     private static final Logger LOG = LoggerFactory.getLogger(ValuesParser.class);
 
+    @SuppressWarnings("NullAway.Init")
     private static Map<Integer, String> androidResMap;
 
     @Nullable
@@ -101,6 +103,7 @@ public class ValuesParser extends ParserConstants {
     }
 
     @Nullable
+    @NullUnmarked
     public String decodeValue(int dataType, int data) {
         switch(dataType) {
             case TYPE_NULL:

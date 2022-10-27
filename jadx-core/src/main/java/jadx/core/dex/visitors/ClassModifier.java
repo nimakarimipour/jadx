@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -157,6 +158,7 @@ public class ClassModifier extends AbstractVisitor {
         }
     }
 
+    @NullUnmarked
     private static boolean isRemovedClassInArgs(ClassNode cls, List<RegisterArg> mthArgs) {
         for (RegisterArg arg : mthArgs) {
             ArgType argType = arg.getType();

@@ -1,5 +1,6 @@
 package jadx.core.deobf;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -67,6 +68,7 @@ public class NameMapper {
         return true;
     }
 
+    @NullUnmarked
     public static boolean isAllCharsPrintable(@Nullable String str) {
         int len = str.length();
         int offset = 0;

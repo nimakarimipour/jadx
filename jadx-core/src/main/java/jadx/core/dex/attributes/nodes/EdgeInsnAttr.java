@@ -1,5 +1,6 @@
 package jadx.core.dex.attributes.nodes;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.Objects;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
@@ -17,6 +18,7 @@ public class EdgeInsnAttr implements IJadxAttribute {
 
     private final InsnNode insn;
 
+    @NullUnmarked
     public static void addEdgeInsn(@Nullable Edge edge, InsnNode insn) {
         addEdgeInsn(edge.getSource(), edge.getTarget(), insn);
     }

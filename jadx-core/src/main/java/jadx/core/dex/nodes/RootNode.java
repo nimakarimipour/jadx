@@ -1,5 +1,6 @@
 package jadx.core.dex.nodes;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -325,6 +326,7 @@ public class RootNode {
     }
 
     @Nullable
+    @NullUnmarked
     public ClassNode resolveClass(@Nullable ArgType clsType) {
         if (!clsType.isTypeKnown() || clsType.isGenericType()) {
             return null;
@@ -495,6 +497,7 @@ public class RootNode {
         codeDataUpdateListeners.forEach(l -> l.updated(codeData));
     }
 
+    @NullUnmarked
     public ClspGraph getClsp() {
         return clsp;
     }

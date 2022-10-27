@@ -1,5 +1,6 @@
 package jadx.core.dex.instructions;
 
+import jadx.core.NullUnmarked;
 import org.jetbrains.annotations.Nullable;
 import jadx.api.plugins.input.insns.InsnData;
 import jadx.core.dex.info.MethodInfo;
@@ -37,6 +38,7 @@ public class InvokeNode extends BaseInvokeNode {
         }
     }
 
+    @NullUnmarked
     public InvokeNode(@Nullable MethodInfo mth, InvokeType invokeType, int argsCount) {
         super(InsnType.INVOKE, argsCount);
         this.mth = mth;

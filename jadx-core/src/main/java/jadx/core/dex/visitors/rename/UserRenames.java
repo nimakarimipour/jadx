@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.rename;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -108,6 +109,7 @@ public class UserRenames {
     }
 
     @NotNull
+    @NullUnmarked
     private static String cutLastPkgPart(@Nullable String pkgFullName) {
         int lastDotIndex = pkgFullName.lastIndexOf('.');
         if (lastDotIndex == -1) {
@@ -116,6 +118,7 @@ public class UserRenames {
         return pkgFullName.substring(0, lastDotIndex);
     }
 
+    @NullUnmarked
     private static String rebuildPkgMiddle(@Nullable String aliasPkg, String renameOriginPkg, String newName) {
         String[] aliasParts = aliasPkg.split("\\.");
         String[] renameParts = renameOriginPkg.split("\\.");

@@ -1,5 +1,6 @@
 package jadx.core.dex.regions.loops;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
@@ -59,6 +60,7 @@ public final class LoopRegion extends ConditionRegion {
         return header == null;
     }
 
+    @NullUnmarked
     public IRegion getBody() {
         return body;
     }
@@ -81,6 +83,7 @@ public final class LoopRegion extends ConditionRegion {
     /**
      * Check if pre-conditions can be inlined into loop condition
      */
+    @NullUnmarked
     public boolean checkPreCondition() {
         List<InsnNode> insns = preCondition.getInstructions();
         if (insns.isEmpty()) {

@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 public class CommonBinaryParser extends ParserConstants {
 
+    @SuppressWarnings("NullAway.Init")
     protected ParserStream is;
 
     protected String[] parseStringPool() throws IOException {

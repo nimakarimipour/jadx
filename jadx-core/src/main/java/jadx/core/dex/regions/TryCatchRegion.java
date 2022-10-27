@@ -1,5 +1,6 @@
 package jadx.core.dex.regions;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,6 +58,7 @@ public final class TryCatchRegion extends AbstractRegion implements IBranchRegio
         return catchRegions;
     }
 
+    @NullUnmarked
     public TryCatchBlockAttr getTryCatchBlock() {
         return tryCatchBlock;
     }

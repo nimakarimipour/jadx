@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.regions;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -226,6 +227,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
         return forEachLoop;
     }
 
+    @NullUnmarked
     private static boolean checkIterableForEach(MethodNode mth, LoopRegion loopRegion, IfCondition condition) {
         List<RegisterArg> condArgs = condition.getRegisterArgs();
         if (condArgs.size() != 1) {

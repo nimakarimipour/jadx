@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -126,6 +127,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
         }
     }
 
+    @NullUnmarked
     private static void processInsn(MethodNode mth, InsnNode insn, @Nullable Map<String, FieldFixInfo> fixInfoMap) {
         FieldInfo fieldInfo = getFieldInfo(insn);
         if (fieldInfo == null) {

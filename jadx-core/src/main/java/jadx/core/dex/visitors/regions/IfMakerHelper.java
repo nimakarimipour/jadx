@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.regions;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -56,6 +57,7 @@ public class IfMakerHelper {
     }
 
     @Nullable
+    @NullUnmarked
     static IfInfo restructureIf(MethodNode mth, BlockNode block, @Nullable IfInfo info) {
         BlockNode thenBlock = info.getThenBlock();
         BlockNode elseBlock = info.getElseBlock();
@@ -91,6 +93,7 @@ public class IfMakerHelper {
         return info;
     }
 
+    @NullUnmarked
     private static boolean isBadBranchBlock(IfInfo info, @Nullable BlockNode block) {
         // check if block at end of loop edge
         if (block.contains(AFlag.LOOP_START) && block.getPredecessors().size() == 1) {
@@ -124,6 +127,7 @@ public class IfMakerHelper {
     }
 
     @Nullable
+    @NullUnmarked
     static IfInfo mergeNestedIfNodes(@Nullable IfInfo currentIf) {
         BlockNode curThen = currentIf.getThenBlock();
         BlockNode curElse = currentIf.getElseBlock();
@@ -200,6 +204,7 @@ public class IfMakerHelper {
     }
 
     @Nullable
+    @NullUnmarked
     private static IfInfo checkForTernaryInCondition(IfInfo currentIf) {
         IfInfo nextThen = getNextIf(currentIf, currentIf.getThenBlock());
         IfInfo nextElse = getNextIf(currentIf, currentIf.getElseBlock());
@@ -241,6 +246,7 @@ public class IfMakerHelper {
         }
     }
 
+    @NullUnmarked
     private static boolean checkConditionBranches(@Nullable BlockNode from, @Nullable BlockNode to) {
         return from.getCleanSuccessors().size() == 1 && from.getCleanSuccessors().contains(to);
     }
@@ -265,6 +271,7 @@ public class IfMakerHelper {
     }
 
     @Nullable
+    @NullUnmarked
     private static BlockNode getBranchBlock(@Nullable BlockNode first, @Nullable BlockNode second, Set<BlockNode> skipBlocks, MethodNode mth) {
         if (first == second) {
             return second;
@@ -292,6 +299,7 @@ public class IfMakerHelper {
         throw new JadxRuntimeException("Unexpected merge pattern");
     }
 
+    @NullUnmarked
     static void confirmMerge(@Nullable IfInfo info) {
         if (info.getMergedBlocks().size() > 1) {
             for (BlockNode block : info.getMergedBlocks()) {
@@ -319,6 +327,7 @@ public class IfMakerHelper {
         return getNextIfNodeInfo(info, block);
     }
 
+    @NullUnmarked
     private static boolean canSelectNext(IfInfo info, @Nullable BlockNode block) {
         if (block.getPredecessors().size() == 1) {
             return true;

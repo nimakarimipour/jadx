@@ -1,5 +1,6 @@
 package jadx.core.dex.nodes;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -90,6 +91,7 @@ public class InsnNode extends LineAttrNode {
         return insnType;
     }
 
+    @NullUnmarked
     public RegisterArg getResult() {
         return result;
     }

@@ -28,10 +28,13 @@ public class ClspGraph {
 
     private final RootNode root;
 
+    @SuppressWarnings("NullAway.Init")
     private Map<String, ClspClass> nameMap;
 
+    @SuppressWarnings("NullAway.Init")
     private Map<String, Set<String>> superTypesCache;
 
+    @SuppressWarnings("NullAway.Init")
     private Map<String, List<String>> implementsCache;
 
     private final Set<String> missingClasses = new HashSet<>();

@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -56,6 +57,7 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
         }
     }
 
+    @NullUnmarked
     private static void markTryBounds(InsnNode[] insnByOffset, ITry aTry, CatchAttr catchAttr) {
         int offset = aTry.getStartOffset();
         int end = aTry.getEndOffset();

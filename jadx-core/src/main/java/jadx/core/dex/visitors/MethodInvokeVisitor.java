@@ -35,6 +35,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 SimplifyVisitor.class })
 public class MethodInvokeVisitor extends AbstractVisitor {
 
+    @SuppressWarnings("NullAway.Init")
     private RootNode root;
 
     @Override

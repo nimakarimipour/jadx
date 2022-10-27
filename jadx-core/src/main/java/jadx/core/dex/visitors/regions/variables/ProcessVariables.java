@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.regions.variables;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -233,6 +234,7 @@ public class ProcessVariables extends AbstractVisitor {
         return false;
     }
 
+    @NullUnmarked
     private static boolean checkDeclareAtAssign(@Nullable SSAVar var) {
         RegisterArg arg = var.getAssign();
         InsnNode parentInsn = arg.getParentInsn();

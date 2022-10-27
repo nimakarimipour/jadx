@@ -1,5 +1,6 @@
 package jadx.core.codegen;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
@@ -75,6 +76,7 @@ public class RegionGen extends InsnGen {
         }
     }
 
+    @NullUnmarked
     private void makeRegionIndent(ICodeWriter code, @Nullable IContainer region) throws CodegenException {
         code.incIndent();
         makeRegion(code, region);
@@ -96,6 +98,7 @@ public class RegionGen extends InsnGen {
         }
     }
 
+    @NullUnmarked
     public void makeIf(IfRegion region, ICodeWriter code, boolean newLine) throws CodegenException {
         if (newLine) {
             code.startLineWithNum(region.getSourceLine());

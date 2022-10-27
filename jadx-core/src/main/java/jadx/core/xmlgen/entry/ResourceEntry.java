@@ -1,5 +1,6 @@
 package jadx.core.xmlgen.entry;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -97,6 +98,7 @@ public final class ResourceEntry {
         this.namedValues = namedValues;
     }
 
+    @NullUnmarked
     public List<RawNamedValue> getNamedValues() {
         return namedValues;
     }

@@ -1,5 +1,6 @@
 package jadx.core.dex.instructions.mods;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.function.Consumer;
@@ -12,8 +13,10 @@ import jadx.core.utils.InsnUtils;
 
 public final class TernaryInsn extends InsnNode {
 
+    @SuppressWarnings("NullAway.Init")
     private IfCondition condition;
 
+    @NullUnmarked
     public TernaryInsn(@Nullable IfCondition condition, @Nullable RegisterArg result, InsnArg th, InsnArg els) {
         this();
         setResult(result);

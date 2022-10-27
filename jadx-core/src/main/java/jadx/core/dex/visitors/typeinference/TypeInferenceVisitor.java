@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.typeinference;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -64,8 +65,10 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 
     private static final Logger LOG = LoggerFactory.getLogger(TypeInferenceVisitor.class);
 
+    @SuppressWarnings("NullAway.Init")
     private RootNode root;
 
+    @SuppressWarnings("NullAway.Init")
     private TypeUpdate typeUpdate;
 
     @Nullable
@@ -79,6 +82,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
     }
 
     @Override
+    @NullUnmarked
     public void visit(MethodNode mth) {
         if (mth.isNoCode()) {
             return;

@@ -1,5 +1,6 @@
 package jadx.core.dex.nodes;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -39,6 +40,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 
     private List<BlockNode> successors = new ArrayList<>(1);
 
+    @SuppressWarnings("NullAway.Init")
     private List<BlockNode> cleanSuccessors;
 
     /**
@@ -152,6 +154,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
     /**
      * Check if 'block' dominated on this node
      */
+    @NullUnmarked
     public boolean isDominator(@Nullable BlockNode block) {
         return doms.get(block.getId());
     }
@@ -163,10 +166,12 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
         return doms;
     }
 
+    @NullUnmarked
     public void setDoms(@Nullable BitSet doms) {
         this.doms = doms;
     }
 
+    @NullUnmarked
     public BitSet getDomFrontier() {
         return domFrontier;
     }
@@ -178,6 +183,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
     /**
      * Immediate dominator
      */
+    @NullUnmarked
     public BlockNode getIDom() {
         return idom;
     }

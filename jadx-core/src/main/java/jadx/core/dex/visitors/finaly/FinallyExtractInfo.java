@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.finaly;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -81,6 +82,7 @@ public class FinallyExtractInfo {
         this.curDupSlice = curDupSlice;
     }
 
+    @NullUnmarked
     public List<InsnNode> getCurDupInsns() {
         return curDupInsns;
     }

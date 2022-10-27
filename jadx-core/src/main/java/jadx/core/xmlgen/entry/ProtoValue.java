@@ -1,5 +1,6 @@
 package jadx.core.xmlgen.entry;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -65,6 +66,7 @@ public class ProtoValue {
         return this;
     }
 
+    @NullUnmarked
     public List<ProtoValue> getNamedValues() {
         return namedValues;
     }

@@ -1,5 +1,6 @@
 package jadx.core.dex.nodes;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -71,6 +72,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
     @Nullable
     private InsnNode[] instructions;
 
+    @SuppressWarnings("NullAway.Init")
     private List<BlockNode> blocks;
 
     private int blocksMaxCId;
@@ -78,12 +80,16 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
     @Nullable
     private BlockNode enterBlock;
 
+    @SuppressWarnings("NullAway.Init")
     private BlockNode exitBlock;
 
+    @SuppressWarnings("NullAway.Init")
     private List<SSAVar> sVars;
 
+    @SuppressWarnings("NullAway.Init")
     private List<ExceptionHandler> exceptionHandlers;
 
+    @SuppressWarnings("NullAway.Init")
     private List<LoopInfo> loops;
 
     @Nullable
@@ -97,6 +103,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
         return methodNode;
     }
 
+    @NullUnmarked
     private MethodNode(ClassNode classNode, IMethodData mthData) {
         this.mthInfo = MethodInfo.fromRef(classNode.root(), mthData.getMethodRef());
         this.parentClass = classNode;
@@ -117,6 +124,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
     }
 
     @Override
+    @NullUnmarked
     public void unload() {
         loaded = false;
         // don't unload retType, argTypes, typeParameters
@@ -311,6 +319,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
         return noCode;
     }
 
+    @NullUnmarked
     public InsnNode[] getInstructions() {
         return instructions;
     }
@@ -346,6 +355,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
         return blocksMaxCId++;
     }
 
+    @NullUnmarked
     public BlockNode getEnterBlock() {
         return enterBlock;
     }
@@ -541,6 +551,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
         this.accFlags = newAccessFlags;
     }
 
+    @NullUnmarked
     public Region getRegion() {
         return region;
     }

@@ -1,5 +1,6 @@
 package jadx.core.xmlgen;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,20 +40,25 @@ public class BinaryXMLParser extends CommonBinaryParser {
 
     private final Map<Integer, String> resNames;
 
+    @SuppressWarnings("NullAway.Init")
     private Map<String, String> nsMap;
 
+    @SuppressWarnings("NullAway.Init")
     private Set<String> nsMapGenerated;
 
     private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
+    @SuppressWarnings("NullAway.Init")
     private ICodeWriter writer;
 
+    @SuppressWarnings("NullAway.Init")
     private String[] strings;
 
     private String currentTag = "ERROR";
 
     private boolean firstElement;
 
+    @SuppressWarnings("NullAway.Init")
     private ValuesParser valuesParser;
 
     private boolean isLastEnd = true;
@@ -61,6 +67,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 
     private int namespaceDepth = 0;
 
+    @SuppressWarnings("NullAway.Init")
     private int[] resourceIds;
 
     private final RootNode rootNode;
@@ -81,6 +88,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
         }
     }
 
+    @NullUnmarked
     public synchronized ICodeInfo parse(InputStream inputStream) throws IOException {
         is = new ParserStream(inputStream);
         if (!isBinaryXml()) {
@@ -394,6 +402,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
         return "NOT_FOUND_STR_0x" + Integer.toHexString(strId);
     }
 
+    @NullUnmarked
     private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData, @Nullable String shortNsName, String attrName) {
         if (attrValDataType == TYPE_REFERENCE) {
             // reference custom processing

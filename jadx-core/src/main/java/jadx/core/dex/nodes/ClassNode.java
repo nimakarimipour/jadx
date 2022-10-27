@@ -1,5 +1,6 @@
 package jadx.core.dex.nodes;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -84,6 +85,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
     private String smali;
 
     // store parent for inner classes or 'this' otherwise
+    @SuppressWarnings("NullAway.Init")
     private ClassNode parentClass;
 
     private volatile ProcessState state = ProcessState.NOT_LOADED;
@@ -597,6 +599,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
         }
     }
 
+    @NullUnmarked
     public void visitSuperTypes(BiConsumer<ArgType, ArgType> consumer) {
         TypeUtils typeUtils = root.getTypeUtils();
         ArgType thisType = this.getType();
@@ -738,6 +741,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
         return clsInfo.getAliasFullName();
     }
 
+    @NullUnmarked
     public String getPackage() {
         return clsInfo.getAliasPkg();
     }

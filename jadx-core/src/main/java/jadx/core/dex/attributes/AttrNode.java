@@ -1,5 +1,6 @@
 package jadx.core.dex.attributes;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.List;
 import jadx.api.plugins.input.data.annotations.IAnnotation;
@@ -88,6 +89,7 @@ public abstract class AttrNode implements IAttributeNode {
     }
 
     @Override
+    @NullUnmarked
     public <T extends IJadxAttribute> T get(IJadxAttrType<T> type) {
         return storage.get(type);
     }

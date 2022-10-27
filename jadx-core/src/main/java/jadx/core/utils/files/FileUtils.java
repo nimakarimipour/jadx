@@ -1,5 +1,6 @@
 package jadx.core.utils.files;
 
+import jadx.core.NullUnmarked;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -77,6 +78,7 @@ public class FileUtils {
         }
     }
 
+    @NullUnmarked
     public static void makeDirsForFile(Path path) {
         if (path != null) {
             makeDirs(path.toAbsolutePath().getParent().toFile());

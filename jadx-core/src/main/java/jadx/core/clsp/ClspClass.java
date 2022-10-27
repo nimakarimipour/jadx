@@ -1,5 +1,6 @@
 package jadx.core.clsp;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,6 +43,7 @@ public class ClspClass {
         return id;
     }
 
+    @NullUnmarked
     public ArgType[] getParents() {
         return parents;
     }

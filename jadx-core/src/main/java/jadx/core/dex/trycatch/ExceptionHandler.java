@@ -22,15 +22,18 @@ public class ExceptionHandler {
 
     private final int handlerOffset;
 
+    @SuppressWarnings("NullAway.Init")
     private BlockNode handlerBlock;
 
     private final List<BlockNode> blocks = new ArrayList<>();
 
+    @SuppressWarnings("NullAway.Init")
     private IContainer handlerRegion;
 
     @Nullable
     private InsnArg arg;
 
+    @SuppressWarnings("NullAway.Init")
     private TryCatchBlockAttr tryBlock;
 
     private boolean isFinally;

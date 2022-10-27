@@ -1,5 +1,6 @@
 package jadx.core.deobf;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class DeobfPresets {
         return new DeobfPresets(deobfMapPath);
     }
 
+    @NullUnmarked
     private static Path getPathDeobfMapPath(RootNode root) {
         JadxArgs jadxArgs = root.getArgs();
         File deobfMapFile = jadxArgs.getDeobfuscationMapFile();

@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -160,6 +161,7 @@ public class SimplifyVisitor extends AbstractVisitor {
     }
 
     @Nullable
+    @NullUnmarked
     private InsnNode simplifyStringConstructor(MethodNode mth, ConstructorInsn insn) {
         if (insn.getCallMth().getDeclClass().getType().equals(ArgType.STRING) && insn.getArgsCount() != 0 && insn.getArg(0).isInsnWrap()) {
             InsnNode arrInsn = ((InsnWrapArg) insn.getArg(0)).getWrapInsn();

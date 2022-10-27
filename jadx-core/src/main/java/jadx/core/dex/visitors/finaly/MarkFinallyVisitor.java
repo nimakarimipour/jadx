@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.finaly;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -363,6 +364,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
      * 'Finally' instructions can start in the middle of the first block.
      */
     @Nullable
+    @NullUnmarked
     private static InsnsSlice isStartBlock(BlockNode dupBlock, @Nullable BlockNode finallyBlock, FinallyExtractInfo extractInfo) {
         extractInfo.setCurDupSlice(null);
         List<InsnNode> dupInsns = dupBlock.getInstructions();
@@ -475,6 +477,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
         return true;
     }
 
+    @NullUnmarked
     private static List<BlockNode> getSuccessorsWithoutLoop(@Nullable BlockNode block) {
         if (block.contains(AFlag.LOOP_END)) {
             return block.getCleanSuccessors();

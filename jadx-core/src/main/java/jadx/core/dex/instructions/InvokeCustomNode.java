@@ -10,11 +10,13 @@ import jadx.core.utils.InsnUtils;
 
 public class InvokeCustomNode extends InvokeNode {
 
+    @SuppressWarnings("NullAway.Init")
     private MethodInfo implMthInfo;
 
     @Nullable
     private MethodHandleType handleType;
 
+    @SuppressWarnings("NullAway.Init")
     private InsnNode callInsn;
 
     private boolean inlineInsn;

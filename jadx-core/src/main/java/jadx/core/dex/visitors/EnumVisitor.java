@@ -619,8 +619,10 @@ public class EnumVisitor extends AbstractVisitor {
 
         final List<InsnNode> toRemove = new ArrayList<>();
 
+        @SuppressWarnings("NullAway.Init")
         FieldNode valuesField;
 
+        @SuppressWarnings("NullAway.Init")
         InsnNode valuesInitInsn;
 
         public EnumData(ClassNode cls, MethodNode classInitMth, List<BlockNode> staticBlocks) {

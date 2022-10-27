@@ -1,5 +1,6 @@
 package jadx.core.dex.instructions.args;
 
+import jadx.core.NullUnmarked;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -78,6 +79,7 @@ public class RegisterArg extends InsnArg implements Named {
         return contains(AFlag.IMMUTABLE_TYPE);
     }
 
+    @NullUnmarked
     public SSAVar getSVar() {
         return sVar;
     }

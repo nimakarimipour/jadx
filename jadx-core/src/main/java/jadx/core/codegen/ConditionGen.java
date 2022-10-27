@@ -1,5 +1,6 @@
 package jadx.core.codegen;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.ArrayDeque;
 import java.util.Iterator;
@@ -51,6 +52,7 @@ public class ConditionGen extends InsnGen {
         wrap(code, new CondStack(), condition);
     }
 
+    @NullUnmarked
     private void add(ICodeWriter code, CondStack stack, @Nullable IfCondition condition) throws CodegenException {
         stack.push(condition);
         switch(condition.getMode()) {

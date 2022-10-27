@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.regions;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.List;
 import jadx.core.dex.attributes.AFlag;
@@ -50,6 +51,7 @@ public class IfRegionVisitor extends AbstractVisitor {
     }
 
     @SuppressWarnings({ "UnnecessaryReturnStatement", "StatementWithEmptyBody" })
+    @NullUnmarked
     private static void orderBranches(MethodNode mth, IfRegion ifRegion) {
         if (RegionUtils.isEmpty(ifRegion.getElseRegion())) {
             return;

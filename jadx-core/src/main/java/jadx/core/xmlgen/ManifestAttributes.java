@@ -1,5 +1,6 @@
 package jadx.core.xmlgen;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class ManifestAttributes {
     @Nullable
     private static ManifestAttributes instance;
 
+    @NullUnmarked
     public static ManifestAttributes getInstance() {
         if (instance == null) {
             try {

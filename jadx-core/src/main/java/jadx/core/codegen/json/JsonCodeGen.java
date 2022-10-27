@@ -1,5 +1,6 @@
 package jadx.core.codegen.json;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -92,6 +93,7 @@ public class JsonCodeGen {
         return jsonCls;
     }
 
+    @NullUnmarked
     private void addInnerClasses(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
         List<ClassNode> innerClasses = cls.getInnerClasses();
         if (innerClasses.isEmpty()) {
@@ -107,6 +109,7 @@ public class JsonCodeGen {
         }
     }
 
+    @NullUnmarked
     private void addFields(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
         jsonCls.setFields(new ArrayList<>());
         for (FieldNode field : cls.getFields()) {
@@ -126,6 +129,7 @@ public class JsonCodeGen {
         }
     }
 
+    @NullUnmarked
     private void addMethods(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
         jsonCls.setMethods(new ArrayList<>());
         for (MethodNode mth : cls.getMethods()) {
@@ -191,6 +195,7 @@ public class JsonCodeGen {
         return codeLines;
     }
 
+    @NullUnmarked
     private String getTypeAlias(@Nullable ArgType clsType) {
         if (Objects.equals(clsType, ArgType.OBJECT)) {
             return ArgType.OBJECT.getObject();

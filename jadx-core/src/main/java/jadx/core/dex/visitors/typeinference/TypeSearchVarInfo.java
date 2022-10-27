@@ -12,12 +12,15 @@ public class TypeSearchVarInfo {
 
     private boolean typeResolved;
 
+    @SuppressWarnings("NullAway.Init")
     private ArgType currentType;
 
+    @SuppressWarnings("NullAway.Init")
     private List<ArgType> candidateTypes;
 
     private int currentIndex = -1;
 
+    @SuppressWarnings("NullAway.Init")
     private List<ITypeConstraint> constraints;
 
     public TypeSearchVarInfo(SSAVar var) {

@@ -1,5 +1,6 @@
 package jadx.core.dex.instructions;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.List;
 import jadx.api.plugins.input.insns.InsnData;
@@ -109,6 +110,7 @@ public class IfNode extends GotoNode {
         return replaced;
     }
 
+    @NullUnmarked
     public BlockNode getThenBlock() {
         return thenBlock;
     }

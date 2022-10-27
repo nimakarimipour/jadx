@@ -1,5 +1,6 @@
 package jadx.core.xmlgen;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,10 +19,12 @@ import jadx.core.utils.StringUtils;
 
 public class ProtoXMLParser {
 
+    @SuppressWarnings("NullAway.Init")
     private Map<String, String> nsMap;
 
     private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
+    @SuppressWarnings("NullAway.Init")
     private ICodeWriter writer;
 
     private final RootNode rootNode;
@@ -36,6 +39,7 @@ public class ProtoXMLParser {
         this.rootNode = rootNode;
     }
 
+    @NullUnmarked
     public synchronized ICodeInfo parse(InputStream inputStream) throws IOException {
         nsMap = new HashMap<>();
         writer = rootNode.makeCodeWriter();

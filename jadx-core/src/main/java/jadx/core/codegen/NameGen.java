@@ -1,5 +1,6 @@
 package jadx.core.codegen;
 
+import jadx.core.NullUnmarked;
 import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +42,7 @@ public class NameGen {
         OBJ_ALIAS = Utils.newConstStringMap(Consts.CLASS_STRING, "str", Consts.CLASS_CLASS, "cls", Consts.CLASS_THROWABLE, "th", Consts.CLASS_OBJECT, "obj", "java.util.Iterator", "it", "java.lang.Boolean", "bool", "java.lang.Short", "sh", "java.lang.Integer", "num", "java.lang.Character", "ch", "java.lang.Byte", "b", "java.lang.Float", "f", "java.lang.Long", "l", "java.lang.Double", "d", "java.lang.StringBuilder", "sb", "java.lang.Exception", "exc");
     }
 
+    @NullUnmarked
     public NameGen(@Nullable MethodNode mth, ClassGen classGen) {
         this.mth = mth;
         this.fallback = classGen.isFallbackMode();
@@ -159,6 +161,7 @@ public class NameGen {
         return makeNameForType(var.getType());
     }
 
+    @NullUnmarked
     private String makeNameForType(@Nullable ArgType type) {
         if (type.isPrimitive()) {
             return type.getPrimitiveType().getShortName().toLowerCase();

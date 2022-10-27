@@ -1,5 +1,6 @@
 package jadx.core.dex.nodes.utils;
 
+import jadx.core.NullUnmarked;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -277,6 +278,7 @@ public class TypeUtils {
     }
 
     @Nullable
+    @NullUnmarked
     public ArgType replaceTypeVariablesUsingMap(@Nullable ArgType replaceType, Map<ArgType, ArgType> replaceMap) {
         if (replaceMap.isEmpty()) {
             return null;

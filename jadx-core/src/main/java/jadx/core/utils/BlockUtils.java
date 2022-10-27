@@ -1,5 +1,6 @@
 package jadx.core.utils;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -220,6 +221,7 @@ public class BlockUtils {
         return isExitBlock(block);
     }
 
+    @NullUnmarked
     public static boolean isExitBlock(@Nullable BlockNode block) {
         List<BlockNode> successors = block.getSuccessors();
         if (successors.isEmpty()) {
@@ -351,6 +353,7 @@ public class BlockUtils {
         return new BitSet(mth.getBasicBlocks().size());
     }
 
+    @NullUnmarked
     public static BitSet copyBlocksBitSet(MethodNode mth, @Nullable BitSet bitSet) {
         BitSet copy = new BitSet(mth.getBasicBlocks().size());
         if (!bitSet.isEmpty()) {
@@ -405,6 +408,7 @@ public class BlockUtils {
      * Return first successor which not exception handler and not follow loop back edge
      */
     @Nullable
+    @NullUnmarked
     public static BlockNode getNextBlock(@Nullable BlockNode block) {
         List<BlockNode> s = block.getCleanSuccessors();
         return s.isEmpty() ? null : s.get(0);
@@ -432,6 +436,7 @@ public class BlockUtils {
      * Visit blocks on any path from start to end.
      * Only one path will be visited!
      */
+    @NullUnmarked
     public static boolean visitBlocksOnPath(MethodNode mth, @Nullable BlockNode start, BlockNode end, Consumer<BlockNode> visitor) {
         visitor.accept(start);
         if (start == end) {
@@ -599,6 +604,7 @@ public class BlockUtils {
         return true;
     }
 
+    @NullUnmarked
     public static boolean isPathExists(@Nullable BlockNode start, @Nullable BlockNode end) {
         if (start == end || end.isDominator(start) || start.getCleanSuccessors().contains(end)) {
             return true;
@@ -925,6 +931,7 @@ public class BlockUtils {
     }
 
     @Nullable
+    @NullUnmarked
     private static BlockNode getNextBlockOnEmptyPath(@Nullable BlockNode block) {
         if (!block.getInstructions().isEmpty() || block.getPredecessors().size() > 1) {
             return null;
@@ -1123,6 +1130,7 @@ public class BlockUtils {
         return calcPartialPostDominance(mth, mth.getBasicBlocks(), mth.getPreExitBlocks().get(0));
     }
 
+    @NullUnmarked
     public static Map<BlockNode, BitSet> calcPartialPostDominance(MethodNode mth, Collection<BlockNode> blockNodes, BlockNode exitBlock) {
         int blocksCount = mth.getBasicBlocks().size();
         Map<BlockNode, BitSet> map = new HashMap<>(blocksCount);

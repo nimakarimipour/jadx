@@ -29,6 +29,7 @@ public class TemplateFile {
 
         private State state = State.NONE;
 
+        @SuppressWarnings("NullAway.Init")
         private StringBuilder curVariable;
 
         private boolean skip;

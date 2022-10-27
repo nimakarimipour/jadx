@@ -1,5 +1,6 @@
 package jadx.core.dex.visitors.regions;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
@@ -176,6 +177,7 @@ public class RegionMaker {
     }
 
     @Nullable
+    @NullUnmarked
     private BlockNode processLoop(IRegion curRegion, LoopInfo loop, RegionStack stack) {
         BlockNode loopStart = loop.getStart();
         Set<BlockNode> exitBlocksSet = loop.getExitNodes();
@@ -435,6 +437,7 @@ public class RegionMaker {
         return true;
     }
 
+    @NullUnmarked
     private boolean insertLoopBreak(RegionStack stack, LoopInfo loop, BlockNode loopExit, Edge exitEdge) {
         BlockNode exit = exitEdge.getTarget();
         Edge insertEdge = null;
@@ -1082,6 +1085,7 @@ public class RegionMaker {
         return n1 == n2 || isEqualReturnBlocks(n1, n2);
     }
 
+    @NullUnmarked
     public static boolean isEqualReturnBlocks(@Nullable BlockNode b1, @Nullable BlockNode b2) {
         if (!b1.isReturnBlock() || !b2.isReturnBlock()) {
             return false;

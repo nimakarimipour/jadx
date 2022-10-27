@@ -19,6 +19,7 @@ import jadx.core.utils.exceptions.JadxException;
 
 public class SignatureProcessor extends AbstractVisitor {
 
+    @SuppressWarnings("NullAway.Init")
     private RootNode root;
 
     @Override

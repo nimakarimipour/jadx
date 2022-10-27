@@ -1,5 +1,6 @@
 package jadx.core.dex.instructions;
 
+import jadx.core.NullUnmarked;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -186,6 +187,7 @@ public class SwitchInsn extends TargetInsnNode {
         modifiedKeys[i] = newKey;
     }
 
+    @NullUnmarked
     public BlockNode[] getTargetBlocks() {
         return targetBlocks;
     }

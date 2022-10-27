@@ -1,5 +1,6 @@
 package jadx.core.xmlgen;
 
+import jadx.core.NullUnmarked;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
             return name;
         }
 
+        @NullUnmarked
         public String[] getTypeStrings() {
             return typeStrings;
         }
@@ -286,6 +288,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
         }
     }
 
+    @NullUnmarked
     private void parseEntry(PackageChunk pkg, int typeId, int entryId, String config) throws IOException {
         int size = is.readInt16();
         int flags = is.readInt16();

@@ -1,5 +1,6 @@
 package jadx.core.dex.info;
 
+import jadx.core.NullUnmarked;
 import java.io.File;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
@@ -90,6 +91,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
     }
 
     @Nullable
+    @NullUnmarked
     public String getAliasPkg() {
         if (isInner()) {
             return parentClass.getAliasPkg();
@@ -162,6 +164,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
         this.fullName = makeFullName();
     }
 
+    @NullUnmarked
     private static String makeFullClsName(@Nullable String pkg, String shortName, @Nullable ClassInfo parentClass, boolean alias, boolean raw) {
         if (parentClass != null) {
             String innerSep = raw ? "$" : ".";
@@ -192,6 +195,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
         return makeFullClsName(getAliasPkg(), getAliasShortName(), parentClass, true, true);
     }
 
+    @NullUnmarked
     public String getAliasFullPath() {
         return getAliasPkg().replace('.', File.separatorChar) + File.separatorChar + getAliasNameWithoutPackage().replace('.', '_');
     }

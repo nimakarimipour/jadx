@@ -1,5 +1,6 @@
 package jadx.core.dex.nodes.parser;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -131,6 +132,7 @@ public class SignatureParser {
         return skipUntil(lastChar) ? inclusiveSlice() : null;
     }
 
+    @NullUnmarked
     public ArgType consumeType() {
         char ch = next();
         switch(ch) {

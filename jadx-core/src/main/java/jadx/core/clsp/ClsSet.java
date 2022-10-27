@@ -1,5 +1,6 @@
 package jadx.core.clsp;
 
+import jadx.core.NullUnmarked;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
@@ -75,6 +76,7 @@ public class ClsSet {
         PRIMITIVE
     }
 
+    @SuppressWarnings("NullAway.Init")
     private ClspClass[] classes;
 
     public void loadFromClstFile() throws IOException, DecodeException {
@@ -155,10 +157,12 @@ public class ClsSet {
         return parents;
     }
 
+    @NullUnmarked
     private static ClspClass getCls(ClassNode cls, Map<String, ClspClass> names) {
         return getCls(cls.getRawName(), names);
     }
 
+    @NullUnmarked
     private static ClspClass getCls(ArgType clsType, Map<String, ClspClass> names) {
         return getCls(clsType.getObject(), names);
     }
@@ -271,6 +275,7 @@ public class ClsSet {
         }
     }
 
+    @NullUnmarked
     private static void writeArgType(DataOutputStream out, @Nullable ArgType argType, Map<String, ClspClass> names) throws IOException {
         if (argType == null) {
             out.writeByte(-1);
@@ -410,6 +415,7 @@ public class ClsSet {
         return arr;
     }
 
+    @NullUnmarked
     private ArgType readArgType(DataInputStream in) throws IOException {
         int ordinal = in.readByte();
         if (ordinal == -1) {

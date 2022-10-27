@@ -1,5 +1,6 @@
 package jadx.core.dex.instructions.args;
 
+import jadx.core.NullUnmarked;
 import org.jetbrains.annotations.Nullable;
 import jadx.core.codegen.TypeGen;
 import jadx.core.utils.StringUtils;
@@ -16,6 +17,7 @@ public final class LiteralArg extends InsnArg {
     }
 
     @Nullable
+    @NullUnmarked
     private static ArgType fixLiteralType(long value, @Nullable ArgType type) {
         if (value == 0 || type.isTypeKnown() || type.contains(PrimitiveType.LONG) || type.contains(PrimitiveType.DOUBLE)) {
             return type;
@@ -36,6 +38,7 @@ public final class LiteralArg extends InsnArg {
 
     private final long literal;
 
+    @NullUnmarked
     private LiteralArg(long value, @Nullable ArgType type) {
         if (value != 0 && type.isObject()) {
             throw new JadxRuntimeException("Wrong literal type: " + type + " for value: " + value);

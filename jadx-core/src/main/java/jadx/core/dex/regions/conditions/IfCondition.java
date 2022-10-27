@@ -1,5 +1,6 @@
 package jadx.core.dex.regions.conditions;
 
+import jadx.core.NullUnmarked;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,6 +42,7 @@ public final class IfCondition extends AttrNode {
         this.args = Collections.emptyList();
     }
 
+    @NullUnmarked
     private IfCondition(Mode mode, List<IfCondition> args) {
         this.mode = mode;
         this.args = args;
@@ -115,6 +117,7 @@ public final class IfCondition extends AttrNode {
         return compare;
     }
 
+    @NullUnmarked
     public static IfCondition invert(@Nullable IfCondition cond) {
         Mode mode = cond.getMode();
         switch(mode) {

@@ -1,5 +1,6 @@
 package jadx.core.dex.instructions.args;
 
+import jadx.core.NullUnmarked;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -430,6 +431,7 @@ public abstract class ArgType {
 
         private final ObjectType innerType;
 
+        @NullUnmarked
         public OuterGenericObject(ObjectType outerType, @Nullable ObjectType innerType) {
             super(outerType.getObject() + '$' + innerType.getObject());
             this.outerType = outerType;
@@ -504,6 +506,7 @@ public abstract class ArgType {
         }
 
         @Override
+        @NullUnmarked
         public ArgType selectFirst() {
             return array(arrayElement.selectFirst());
         }
@@ -594,6 +597,7 @@ public abstract class ArgType {
         return false;
     }
 
+    @NullUnmarked
     public PrimitiveType getPrimitiveType() {
         return null;
     }
@@ -618,6 +622,7 @@ public abstract class ArgType {
         return false;
     }
 
+    @NullUnmarked
     public List<ArgType> getGenericTypes() {
         return null;
     }
@@ -629,6 +634,7 @@ public abstract class ArgType {
     public void setExtendTypes(List<ArgType> extendTypes) {
     }
 
+    @NullUnmarked
     public ArgType getWildcardType() {
         return null;
     }
@@ -660,6 +666,7 @@ public abstract class ArgType {
         return 0;
     }
 
+    @NullUnmarked
     public ArgType getArrayElement() {
         return null;
     }
@@ -769,6 +776,7 @@ public abstract class ArgType {
         }
     }
 
+    @NullUnmarked
     public static ArgType parse(char f) {
         switch(f) {
             case 'Z':
@@ -895,6 +903,7 @@ public abstract class ArgType {
         return null;
     }
 
+    @NullUnmarked
     public static ArgType tryToResolveClassAlias(RootNode root, ArgType type) {
         if (type.isGenericType()) {
             return type;
