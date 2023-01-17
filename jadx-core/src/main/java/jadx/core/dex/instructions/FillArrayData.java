@@ -11,6 +11,7 @@ import jadx.core.dex.instructions.args.LiteralArg;
 import jadx.core.dex.instructions.args.PrimitiveType;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 public final class FillArrayData extends InsnNode {
 
@@ -64,7 +65,7 @@ public final class FillArrayData extends InsnNode {
 		return elemType;
 	}
 
-	public List<LiteralArg> getLiteralArgs(ArgType type) {
+	public List<LiteralArg> getLiteralArgs(@Nullable ArgType type) {
 		List<LiteralArg> list = new ArrayList<>(size);
 		Object array = data;
 		switch (elemSize) {

@@ -12,11 +12,11 @@ public final class LiteralArg extends InsnArg {
 		return new LiteralArg(value, type);
 	}
 
-	public static LiteralArg makeWithFixedType(long value, ArgType type) {
+	public static LiteralArg makeWithFixedType(long value, @Nullable ArgType type) {
 		return new LiteralArg(value, fixLiteralType(value, type));
 	}
 
-	private static ArgType fixLiteralType(long value, ArgType type) {
+	@Nullable private static ArgType fixLiteralType(long value, @Nullable ArgType type) {
 		if (value == 0 || type.isTypeKnown() || type.contains(PrimitiveType.LONG) || type.contains(PrimitiveType.DOUBLE)) {
 			return type;
 		}
@@ -36,7 +36,7 @@ public final class LiteralArg extends InsnArg {
 
 	private final long literal;
 
-	private LiteralArg(long value, ArgType type) {
+	private LiteralArg(long value, @Nullable ArgType type) {
 		if (value != 0 && type.isObject()) {
 			throw new JadxRuntimeException("Wrong literal type: " + type + " for value: " + value);
 		}

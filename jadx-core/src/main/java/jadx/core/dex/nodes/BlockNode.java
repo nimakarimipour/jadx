@@ -16,6 +16,7 @@ import jadx.core.utils.InsnUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.Utils.lockList;
+import javax.annotation.Nullable;
 
 public final class BlockNode extends AttrNode implements IBlock, Comparable<BlockNode> {
 
@@ -49,12 +50,12 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	/**
 	 * Dominance frontier
 	 */
-	private BitSet domFrontier;
+	@Nullable private BitSet domFrontier;
 
 	/**
 	 * Immediate dominator
 	 */
-	private BlockNode idom;
+	@Nullable private BlockNode idom;
 
 	/**
 	 * Blocks on which dominates this block
@@ -150,7 +151,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	/**
 	 * Check if 'block' dominated on this node
 	 */
-	public boolean isDominator(BlockNode block) {
+	public boolean isDominator(@Nullable BlockNode block) {
 		return doms.get(block.getId());
 	}
 
@@ -161,7 +162,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return doms;
 	}
 
-	public void setDoms(BitSet doms) {
+	public void setDoms(@Nullable BitSet doms) {
 		this.doms = doms;
 	}
 
@@ -169,7 +170,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return domFrontier;
 	}
 
-	public void setDomFrontier(BitSet domFrontier) {
+	public void setDomFrontier(@Nullable BitSet domFrontier) {
 		this.domFrontier = domFrontier;
 	}
 
@@ -180,7 +181,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return idom;
 	}
 
-	public void setIDom(BlockNode idom) {
+	public void setIDom(@Nullable BlockNode idom) {
 		this.idom = idom;
 	}
 
@@ -210,7 +211,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

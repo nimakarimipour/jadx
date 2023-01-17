@@ -85,7 +85,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		}
 	}
 
-	public String getAliasPkg() {
+	@Nullable public String getAliasPkg() {
 		if (isInner()) {
 			return parentClass.getAliasPkg();
 		}
@@ -158,7 +158,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		this.fullName = makeFullName();
 	}
 
-	private static String makeFullClsName(String pkg, String shortName, ClassInfo parentClass, boolean alias, boolean raw) {
+	private static String makeFullClsName(@Nullable String pkg, String shortName, @Nullable ClassInfo parentClass, boolean alias, boolean raw) {
 		if (parentClass != null) {
 			String innerSep = raw ? "$" : ".";
 			String parentFullName;
@@ -233,7 +233,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		return parentClass;
 	}
 
-	public ClassInfo getTopParentClass() {
+	@Nullable public ClassInfo getTopParentClass() {
 		if (parentClass != null) {
 			ClassInfo topCls = parentClass.getTopParentClass();
 			return topCls != null ? topCls : parentClass;
@@ -274,7 +274,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

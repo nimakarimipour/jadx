@@ -7,6 +7,7 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxOverflowException;
+import javax.annotation.Nullable;
 
 public class TypeUpdateInfo {
 	private final MethodNode mth;
@@ -43,7 +44,7 @@ public class TypeUpdateInfo {
 		return false;
 	}
 
-	public ArgType getType(InsnArg arg) {
+	public ArgType getType(@Nullable InsnArg arg) {
 		for (TypeUpdateEntry update : updates) {
 			if (update.getArg() == arg) {
 				return update.getType();

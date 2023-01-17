@@ -6,6 +6,7 @@ import jadx.api.plugins.input.data.IFieldRef;
 import jadx.core.codegen.TypeGen;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.RootNode;
+import javax.annotation.Nullable;
 
 public final class FieldInfo {
 

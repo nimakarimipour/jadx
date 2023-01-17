@@ -16,6 +16,7 @@
 package jadx.core.xmlgen;
 
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 /**
  * This class defines the basic XML character properties. The data

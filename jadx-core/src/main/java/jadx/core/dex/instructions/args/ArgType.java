@@ -142,7 +142,7 @@ public abstract class ArgType {
 		return generic(obj, Arrays.asList(generics));
 	}
 
-	public static ArgType outerGeneric(ArgType genericOuterType, ArgType innerType) {
+	public static ArgType outerGeneric(ArgType genericOuterType, @Nullable ArgType innerType) {
 		return new OuterGenericObject((ObjectType) genericOuterType, (ObjectType) innerType);
 	}
 
@@ -179,7 +179,7 @@ public abstract class ArgType {
 			return getPrimitiveType() == type;
 		}
 
-		@Override
+		@Nullable @Override
 		public ArgType selectFirst() {
 			return null;
 		}
@@ -411,7 +411,7 @@ public abstract class ArgType {
 		private final ObjectType outerType;
 		private final ObjectType innerType;
 
-		public OuterGenericObject(ObjectType outerType, ObjectType innerType) {
+		public OuterGenericObject(ObjectType outerType, @Nullable ObjectType innerType) {
 			super(outerType.getObject() + '$' + innerType.getObject());
 			this.outerType = outerType;
 			this.innerType = innerType;
@@ -621,11 +621,11 @@ public abstract class ArgType {
 		return false;
 	}
 
-	public ArgType getOuterType() {
+	@Nullable public ArgType getOuterType() {
 		return null;
 	}
 
-	public ArgType getInnerType() {
+	@Nullable public ArgType getInnerType() {
 		return null;
 	}
 
@@ -647,7 +647,7 @@ public abstract class ArgType {
 
 	public abstract boolean contains(PrimitiveType type);
 
-	public abstract ArgType selectFirst();
+	@Nullable public abstract ArgType selectFirst();
 
 	public abstract PrimitiveType[] getPossibleTypes();
 
@@ -920,7 +920,7 @@ public abstract class ArgType {
 	abstract boolean internalEquals(Object obj);
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

@@ -40,7 +40,7 @@ public class InsnDataUtils {
 	}
 
 	@Nullable
-	public static IMethodHandle getMethodHandleAt(ICallSite callSite, int argNum) {
+	public static IMethodHandle getMethodHandleAt(@Nullable ICallSite callSite, int argNum) {
 		if (callSite == null) {
 			return null;
 		}

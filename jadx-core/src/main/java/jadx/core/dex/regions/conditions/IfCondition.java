@@ -60,7 +60,7 @@ public final class IfCondition extends AttrNode {
 		}
 	}
 
-	public static IfCondition fromIfBlock(BlockNode header) {
+	@Nullable public static IfCondition fromIfBlock(BlockNode header) {
 		InsnNode lastInsn = BlockUtils.getLastInsn(header);
 		if (lastInsn == null) {
 			return null;
@@ -117,7 +117,7 @@ public final class IfCondition extends AttrNode {
 		return compare;
 	}
 
-	public static IfCondition invert(IfCondition cond) {
+	public static IfCondition invert(@Nullable IfCondition cond) {
 		Mode mode = cond.getMode();
 		switch (mode) {
 			case COMPARE:
@@ -202,7 +202,7 @@ public final class IfCondition extends AttrNode {
 		return cond;
 	}
 
-	private static IfCondition simplifyCmpOp(Compare c) {
+	@Nullable private static IfCondition simplifyCmpOp(Compare c) {
 		if (!c.getA().isInsnWrap()) {
 			return null;
 		}

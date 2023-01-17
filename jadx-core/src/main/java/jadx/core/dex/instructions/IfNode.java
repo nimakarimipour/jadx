@@ -13,6 +13,7 @@ import jadx.core.utils.InsnUtils;
 
 import static jadx.core.utils.BlockUtils.getBlockByOffset;
 import static jadx.core.utils.BlockUtils.selectOther;
+import javax.annotation.Nullable;
 
 public class IfNode extends GotoNode {
 

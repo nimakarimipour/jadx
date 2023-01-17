@@ -36,7 +36,7 @@ public class IfMakerHelper {
 	}
 
 	@Nullable
-	static IfInfo makeIfInfo(MethodNode mth, BlockNode ifBlock) {
+	static IfInfo makeIfInfo(MethodNode mth, @Nullable BlockNode ifBlock) {
 		InsnNode lastInsn = BlockUtils.getLastInsn(ifBlock);
 		if (lastInsn == null || lastInsn.getType() != InsnType.IF) {
 			return null;
@@ -48,7 +48,7 @@ public class IfMakerHelper {
 		return info;
 	}
 
-	static IfInfo searchNestedIf(IfInfo info) {
+	static IfInfo searchNestedIf(@Nullable IfInfo info) {
 		IfInfo next = mergeNestedIfNodes(info);
 		if (next != null) {
 			return next;
@@ -56,7 +56,7 @@ public class IfMakerHelper {
 		return info;
 	}
 
-	static IfInfo restructureIf(MethodNode mth, BlockNode block, IfInfo info) {
+	@Nullable static IfInfo restructureIf(MethodNode mth, BlockNode block, @Nullable IfInfo info) {
 		BlockNode thenBlock = info.getThenBlock();
 		BlockNode elseBlock = info.getElseBlock();
 
@@ -125,7 +125,7 @@ public class IfMakerHelper {
 		return true;
 	}
 
-	static IfInfo mergeNestedIfNodes(IfInfo currentIf) {
+	@Nullable static IfInfo mergeNestedIfNodes(@Nullable IfInfo currentIf) {
 		BlockNode curThen = currentIf.getThenBlock();
 		BlockNode curElse = currentIf.getElseBlock();
 		if (curThen == curElse) {
@@ -206,7 +206,7 @@ public class IfMakerHelper {
 		return searchNestedIf(result);
 	}
 
-	private static IfInfo checkForTernaryInCondition(IfInfo currentIf) {
+	@Nullable private static IfInfo checkForTernaryInCondition(IfInfo currentIf) {
 		IfInfo nextThen = getNextIf(currentIf, currentIf.getThenBlock());
 		IfInfo nextElse = getNextIf(currentIf, currentIf.getElseBlock());
 		if (nextThen == null || nextElse == null) {
@@ -251,7 +251,7 @@ public class IfMakerHelper {
 		}
 	}
 
-	private static boolean checkConditionBranches(BlockNode from, BlockNode to) {
+	private static boolean checkConditionBranches(@Nullable BlockNode from, @Nullable BlockNode to) {
 		return from.getCleanSuccessors().size() == 1 && from.getCleanSuccessors().contains(to);
 	}
 
@@ -274,7 +274,7 @@ public class IfMakerHelper {
 		return result;
 	}
 
-	private static BlockNode getBranchBlock(BlockNode first, BlockNode second, Set<BlockNode> skipBlocks, MethodNode mth) {
+	@Nullable private static BlockNode getBranchBlock(@Nullable BlockNode first, @Nullable BlockNode second, Set<BlockNode> skipBlocks, MethodNode mth) {
 		if (first == second) {
 			return second;
 		}
@@ -320,21 +320,21 @@ public class IfMakerHelper {
 		}
 	}
 
-	private static IfInfo getNextIf(IfInfo info, BlockNode block) {
+	@Nullable private static IfInfo getNextIf(IfInfo info, @Nullable BlockNode block) {
 		if (!canSelectNext(info, block)) {
 			return null;
 		}
 		return getNextIfNodeInfo(info, block);
 	}
 
-	private static boolean canSelectNext(IfInfo info, BlockNode block) {
+	private static boolean canSelectNext(IfInfo info, @Nullable BlockNode block) {
 		if (block.getPredecessors().size() == 1) {
 			return true;
 		}
 		return info.getMergedBlocks().containsAll(block.getPredecessors());
 	}
 
-	private static IfInfo getNextIfNodeInfo(IfInfo info, BlockNode block) {
+	@Nullable private static IfInfo getNextIfNodeInfo(IfInfo info, @Nullable BlockNode block) {
 		if (block == null || block.contains(AType.LOOP) || block.contains(AFlag.ADDED_TO_REGION)) {
 			return null;
 		}

@@ -12,6 +12,7 @@ import jadx.core.dex.instructions.mods.TernaryInsn;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.EmptyBitSet;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 final class ArgsInfo {
 	private final InsnNode insn;
@@ -19,7 +20,7 @@ final class ArgsInfo {
 	private final List<RegisterArg> args;
 	private final int pos;
 	private int inlineBorder;
-	private ArgsInfo inlinedInsn;
+	@Nullable private ArgsInfo inlinedInsn;
 
 	public ArgsInfo(InsnNode insn, List<ArgsInfo> argsList, int pos) {
 		this.insn = insn;
@@ -59,7 +60,7 @@ final class ArgsInfo {
 		return args;
 	}
 
-	public WrapInfo checkInline(int assignPos, RegisterArg arg) {
+	@Nullable public WrapInfo checkInline(int assignPos, RegisterArg arg) {
 		if (assignPos >= inlineBorder || !canMove(assignPos, inlineBorder)) {
 			return null;
 		}
@@ -127,7 +128,7 @@ final class ArgsInfo {
 		return new WrapInfo(argsInfo.insn, arg);
 	}
 
-	ArgsInfo getInlinedInsn() {
+	@Nullable ArgsInfo getInlinedInsn() {
 		if (inlinedInsn != null) {
 			ArgsInfo parent = inlinedInsn.getInlinedInsn();
 			if (parent != null) {

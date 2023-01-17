@@ -7,6 +7,7 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.LiteralArg;
 import jadx.core.dex.nodes.InsnNode;
+import javax.annotation.Nullable;
 
 public final class FillArrayInsn extends InsnNode {
 	private final int target;
@@ -57,7 +58,7 @@ public final class FillArrayInsn extends InsnNode {
 		return arrayData.getElementType();
 	}
 
-	public List<LiteralArg> getLiteralArgs(ArgType elType) {
+	public List<LiteralArg> getLiteralArgs(@Nullable ArgType elType) {
 		return arrayData.getLiteralArgs(elType);
 	}
 

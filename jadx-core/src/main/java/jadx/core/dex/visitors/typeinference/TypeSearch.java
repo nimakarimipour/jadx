@@ -345,7 +345,7 @@ public class TypeSearch {
 		}
 	}
 
-	private void addConstraint(TypeSearchVarInfo varInfo, ITypeConstraint constraint) {
+	private void addConstraint(TypeSearchVarInfo varInfo, @Nullable ITypeConstraint constraint) {
 		if (constraint != null) {
 			varInfo.getConstraints().add(constraint);
 		}

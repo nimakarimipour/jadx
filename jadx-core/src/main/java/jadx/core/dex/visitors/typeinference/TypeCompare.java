@@ -25,6 +25,7 @@ import static jadx.core.dex.visitors.typeinference.TypeCompareEnum.UNKNOWN;
 import static jadx.core.dex.visitors.typeinference.TypeCompareEnum.WIDER;
 import static jadx.core.dex.visitors.typeinference.TypeCompareEnum.WIDER_BY_GENERIC;
 import static jadx.core.utils.Utils.isEmpty;
+import javax.annotation.Nullable;
 
 public class TypeCompare {
 	private static final Logger LOG = LoggerFactory.getLogger(TypeCompare.class);

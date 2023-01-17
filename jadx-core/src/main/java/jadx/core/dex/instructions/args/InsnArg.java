@@ -57,7 +57,7 @@ public abstract class InsnArg extends Typed {
 		return reg;
 	}
 
-	public static LiteralArg lit(long literal, ArgType type) {
+	public static LiteralArg lit(long literal, @Nullable ArgType type) {
 		return LiteralArg.makeWithFixedType(literal, type);
 	}
 
@@ -246,7 +246,7 @@ public abstract class InsnArg extends Typed {
 		return false;
 	}
 
-	public InsnNode unwrap() {
+	@Nullable public InsnNode unwrap() {
 		if (isInsnWrap()) {
 			return ((InsnWrapArg) this).getWrapInsn();
 		}

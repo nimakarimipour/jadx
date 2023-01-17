@@ -26,7 +26,7 @@ public class ExceptionHandler {
 	private BlockNode handlerBlock;
 	private final List<BlockNode> blocks = new ArrayList<>();
 	private IContainer handlerRegion;
-	private InsnArg arg;
+	@Nullable private InsnArg arg;
 
 	private TryCatchBlockAttr tryBlock;
 	private boolean isFinally;
@@ -125,7 +125,7 @@ public class ExceptionHandler {
 		this.handlerRegion = handlerRegion;
 	}
 
-	public InsnArg getArg() {
+	@Nullable public InsnArg getArg() {
 		return arg;
 	}
 
