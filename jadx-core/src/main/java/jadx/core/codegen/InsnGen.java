@@ -254,7 +254,7 @@ public class InsnGen {
 	private static final Set<Flags> BODY_ONLY_FLAG = EnumSet.of(Flags.BODY_ONLY);
 	private static final Set<Flags> BODY_ONLY_NOWRAP_FLAGS = EnumSet.of(Flags.BODY_ONLY_NOWRAP);
 
-	protected void makeInsn(InsnNode insn, ICodeWriter code, Flags flag) throws CodegenException {
+	protected void makeInsn(InsnNode insn, ICodeWriter code, @Nullable Flags flag) throws CodegenException {
 		if (insn.getType() == InsnType.REGION_ARG) {
 			return;
 		}

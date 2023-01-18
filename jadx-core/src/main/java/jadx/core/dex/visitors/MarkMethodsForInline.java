@@ -87,7 +87,7 @@ public class MarkMethodsForInline extends AbstractVisitor {
 		return null;
 	}
 
-	private static MethodInlineAttr addInlineAttr(MethodNode mth, InsnNode insn) {
+	@Nullable private static MethodInlineAttr addInlineAttr(MethodNode mth, InsnNode insn) {
 		if (!fixVisibilityOfInlineCode(mth, insn)) {
 			return null;
 		}

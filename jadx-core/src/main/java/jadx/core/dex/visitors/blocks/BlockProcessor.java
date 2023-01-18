@@ -188,7 +188,7 @@ public class BlockProcessor extends AbstractVisitor {
 		return false;
 	}
 
-	private static InsnNode getInsnsFromEnd(BlockNode block, int number) {
+	@Nullable private static InsnNode getInsnsFromEnd(BlockNode block, int number) {
 		List<InsnNode> instructions = block.getInstructions();
 		int insnCount = instructions.size();
 		if (insnCount <= number) {

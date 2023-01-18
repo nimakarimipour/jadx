@@ -26,6 +26,7 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.Utils;
+import javax.annotation.Nullable;
 
 public class NameGen {
 
@@ -54,7 +55,7 @@ public class NameGen {
 				"java.lang.Exception", "exc");
 	}
 
-	public NameGen(MethodNode mth, ClassGen classGen) {
+	public NameGen(@Nullable MethodNode mth, ClassGen classGen) {
 		this.mth = mth;
 		this.fallback = classGen.isFallbackMode();
 		NameGen outerNameGen = classGen.getOuterNameGen();
@@ -217,7 +218,7 @@ public class NameGen {
 		return makeNameForCheckedClass(classInfo);
 	}
 
-	private static String fromName(String name) {
+	@Nullable private static String fromName(String name) {
 		if (name == null || name.isEmpty()) {
 			return null;
 		}
@@ -235,11 +236,11 @@ public class NameGen {
 		return null;
 	}
 
-	private static String getAliasForObject(String name) {
+	@Nullable private static String getAliasForObject(String name) {
 		return OBJ_ALIAS.get(name);
 	}
 
-	private String makeNameFromInsn(InsnNode insn) {
+	@Nullable private String makeNameFromInsn(InsnNode insn) {
 		switch (insn.getType()) {
 			case INVOKE:
 				InvokeNode inv = (InvokeNode) insn;
@@ -277,7 +278,7 @@ public class NameGen {
 		return null;
 	}
 
-	private String makeNameFromInvoke(MethodInfo callMth) {
+	@Nullable private String makeNameFromInvoke(MethodInfo callMth) {
 		String name = callMth.getAlias();
 		ClassInfo declClass = callMth.getDeclClass();
 		if ("getInstance".equals(name)) {

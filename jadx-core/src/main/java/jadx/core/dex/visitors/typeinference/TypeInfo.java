@@ -6,9 +6,10 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
 import jadx.core.dex.instructions.args.ArgType;
+import javax.annotation.Nullable;
 
 public class TypeInfo {
-	private ArgType type = ArgType.UNKNOWN;
+	@Nullable private ArgType type = ArgType.UNKNOWN;
 
 	private final Set<ITypeBound> bounds = new LinkedHashSet<>();
 
@@ -17,7 +18,7 @@ public class TypeInfo {
 		return type;
 	}
 
-	public void setType(ArgType type) {
+	public void setType(@Nullable ArgType type) {
 		this.type = type;
 	}
 

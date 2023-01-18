@@ -20,6 +20,7 @@ import jadx.core.xmlgen.entry.ValuesParser;
 
 import static jadx.core.xmlgen.ParserConstants.PLURALS_MAP;
 import static jadx.core.xmlgen.ParserConstants.TYPE_REFERENCE;
+import javax.annotation.Nullable;
 
 public class ResXmlGen {
 
@@ -207,7 +208,7 @@ public class ResXmlGen {
 		}
 	}
 
-	private void addSimpleValue(ICodeWriter cw, String typeName, String itemTag, String attrName, String attrValue, String valueStr) {
+	private void addSimpleValue(ICodeWriter cw, String typeName, String itemTag, @Nullable String attrName, @Nullable String attrValue, @Nullable String valueStr) {
 		if (valueStr == null) {
 			return;
 		}

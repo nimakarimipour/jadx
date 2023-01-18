@@ -1,0 +1,80 @@
+kind	class	method	param	index	uri
+PARAMETER	jadx.api.JavaPackage	compareTo(@org.jetbrains.annotations.NotNull jadx.api.JavaPackage)	o	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/api/JavaPackage.java
+METHOD	jadx.api.JavaClass	getCodeInfo()	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/api/JavaClass.java
+PARAMETER	jadx.core.dex.nodes.ClassNode	compareTo(@org.jetbrains.annotations.NotNull jadx.core.dex.nodes.ClassNode)	o	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/nodes/ClassNode.java
+METHOD	jadx.core.dex.nodes.MethodNode	getArgTypes()	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/nodes/MethodNode.java
+METHOD	jadx.core.dex.nodes.MethodNode	getReturnType()	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/nodes/MethodNode.java
+PARAMETER	jadx.core.dex.nodes.MethodNode	makeNewSVar(@org.jetbrains.annotations.NotNull jadx.core.dex.instructions.args.RegisterArg)	assignArg	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/nodes/MethodNode.java
+PARAMETER	jadx.core.dex.nodes.MethodNode	makeNewSVar(int,int,@org.jetbrains.annotations.NotNull jadx.core.dex.instructions.args.RegisterArg)	assignArg	2	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/nodes/MethodNode.java
+PARAMETER	jadx.core.dex.nodes.MethodNode	compareTo(@org.jetbrains.annotations.NotNull jadx.core.dex.nodes.MethodNode)	o	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/nodes/MethodNode.java
+PARAMETER	jadx.core.dex.instructions.args.ArgType	array(@org.jetbrains.annotations.NotNull jadx.core.dex.instructions.args.ArgType)	vtype	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/ArgType.java
+PARAMETER	jadx.core.dex.instructions.args.ArgType	array(@org.jetbrains.annotations.NotNull jadx.core.dex.instructions.args.ArgType,int)	type	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/ArgType.java
+PARAMETER	jadx.core.dex.nodes.RootNode	resolveMethod(@org.jetbrains.annotations.NotNull jadx.core.dex.info.MethodInfo)	mth	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/nodes/RootNode.java
+PARAMETER	jadx.core.dex.nodes.RootNode	deepResolveMethod(@org.jetbrains.annotations.NotNull jadx.core.dex.nodes.ClassNode,java.lang.String)	cls	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/nodes/RootNode.java
+PARAMETER	jadx.core.dex.nodes.RootNode	deepResolveField(@org.jetbrains.annotations.NotNull jadx.core.dex.nodes.ClassNode,jadx.core.dex.info.FieldInfo)	cls	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/nodes/RootNode.java
+METHOD	jadx.core.ProcessClass	generateCode(jadx.core.dex.nodes.ClassNode)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/ProcessClass.java
+METHOD	jadx.core.dex.visitors.typeinference.TypeUpdate	requestUpdateForSsaVar(jadx.core.dex.visitors.typeinference.TypeUpdateInfo,jadx.core.dex.instructions.args.SSAVar,jadx.core.dex.instructions.args.ArgType)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/visitors/typeinference/TypeUpdate.java
+METHOD	jadx.core.dex.info.ClassInfo	getPackage()	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/info/ClassInfo.java
+PARAMETER	jadx.core.dex.info.ClassInfo	compareTo(@org.jetbrains.annotations.NotNull jadx.core.dex.info.ClassInfo)	o	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/info/ClassInfo.java
+METHOD	jadx.api.ICodeCache	get(java.lang.String)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/api/ICodeCache.java
+PARAMETER	jadx.core.xmlgen.ResContainer	compareTo(@org.jetbrains.annotations.NotNull jadx.core.xmlgen.ResContainer)	o	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/xmlgen/ResContainer.java
+PARAMETER	jadx.core.clsp.ClspMethod	compareTo(@org.jetbrains.annotations.NotNull jadx.core.clsp.ClspMethod)	other	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/clsp/ClspMethod.java
+METHOD	jadx.core.dex.instructions.args.InsnArg	wrapInsnIntoArg(jadx.core.dex.nodes.InsnNode)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/InsnArg.java
+PARAMETER	jadx.core.dex.instructions.args.RegisterArg	setSVar(@org.jetbrains.annotations.NotNull jadx.core.dex.instructions.args.SSAVar)	sVar	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/RegisterArg.java
+PARAMETER	jadx.core.dex.instructions.args.InsnWrapArg	InsnWrapArg(@org.jetbrains.annotations.NotNull jadx.core.dex.nodes.InsnNode)	insn	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/InsnWrapArg.java
+PARAMETER	jadx.core.dex.instructions.args.SSAVar	SSAVar(int,int,@org.jetbrains.annotations.NotNull jadx.core.dex.instructions.args.RegisterArg)	assign	2	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/SSAVar.java
+METHOD	jadx.core.dex.instructions.args.SSAVar	getAssign()	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/SSAVar.java
+PARAMETER	jadx.core.dex.instructions.args.SSAVar	setAssign(@org.jetbrains.annotations.NotNull jadx.core.dex.instructions.args.RegisterArg)	assign	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/SSAVar.java
+METHOD	jadx.core.dex.instructions.args.SSAVar	getCodeVar()	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/SSAVar.java
+PARAMETER	jadx.core.dex.instructions.args.SSAVar	setCodeVar(@org.jetbrains.annotations.NotNull jadx.core.dex.instructions.args.CodeVar)	codeVar	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/SSAVar.java
+METHOD	jadx.core.dex.instructions.PhiInsn	getArg(int)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/PhiInsn.java
+METHOD	jadx.core.dex.visitors.typeinference.TypeInfo	getType()	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/visitors/typeinference/TypeInfo.java
+PARAMETER	jadx.core.dex.nodes.BlockNode	compareTo(@org.jetbrains.annotations.NotNull jadx.core.dex.nodes.BlockNode)	o	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/nodes/BlockNode.java
+METHOD	jadx.core.utils.android.AndroidResourcesUtils	getClassForResType(jadx.core.dex.nodes.ClassNode,boolean,java.lang.String)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/android/AndroidResourcesUtils.java
+METHOD	jadx.core.utils.android.AndroidResourcesUtils	fillResFieldsMap(jadx.core.dex.nodes.ClassNode)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/android/AndroidResourcesUtils.java
+PARAMETER	jadx.core.codegen.ClassGen	setOuterNameGen(@org.jetbrains.annotations.NotNull jadx.core.codegen.NameGen)	outerNameGen	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/codegen/ClassGen.java
+FIELD	jadx.core.dex.instructions.args.NamedArg	null	name	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/NamedArg.java
+PARAMETER	jadx.core.dex.instructions.args.NamedArg	NamedArg(@org.jetbrains.annotations.NotNull java.lang.String,@org.jetbrains.annotations.NotNull jadx.core.dex.instructions.args.ArgType)	name	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/NamedArg.java
+PARAMETER	jadx.core.dex.instructions.args.NamedArg	NamedArg(@org.jetbrains.annotations.NotNull java.lang.String,@org.jetbrains.annotations.NotNull jadx.core.dex.instructions.args.ArgType)	type	1	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/NamedArg.java
+METHOD	jadx.core.dex.instructions.args.NamedArg	getName()	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/NamedArg.java
+PARAMETER	jadx.core.dex.instructions.args.NamedArg	setName(@org.jetbrains.annotations.NotNull java.lang.String)	name	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/args/NamedArg.java
+PARAMETER	jadx.core.dex.attributes.nodes.JadxError	compareTo(@org.jetbrains.annotations.NotNull jadx.core.dex.attributes.nodes.JadxError)	o	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/attributes/nodes/JadxError.java
+PARAMETER	jadx.core.dex.instructions.FilledNewArrayNode	FilledNewArrayNode(@org.jetbrains.annotations.NotNull jadx.core.dex.instructions.args.ArgType,int)	elemType	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/FilledNewArrayNode.java
+PARAMETER	jadx.core.dex.visitors.typeinference.ITypeListener	update(jadx.core.dex.visitors.typeinference.TypeUpdateInfo,jadx.core.dex.nodes.InsnNode,jadx.core.dex.instructions.args.InsnArg,@org.jetbrains.annotations.NotNull jadx.core.dex.instructions.args.ArgType)	candidateType	3	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/visitors/typeinference/ITypeListener.java
+METHOD	jadx.core.dex.visitors.typeinference.TypeUpdateFlags	build(int)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/visitors/typeinference/TypeUpdateFlags.java
+PARAMETER	jadx.api.data.IJavaCodeRef	compareTo(@org.jetbrains.annotations.NotNull jadx.api.data.IJavaCodeRef)	o	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/api/data/IJavaCodeRef.java
+PARAMETER	jadx.core.xmlgen.ParserStream	ParserStream(@org.jetbrains.annotations.NotNull java.io.InputStream)	inputStream	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/xmlgen/ParserStream.java
+METHOD	jadx.core.utils.files.FileUtils	prepareFile(java.io.File)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/files/FileUtils.java
+METHOD	jadx.api.impl.NoOpCodeCache	get(java.lang.String)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/api/impl/NoOpCodeCache.java
+METHOD	jadx.api.impl.DelegateCodeCache	get(java.lang.String)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/api/impl/DelegateCodeCache.java
+METHOD	jadx.api.impl.InMemoryCodeCache	get(java.lang.String)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/api/impl/InMemoryCodeCache.java
+METHOD	jadx.api.JadxArgsValidator	makeDirFromInput(jadx.api.JadxArgs)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/api/JadxArgsValidator.java
+PARAMETER	jadx.api.data.impl.JadxNodeRef	compareTo(@org.jetbrains.annotations.NotNull jadx.api.data.IJavaNodeRef)	other	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/api/data/impl/JadxNodeRef.java
+PARAMETER	jadx.api.data.impl.JadxCodeRename	compareTo(@org.jetbrains.annotations.NotNull jadx.api.data.ICodeRename)	other	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/api/data/impl/JadxCodeRename.java
+PARAMETER	jadx.api.data.impl.JadxCodeComment	compareTo(@org.jetbrains.annotations.NotNull jadx.api.data.ICodeComment)	other	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/api/data/impl/JadxCodeComment.java
+PARAMETER	jadx.core.utils.ImmutableList	containsAll(@org.jetbrains.annotations.NotNull java.util.Collection<?>)	c	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/ImmutableList.java
+METHOD	jadx.core.utils.ImmutableList	iterator()	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/ImmutableList.java
+METHOD	jadx.core.utils.ImmutableList	toArray()	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/ImmutableList.java
+PARAMETER	jadx.core.utils.ImmutableList	<T>toArray(@org.jetbrains.annotations.NotNull T[])	a	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/ImmutableList.java
+METHOD	jadx.core.utils.ImmutableList	<T>toArray(@org.jetbrains.annotations.NotNull T[])	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/ImmutableList.java
+PARAMETER	jadx.core.utils.ImmutableList	addAll(@org.jetbrains.annotations.NotNull java.util.Collection<? extends E>)	c	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/ImmutableList.java
+PARAMETER	jadx.core.utils.ImmutableList	addAll(int,@org.jetbrains.annotations.NotNull java.util.Collection<? extends E>)	c	1	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/ImmutableList.java
+PARAMETER	jadx.core.utils.ImmutableList	removeAll(@org.jetbrains.annotations.NotNull java.util.Collection<?>)	c	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/ImmutableList.java
+PARAMETER	jadx.core.utils.ImmutableList	retainAll(@org.jetbrains.annotations.NotNull java.util.Collection<?>)	c	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/ImmutableList.java
+METHOD	jadx.core.utils.ImmutableList	listIterator()	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/ImmutableList.java
+METHOD	jadx.core.utils.ImmutableList	listIterator(int)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/ImmutableList.java
+METHOD	jadx.core.utils.ImmutableList	subList(int,int)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/ImmutableList.java
+PARAMETER	jadx.core.utils.DecompilerScheduler$DepInfo	compareTo(jadx.core.utils.DecompilerScheduler.DepInfo)	o	0	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/utils/DecompilerScheduler.java
+METHOD	jadx.core.dex.instructions.invokedynamic.CustomLambdaCall	buildMethodCall(jadx.core.dex.nodes.MethodNode,jadx.api.plugins.input.insns.InsnData,boolean,java.util.List<jadx.api.plugins.input.data.annotations.EncodedValue>,jadx.api.plugins.input.data.IMethodHandle)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/invokedynamic/CustomLambdaCall.java
+METHOD	jadx.core.dex.instructions.invokedynamic.CustomLambdaCall	buildInvokeNode(jadx.api.plugins.input.data.MethodHandleType,jadx.core.dex.instructions.InvokeCustomNode,jadx.core.dex.info.MethodInfo)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/invokedynamic/CustomLambdaCall.java
+METHOD	jadx.core.dex.instructions.SwitchInsn	getSwitchData()	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/SwitchInsn.java
+METHOD	jadx.core.dex.instructions.InsnDecoder	decode(jadx.api.plugins.input.insns.InsnData)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/InsnDecoder.java
+METHOD	jadx.core.dex.instructions.InsnDecoder	makeSwitch(jadx.api.plugins.input.insns.InsnData,boolean)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/instructions/InsnDecoder.java
+METHOD	jadx.core.dex.visitors.typeinference.TypeUpdateRegistry	getListenersForInsn(jadx.core.dex.instructions.InsnType)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/visitors/typeinference/TypeUpdateRegistry.java
+METHOD	jadx.core.dex.visitors.typeinference.TypeSearchState	getVarInfo(jadx.core.dex.instructions.args.SSAVar)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/visitors/typeinference/TypeSearchState.java
+METHOD	jadx.core.dex.visitors.typeinference.TypeInferenceVisitor	makeSoftCastInsn(jadx.core.dex.instructions.args.RegisterArg,jadx.core.dex.instructions.args.RegisterArg,jadx.core.dex.instructions.args.ArgType)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/visitors/typeinference/TypeInferenceVisitor.java
+METHOD	jadx.core.dex.visitors.rename.UserRenames	cutLastPkgPart(java.lang.String)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/visitors/rename/UserRenames.java
+METHOD	jadx.core.dex.visitors.OverrideMethodVisitor	getMethodNodes(jadx.core.dex.nodes.MethodNode,java.util.List<jadx.core.dex.nodes.IMethodDetails>)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/visitors/OverrideMethodVisitor.java
+METHOD	jadx.core.dex.visitors.blocks.BlockExceptionHandler	isHandlersIntersects(jadx.core.dex.trycatch.TryCatchBlockAttr)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/visitors/blocks/BlockExceptionHandler.java
+METHOD	jadx.core.dex.visitors.blocks.DominatorTree	build(java.util.List<jadx.core.dex.nodes.BlockNode>)	null	null	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/dex/visitors/blocks/DominatorTree.java
+PARAMETER	jadx.core.export.TemplateFile	add(java.lang.String,@org.jetbrains.annotations.NotNull java.lang.Object)	value	1	/tmp/projects/jadx/jadx-core/src/main/java/jadx/core/export/TemplateFile.java
