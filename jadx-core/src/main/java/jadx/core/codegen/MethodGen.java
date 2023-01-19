@@ -50,6 +50,7 @@ import jadx.core.utils.exceptions.JadxOverflowException;
 import static jadx.core.codegen.MethodGen.FallbackOption.BLOCK_DUMP;
 import static jadx.core.codegen.MethodGen.FallbackOption.COMMENTED_DUMP;
 import static jadx.core.codegen.MethodGen.FallbackOption.FALLBACK_MODE;
+import jadx.core.NullUnmarked;
 
 public class MethodGen {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodGen.class);
@@ -552,7 +553,7 @@ public class MethodGen {
 		return new MethodGen(clsGen, mth);
 	}
 
-	public static String getLabelName(@Nullable BlockNode block) {
+	@NullUnmarked public static String getLabelName(@Nullable BlockNode block) {
 		return String.format("L%d", block.getId());
 	}
 

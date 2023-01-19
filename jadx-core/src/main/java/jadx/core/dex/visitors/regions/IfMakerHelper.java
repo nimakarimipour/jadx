@@ -28,6 +28,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 import static jadx.core.dex.visitors.regions.RegionMaker.isEqualPaths;
 import static jadx.core.dex.visitors.regions.RegionMaker.isEqualReturnBlocks;
 import static jadx.core.utils.BlockUtils.isPathExists;
+import jadx.core.NullUnmarked;
 
 public class IfMakerHelper {
 	private static final Logger LOG = LoggerFactory.getLogger(IfMakerHelper.class);
@@ -48,7 +49,7 @@ public class IfMakerHelper {
 		return info;
 	}
 
-	static IfInfo searchNestedIf(@Nullable IfInfo info) {
+	@NullUnmarked static IfInfo searchNestedIf(@Nullable IfInfo info) {
 		IfInfo next = mergeNestedIfNodes(info);
 		if (next != null) {
 			return next;
@@ -56,7 +57,7 @@ public class IfMakerHelper {
 		return info;
 	}
 
-	@Nullable static IfInfo restructureIf(MethodNode mth, BlockNode block, @Nullable IfInfo info) {
+	@NullUnmarked @Nullable static IfInfo restructureIf(MethodNode mth, BlockNode block, @Nullable IfInfo info) {
 		BlockNode thenBlock = info.getThenBlock();
 		BlockNode elseBlock = info.getElseBlock();
 
@@ -125,7 +126,7 @@ public class IfMakerHelper {
 		return true;
 	}
 
-	@Nullable static IfInfo mergeNestedIfNodes(@Nullable IfInfo currentIf) {
+	@NullUnmarked @Nullable static IfInfo mergeNestedIfNodes(@Nullable IfInfo currentIf) {
 		BlockNode curThen = currentIf.getThenBlock();
 		BlockNode curElse = currentIf.getElseBlock();
 		if (curThen == curElse) {
@@ -251,7 +252,7 @@ public class IfMakerHelper {
 		}
 	}
 
-	private static boolean checkConditionBranches(@Nullable BlockNode from, @Nullable BlockNode to) {
+	@NullUnmarked private static boolean checkConditionBranches(@Nullable BlockNode from, @Nullable BlockNode to) {
 		return from.getCleanSuccessors().size() == 1 && from.getCleanSuccessors().contains(to);
 	}
 
@@ -274,7 +275,7 @@ public class IfMakerHelper {
 		return result;
 	}
 
-	@Nullable private static BlockNode getBranchBlock(@Nullable BlockNode first, @Nullable BlockNode second, Set<BlockNode> skipBlocks, MethodNode mth) {
+	@NullUnmarked @Nullable private static BlockNode getBranchBlock(@Nullable BlockNode first, @Nullable BlockNode second, Set<BlockNode> skipBlocks, MethodNode mth) {
 		if (first == second) {
 			return second;
 		}
@@ -327,7 +328,7 @@ public class IfMakerHelper {
 		return getNextIfNodeInfo(info, block);
 	}
 
-	private static boolean canSelectNext(IfInfo info, @Nullable BlockNode block) {
+	@NullUnmarked private static boolean canSelectNext(IfInfo info, @Nullable BlockNode block) {
 		if (block.getPredecessors().size() == 1) {
 			return true;
 		}

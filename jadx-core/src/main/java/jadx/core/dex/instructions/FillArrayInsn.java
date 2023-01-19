@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 
 public final class FillArrayInsn extends InsnNode {
 	private final int target;
-	private FillArrayData arrayData;
+	@SuppressWarnings("NullAway.Init") private FillArrayData arrayData;
 
 	public FillArrayInsn(InsnArg arg, int target) {
 		super(InsnType.FILL_ARRAY, 1);

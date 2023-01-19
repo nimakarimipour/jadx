@@ -2,6 +2,7 @@ package jadx.core.xmlgen.entry;
 
 import java.util.List;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class ProtoValue {
 	@Nullable private String parent;
@@ -53,7 +54,7 @@ public class ProtoValue {
 		return this;
 	}
 
-	public List<ProtoValue> getNamedValues() {
+	@NullUnmarked public List<ProtoValue> getNamedValues() {
 		return namedValues;
 	}
 }

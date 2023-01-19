@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
 
 public class SignatureProcessor extends AbstractVisitor {
 
-	private RootNode root;
+	@SuppressWarnings("NullAway.Init") private RootNode root;
 
 	@Override
 	public void init(RootNode root) {

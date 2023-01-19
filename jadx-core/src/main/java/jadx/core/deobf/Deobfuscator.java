@@ -31,6 +31,7 @@ import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.kotlin.KotlinMetadataUtils;
+import jadx.core.NullUnmarked;
 
 public class Deobfuscator {
 	private static final Logger LOG = LoggerFactory.getLogger(Deobfuscator.class);
@@ -161,7 +162,7 @@ public class Deobfuscator {
 		mthIndex = deobfPresets.getMthPresetMap().size();
 	}
 
-	private void preProcess() {
+	@NullUnmarked private void preProcess() {
 		for (ClassNode cls : root.getClasses()) {
 			Collections.addAll(reservedClsNames, cls.getPackage().split("\\."));
 		}
@@ -278,7 +279,7 @@ public class Deobfuscator {
 	 * @return package node object or {@code null} if no package found and <b>create</b> set to
 	 *         {@code false}
 	 */
-	private PackageNode getPackageNode(@Nullable String fullPkgName, boolean create) {
+	@NullUnmarked private PackageNode getPackageNode(@Nullable String fullPkgName, boolean create) {
 		if (fullPkgName.isEmpty() || fullPkgName.equals(CLASS_NAME_SEPARATOR)) {
 			return rootPackage;
 		}
@@ -353,7 +354,7 @@ public class Deobfuscator {
 		return makeClsAlias(cls, true);
 	}
 
-	public String getPkgAlias(ClassNode cls) {
+	@NullUnmarked public String getPkgAlias(ClassNode cls) {
 		ClassInfo classInfo = cls.getClassInfo();
 		if (classInfo.hasAliasPkg()) {
 			// already renamed

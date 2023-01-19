@@ -11,6 +11,7 @@ import jadx.core.dex.nodes.IMethodDetails;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "FixAccessModifiers",
@@ -58,7 +59,7 @@ public class FixAccessModifiers extends AbstractVisitor {
 		}
 	}
 
-	private int fixClassVisibility(ClassNode cls) {
+	@NullUnmarked private int fixClassVisibility(ClassNode cls) {
 		if (cls.getUseIn().isEmpty()) {
 			return -1;
 		}

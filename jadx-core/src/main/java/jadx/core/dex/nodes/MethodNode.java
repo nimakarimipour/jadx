@@ -34,6 +34,7 @@ import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.Utils.lockList;
+import jadx.core.NullUnmarked;
 
 public class MethodNode extends NotificationAttrNode implements IMethodDetails, ILoadable, ICodeNode, Comparable<MethodNode> {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodNode.class);
@@ -60,13 +61,13 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	@Nullable private RegisterArg thisArg;
 	@Nullable private List<RegisterArg> argsList;
 	@Nullable private InsnNode[] instructions;
-	private List<BlockNode> blocks;
+	@SuppressWarnings("NullAway.Init") private List<BlockNode> blocks;
 	private int blocksMaxCId;
 	@Nullable private BlockNode enterBlock;
-	private BlockNode exitBlock;
-	private List<SSAVar> sVars;
-	private List<ExceptionHandler> exceptionHandlers;
-	private List<LoopInfo> loops;
+	@SuppressWarnings("NullAway.Init") private BlockNode exitBlock;
+	@SuppressWarnings("NullAway.Init") private List<SSAVar> sVars;
+	@SuppressWarnings("NullAway.Init") private List<ExceptionHandler> exceptionHandlers;
+	@SuppressWarnings("NullAway.Init") private List<LoopInfo> loops;
 	@Nullable private Region region;
 
 	private List<MethodNode> useIn = Collections.emptyList();
@@ -97,7 +98,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		unload();
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public void unload() {
 		loaded = false;
 		// don't unload retType, argTypes, typeParameters
@@ -295,7 +296,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return noCode;
 	}
 
-	public InsnNode[] getInstructions() {
+	@NullUnmarked public InsnNode[] getInstructions() {
 		return instructions;
 	}
 
@@ -330,7 +331,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return blocksMaxCId++;
 	}
 
-	public BlockNode getEnterBlock() {
+	@NullUnmarked public BlockNode getEnterBlock() {
 		return enterBlock;
 	}
 
@@ -527,7 +528,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		this.accFlags = newAccessFlags;
 	}
 
-	public Region getRegion() {
+	@NullUnmarked public Region getRegion() {
 		return region;
 	}
 

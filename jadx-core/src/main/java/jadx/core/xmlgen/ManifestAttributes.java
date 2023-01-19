@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class ManifestAttributes {
 	private static final Logger LOG = LoggerFactory.getLogger(ManifestAttributes.class);
@@ -55,7 +56,7 @@ public class ManifestAttributes {
 
 	@Nullable private static ManifestAttributes instance;
 
-	public static ManifestAttributes getInstance() {
+	@NullUnmarked public static ManifestAttributes getInstance() {
 		if (instance == null) {
 			try {
 				instance = new ManifestAttributes();

@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 
 public final class TernaryInsn extends InsnNode {
 
-	private IfCondition condition;
+	@SuppressWarnings("NullAway.Init") private IfCondition condition;
 
 	public TernaryInsn(@Nullable IfCondition condition, @Nullable RegisterArg result, InsnArg th, InsnArg els) {
 		this();

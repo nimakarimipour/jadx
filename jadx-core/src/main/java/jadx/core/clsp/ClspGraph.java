@@ -28,9 +28,9 @@ public class ClspGraph {
 	private static final Logger LOG = LoggerFactory.getLogger(ClspGraph.class);
 
 	private final RootNode root;
-	private Map<String, ClspClass> nameMap;
-	private Map<String, Set<String>> superTypesCache;
-	private Map<String, List<String>> implementsCache;
+	@SuppressWarnings("NullAway.Init") private Map<String, ClspClass> nameMap;
+	@SuppressWarnings("NullAway.Init") private Map<String, Set<String>> superTypesCache;
+	@SuppressWarnings("NullAway.Init") private Map<String, List<String>> implementsCache;
 
 	private final Set<String> missingClasses = new HashSet<>();
 

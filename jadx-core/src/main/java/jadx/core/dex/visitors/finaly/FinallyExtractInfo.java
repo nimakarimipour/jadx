@@ -11,6 +11,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.utils.Utils;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class FinallyExtractInfo {
 	private final MethodNode mth;
@@ -68,7 +69,7 @@ public class FinallyExtractInfo {
 		this.curDupSlice = curDupSlice;
 	}
 
-	public List<InsnNode> getCurDupInsns() {
+	@NullUnmarked public List<InsnNode> getCurDupInsns() {
 		return curDupInsns;
 	}
 

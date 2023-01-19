@@ -56,6 +56,7 @@ import static jadx.core.dex.visitors.regions.IfMakerHelper.searchNestedIf;
 import static jadx.core.utils.BlockUtils.followEmptyPath;
 import static jadx.core.utils.BlockUtils.getNextBlock;
 import static jadx.core.utils.BlockUtils.isPathExists;
+import jadx.core.NullUnmarked;
 
 public class RegionMaker {
 	private static final Logger LOG = LoggerFactory.getLogger(RegionMaker.class);
@@ -455,7 +456,7 @@ public class RegionMaker {
 		return true;
 	}
 
-	private boolean insertLoopBreak(RegionStack stack, LoopInfo loop, BlockNode loopExit, Edge exitEdge) {
+	@NullUnmarked private boolean insertLoopBreak(RegionStack stack, LoopInfo loop, BlockNode loopExit, Edge exitEdge) {
 		BlockNode exit = exitEdge.getTarget();
 		Edge insertEdge = null;
 		boolean confirm = false;
@@ -1129,7 +1130,7 @@ public class RegionMaker {
 		return n1 == n2 || isEqualReturnBlocks(n1, n2);
 	}
 
-	public static boolean isEqualReturnBlocks(@Nullable BlockNode b1, @Nullable BlockNode b2) {
+	@NullUnmarked public static boolean isEqualReturnBlocks(@Nullable BlockNode b1, @Nullable BlockNode b2) {
 		if (!b1.isReturnBlock() || !b2.isReturnBlock()) {
 			return false;
 		}

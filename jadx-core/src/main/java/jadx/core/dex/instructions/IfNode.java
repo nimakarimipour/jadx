@@ -19,8 +19,8 @@ public class IfNode extends GotoNode {
 
 	protected IfOp op;
 
-	private BlockNode thenBlock;
-	private BlockNode elseBlock;
+	@SuppressWarnings("NullAway.Init") private BlockNode thenBlock;
+	@SuppressWarnings("NullAway.Init") private BlockNode elseBlock;
 
 	public IfNode(InsnData insn, IfOp op) {
 		super(InsnType.IF, insn.getTarget(), 2);

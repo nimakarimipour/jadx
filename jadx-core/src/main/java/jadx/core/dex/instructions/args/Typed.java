@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 
 public abstract class Typed extends AttrNode {
 
-	protected ArgType type;
+	@SuppressWarnings("NullAway.Init") protected ArgType type;
 
 	public ArgType getType() {
 		return type;

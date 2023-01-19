@@ -28,6 +28,7 @@ import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.dex.visitors.ProcessInstructionsVisitor.getNextInsnOffset;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "Attach Try/Catch Visitor",
@@ -64,7 +65,7 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void markTryBounds(InsnNode[] insnByOffset, ITry aTry, CatchAttr catchAttr) {
+	@NullUnmarked private static void markTryBounds(InsnNode[] insnByOffset, ITry aTry, CatchAttr catchAttr) {
 		int offset = aTry.getStartOffset();
 		int end = aTry.getEndOffset();
 

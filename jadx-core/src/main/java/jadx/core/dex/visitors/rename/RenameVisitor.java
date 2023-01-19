@@ -25,6 +25,7 @@ import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.dex.visitors.AbstractVisitor;
+import jadx.core.NullUnmarked;
 
 public class RenameVisitor extends AbstractVisitor {
 	private static final Pattern ANONYMOUS_CLASS_PATTERN = Pattern.compile("^\\d+$");
@@ -112,7 +113,7 @@ public class RenameVisitor extends AbstractVisitor {
 		checkPackage(deobfuscator, cls, classInfo, args);
 	}
 
-	private static void checkPackage(Deobfuscator deobfuscator, ClassNode cls, ClassInfo classInfo, JadxArgs args) {
+	@NullUnmarked private static void checkPackage(Deobfuscator deobfuscator, ClassNode cls, ClassInfo classInfo, JadxArgs args) {
 		if (classInfo.isInner()) {
 			return;
 		}

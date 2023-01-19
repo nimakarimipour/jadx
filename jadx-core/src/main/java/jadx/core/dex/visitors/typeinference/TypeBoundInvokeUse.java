@@ -5,6 +5,7 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.RootNode;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 /**
  * Special dynamic bound for invoke with generics.
@@ -33,7 +34,7 @@ public final class TypeBoundInvokeUse implements ITypeBoundDynamic {
 		return getArgType(updateInfo.getType(invokeNode.getInstanceArg()), updateInfo.getType(arg));
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public ArgType getType() {
 		return getArgType(invokeNode.getInstanceArg().getType(), arg.getType());
 	}

@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import jadx.core.codegen.TypeGen;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public final class LiteralArg extends InsnArg {
 
@@ -16,7 +17,7 @@ public final class LiteralArg extends InsnArg {
 		return new LiteralArg(value, fixLiteralType(value, type));
 	}
 
-	@Nullable private static ArgType fixLiteralType(long value, @Nullable ArgType type) {
+	@NullUnmarked @Nullable private static ArgType fixLiteralType(long value, @Nullable ArgType type) {
 		if (value == 0 || type.isTypeKnown() || type.contains(PrimitiveType.LONG) || type.contains(PrimitiveType.DOUBLE)) {
 			return type;
 		}

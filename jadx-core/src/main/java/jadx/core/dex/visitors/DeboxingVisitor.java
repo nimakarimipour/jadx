@@ -24,6 +24,7 @@ import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 /**
  * Remove primitives boxing
@@ -83,7 +84,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 		}
 	}
 
-	@Nullable private InsnNode checkForReplace(InvokeNode insnNode) {
+	@NullUnmarked @Nullable private InsnNode checkForReplace(InvokeNode insnNode) {
 		if (insnNode.getInvokeType() != InvokeType.STATIC
 				|| insnNode.getResult() == null) {
 			return null;

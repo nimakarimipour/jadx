@@ -27,6 +27,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.Utils;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class NameGen {
 
@@ -173,7 +174,7 @@ public class NameGen {
 		return makeNameForType(var.getType());
 	}
 
-	private String makeNameForType(@Nullable ArgType type) {
+	@NullUnmarked private String makeNameForType(@Nullable ArgType type) {
 		if (type.isPrimitive()) {
 			return type.getPrimitiveType().getShortName().toLowerCase();
 		}

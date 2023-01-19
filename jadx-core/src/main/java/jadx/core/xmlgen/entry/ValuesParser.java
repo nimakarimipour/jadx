@@ -13,11 +13,12 @@ import jadx.core.utils.android.TextResMapFile;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.ParserConstants;
 import jadx.core.xmlgen.XmlGenUtils;
+import jadx.core.NullUnmarked;
 
 public class ValuesParser extends ParserConstants {
 	private static final Logger LOG = LoggerFactory.getLogger(ValuesParser.class);
 
-	private static Map<Integer, String> androidResMap;
+	@SuppressWarnings("NullAway.Init") private static Map<Integer, String> androidResMap;
 
 	@Nullable private final String[] strings;
 	private final Map<Integer, String> resMap;
@@ -99,7 +100,7 @@ public class ValuesParser extends ParserConstants {
 		return decodeValue(dataType, data);
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public String decodeValue(int dataType, int data) {
 		switch (dataType) {
 			case TYPE_NULL:

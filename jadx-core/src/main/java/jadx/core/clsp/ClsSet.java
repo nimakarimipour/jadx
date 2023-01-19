@@ -38,6 +38,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.files.FileUtils;
+import jadx.core.NullUnmarked;
 
 /**
  * Classes list for import into classpath graph
@@ -72,7 +73,7 @@ public class ClsSet {
 		PRIMITIVE
 	}
 
-	private ClspClass[] classes;
+	@SuppressWarnings("NullAway.Init") private ClspClass[] classes;
 
 	public void loadFromClstFile() throws IOException, DecodeException {
 		long startTime = System.currentTimeMillis();
@@ -162,7 +163,7 @@ public class ClsSet {
 		return getCls(clsType.getObject(), names);
 	}
 
-	private static ClspClass getCls(String fullName, Map<String, ClspClass> names) {
+	@NullUnmarked private static ClspClass getCls(String fullName, Map<String, ClspClass> names) {
 		ClspClass cls = names.get(fullName);
 		if (cls == null) {
 			LOG.debug("Class not found: {}", fullName);
@@ -414,7 +415,7 @@ public class ClsSet {
 		return arr;
 	}
 
-	private ArgType readArgType(DataInputStream in) throws IOException {
+	@NullUnmarked private ArgType readArgType(DataInputStream in) throws IOException {
 		int ordinal = in.readByte();
 		if (ordinal == -1) {
 			return null;

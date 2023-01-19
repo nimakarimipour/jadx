@@ -13,6 +13,7 @@ import jadx.core.utils.InsnUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.BlockUtils.getBlockByOffset;
+import jadx.core.NullUnmarked;
 
 public class SwitchInsn extends TargetInsnNode {
 	private final int dataTarget;
@@ -180,7 +181,7 @@ public class SwitchInsn extends TargetInsnNode {
 		modifiedKeys[i] = newKey;
 	}
 
-	public BlockNode[] getTargetBlocks() {
+	@NullUnmarked public BlockNode[] getTargetBlocks() {
 		return targetBlocks;
 	}
 

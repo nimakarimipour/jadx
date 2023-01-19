@@ -25,6 +25,7 @@ import jadx.core.utils.InsnRemover;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class InsnNode extends LineAttrNode {
 	protected final InsnType insnType;
@@ -88,7 +89,7 @@ public class InsnNode extends LineAttrNode {
 		return insnType;
 	}
 
-	public RegisterArg getResult() {
+	@NullUnmarked public RegisterArg getResult() {
 		return result;
 	}
 

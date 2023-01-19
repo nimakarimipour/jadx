@@ -9,6 +9,7 @@ import jadx.core.utils.StringUtils;
 
 import static jadx.core.utils.StringUtils.notEmpty;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class NameMapper {
 
@@ -129,7 +130,7 @@ public class NameMapper {
 		return true;
 	}
 
-	public static boolean isAllCharsPrintable(@Nullable String str) {
+	@NullUnmarked public static boolean isAllCharsPrintable(@Nullable String str) {
 		int len = str.length();
 		int offset = 0;
 		while (offset < len) {

@@ -57,6 +57,7 @@ import static jadx.core.utils.InsnUtils.checkInsnType;
 import static jadx.core.utils.InsnUtils.getSingleArg;
 import static jadx.core.utils.InsnUtils.getWrappedInsn;
 import jadx.core.Initializer;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "EnumVisitor",
@@ -649,10 +650,10 @@ public class EnumVisitor extends AbstractVisitor {
 		final MethodNode classInitMth;
 		final List<BlockNode> staticBlocks;
 		final List<InsnNode> toRemove = new ArrayList<>();
-		FieldNode valuesField;
-		InsnNode valuesInitInsn;
+		@SuppressWarnings("NullAway.Init") FieldNode valuesField;
+		@SuppressWarnings("NullAway.Init") InsnNode valuesInitInsn;
 
-		public EnumData(ClassNode cls, MethodNode classInitMth, List<BlockNode> staticBlocks) {
+		@NullUnmarked public EnumData(ClassNode cls, MethodNode classInitMth, List<BlockNode> staticBlocks) {
 			this.cls = cls;
 			this.classInitMth = classInitMth;
 			this.staticBlocks = staticBlocks;

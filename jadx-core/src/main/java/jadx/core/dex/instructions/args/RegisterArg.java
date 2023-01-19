@@ -9,6 +9,7 @@ import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class RegisterArg extends InsnArg implements Named {
 	public static final String THIS_ARG_NAME = "this";
@@ -75,7 +76,7 @@ public class RegisterArg extends InsnArg implements Named {
 		return contains(AFlag.IMMUTABLE_TYPE);
 	}
 
-	public SSAVar getSVar() {
+	@NullUnmarked public SSAVar getSVar() {
 		return sVar;
 	}
 

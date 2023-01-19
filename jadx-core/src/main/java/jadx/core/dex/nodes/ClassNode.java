@@ -53,6 +53,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.dex.nodes.ProcessState.LOADED;
 import static jadx.core.dex.nodes.ProcessState.NOT_LOADED;
+import jadx.core.NullUnmarked;
 
 public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeNode, Comparable<ClassNode> {
 	private static final Logger LOG = LoggerFactory.getLogger(ClassNode.class);
@@ -75,7 +76,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	// store smali
 	@Nullable private String smali;
 	// store parent for inner classes or 'this' otherwise
-	private ClassNode parentClass;
+	@SuppressWarnings("NullAway.Init") private ClassNode parentClass;
 
 	private volatile ProcessState state = ProcessState.NOT_LOADED;
 	private LoadStage loadStage = LoadStage.NONE;
@@ -583,7 +584,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		}
 	}
 
-	public void visitSuperTypes(BiConsumer<ArgType, ArgType> consumer) {
+	@NullUnmarked public void visitSuperTypes(BiConsumer<ArgType, ArgType> consumer) {
 		TypeUtils typeUtils = root.getTypeUtils();
 		ArgType thisType = this.getType();
 		if (!superClass.equals(ArgType.OBJECT)) {

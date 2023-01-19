@@ -21,6 +21,7 @@ import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class UserRenames {
 	private static final Logger LOG = LoggerFactory.getLogger(UserRenames.class);
@@ -115,7 +116,7 @@ public class UserRenames {
 				});
 	}
 
-	@NotNull
+	@NullUnmarked @NotNull
 	private static String cutLastPkgPart(@Nullable String pkgFullName) {
 		int lastDotIndex = pkgFullName.lastIndexOf('.');
 		if (lastDotIndex == -1) {
@@ -124,7 +125,7 @@ public class UserRenames {
 		return pkgFullName.substring(0, lastDotIndex);
 	}
 
-	private static String rebuildPkgMiddle(@Nullable String aliasPkg, String renameOriginPkg, String newName) {
+	@NullUnmarked private static String rebuildPkgMiddle(@Nullable String aliasPkg, String renameOriginPkg, String newName) {
 		String[] aliasParts = aliasPkg.split("\\.");
 		String[] renameParts = renameOriginPkg.split("\\.");
 		aliasParts[renameParts.length - 1] = newName;

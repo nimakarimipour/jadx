@@ -27,6 +27,7 @@ import jadx.core.utils.Utils;
 
 import static jadx.core.utils.Utils.isEmpty;
 import static jadx.core.utils.Utils.notEmpty;
+import jadx.core.NullUnmarked;
 
 public class TypeUtils {
 	private final RootNode root;
@@ -278,7 +279,7 @@ public class TypeUtils {
 		return null;
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public ArgType replaceTypeVariablesUsingMap(@Nullable ArgType replaceType, Map<ArgType, ArgType> replaceMap) {
 		if (replaceMap.isEmpty()) {
 			return null;

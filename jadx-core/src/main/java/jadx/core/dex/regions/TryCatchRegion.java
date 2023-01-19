@@ -16,6 +16,7 @@ import jadx.core.dex.trycatch.TryCatchBlockAttr;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.CodegenException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public final class TryCatchRegion extends AbstractRegion implements IBranchRegion {
 
@@ -53,7 +54,7 @@ public final class TryCatchRegion extends AbstractRegion implements IBranchRegio
 		return catchRegions;
 	}
 
-	public TryCatchBlockAttr getTryCatchBlock() {
+	@NullUnmarked public TryCatchBlockAttr getTryCatchBlock() {
 		return tryCatchBlock;
 	}
 

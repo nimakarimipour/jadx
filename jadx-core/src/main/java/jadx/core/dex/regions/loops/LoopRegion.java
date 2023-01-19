@@ -18,6 +18,7 @@ import jadx.core.dex.regions.conditions.IfCondition;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.exceptions.CodegenException;
+import jadx.core.NullUnmarked;
 
 public final class LoopRegion extends ConditionRegion {
 
@@ -53,7 +54,7 @@ public final class LoopRegion extends ConditionRegion {
 		return header == null;
 	}
 
-	public IRegion getBody() {
+	@NullUnmarked public IRegion getBody() {
 		return body;
 	}
 
@@ -75,7 +76,7 @@ public final class LoopRegion extends ConditionRegion {
 	/**
 	 * Check if pre-conditions can be inlined into loop condition
 	 */
-	public boolean checkPreCondition() {
+	@NullUnmarked public boolean checkPreCondition() {
 		List<InsnNode> insns = preCondition.getInstructions();
 		if (insns.isEmpty()) {
 			return true;

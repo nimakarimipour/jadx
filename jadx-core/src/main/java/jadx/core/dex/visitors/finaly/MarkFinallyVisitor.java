@@ -32,6 +32,7 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.Utils;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "MarkFinallyVisitor",
@@ -377,7 +378,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 	/**
 	 * 'Finally' instructions can start in the middle of the first block.
 	 */
-	@Nullable private static InsnsSlice isStartBlock(BlockNode dupBlock, @Nullable BlockNode finallyBlock, FinallyExtractInfo extractInfo) {
+	@NullUnmarked @Nullable private static InsnsSlice isStartBlock(BlockNode dupBlock, @Nullable BlockNode finallyBlock, FinallyExtractInfo extractInfo) {
 		extractInfo.setCurDupSlice(null);
 		List<InsnNode> dupInsns = dupBlock.getInstructions();
 		List<InsnNode> finallyInsns = finallyBlock.getInstructions();
@@ -496,7 +497,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private static List<BlockNode> getSuccessorsWithoutLoop(@Nullable BlockNode block) {
+	@NullUnmarked private static List<BlockNode> getSuccessorsWithoutLoop(@Nullable BlockNode block) {
 		if (block.contains(AFlag.LOOP_END)) {
 			return block.getCleanSuccessors();
 		}

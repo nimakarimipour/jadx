@@ -21,6 +21,7 @@ import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.entry.ValuesParser;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 /*
  * TODO:
@@ -40,19 +41,19 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	private static final boolean ATTR_NEW_LINE = false;
 
 	private final Map<Integer, String> resNames;
-	private Map<String, String> nsMap;
-	private Set<String> nsMapGenerated;
+	@SuppressWarnings("NullAway.Init") private Map<String, String> nsMap;
+	@SuppressWarnings("NullAway.Init") private Set<String> nsMapGenerated;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
-	private ICodeWriter writer;
-	private String[] strings;
+	@SuppressWarnings("NullAway.Init") private ICodeWriter writer;
+	@SuppressWarnings("NullAway.Init") private String[] strings;
 	private String currentTag = "ERROR";
 	private boolean firstElement;
-	private ValuesParser valuesParser;
+	@SuppressWarnings("NullAway.Init") private ValuesParser valuesParser;
 	private boolean isLastEnd = true;
 	private boolean isOneLine = true;
 	private int namespaceDepth = 0;
-	private int[] resourceIds;
+	@SuppressWarnings("NullAway.Init") private int[] resourceIds;
 
 	private final RootNode rootNode;
 	@Nullable private String appPackageName;
@@ -69,7 +70,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	public synchronized ICodeInfo parse(InputStream inputStream) throws IOException {
+	@NullUnmarked public synchronized ICodeInfo parse(InputStream inputStream) throws IOException {
 		is = new ParserStream(inputStream);
 		if (!isBinaryXml()) {
 			return ResourcesLoader.loadToCodeWriter(inputStream);
@@ -386,7 +387,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return "NOT_FOUND_STR_0x" + Integer.toHexString(strId);
 	}
 
-	private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
+	@NullUnmarked private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
 			@Nullable String shortNsName, String attrName) {
 		if (attrValDataType == TYPE_REFERENCE) {
 			// reference custom processing

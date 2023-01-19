@@ -9,6 +9,7 @@ import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public final class IfInfo {
 	private final MethodNode mth;
@@ -80,7 +81,7 @@ public final class IfInfo {
 		return thenBlock;
 	}
 
-	public BlockNode getElseBlock() {
+	@NullUnmarked public BlockNode getElseBlock() {
 		return elseBlock;
 	}
 

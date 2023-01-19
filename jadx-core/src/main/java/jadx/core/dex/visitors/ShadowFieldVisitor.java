@@ -23,6 +23,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "ShadowFieldVisitor",
@@ -131,7 +132,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void processInsn(MethodNode mth, InsnNode insn, @Nullable Map<String, FieldFixInfo> fixInfoMap) {
+	@NullUnmarked private static void processInsn(MethodNode mth, InsnNode insn, @Nullable Map<String, FieldFixInfo> fixInfoMap) {
 		FieldInfo fieldInfo = getFieldInfo(insn);
 		if (fieldInfo == null) {
 			return;

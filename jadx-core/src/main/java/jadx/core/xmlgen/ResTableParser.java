@@ -27,6 +27,7 @@ import jadx.core.xmlgen.entry.RawNamedValue;
 import jadx.core.xmlgen.entry.RawValue;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import jadx.core.xmlgen.entry.ValuesParser;
+import jadx.core.NullUnmarked;
 
 public class ResTableParser extends CommonBinaryParser implements IResParser {
 	private static final Logger LOG = LoggerFactory.getLogger(ResTableParser.class);
@@ -54,7 +55,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 			return name;
 		}
 
-		public String[] getTypeStrings() {
+		@NullUnmarked public String[] getTypeStrings() {
 			return typeStrings;
 		}
 
@@ -287,7 +288,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		}
 	}
 
-	private void parseEntry(PackageChunk pkg, int typeId, int entryId, String config) throws IOException {
+	@NullUnmarked private void parseEntry(PackageChunk pkg, int typeId, int entryId, String config) throws IOException {
 		int size = is.readInt16();
 		int flags = is.readInt16();
 		int key = is.readInt32();
