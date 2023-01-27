@@ -36,7 +36,7 @@ public class CodeRenameVisitor extends AbstractVisitor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CodeRenameVisitor.class);
 
-	private Map<String, List<ICodeRename>> clsRenamesMap;
+	@Nullable private Map<String, List<ICodeRename>> clsRenamesMap;
 
 	@Override
 	public void init(RootNode root) throws JadxException {

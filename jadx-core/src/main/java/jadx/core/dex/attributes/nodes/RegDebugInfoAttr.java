@@ -5,6 +5,7 @@ import java.util.Objects;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.instructions.args.ArgType;
+import javax.annotation.Nullable;
 
 public class RegDebugInfoAttr implements IJadxAttribute {
 

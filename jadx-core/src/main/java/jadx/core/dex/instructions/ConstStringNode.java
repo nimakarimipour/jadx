@@ -2,6 +2,7 @@ package jadx.core.dex.instructions;
 
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.StringUtils;
+import javax.annotation.Nullable;
 
 public final class ConstStringNode extends InsnNode {
 

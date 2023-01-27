@@ -1,6 +1,7 @@
 package jadx.core.deobf;
 
 import jadx.core.dex.nodes.ClassNode;
+import javax.annotation.Nullable;
 
 class DeobfClsInfo {
 	private final Deobfuscator deobfuscator;

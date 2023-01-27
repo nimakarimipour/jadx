@@ -6,6 +6,7 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.RootNode;
+import javax.annotation.Nullable;
 
 /**
  * Dynamic bound for instance field get of generic type.

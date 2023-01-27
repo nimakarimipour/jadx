@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.InsnNode;
+import javax.annotation.Nullable;
 
 public class FilledNewArrayNode extends InsnNode {
 

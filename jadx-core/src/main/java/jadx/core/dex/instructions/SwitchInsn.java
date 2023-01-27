@@ -22,7 +22,7 @@ public class SwitchInsn extends TargetInsnNode {
 
 	private int def; // next instruction
 
-	private Object[] modifiedKeys;
+	@Nullable private Object[] modifiedKeys;
 	private BlockNode[] targetBlocks;
 	private BlockNode defTargetBlock;
 
@@ -167,7 +167,7 @@ public class SwitchInsn extends TargetInsnNode {
 		return getSwitchData().getKeys()[i];
 	}
 
-	public void modifyKey(int i, Object newKey) {
+	public void modifyKey(int i, @Nullable Object newKey) {
 		if (modifiedKeys == null) {
 			int[] keys = getKeys();
 			int caseCount = keys.length;

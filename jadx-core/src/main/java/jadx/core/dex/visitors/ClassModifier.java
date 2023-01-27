@@ -37,6 +37,7 @@ import jadx.core.dex.visitors.usage.UsageInfoVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxException;
+import javax.annotation.Nullable;
 
 @JadxVisitor(
 		name = "ClassModifier",
@@ -392,7 +393,7 @@ public class ClassModifier extends AbstractVisitor {
 		return map;
 	}
 
-	private static InsnNode getParentInsnSkipMove(RegisterArg arg) {
+	@Nullable private static InsnNode getParentInsnSkipMove(RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		if (sVar.getUseCount() != 1) {
 			return null;

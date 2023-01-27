@@ -7,6 +7,7 @@ import jadx.core.dex.attributes.AType;
 import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.utils.Utils;
+import javax.annotation.Nullable;
 
 public interface IMethodDetails extends IJadxAttribute {
 
