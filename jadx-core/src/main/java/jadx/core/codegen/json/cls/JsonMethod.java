@@ -1,15 +1,16 @@
 package jadx.core.codegen.json.cls;
 
 import java.util.List;
+import javax.annotation.Nullable;
 
 public class JsonMethod extends JsonNode {
-	private String signature;
-	private String returnType;
-	private List<String> arguments;
-	private List<JsonCodeLine> lines;
-	private String offset;
+	@Nullable private String signature;
+	@Nullable private String returnType;
+	@Nullable private List<String> arguments;
+	@Nullable private List<JsonCodeLine> lines;
+	@Nullable private String offset;
 
-	public String getSignature() {
+	@Nullable public String getSignature() {
 		return signature;
 	}
 
@@ -17,7 +18,7 @@ public class JsonMethod extends JsonNode {
 		this.signature = signature;
 	}
 
-	public String getReturnType() {
+	@Nullable public String getReturnType() {
 		return returnType;
 	}
 
@@ -25,7 +26,7 @@ public class JsonMethod extends JsonNode {
 		this.returnType = returnType;
 	}
 
-	public List<String> getArguments() {
+	@Nullable public List<String> getArguments() {
 		return arguments;
 	}
 
@@ -33,7 +34,7 @@ public class JsonMethod extends JsonNode {
 		this.arguments = arguments;
 	}
 
-	public List<JsonCodeLine> getLines() {
+	@Nullable public List<JsonCodeLine> getLines() {
 		return lines;
 	}
 
@@ -41,7 +42,7 @@ public class JsonMethod extends JsonNode {
 		this.lines = lines;
 	}
 
-	public String getOffset() {
+	@Nullable public String getOffset() {
 		return offset;
 	}
 

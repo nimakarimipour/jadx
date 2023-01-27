@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import jadx.core.xmlgen.entry.ResourceEntry;
+import javax.annotation.Nullable;
 
 public class ResourceStorage {
 	private static final Comparator<ResourceEntry> RES_ENTRY_NAME_COMPARATOR = Comparator
@@ -16,7 +17,7 @@ public class ResourceStorage {
 			.thenComparing(ResourceEntry::getKeyName);
 
 	private final List<ResourceEntry> list = new ArrayList<>();
-	private String appPackage;
+	@Nullable private String appPackage;
 
 	/**
 	 * Names in one config and type must be unique
@@ -49,11 +50,11 @@ public class ResourceStorage {
 		renames.put(id, keyName);
 	}
 
-	public String getRename(int id) {
+	@Nullable public String getRename(int id) {
 		return renames.get(id);
 	}
 
-	public ResourceEntry searchEntryWithSameName(ResourceEntry resourceEntry) {
+	@Nullable public ResourceEntry searchEntryWithSameName(ResourceEntry resourceEntry) {
 		return uniqNameEntries.get(resourceEntry);
 	}
 
@@ -67,7 +68,7 @@ public class ResourceStorage {
 		return list;
 	}
 
-	public String getAppPackage() {
+	@Nullable public String getAppPackage() {
 		return appPackage;
 	}
 

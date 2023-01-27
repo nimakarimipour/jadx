@@ -69,7 +69,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 	private final boolean useRawResName;
 	private final RootNode root;
 	private final ResourceStorage resStorage = new ResourceStorage();
-	private String[] strings;
+	@Nullable private String[] strings;
 
 	public ResTableParser(RootNode root) {
 		this(root, false);
@@ -512,7 +512,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		return resStorage;
 	}
 
-	@Override
+	@Nullable @Override
 	public String[] getStrings() {
 		return strings;
 	}

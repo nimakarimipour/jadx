@@ -22,6 +22,7 @@ import jadx.core.dex.visitors.blocks.BlockSplitter;
 import jadx.core.dex.visitors.ssa.SSATransform;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.exceptions.JadxException;
+import javax.annotation.Nullable;
 
 @JadxVisitor(
 		name = "Debug Info Parser",

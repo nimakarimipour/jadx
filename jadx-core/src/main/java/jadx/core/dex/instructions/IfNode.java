@@ -13,13 +13,14 @@ import jadx.core.utils.InsnUtils;
 
 import static jadx.core.utils.BlockUtils.getBlockByOffset;
 import static jadx.core.utils.BlockUtils.selectOther;
+import javax.annotation.Nullable;
 
 public class IfNode extends GotoNode {
 
 	protected IfOp op;
 
-	private BlockNode thenBlock;
-	private BlockNode elseBlock;
+	@Nullable private BlockNode thenBlock;
+	@Nullable private BlockNode elseBlock;
 
 	public IfNode(InsnData insn, IfOp op) {
 		super(InsnType.IF, insn.getTarget(), 2);
@@ -111,11 +112,11 @@ public class IfNode extends GotoNode {
 		return replaced;
 	}
 
-	public BlockNode getThenBlock() {
+	@Nullable public BlockNode getThenBlock() {
 		return thenBlock;
 	}
 
-	public BlockNode getElseBlock() {
+	@Nullable public BlockNode getElseBlock() {
 		return elseBlock;
 	}
 

@@ -2,6 +2,7 @@ package jadx.core.utils.exceptions;
 
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.MethodNode;
+import javax.annotation.Nullable;
 
 public class CodegenException extends JadxException {
 

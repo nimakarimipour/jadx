@@ -13,6 +13,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 
 import static jadx.core.utils.Utils.notEmpty;
+import javax.annotation.Nullable;
 
 public class UsageInfo {
 	private final RootNode root;
@@ -35,7 +36,7 @@ public class UsageInfo {
 		mthUsage.visit((mth, methods) -> mth.setUseIn(sortedList(methods)));
 	}
 
-	public void clsUse(ClassNode cls, ArgType useType) {
+	public void clsUse(ClassNode cls, @Nullable ArgType useType) {
 		processType(useType, depCls -> clsUse(cls, depCls));
 	}
 
@@ -78,7 +79,7 @@ public class UsageInfo {
 		clsUse(mth, useFld.getType());
 	}
 
-	private void processType(ArgType type, Consumer<ClassNode> consumer) {
+	private void processType(@Nullable ArgType type, Consumer<ClassNode> consumer) {
 		if (type == null) {
 			return;
 		}

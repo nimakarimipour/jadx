@@ -1,10 +1,11 @@
 package jadx.core.codegen.json.mapping;
+import javax.annotation.Nullable;
 
 public class JsonFieldMapping {
-	private String name;
-	private String alias;
+	@Nullable private String name;
+	@Nullable private String alias;
 
-	public String getName() {
+	@Nullable public String getName() {
 		return name;
 	}
 
@@ -12,7 +13,7 @@ public class JsonFieldMapping {
 		this.name = name;
 	}
 
-	public String getAlias() {
+	@Nullable public String getAlias() {
 		return alias;
 	}
 

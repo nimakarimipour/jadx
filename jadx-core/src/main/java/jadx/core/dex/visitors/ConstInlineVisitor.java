@@ -25,6 +25,7 @@ import jadx.core.dex.visitors.ssa.SSATransform;
 import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxException;
+import javax.annotation.Nullable;
 
 @JadxVisitor(
 		name = "Constants Inline",

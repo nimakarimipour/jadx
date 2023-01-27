@@ -25,6 +25,7 @@ import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.dex.visitors.AbstractVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 public class BlockSplitter extends AbstractVisitor {
 

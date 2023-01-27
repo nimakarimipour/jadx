@@ -11,7 +11,7 @@ import jadx.core.utils.InsnUtils;
 
 public class InvokeCustomNode extends InvokeNode {
 	private MethodInfo implMthInfo;
-	private MethodHandleType handleType;
+	@Nullable private MethodHandleType handleType;
 	private InsnNode callInsn;
 	private boolean inlineInsn;
 	private boolean useRef;
@@ -60,11 +60,11 @@ public class InvokeCustomNode extends InvokeNode {
 		this.implMthInfo = implMthInfo;
 	}
 
-	public MethodHandleType getHandleType() {
+	@Nullable public MethodHandleType getHandleType() {
 		return handleType;
 	}
 
-	public void setHandleType(MethodHandleType handleType) {
+	public void setHandleType(@Nullable MethodHandleType handleType) {
 		this.handleType = handleType;
 	}
 

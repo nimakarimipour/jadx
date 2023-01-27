@@ -4,6 +4,7 @@ import jadx.core.dex.instructions.BaseInvokeNode;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.RootNode;
+import javax.annotation.Nullable;
 
 /**
  * Special dynamic bound for invoke with generics.

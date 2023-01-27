@@ -25,6 +25,7 @@ import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 @JadxVisitor(
 		name = "SSATransform",
@@ -408,7 +409,7 @@ public class SSATransform extends AbstractVisitor {
 		return true;
 	}
 
-	private static void markThisArgs(RegisterArg thisArg) {
+	private static void markThisArgs(@Nullable RegisterArg thisArg) {
 		if (thisArg != null) {
 			markOneArgAsThis(thisArg);
 			thisArg.getSVar().getUseList().forEach(SSATransform::markOneArgAsThis);

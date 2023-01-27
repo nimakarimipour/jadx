@@ -56,6 +56,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 import static jadx.core.utils.InsnUtils.checkInsnType;
 import static jadx.core.utils.InsnUtils.getSingleArg;
 import static jadx.core.utils.InsnUtils.getWrappedInsn;
+import jadx.core.Initializer;
 
 @JadxVisitor(
 		name = "EnumVisitor",
@@ -76,7 +77,7 @@ public class EnumVisitor extends AbstractVisitor {
 	private MethodInfo enumValueOfMth;
 	private MethodInfo cloneMth;
 
-	@Override
+	@Initializer @Override
 	public void init(RootNode root) {
 		enumValueOfMth = MethodInfo.fromDetails(
 				root,
@@ -274,7 +275,7 @@ public class EnumVisitor extends AbstractVisitor {
 		}
 	}
 
-	private List<EnumField> extractEnumFieldsFromInvoke(EnumData enumData, InvokeNode invokeNode) {
+	@Nullable private List<EnumField> extractEnumFieldsFromInvoke(EnumData enumData, InvokeNode invokeNode) {
 		MethodInfo callMth = invokeNode.getCallMth();
 		MethodNode valuesMth = enumData.cls.root().resolveMethod(callMth);
 		if (valuesMth == null || valuesMth.isVoidReturn()) {
@@ -293,7 +294,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return enumFields;
 	}
 
-	private BlockInsnPair getValuesInitInsn(EnumData data) {
+	@Nullable private BlockInsnPair getValuesInitInsn(EnumData data) {
 		FieldInfo searchField = data.valuesField.getFieldInfo();
 		for (BlockNode blockNode : data.staticBlocks) {
 			for (InsnNode insn : blockNode.getInstructions()) {
@@ -309,7 +310,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return null;
 	}
 
-	private List<EnumField> extractEnumFieldsFromFilledArray(EnumData enumData, InsnNode arrFillInsn) {
+	@Nullable private List<EnumField> extractEnumFieldsFromFilledArray(EnumData enumData, InsnNode arrFillInsn) {
 		List<EnumField> enumFields = new ArrayList<>();
 		for (InsnArg arg : arrFillInsn.getArguments()) {
 			EnumField field = null;
@@ -328,7 +329,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return enumFields;
 	}
 
-	private EnumField processEnumFieldByWrappedInsn(EnumData data, InsnNode wrappedInsn) {
+	@Nullable private EnumField processEnumFieldByWrappedInsn(EnumData data, InsnNode wrappedInsn) {
 		if (wrappedInsn.getType() == InsnType.SGET) {
 			return processEnumFieldByField(data, wrappedInsn);
 		}
@@ -415,7 +416,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return enumFieldNode;
 	}
 
-	@SuppressWarnings("StatementWithEmptyBody")
+	@Nullable @SuppressWarnings("StatementWithEmptyBody")
 	private EnumField createEnumFieldByConstructor(ClassNode cls, FieldNode enumFieldNode, ConstructorInsn co) {
 		// usually constructor signature is '<init>(Ljava/lang/String;I)V'.
 		// sometimes for one field enum second arg can be omitted
@@ -610,7 +611,7 @@ public class EnumVisitor extends AbstractVisitor {
 		}
 	}
 
-	private ConstructorInsn getConstructorInsn(InsnNode insn) {
+	@Nullable private ConstructorInsn getConstructorInsn(InsnNode insn) {
 		if (insn.getArgsCount() != 1) {
 			return null;
 		}
@@ -625,14 +626,14 @@ public class EnumVisitor extends AbstractVisitor {
 	}
 
 	@Nullable
-	private ConstructorInsn castConstructorInsn(InsnNode coCandidate) {
+	private ConstructorInsn castConstructorInsn(@Nullable InsnNode coCandidate) {
 		if (coCandidate != null && coCandidate.getType() == InsnType.CONSTRUCTOR) {
 			return (ConstructorInsn) coCandidate;
 		}
 		return null;
 	}
 
-	private String getConstString(RootNode root, InsnArg arg) {
+	@Nullable private String getConstString(RootNode root, InsnArg arg) {
 		if (arg.isInsnWrap()) {
 			InsnNode constInsn = ((InsnWrapArg) arg).getWrapInsn();
 			Object constValue = InsnUtils.getConstValueByInsn(root, constInsn);

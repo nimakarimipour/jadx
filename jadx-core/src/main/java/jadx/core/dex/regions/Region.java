@@ -9,12 +9,13 @@ import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.IRegion;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.CodegenException;
+import javax.annotation.Nullable;
 
 public final class Region extends AbstractRegion {
 
 	private final List<IContainer> blocks;
 
-	public Region(IRegion parent) {
+	public Region(@Nullable IRegion parent) {
 		super(parent);
 		this.blocks = new ArrayList<>(1);
 	}

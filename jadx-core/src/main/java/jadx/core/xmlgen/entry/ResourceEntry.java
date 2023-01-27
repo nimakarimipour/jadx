@@ -1,6 +1,7 @@
 package jadx.core.xmlgen.entry;
 
 import java.util.List;
+import javax.annotation.Nullable;
 
 public final class ResourceEntry {
 
@@ -11,9 +12,9 @@ public final class ResourceEntry {
 	private final String config;
 
 	private int parentRef;
-	private ProtoValue protoValue;
-	private RawValue simpleValue;
-	private List<RawNamedValue> namedValues;
+	@Nullable private ProtoValue protoValue;
+	@Nullable private RawValue simpleValue;
+	@Nullable private List<RawNamedValue> namedValues;
 
 	public ResourceEntry(int id, String pkgName, String typeName, String keyName, String config) {
 		this.id = id;
@@ -64,7 +65,7 @@ public final class ResourceEntry {
 		return parentRef;
 	}
 
-	public ProtoValue getProtoValue() {
+	@Nullable public ProtoValue getProtoValue() {
 		return protoValue;
 	}
 
@@ -72,7 +73,7 @@ public final class ResourceEntry {
 		this.protoValue = protoValue;
 	}
 
-	public RawValue getSimpleValue() {
+	@Nullable public RawValue getSimpleValue() {
 		return simpleValue;
 	}
 
