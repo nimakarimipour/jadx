@@ -6,6 +6,7 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.MethodNode;
+import javax.annotation.Nullable;
 
 final class RenameState {
 	private final MethodNode mth;

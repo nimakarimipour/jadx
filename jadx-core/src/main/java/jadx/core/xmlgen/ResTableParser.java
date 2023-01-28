@@ -36,10 +36,10 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 	private static final class PackageChunk {
 		private final int id;
 		private final String name;
-		private final String[] typeStrings;
-		private final String[] keyStrings;
+		@Nullable private final String[] typeStrings;
+		@Nullable private final String[] keyStrings;
 
-		private PackageChunk(int id, String name, String[] typeStrings, String[] keyStrings) {
+		private PackageChunk(int id, String name, @Nullable String[] typeStrings, @Nullable String[] keyStrings) {
 			this.id = id;
 			this.name = name;
 			this.typeStrings = typeStrings;
@@ -58,7 +58,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 			return typeStrings;
 		}
 
-		public String[] getKeyStrings() {
+		@Nullable public String[] getKeyStrings() {
 			return keyStrings;
 		}
 	}
@@ -69,7 +69,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 	private final boolean useRawResName;
 	private final RootNode root;
 	private final ResourceStorage resStorage = new ResourceStorage();
-	private String[] strings;
+	@Nullable private String[] strings;
 
 	public ResTableParser(RootNode root) {
 		this(root, false);
@@ -512,7 +512,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		return resStorage;
 	}
 
-	@Override
+	@Nullable @Override
 	public String[] getStrings() {
 		return strings;
 	}

@@ -10,6 +10,7 @@ import jadx.core.dex.attributes.AType;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.Utils;
+import javax.annotation.Nullable;
 
 public class TryCatchBlockAttr implements IJadxAttribute {
 
@@ -17,11 +18,11 @@ public class TryCatchBlockAttr implements IJadxAttribute {
 	private final List<ExceptionHandler> handlers;
 	private List<BlockNode> blocks;
 
-	private TryCatchBlockAttr outerTryBlock;
+	@Nullable private TryCatchBlockAttr outerTryBlock;
 	private List<TryCatchBlockAttr> innerTryBlocks = Collections.emptyList();
 	private boolean merged = false;
 
-	private BlockNode topSplitter;
+	@Nullable private BlockNode topSplitter;
 
 	public TryCatchBlockAttr(int id, List<ExceptionHandler> handlers, List<BlockNode> blocks) {
 		this.id = id;
@@ -106,7 +107,7 @@ public class TryCatchBlockAttr implements IJadxAttribute {
 		this.innerTryBlocks.add(inner);
 	}
 
-	public TryCatchBlockAttr getOuterTryBlock() {
+	@Nullable public TryCatchBlockAttr getOuterTryBlock() {
 		return outerTryBlock;
 	}
 

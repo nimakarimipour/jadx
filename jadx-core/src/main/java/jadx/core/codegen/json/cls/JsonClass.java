@@ -3,24 +3,25 @@ package jadx.core.codegen.json.cls;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
+import javax.annotation.Nullable;
 
 public class JsonClass extends JsonNode {
-	@SerializedName("package")
+	@Nullable @SerializedName("package")
 	private String pkg;
-	private String type; // class, interface, enum
-	@SerializedName("extends")
+	@Nullable private String type; // class, interface, enum
+	@Nullable @SerializedName("extends")
 	private String superClass;
-	@SerializedName("implements")
+	@Nullable @SerializedName("implements")
 	private List<String> interfaces;
-	private String dex;
+	@Nullable private String dex;
 
-	private List<JsonField> fields;
-	private List<JsonMethod> methods;
-	private List<JsonClass> innerClasses;
+	@Nullable private List<JsonField> fields;
+	@Nullable private List<JsonMethod> methods;
+	@Nullable private List<JsonClass> innerClasses;
 
-	private List<String> imports;
+	@Nullable private List<String> imports;
 
-	public String getType() {
+	@Nullable public String getType() {
 		return type;
 	}
 
@@ -28,7 +29,7 @@ public class JsonClass extends JsonNode {
 		this.type = type;
 	}
 
-	public String getSuperClass() {
+	@Nullable public String getSuperClass() {
 		return superClass;
 	}
 
@@ -36,7 +37,7 @@ public class JsonClass extends JsonNode {
 		this.superClass = superClass;
 	}
 
-	public List<String> getInterfaces() {
+	@Nullable public List<String> getInterfaces() {
 		return interfaces;
 	}
 
@@ -44,7 +45,7 @@ public class JsonClass extends JsonNode {
 		this.interfaces = interfaces;
 	}
 
-	public List<JsonField> getFields() {
+	@Nullable public List<JsonField> getFields() {
 		return fields;
 	}
 
@@ -52,7 +53,7 @@ public class JsonClass extends JsonNode {
 		this.fields = fields;
 	}
 
-	public List<JsonMethod> getMethods() {
+	@Nullable public List<JsonMethod> getMethods() {
 		return methods;
 	}
 
@@ -60,7 +61,7 @@ public class JsonClass extends JsonNode {
 		this.methods = methods;
 	}
 
-	public List<JsonClass> getInnerClasses() {
+	@Nullable public List<JsonClass> getInnerClasses() {
 		return innerClasses;
 	}
 
@@ -68,7 +69,7 @@ public class JsonClass extends JsonNode {
 		this.innerClasses = innerClasses;
 	}
 
-	public String getPkg() {
+	@Nullable public String getPkg() {
 		return pkg;
 	}
 
@@ -76,7 +77,7 @@ public class JsonClass extends JsonNode {
 		this.pkg = pkg;
 	}
 
-	public String getDex() {
+	@Nullable public String getDex() {
 		return dex;
 	}
 
@@ -84,7 +85,7 @@ public class JsonClass extends JsonNode {
 		this.dex = dex;
 	}
 
-	public List<String> getImports() {
+	@Nullable public List<String> getImports() {
 		return imports;
 	}
 

@@ -28,6 +28,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.input.InsnDataUtils;
+import javax.annotation.Nullable;
 
 public class InsnDecoder {
 	private static final Logger LOG = LoggerFactory.getLogger(InsnDecoder.class);
@@ -658,7 +659,7 @@ public class InsnDecoder {
 		return node;
 	}
 
-	private InsnNode insn(InsnType type, RegisterArg res, InsnArg arg) {
+	private InsnNode insn(InsnType type, @Nullable RegisterArg res, InsnArg arg) {
 		InsnNode node = new InsnNode(type, 1);
 		node.setResult(res);
 		node.addArg(arg);

@@ -20,6 +20,7 @@ import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
+import javax.annotation.Nullable;
 
 public class UserRenames {
 	private static final Logger LOG = LoggerFactory.getLogger(UserRenames.class);

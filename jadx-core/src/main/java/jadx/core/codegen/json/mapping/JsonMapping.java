@@ -1,11 +1,12 @@
 package jadx.core.codegen.json.mapping;
 
 import java.util.List;
+import javax.annotation.Nullable;
 
 public class JsonMapping {
-	private List<JsonClsMapping> classes;
+	@Nullable private List<JsonClsMapping> classes;
 
-	public List<JsonClsMapping> getClasses() {
+	@Nullable public List<JsonClsMapping> getClasses() {
 		return classes;
 	}
 

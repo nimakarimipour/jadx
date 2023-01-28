@@ -16,6 +16,7 @@ import jadx.core.dex.regions.loops.ForLoop;
 import jadx.core.dex.regions.loops.LoopRegion;
 import jadx.core.dex.regions.loops.LoopType;
 import jadx.core.dex.visitors.regions.TracedRegionVisitor;
+import javax.annotation.Nullable;
 
 class CollectUsageRegionVisitor extends TracedRegionVisitor {
 	private final List<RegisterArg> args = new ArrayList<>();

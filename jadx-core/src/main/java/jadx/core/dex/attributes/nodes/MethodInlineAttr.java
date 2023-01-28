@@ -8,6 +8,7 @@ import jadx.core.dex.attributes.AType;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
+import javax.annotation.Nullable;
 
 public class MethodInlineAttr extends PinnedAttribute {
 
@@ -33,14 +34,14 @@ public class MethodInlineAttr extends PinnedAttribute {
 		return INLINE_NOT_NEEDED;
 	}
 
-	private final InsnNode insn;
+	@Nullable private final InsnNode insn;
 
 	/**
 	 * Store method arguments register numbers to allow remap registers
 	 */
-	private final int[] argsRegNums;
+	@Nullable private final int[] argsRegNums;
 
-	private MethodInlineAttr(InsnNode insn, int[] argsRegNums) {
+	private MethodInlineAttr(@Nullable InsnNode insn, @Nullable int[] argsRegNums) {
 		this.insn = insn;
 		this.argsRegNums = argsRegNums;
 	}
@@ -49,11 +50,11 @@ public class MethodInlineAttr extends PinnedAttribute {
 		return insn == null;
 	}
 
-	public InsnNode getInsn() {
+	@Nullable public InsnNode getInsn() {
 		return insn;
 	}
 
-	public int[] getArgsRegNums() {
+	@Nullable public int[] getArgsRegNums() {
 		return argsRegNums;
 	}
 

@@ -523,7 +523,7 @@ public class MethodGen {
 		return false;
 	}
 
-	private static boolean needLabel(InsnNode insn, InsnNode prevInsn) {
+	private static boolean needLabel(InsnNode insn, @Nullable InsnNode prevInsn) {
 		if (insn.contains(AType.EXC_HANDLER)) {
 			return true;
 		}

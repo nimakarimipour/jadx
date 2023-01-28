@@ -179,7 +179,7 @@ public abstract class ArgType {
 			return getPrimitiveType() == type;
 		}
 
-		@Override
+		@Nullable @Override
 		public ArgType selectFirst() {
 			return null;
 		}
@@ -621,7 +621,7 @@ public abstract class ArgType {
 		return false;
 	}
 
-	public ArgType getOuterType() {
+	@Nullable public ArgType getOuterType() {
 		return null;
 	}
 
@@ -920,7 +920,7 @@ public abstract class ArgType {
 	abstract boolean internalEquals(Object obj);
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

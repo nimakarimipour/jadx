@@ -8,6 +8,7 @@ import jadx.core.dex.instructions.ConstStringNode;
 import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 public final class InsnWrapArg extends InsnArg {
 
@@ -27,7 +28,7 @@ public final class InsnWrapArg extends InsnArg {
 	}
 
 	@Override
-	public void setParentInsn(InsnNode parentInsn) {
+	public void setParentInsn(@Nullable InsnNode parentInsn) {
 		if (parentInsn == wrappedInsn) {
 			throw new JadxRuntimeException("Can't wrap instruction info itself: " + parentInsn);
 		}
