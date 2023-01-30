@@ -2,6 +2,7 @@ package jadx.core.dex.instructions;
 
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.StringUtils;
+import javax.annotation.Nullable;
 
 public final class ConstStringNode extends InsnNode {
 
@@ -22,7 +23,7 @@ public final class ConstStringNode extends InsnNode {
 	}
 
 	@Override
-	public boolean isSame(InsnNode obj) {
+	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;
 		}

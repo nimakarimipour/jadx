@@ -16,6 +16,7 @@
 package jadx.core.xmlgen;
 
 import java.util.Arrays;
+import javax.annotation.Nullable;
 
 /**
  * This class defines the basic XML character properties. The data
@@ -906,7 +907,7 @@ public class XMLChar {
 	 * @param name string to check
 	 * @return true if name is a valid Name
 	 */
-	public static boolean isValidName(String name) {
+	public static boolean isValidName(@Nullable String name) {
 		final int length = name.length();
 		if (length == 0) {
 			return false;

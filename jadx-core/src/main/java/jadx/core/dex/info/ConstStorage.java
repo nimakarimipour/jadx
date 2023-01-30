@@ -30,7 +30,7 @@ public class ConstStorage {
 			return values;
 		}
 
-		public FieldNode get(Object key) {
+		@Nullable public FieldNode get(@Nullable Object key) {
 			return values.get(key);
 		}
 
@@ -51,7 +51,7 @@ public class ConstStorage {
 			return false;
 		}
 
-		public boolean contains(Object value) {
+		public boolean contains(@Nullable Object value) {
 			return duplicates.contains(value) || values.containsKey(value);
 		}
 
@@ -110,7 +110,7 @@ public class ConstStorage {
 	}
 
 	@Nullable
-	public FieldNode getConstField(ClassNode cls, Object value, boolean searchGlobal) {
+	public FieldNode getConstField(ClassNode cls, @Nullable Object value, boolean searchGlobal) {
 		if (!replaceEnabled) {
 			return null;
 		}

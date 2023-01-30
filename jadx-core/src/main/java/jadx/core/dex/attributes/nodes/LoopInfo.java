@@ -9,6 +9,7 @@ import jadx.core.dex.attributes.AType;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.Edge;
 import jadx.core.utils.BlockUtils;
+import javax.annotation.Nullable;
 
 public class LoopInfo {
 
@@ -17,7 +18,7 @@ public class LoopInfo {
 	private final Set<BlockNode> loopBlocks;
 
 	private int id;
-	private LoopInfo parentLoop;
+	@Nullable private LoopInfo parentLoop;
 
 	public LoopInfo(BlockNode start, BlockNode end, Set<BlockNode> loopBlocks) {
 		this.start = start;
@@ -83,7 +84,7 @@ public class LoopInfo {
 		this.id = id;
 	}
 
-	public LoopInfo getParentLoop() {
+	@Nullable public LoopInfo getParentLoop() {
 		return parentLoop;
 	}
 

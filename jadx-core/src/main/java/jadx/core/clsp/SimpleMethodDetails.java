@@ -7,6 +7,7 @@ import jadx.api.plugins.input.data.AccessFlags;
 import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.IMethodDetails;
+import javax.annotation.Nullable;
 
 /**
  * Method details build from MethodInfo.
@@ -25,7 +26,7 @@ public class SimpleMethodDetails implements IMethodDetails {
 		return methodInfo;
 	}
 
-	@Override
+	@Nullable @Override
 	public ArgType getReturnType() {
 		return methodInfo.getReturnType();
 	}

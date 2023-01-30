@@ -80,7 +80,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static int getFirstSourceLine(IContainer container) {
+	public static int getFirstSourceLine(@Nullable IContainer container) {
 		if (container instanceof IBlock) {
 			return BlockUtils.getFirstSourceLine((IBlock) container);
 		}
@@ -111,7 +111,7 @@ public class RegionUtils {
 		return 0;
 	}
 
-	public static InsnNode getLastInsn(IContainer container) {
+	@Nullable public static InsnNode getLastInsn(@Nullable IContainer container) {
 		if (container instanceof IBlock) {
 			IBlock block = (IBlock) container;
 			List<InsnNode> insnList = block.getInstructions();
@@ -133,7 +133,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static IBlock getLastBlock(IContainer container) {
+	@Nullable public static IBlock getLastBlock(IContainer container) {
 		if (container instanceof IBlock) {
 			return (IBlock) container;
 		} else if (container instanceof IBranchRegion) {
@@ -159,7 +159,7 @@ public class RegionUtils {
 	/**
 	 * Return true if last block in region has no successors or jump out insn (return or break)
 	 */
-	public static boolean hasExitBlock(IContainer container) {
+	public static boolean hasExitBlock(@Nullable IContainer container) {
 		if (container == null) {
 			return false;
 		}
@@ -228,7 +228,7 @@ public class RegionUtils {
 		return false;
 	}
 
-	public static boolean hasBreakInsn(IContainer container) {
+	public static boolean hasBreakInsn(@Nullable IContainer container) {
 		if (container instanceof IBlock) {
 			return BlockUtils.checkLastInsnType((IBlock) container, InsnType.BREAK);
 		} else if (container instanceof IRegion) {
@@ -240,7 +240,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static int insnsCount(IContainer container) {
+	public static int insnsCount(@Nullable IContainer container) {
 		if (container instanceof IBlock) {
 			List<InsnNode> insnList = ((IBlock) container).getInstructions();
 			int count = 0;
@@ -263,7 +263,7 @@ public class RegionUtils {
 		throw new JadxRuntimeException(unknownContainerType(container));
 	}
 
-	public static boolean isEmpty(IContainer container) {
+	public static boolean isEmpty(@Nullable IContainer container) {
 		return !notEmpty(container);
 	}
 
@@ -295,7 +295,7 @@ public class RegionUtils {
 		throw new JadxRuntimeException(unknownContainerType(container));
 	}
 
-	public static void getAllRegionBlocks(IContainer container, Set<IBlock> blocks) {
+	public static void getAllRegionBlocks(@Nullable IContainer container, Set<IBlock> blocks) {
 		if (container instanceof IBlock) {
 			blocks.add((IBlock) container);
 		} else if (container instanceof IRegion) {
@@ -308,7 +308,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static boolean isRegionContainsBlock(IContainer container, BlockNode block) {
+	public static boolean isRegionContainsBlock(@Nullable IContainer container, @Nullable BlockNode block) {
 		if (container instanceof IBlock) {
 			return container == block;
 		} else if (container instanceof IRegion) {
@@ -336,7 +336,7 @@ public class RegionUtils {
 		return Collections.emptyList();
 	}
 
-	private static boolean isRegionContainsExcHandlerRegion(IContainer container, IRegion region) {
+	private static boolean isRegionContainsExcHandlerRegion(@Nullable IContainer container, IRegion region) {
 		if (container == region) {
 			return true;
 		}
@@ -368,7 +368,7 @@ public class RegionUtils {
 	 * For simple region (not from exception handlers) search in parents
 	 * otherwise run recursive search because exception handlers can have several parents
 	 */
-	public static boolean isRegionContainsRegion(IContainer container, IRegion region) {
+	public static boolean isRegionContainsRegion(@Nullable IContainer container, IRegion region) {
 		if (container == region) {
 			return true;
 		}
@@ -389,7 +389,7 @@ public class RegionUtils {
 		return true;
 	}
 
-	public static IContainer getBlockContainer(IContainer container, BlockNode block) {
+	@Nullable public static IContainer getBlockContainer(IContainer container, BlockNode block) {
 		if (container instanceof IBlock) {
 			return container == block ? container : null;
 		} else if (container instanceof IRegion) {
@@ -448,7 +448,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static boolean hasPathThroughBlock(BlockNode block, IContainer cont) {
+	public static boolean hasPathThroughBlock(@Nullable BlockNode block, IContainer cont) {
 		if (block == cont) {
 			return true;
 		}
@@ -470,7 +470,7 @@ public class RegionUtils {
 		throw new JadxRuntimeException(unknownContainerType(cont));
 	}
 
-	protected static String unknownContainerType(IContainer container) {
+	protected static String unknownContainerType(@Nullable IContainer container) {
 		if (container == null) {
 			return "Null container variable";
 		}

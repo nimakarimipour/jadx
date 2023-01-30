@@ -5,6 +5,7 @@ import java.util.List;
 import jadx.api.plugins.input.data.annotations.IAnnotation;
 import jadx.api.plugins.input.data.attributes.IJadxAttrType;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
+import javax.annotation.Nullable;
 
 public abstract class AttrNode implements IAttributeNode {
 
@@ -87,12 +88,12 @@ public abstract class AttrNode implements IAttributeNode {
 		return storage.contains(type);
 	}
 
-	@Override
+	@Nullable @Override
 	public <T extends IJadxAttribute> T get(IJadxAttrType<T> type) {
 		return storage.get(type);
 	}
 
-	@Override
+	@Nullable @Override
 	public IAnnotation getAnnotation(String cls) {
 		return storage.getAnnotation(cls);
 	}

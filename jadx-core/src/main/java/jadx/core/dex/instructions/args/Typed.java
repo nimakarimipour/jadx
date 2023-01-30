@@ -1,16 +1,17 @@
 package jadx.core.dex.instructions.args;
 
 import jadx.core.dex.attributes.AttrNode;
+import javax.annotation.Nullable;
 
 public abstract class Typed extends AttrNode {
 
-	protected ArgType type;
+	@Nullable protected ArgType type;
 
-	public ArgType getType() {
+	@Nullable public ArgType getType() {
 		return type;
 	}
 
-	public void setType(ArgType type) {
+	public void setType(@Nullable ArgType type) {
 		this.type = type;
 	}
 

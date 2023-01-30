@@ -4,12 +4,13 @@ import java.util.Arrays;
 
 import jadx.api.ICodeWriter;
 import jadx.core.utils.Utils;
+import javax.annotation.Nullable;
 
 public class JadxRuntimeException extends RuntimeException {
 
 	private static final long serialVersionUID = -7410848445429898248L;
 
-	public JadxRuntimeException(String message) {
+	public JadxRuntimeException(@Nullable String message) {
 		super(message);
 	}
 

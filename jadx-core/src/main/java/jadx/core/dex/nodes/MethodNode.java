@@ -42,7 +42,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	private final ClassNode parentClass;
 	private AccessInfo accFlags;
 
-	private final ICodeReader codeReader;
+	@Nullable private final ICodeReader codeReader;
 	private final int insnsCount;
 
 	private boolean noCode;
@@ -52,22 +52,22 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	private boolean loaded;
 
 	// additional info available after load, keep on unload
-	private ArgType retType;
+	@Nullable private ArgType retType;
 	private List<ArgType> argTypes;
 	private List<ArgType> typeParameters;
 
 	// decompilation data, reset on unload
-	private RegisterArg thisArg;
-	private List<RegisterArg> argsList;
-	private InsnNode[] instructions;
-	private List<BlockNode> blocks;
+	@Nullable private RegisterArg thisArg;
+	@Nullable private List<RegisterArg> argsList;
+	@Nullable private InsnNode[] instructions;
+	@Nullable private List<BlockNode> blocks;
 	private int blocksMaxCId;
-	private BlockNode enterBlock;
-	private BlockNode exitBlock;
-	private List<SSAVar> sVars;
-	private List<ExceptionHandler> exceptionHandlers;
-	private List<LoopInfo> loops;
-	private Region region;
+	@Nullable private BlockNode enterBlock;
+	@Nullable private BlockNode exitBlock;
+	@Nullable private List<SSAVar> sVars;
+	@Nullable private List<ExceptionHandler> exceptionHandlers;
+	@Nullable private List<LoopInfo> loops;
+	@Nullable private Region region;
 
 	private List<MethodNode> useIn = Collections.emptyList();
 
@@ -295,7 +295,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return noCode;
 	}
 
-	public InsnNode[] getInstructions() {
+	@Nullable public InsnNode[] getInstructions() {
 		return instructions;
 	}
 
@@ -313,7 +313,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		blocks.forEach(BlockNode::lock);
 	}
 
-	public List<BlockNode> getBasicBlocks() {
+	@Nullable public List<BlockNode> getBasicBlocks() {
 		return blocks;
 	}
 
@@ -330,7 +330,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return blocksMaxCId++;
 	}
 
-	public BlockNode getEnterBlock() {
+	@Nullable public BlockNode getEnterBlock() {
 		return enterBlock;
 	}
 
@@ -338,7 +338,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		this.enterBlock = enterBlock;
 	}
 
-	public BlockNode getExitBlock() {
+	@Nullable public BlockNode getExitBlock() {
 		return exitBlock;
 	}
 
@@ -396,7 +396,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return loops.size();
 	}
 
-	public Iterable<LoopInfo> getLoops() {
+	@Nullable public Iterable<LoopInfo> getLoops() {
 		return loops;
 	}
 
@@ -412,7 +412,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return exceptionHandlers.removeIf(ExceptionHandler::isRemoved);
 	}
 
-	public Iterable<ExceptionHandler> getExceptionHandlers() {
+	@Nullable public Iterable<ExceptionHandler> getExceptionHandlers() {
 		return exceptionHandlers;
 	}
 
@@ -508,7 +508,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		sVars.remove(var);
 	}
 
-	public List<SSAVar> getSVars() {
+	@Nullable public List<SSAVar> getSVars() {
 		return sVars;
 	}
 
@@ -527,7 +527,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		this.accFlags = newAccessFlags;
 	}
 
-	public Region getRegion() {
+	@Nullable public Region getRegion() {
 		return region;
 	}
 
@@ -598,7 +598,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return loaded;
 	}
 
-	public ICodeReader getCodeReader() {
+	@Nullable public ICodeReader getCodeReader() {
 		return codeReader;
 	}
 

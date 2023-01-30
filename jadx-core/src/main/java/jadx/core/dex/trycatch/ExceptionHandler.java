@@ -23,12 +23,12 @@ public class ExceptionHandler {
 	private final List<ClassInfo> catchTypes = new ArrayList<>(1);
 	private final int handlerOffset;
 
-	private BlockNode handlerBlock;
+	@Nullable private BlockNode handlerBlock;
 	private final List<BlockNode> blocks = new ArrayList<>();
-	private IContainer handlerRegion;
-	private InsnArg arg;
+	@Nullable private IContainer handlerRegion;
+	@Nullable private InsnArg arg;
 
-	private TryCatchBlockAttr tryBlock;
+	@Nullable private TryCatchBlockAttr tryBlock;
 	private boolean isFinally;
 
 	private boolean removed = false;
@@ -101,7 +101,7 @@ public class ExceptionHandler {
 		return handlerOffset;
 	}
 
-	public BlockNode getHandlerBlock() {
+	@Nullable public BlockNode getHandlerBlock() {
 		return handlerBlock;
 	}
 
@@ -117,7 +117,7 @@ public class ExceptionHandler {
 		blocks.add(node);
 	}
 
-	public IContainer getHandlerRegion() {
+	@Nullable public IContainer getHandlerRegion() {
 		return handlerRegion;
 	}
 
@@ -125,7 +125,7 @@ public class ExceptionHandler {
 		this.handlerRegion = handlerRegion;
 	}
 
-	public InsnArg getArg() {
+	@Nullable public InsnArg getArg() {
 		return arg;
 	}
 
@@ -137,7 +137,7 @@ public class ExceptionHandler {
 		this.tryBlock = tryBlock;
 	}
 
-	public TryCatchBlockAttr getTryBlock() {
+	@Nullable public TryCatchBlockAttr getTryBlock() {
 		return tryBlock;
 	}
 

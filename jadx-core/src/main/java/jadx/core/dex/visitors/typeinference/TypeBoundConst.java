@@ -4,17 +4,18 @@ import java.util.Objects;
 
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.RegisterArg;
+import javax.annotation.Nullable;
 
 public final class TypeBoundConst implements ITypeBound {
 	private final BoundEnum bound;
-	private final ArgType type;
-	private final RegisterArg arg;
+	@Nullable private final ArgType type;
+	@Nullable private final RegisterArg arg;
 
-	public TypeBoundConst(BoundEnum bound, ArgType type) {
+	public TypeBoundConst(BoundEnum bound, @Nullable ArgType type) {
 		this(bound, type, null);
 	}
 
-	public TypeBoundConst(BoundEnum bound, ArgType type, RegisterArg arg) {
+	public TypeBoundConst(BoundEnum bound, @Nullable ArgType type, @Nullable RegisterArg arg) {
 		this.bound = bound;
 		this.type = type;
 		this.arg = arg;
@@ -25,12 +26,12 @@ public final class TypeBoundConst implements ITypeBound {
 		return bound;
 	}
 
-	@Override
+	@Nullable @Override
 	public ArgType getType() {
 		return type;
 	}
 
-	@Override
+	@Nullable @Override
 	public RegisterArg getArg() {
 		return arg;
 	}

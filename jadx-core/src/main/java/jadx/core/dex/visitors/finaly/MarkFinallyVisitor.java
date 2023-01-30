@@ -244,7 +244,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static List<BlockNode> getPathStarts(MethodNode mth, BlockNode bottom, BlockNode bottomFinallyBlock) {
+	private static List<BlockNode> getPathStarts(MethodNode mth, BlockNode bottom, @Nullable BlockNode bottomFinallyBlock) {
 		Stream<BlockNode> preds = bottom.getPredecessors().stream().filter(b -> b != bottomFinallyBlock);
 		if (bottom == mth.getExitBlock()) {
 			preds = preds.flatMap(r -> r.getPredecessors().stream());
@@ -322,7 +322,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void copyCodeVars(InsnArg fromArg, InsnArg toArg) {
+	private static void copyCodeVars(@Nullable InsnArg fromArg, @Nullable InsnArg toArg) {
 		if (fromArg == null || toArg == null
 				|| !fromArg.isRegister() || !toArg.isRegister()) {
 			return;
@@ -346,7 +346,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private static InsnsSlice searchFromFirstBlock(BlockNode dupBlock, BlockNode startBlock, FinallyExtractInfo extractInfo) {
+	@Nullable private static InsnsSlice searchFromFirstBlock(BlockNode dupBlock, @Nullable BlockNode startBlock, FinallyExtractInfo extractInfo) {
 		InsnsSlice dupSlice = isStartBlock(dupBlock, startBlock, extractInfo);
 		if (dupSlice == null) {
 			return null;
@@ -377,7 +377,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 	/**
 	 * 'Finally' instructions can start in the middle of the first block.
 	 */
-	private static InsnsSlice isStartBlock(BlockNode dupBlock, BlockNode finallyBlock, FinallyExtractInfo extractInfo) {
+	@Nullable private static InsnsSlice isStartBlock(BlockNode dupBlock, @Nullable BlockNode finallyBlock, FinallyExtractInfo extractInfo) {
 		extractInfo.setCurDupSlice(null);
 		List<InsnNode> dupInsns = dupBlock.getInstructions();
 		List<InsnNode> finallyInsns = finallyBlock.getInstructions();
@@ -469,7 +469,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private static boolean checkBlocksTree(BlockNode dupBlock, BlockNode finallyBlock,
+	private static boolean checkBlocksTree(BlockNode dupBlock, @Nullable BlockNode finallyBlock,
 			InsnsSlice dupSlice, FinallyExtractInfo extractInfo) {
 		InsnsSlice finallySlice = extractInfo.getFinallyInsnsSlice();
 
@@ -496,7 +496,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private static List<BlockNode> getSuccessorsWithoutLoop(BlockNode block) {
+	@Nullable private static List<BlockNode> getSuccessorsWithoutLoop(@Nullable BlockNode block) {
 		if (block.contains(AFlag.LOOP_END)) {
 			return block.getCleanSuccessors();
 		}

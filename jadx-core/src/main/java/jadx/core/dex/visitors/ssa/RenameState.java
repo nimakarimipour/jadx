@@ -6,10 +6,11 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.MethodNode;
+import javax.annotation.Nullable;
 
 final class RenameState {
 	private final MethodNode mth;
-	private final BlockNode block;
+	@Nullable private final BlockNode block;
 	private final SSAVar[] vars;
 	private final int[] versions;
 
@@ -38,14 +39,14 @@ final class RenameState {
 				state.versions);
 	}
 
-	private RenameState(MethodNode mth, BlockNode block, SSAVar[] vars, int[] versions) {
+	private RenameState(MethodNode mth, @Nullable BlockNode block, SSAVar[] vars, int[] versions) {
 		this.mth = mth;
 		this.block = block;
 		this.vars = vars;
 		this.versions = versions;
 	}
 
-	public BlockNode getBlock() {
+	@Nullable public BlockNode getBlock() {
 		return block;
 	}
 

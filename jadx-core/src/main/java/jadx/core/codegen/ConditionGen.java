@@ -19,6 +19,7 @@ import jadx.core.dex.regions.conditions.IfCondition;
 import jadx.core.dex.regions.conditions.IfCondition.Mode;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 public class ConditionGen extends InsnGen {
 
@@ -29,7 +30,7 @@ public class ConditionGen extends InsnGen {
 			return stack;
 		}
 
-		public void push(IfCondition cond) {
+		public void push(@Nullable IfCondition cond) {
 			stack.add(cond);
 		}
 
@@ -42,15 +43,15 @@ public class ConditionGen extends InsnGen {
 		super(insnGen.mgen, insnGen.fallback);
 	}
 
-	public void add(ICodeWriter code, IfCondition condition) throws CodegenException {
+	public void add(ICodeWriter code, @Nullable IfCondition condition) throws CodegenException {
 		add(code, new CondStack(), condition);
 	}
 
-	void wrap(ICodeWriter code, IfCondition condition) throws CodegenException {
+	void wrap(ICodeWriter code, @Nullable IfCondition condition) throws CodegenException {
 		wrap(code, new CondStack(), condition);
 	}
 
-	private void add(ICodeWriter code, CondStack stack, IfCondition condition) throws CodegenException {
+	private void add(ICodeWriter code, CondStack stack, @Nullable IfCondition condition) throws CodegenException {
 		stack.push(condition);
 		switch (condition.getMode()) {
 			case COMPARE:
@@ -76,7 +77,7 @@ public class ConditionGen extends InsnGen {
 		stack.pop();
 	}
 
-	private void wrap(ICodeWriter code, CondStack stack, IfCondition cond) throws CodegenException {
+	private void wrap(ICodeWriter code, CondStack stack, @Nullable IfCondition cond) throws CodegenException {
 		boolean wrap = isWrapNeeded(cond);
 		if (wrap) {
 			code.add('(');
@@ -98,7 +99,7 @@ public class ConditionGen extends InsnGen {
 		}
 	}
 
-	private void addCompare(ICodeWriter code, CondStack stack, Compare compare) throws CodegenException {
+	private void addCompare(ICodeWriter code, CondStack stack, @Nullable Compare compare) throws CodegenException {
 		IfOp op = compare.getOp();
 		InsnArg firstArg = compare.getA();
 		InsnArg secondArg = compare.getB();
@@ -155,7 +156,7 @@ public class ConditionGen extends InsnGen {
 		}
 	}
 
-	private boolean isWrapNeeded(IfCondition condition) {
+	private boolean isWrapNeeded(@Nullable IfCondition condition) {
 		if (condition.isCompare() || condition.contains(AFlag.DONT_WRAP)) {
 			return false;
 		}

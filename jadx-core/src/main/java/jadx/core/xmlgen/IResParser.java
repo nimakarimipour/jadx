@@ -2,6 +2,7 @@ package jadx.core.xmlgen;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nullable;
 
 public interface IResParser {
 
@@ -9,5 +10,5 @@ public interface IResParser {
 
 	ResourceStorage getResStorage();
 
-	String[] getStrings();
+	@Nullable String[] getStrings();
 }

@@ -65,15 +65,15 @@ public final class TypeUpdate {
 	/**
 	 * Force type setting
 	 */
-	public TypeUpdateResult applyWithWiderIgnSame(MethodNode mth, SSAVar ssaVar, ArgType candidateType) {
+	public TypeUpdateResult applyWithWiderIgnSame(MethodNode mth, SSAVar ssaVar, @Nullable ArgType candidateType) {
 		return apply(mth, ssaVar, candidateType, TypeUpdateFlags.FLAGS_WIDER_IGNORE_SAME);
 	}
 
-	public TypeUpdateResult applyWithWiderIgnoreUnknown(MethodNode mth, SSAVar ssaVar, ArgType candidateType) {
+	public TypeUpdateResult applyWithWiderIgnoreUnknown(MethodNode mth, @Nullable SSAVar ssaVar, @Nullable ArgType candidateType) {
 		return apply(mth, ssaVar, candidateType, TypeUpdateFlags.FLAGS_WIDER_IGNORE_UNKNOWN);
 	}
 
-	private TypeUpdateResult apply(MethodNode mth, SSAVar ssaVar, ArgType candidateType, TypeUpdateFlags flags) {
+	private TypeUpdateResult apply(MethodNode mth, @Nullable SSAVar ssaVar, @Nullable ArgType candidateType, TypeUpdateFlags flags) {
 		if (candidateType == null || !candidateType.isTypeKnown()) {
 			return REJECT;
 		}
@@ -96,7 +96,7 @@ public final class TypeUpdate {
 		return CHANGED;
 	}
 
-	private TypeUpdateResult updateTypeChecked(TypeUpdateInfo updateInfo, InsnArg arg, ArgType candidateType) {
+	private TypeUpdateResult updateTypeChecked(TypeUpdateInfo updateInfo, @Nullable InsnArg arg, ArgType candidateType) {
 		if (candidateType == null) {
 			throw new JadxRuntimeException("Null type update for arg: " + arg);
 		}
@@ -151,7 +151,7 @@ public final class TypeUpdate {
 		return requestUpdate(updateInfo, arg, candidateType);
 	}
 
-	private TypeUpdateResult updateTypeForSsaVar(TypeUpdateInfo updateInfo, SSAVar ssaVar, ArgType candidateType) {
+	private TypeUpdateResult updateTypeForSsaVar(TypeUpdateInfo updateInfo, @Nullable SSAVar ssaVar, ArgType candidateType) {
 		TypeInfo typeInfo = ssaVar.getTypeInfo();
 		ArgType immutableType = ssaVar.getImmutableType();
 		if (immutableType != null && !Objects.equals(immutableType, candidateType)) {
@@ -277,7 +277,7 @@ public final class TypeUpdate {
 		}
 	}
 
-	private boolean checkAssignForUnknown(ArgType boundType, ArgType candidateType) {
+	private boolean checkAssignForUnknown(@Nullable ArgType boundType, @Nullable ArgType candidateType) {
 		if (boundType == ArgType.UNKNOWN) {
 			return true;
 		}

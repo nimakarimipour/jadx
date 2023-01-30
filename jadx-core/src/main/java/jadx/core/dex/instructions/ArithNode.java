@@ -82,7 +82,7 @@ public class ArithNode extends InsnNode {
 	}
 
 	@Override
-	public boolean isSame(InsnNode obj) {
+	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;
 		}

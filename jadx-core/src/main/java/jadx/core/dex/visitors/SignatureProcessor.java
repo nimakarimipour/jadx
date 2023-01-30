@@ -16,10 +16,11 @@ import jadx.core.dex.nodes.utils.TypeUtils;
 import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
+import javax.annotation.Nullable;
 
 public class SignatureProcessor extends AbstractVisitor {
 
-	private RootNode root;
+	@Nullable private RootNode root;
 
 	@Override
 	public void init(RootNode root) {
@@ -61,7 +62,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		}
 	}
 
-	private ArgType validateClsType(ClassNode cls, ArgType candidateType, ArgType currentType) {
+	@Nullable private ArgType validateClsType(ClassNode cls, @Nullable ArgType candidateType, @Nullable ArgType currentType) {
 		if (!candidateType.isObject()) {
 			cls.addWarnComment("Incorrect class signature, class is not object: " + SignatureParser.getSignature(cls));
 			return currentType;
@@ -146,7 +147,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		}
 	}
 
-	private List<ArgType> checkArgTypes(MethodNode mth, SignatureParser sp, List<ArgType> parsedArgTypes) {
+	@Nullable private List<ArgType> checkArgTypes(MethodNode mth, SignatureParser sp, List<ArgType> parsedArgTypes) {
 		MethodInfo mthInfo = mth.getMethodInfo();
 		List<ArgType> mthArgTypes = mthInfo.getArgumentsTypes();
 		int len = parsedArgTypes.size();
@@ -177,7 +178,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		return parsedArgTypes;
 	}
 
-	private boolean validateParsedType(ArgType parsedType, ArgType currentType) {
+	private boolean validateParsedType(ArgType parsedType, @Nullable ArgType currentType) {
 		TypeCompareEnum result = root.getTypeCompare().compareTypes(parsedType, currentType);
 		return result != TypeCompareEnum.CONFLICT;
 	}
@@ -191,7 +192,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		return true;
 	}
 
-	private boolean validateInnerType(ArgType type) {
+	private boolean validateInnerType(@Nullable ArgType type) {
 		ArgType innerType = type.getInnerType();
 		if (innerType == null) {
 			return true;

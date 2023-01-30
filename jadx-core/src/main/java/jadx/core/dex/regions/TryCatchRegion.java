@@ -15,13 +15,14 @@ import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.dex.trycatch.TryCatchBlockAttr;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.CodegenException;
+import javax.annotation.Nullable;
 
 public final class TryCatchRegion extends AbstractRegion implements IBranchRegion {
 
 	private final IContainer tryRegion;
 	private Map<ExceptionHandler, IContainer> catchRegions = Collections.emptyMap();
-	private IContainer finallyRegion;
-	private TryCatchBlockAttr tryCatchBlock;
+	@Nullable private IContainer finallyRegion;
+	@Nullable private TryCatchBlockAttr tryCatchBlock;
 
 	public TryCatchRegion(IRegion parent, IContainer tryRegion) {
 		super(parent);
@@ -52,11 +53,11 @@ public final class TryCatchRegion extends AbstractRegion implements IBranchRegio
 		return catchRegions;
 	}
 
-	public TryCatchBlockAttr getTryCatchBlock() {
+	@Nullable public TryCatchBlockAttr getTryCatchBlock() {
 		return tryCatchBlock;
 	}
 
-	public IContainer getFinallyRegion() {
+	@Nullable public IContainer getFinallyRegion() {
 		return finallyRegion;
 	}
 

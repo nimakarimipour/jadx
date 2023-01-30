@@ -6,11 +6,12 @@ import java.util.List;
 import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.IMethodDetails;
+import javax.annotation.Nullable;
 
 public class MutableMethodDetails implements IMethodDetails {
 
 	private final MethodInfo mthInfo;
-	private ArgType retType;
+	@Nullable private ArgType retType;
 	private List<ArgType> argTypes;
 	private List<ArgType> typeParams;
 	private List<ArgType> throwTypes;
@@ -32,7 +33,7 @@ public class MutableMethodDetails implements IMethodDetails {
 		return mthInfo;
 	}
 
-	@Override
+	@Nullable @Override
 	public ArgType getReturnType() {
 		return retType;
 	}
@@ -57,7 +58,7 @@ public class MutableMethodDetails implements IMethodDetails {
 		return varArg;
 	}
 
-	public void setRetType(ArgType retType) {
+	public void setRetType(@Nullable ArgType retType) {
 		this.retType = retType;
 	}
 

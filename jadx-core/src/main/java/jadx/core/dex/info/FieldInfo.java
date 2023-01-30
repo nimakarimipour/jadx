@@ -6,15 +6,16 @@ import jadx.api.plugins.input.data.IFieldRef;
 import jadx.core.codegen.TypeGen;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.RootNode;
+import javax.annotation.Nullable;
 
 public final class FieldInfo {
 
 	private final ClassInfo declClass;
 	private final String name;
-	private final ArgType type;
+	@Nullable private final ArgType type;
 	private String alias;
 
-	private FieldInfo(ClassInfo declClass, String name, ArgType type) {
+	private FieldInfo(ClassInfo declClass, String name, @Nullable ArgType type) {
 		this.declClass = declClass;
 		this.name = name;
 		this.type = type;
@@ -36,7 +37,7 @@ public final class FieldInfo {
 		return name;
 	}
 
-	public ArgType getType() {
+	@Nullable public ArgType getType() {
 		return type;
 	}
 
@@ -81,7 +82,7 @@ public final class FieldInfo {
 	}
 
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(@Nullable Object o) {
 		if (this == o) {
 			return true;
 		}

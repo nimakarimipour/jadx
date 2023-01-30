@@ -37,7 +37,7 @@ public class InsnRemover {
 		this(mth, null);
 	}
 
-	public InsnRemover(MethodNode mth, BlockNode block) {
+	public InsnRemover(MethodNode mth, @Nullable BlockNode block) {
 		this.mth = mth;
 		this.toRemove = new ArrayList<>();
 		if (block != null) {

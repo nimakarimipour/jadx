@@ -8,15 +8,15 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 
 public final class LiteralArg extends InsnArg {
 
-	public static LiteralArg make(long value, ArgType type) {
+	public static LiteralArg make(long value, @Nullable ArgType type) {
 		return new LiteralArg(value, type);
 	}
 
-	public static LiteralArg makeWithFixedType(long value, ArgType type) {
+	public static LiteralArg makeWithFixedType(long value, @Nullable ArgType type) {
 		return new LiteralArg(value, fixLiteralType(value, type));
 	}
 
-	private static ArgType fixLiteralType(long value, ArgType type) {
+	@Nullable private static ArgType fixLiteralType(long value, @Nullable ArgType type) {
 		if (value == 0 || type.isTypeKnown() || type.contains(PrimitiveType.LONG) || type.contains(PrimitiveType.DOUBLE)) {
 			return type;
 		}
@@ -36,7 +36,7 @@ public final class LiteralArg extends InsnArg {
 
 	private final long literal;
 
-	private LiteralArg(long value, ArgType type) {
+	private LiteralArg(long value, @Nullable ArgType type) {
 		if (value != 0 && type.isObject()) {
 			throw new JadxRuntimeException("Wrong literal type: " + type + " for value: " + value);
 		}
@@ -49,7 +49,7 @@ public final class LiteralArg extends InsnArg {
 	}
 
 	@Override
-	public void setType(ArgType type) {
+	public void setType(@Nullable ArgType type) {
 		super.setType(type);
 	}
 

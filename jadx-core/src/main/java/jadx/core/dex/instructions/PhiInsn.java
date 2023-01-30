@@ -34,13 +34,13 @@ public final class PhiInsn extends InsnNode {
 		this.blockBinds = new ArrayList<>(argsCount);
 	}
 
-	public RegisterArg bindArg(BlockNode pred) {
+	public RegisterArg bindArg(@Nullable BlockNode pred) {
 		RegisterArg arg = InsnArg.reg(getResult().getRegNum(), getResult().getInitType());
 		bindArg(arg, pred);
 		return arg;
 	}
 
-	public void bindArg(RegisterArg arg, BlockNode pred) {
+	public void bindArg(RegisterArg arg, @Nullable BlockNode pred) {
 		if (blockBinds.contains(pred)) {
 			throw new JadxRuntimeException("Duplicate predecessors in PHI insn: " + pred + ", " + this);
 		}
@@ -100,7 +100,7 @@ public final class PhiInsn extends InsnNode {
 	}
 
 	@Override
-	public boolean replaceArg(InsnArg from, InsnArg to) {
+	public boolean replaceArg(@Nullable InsnArg from, InsnArg to) {
 		if (!(from instanceof RegisterArg) || !(to instanceof RegisterArg)) {
 			return false;
 		}

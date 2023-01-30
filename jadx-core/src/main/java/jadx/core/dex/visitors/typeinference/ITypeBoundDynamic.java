@@ -1,6 +1,7 @@
 package jadx.core.dex.visitors.typeinference;
 
 import jadx.core.dex.instructions.args.ArgType;
+import javax.annotation.Nullable;
 
 /**
  * 'Dynamic' type bound allows to use requested and not yet applied types
@@ -12,5 +13,5 @@ public interface ITypeBoundDynamic extends ITypeBound {
 	 * This method will be executed instead of {@link ITypeBound#getType()}
 	 * if {@link TypeUpdateInfo} is available.
 	 */
-	ArgType getType(TypeUpdateInfo updateInfo);
+	@Nullable ArgType getType(TypeUpdateInfo updateInfo);
 }

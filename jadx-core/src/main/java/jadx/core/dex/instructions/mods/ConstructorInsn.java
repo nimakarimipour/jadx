@@ -14,7 +14,7 @@ import jadx.core.dex.nodes.MethodNode;
 
 public final class ConstructorInsn extends BaseInvokeNode {
 
-	private final MethodInfo callMth;
+	@Nullable private final MethodInfo callMth;
 	private final CallType callType;
 
 	public enum CallType {
@@ -48,13 +48,13 @@ public final class ConstructorInsn extends BaseInvokeNode {
 		return CallType.THIS;
 	}
 
-	public ConstructorInsn(MethodInfo callMth, CallType callType) {
+	public ConstructorInsn(@Nullable MethodInfo callMth, CallType callType) {
 		super(InsnType.CONSTRUCTOR, callMth.getArgsCount());
 		this.callMth = callMth;
 		this.callType = callType;
 	}
 
-	@Override
+	@Nullable @Override
 	public MethodInfo getCallMth() {
 		return callMth;
 	}
@@ -100,7 +100,7 @@ public final class ConstructorInsn extends BaseInvokeNode {
 	}
 
 	@Override
-	public boolean isSame(InsnNode obj) {
+	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;
 		}

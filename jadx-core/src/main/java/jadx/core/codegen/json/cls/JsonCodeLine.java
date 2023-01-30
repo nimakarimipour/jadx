@@ -3,11 +3,11 @@ package jadx.core.codegen.json.cls;
 import org.jetbrains.annotations.Nullable;
 
 public class JsonCodeLine {
-	private String code;
-	private String offset;
-	private Integer sourceLine;
+	@Nullable private String code;
+	@Nullable private String offset;
+	@Nullable private Integer sourceLine;
 
-	public String getCode() {
+	@Nullable public String getCode() {
 		return code;
 	}
 
@@ -15,7 +15,7 @@ public class JsonCodeLine {
 		this.code = code;
 	}
 
-	public String getOffset() {
+	@Nullable public String getOffset() {
 		return offset;
 	}
 
@@ -23,7 +23,7 @@ public class JsonCodeLine {
 		this.offset = offset;
 	}
 
-	public Integer getSourceLine() {
+	@Nullable public Integer getSourceLine() {
 		return sourceLine;
 	}
 

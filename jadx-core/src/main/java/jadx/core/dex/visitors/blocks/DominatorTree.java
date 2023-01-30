@@ -11,6 +11,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.EmptyBitSet;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 /**
  * Build dominator tree based on the algorithm described in paper:
@@ -157,7 +158,7 @@ public class DominatorTree {
 		}
 	}
 
-	private static void addToDF(BlockNode block, BlockNode dfBlock, int blocksCount) {
+	private static void addToDF(@Nullable BlockNode block, BlockNode dfBlock, int blocksCount) {
 		BitSet df = block.getDomFrontier();
 		if (df == null) {
 			df = new BitSet(blocksCount);

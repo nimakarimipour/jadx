@@ -130,7 +130,7 @@ public class SignatureParser {
 		return skipUntil(lastChar) ? inclusiveSlice() : null;
 	}
 
-	public ArgType consumeType() {
+	@Nullable public ArgType consumeType() {
 		char ch = next();
 		switch (ch) {
 			case 'L':
@@ -169,7 +169,7 @@ public class SignatureParser {
 		throw new JadxRuntimeException("Can't parse type: " + debugString() + ", unexpected: " + ch);
 	}
 
-	private ArgType consumeObjectType(boolean innerType) {
+	@Nullable private ArgType consumeObjectType(boolean innerType) {
 		mark();
 		int ch;
 		do {

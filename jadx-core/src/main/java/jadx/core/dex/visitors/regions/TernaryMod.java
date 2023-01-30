@@ -22,6 +22,7 @@ import jadx.core.dex.regions.conditions.IfRegion;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnRemover;
+import javax.annotation.Nullable;
 
 /**
  * Convert 'if' to ternary operation
@@ -191,7 +192,7 @@ public class TernaryMod extends AbstractRegionVisitor implements IRegionIterativ
 		}
 	}
 
-	private static BlockNode getTernaryInsnBlock(IContainer thenRegion) {
+	@Nullable private static BlockNode getTernaryInsnBlock(@Nullable IContainer thenRegion) {
 		if (thenRegion instanceof Region) {
 			Region r = (Region) thenRegion;
 			if (r.getSubBlocks().size() == 1) {

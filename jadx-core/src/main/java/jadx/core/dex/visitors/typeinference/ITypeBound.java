@@ -12,7 +12,7 @@ public interface ITypeBound {
 
 	BoundEnum getBound();
 
-	ArgType getType();
+	@Nullable ArgType getType();
 
 	@Nullable
 	RegisterArg getArg();

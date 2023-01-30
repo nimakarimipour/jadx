@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.InsnNode;
+import javax.annotation.Nullable;
 
 public class FilledNewArrayNode extends InsnNode {
 
@@ -23,7 +24,7 @@ public class FilledNewArrayNode extends InsnNode {
 	}
 
 	@Override
-	public boolean isSame(InsnNode obj) {
+	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;
 		}

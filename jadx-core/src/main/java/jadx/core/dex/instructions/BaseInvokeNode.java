@@ -11,7 +11,7 @@ public abstract class BaseInvokeNode extends InsnNode {
 		super(type, argsCount);
 	}
 
-	public abstract MethodInfo getCallMth();
+	@Nullable public abstract MethodInfo getCallMth();
 
 	@Nullable
 	public abstract InsnArg getInstanceArg();

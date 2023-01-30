@@ -326,7 +326,7 @@ public class FileUtils {
 		return fileName.substring(0, extEndIndex);
 	}
 
-	public static File toFile(String path) {
+	@Nullable public static File toFile(String path) {
 		if (path == null) {
 			return null;
 		}

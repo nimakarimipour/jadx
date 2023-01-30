@@ -11,7 +11,7 @@ import jadx.core.dex.nodes.InsnNode;
 public class InvokeNode extends BaseInvokeNode {
 
 	private final InvokeType type;
-	private final MethodInfo mth;
+	@Nullable private final MethodInfo mth;
 
 	public InvokeNode(MethodInfo mthInfo, InsnData insn, InvokeType invokeType, boolean isRange) {
 		this(mthInfo, insn, invokeType, invokeType != InvokeType.STATIC, isRange);
@@ -38,7 +38,7 @@ public class InvokeNode extends BaseInvokeNode {
 		}
 	}
 
-	public InvokeNode(MethodInfo mth, InvokeType invokeType, int argsCount) {
+	public InvokeNode(@Nullable MethodInfo mth, InvokeType invokeType, int argsCount) {
 		super(InsnType.INVOKE, argsCount);
 		this.mth = mth;
 		this.type = invokeType;
@@ -48,7 +48,7 @@ public class InvokeNode extends BaseInvokeNode {
 		return type;
 	}
 
-	@Override
+	@Nullable @Override
 	public MethodInfo getCallMth() {
 		return mth;
 	}
@@ -77,7 +77,7 @@ public class InvokeNode extends BaseInvokeNode {
 	}
 
 	@Override
-	public boolean isSame(InsnNode obj) {
+	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;
 		}

@@ -10,9 +10,9 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.InsnUtils;
 
 public class InvokeCustomNode extends InvokeNode {
-	private MethodInfo implMthInfo;
-	private MethodHandleType handleType;
-	private InsnNode callInsn;
+	@Nullable private MethodInfo implMthInfo;
+	@Nullable private MethodHandleType handleType;
+	@Nullable private InsnNode callInsn;
 	private boolean inlineInsn;
 	private boolean useRef;
 
@@ -20,7 +20,7 @@ public class InvokeCustomNode extends InvokeNode {
 		super(lambdaInfo, insn, InvokeType.CUSTOM, instanceCall, isRange);
 	}
 
-	private InvokeCustomNode(MethodInfo mth, InvokeType invokeType, int argsCount) {
+	private InvokeCustomNode(@Nullable MethodInfo mth, InvokeType invokeType, int argsCount) {
 		super(mth, invokeType, argsCount);
 	}
 
@@ -37,7 +37,7 @@ public class InvokeCustomNode extends InvokeNode {
 	}
 
 	@Override
-	public boolean isSame(InsnNode obj) {
+	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -52,27 +52,27 @@ public class InvokeCustomNode extends InvokeNode {
 				&& useRef == other.useRef;
 	}
 
-	public MethodInfo getImplMthInfo() {
+	@Nullable public MethodInfo getImplMthInfo() {
 		return implMthInfo;
 	}
 
-	public void setImplMthInfo(MethodInfo implMthInfo) {
+	public void setImplMthInfo(@Nullable MethodInfo implMthInfo) {
 		this.implMthInfo = implMthInfo;
 	}
 
-	public MethodHandleType getHandleType() {
+	@Nullable public MethodHandleType getHandleType() {
 		return handleType;
 	}
 
-	public void setHandleType(MethodHandleType handleType) {
+	public void setHandleType(@Nullable MethodHandleType handleType) {
 		this.handleType = handleType;
 	}
 
-	public InsnNode getCallInsn() {
+	@Nullable public InsnNode getCallInsn() {
 		return callInsn;
 	}
 
-	public void setCallInsn(InsnNode callInsn) {
+	public void setCallInsn(@Nullable InsnNode callInsn) {
 		this.callInsn = callInsn;
 	}
 

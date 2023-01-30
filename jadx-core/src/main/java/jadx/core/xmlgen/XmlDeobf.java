@@ -15,7 +15,7 @@ public class XmlDeobf {
 	}
 
 	@Nullable
-	public static String deobfClassName(RootNode root, String potentialClassName, String packageName) {
+	public static String deobfClassName(RootNode root, @Nullable String potentialClassName, @Nullable String packageName) {
 		if (potentialClassName.indexOf('.') == -1) {
 			return null;
 		}

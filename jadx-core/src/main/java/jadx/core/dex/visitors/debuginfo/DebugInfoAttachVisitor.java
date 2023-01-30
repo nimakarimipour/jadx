@@ -22,6 +22,7 @@ import jadx.core.dex.visitors.blocks.BlockSplitter;
 import jadx.core.dex.visitors.ssa.SSATransform;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.exceptions.JadxException;
+import javax.annotation.Nullable;
 
 @JadxVisitor(
 		name = "Debug Info Parser",
@@ -52,7 +53,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		setMethodSourceLine(mth, insnArr);
 	}
 
-	private void attachSourceLines(MethodNode mth, Map<Integer, Integer> lineMapping, InsnNode[] insnArr) {
+	private void attachSourceLines(MethodNode mth, Map<Integer, Integer> lineMapping, @Nullable InsnNode[] insnArr) {
 		if (lineMapping.isEmpty()) {
 			return;
 		}
@@ -82,7 +83,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		}
 	}
 
-	private void attachDebugInfo(MethodNode mth, List<ILocalVar> localVars, InsnNode[] insnArr) {
+	private void attachDebugInfo(MethodNode mth, List<ILocalVar> localVars, @Nullable InsnNode[] insnArr) {
 		if (localVars.isEmpty()) {
 			return;
 		}
@@ -124,7 +125,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		mth.addAttr(new LocalVarsDebugInfoAttr(localVars));
 	}
 
-	private int attachDebugInfo(InsnArg arg, RegDebugInfoAttr debugInfoAttr, int regNum) {
+	private int attachDebugInfo(@Nullable InsnArg arg, RegDebugInfoAttr debugInfoAttr, int regNum) {
 		if (arg instanceof RegisterArg) {
 			RegisterArg reg = (RegisterArg) arg;
 			if (regNum == reg.getRegNum()) {
@@ -135,7 +136,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		return 0;
 	}
 
-	public static ArgType getVarType(MethodNode mth, ILocalVar var) {
+	@Nullable public static ArgType getVarType(MethodNode mth, ILocalVar var) {
 		ArgType type = ArgType.parse(var.getType());
 		String sign = var.getSignature();
 		if (sign == null) {
@@ -153,7 +154,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		return type;
 	}
 
-	private static boolean checkSignature(MethodNode mth, ArgType type, ArgType gType) {
+	private static boolean checkSignature(MethodNode mth, @Nullable ArgType type, ArgType gType) {
 		boolean apply;
 		ArgType el = gType.getArrayRootElement();
 		if (el.isGeneric()) {
@@ -170,7 +171,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 	/**
 	 * Set method source line from first instruction
 	 */
-	private void setMethodSourceLine(MethodNode mth, InsnNode[] insnArr) {
+	private void setMethodSourceLine(MethodNode mth, @Nullable InsnNode[] insnArr) {
 		for (InsnNode insn : insnArr) {
 			if (insn != null) {
 				int line = insn.getSourceLine();

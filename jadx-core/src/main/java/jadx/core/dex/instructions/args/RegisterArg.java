@@ -16,9 +16,9 @@ public class RegisterArg extends InsnArg implements Named {
 
 	protected final int regNum;
 	// not null after SSATransform pass
-	private SSAVar sVar;
+	@Nullable private SSAVar sVar;
 
-	public RegisterArg(int rn, ArgType type) {
+	public RegisterArg(int rn, @Nullable ArgType type) {
 		this.type = type; // initial type, not changing, can be unknown
 		this.regNum = rn;
 	}
@@ -32,7 +32,7 @@ public class RegisterArg extends InsnArg implements Named {
 		return true;
 	}
 
-	public ArgType getInitType() {
+	@Nullable public ArgType getInitType() {
 		return type;
 	}
 
@@ -45,7 +45,7 @@ public class RegisterArg extends InsnArg implements Named {
 	}
 
 	@Override
-	public void setType(ArgType newType) {
+	public void setType(@Nullable ArgType newType) {
 		if (sVar == null) {
 			throw new JadxRuntimeException("Can't change type for register without SSA variable: " + this);
 		}
@@ -75,7 +75,7 @@ public class RegisterArg extends InsnArg implements Named {
 		return contains(AFlag.IMMUTABLE_TYPE);
 	}
 
-	public SSAVar getSVar() {
+	@Nullable public SSAVar getSVar() {
 		return sVar;
 	}
 
@@ -87,7 +87,7 @@ public class RegisterArg extends InsnArg implements Named {
 		this.sVar = null;
 	}
 
-	@Override
+	@Nullable @Override
 	public String getName() {
 		if (isSuper()) {
 			return SUPER_ARG_NAME;
@@ -131,7 +131,7 @@ public class RegisterArg extends InsnArg implements Named {
 		return duplicate(getRegNum(), getInitType(), sVar);
 	}
 
-	public RegisterArg duplicate(ArgType initType) {
+	public RegisterArg duplicate(@Nullable ArgType initType) {
 		return duplicate(getRegNum(), initType, sVar);
 	}
 
@@ -145,7 +145,7 @@ public class RegisterArg extends InsnArg implements Named {
 		return duplicate(regNum, getInitType(), sVar);
 	}
 
-	public RegisterArg duplicate(int regNum, ArgType initType, @Nullable SSAVar sVar) {
+	public RegisterArg duplicate(int regNum, @Nullable ArgType initType, @Nullable SSAVar sVar) {
 		RegisterArg dup = new RegisterArg(regNum, initType);
 		if (sVar != null) {
 			// only 'set' here, 'assign' or 'use' will binds later
@@ -199,7 +199,7 @@ public class RegisterArg extends InsnArg implements Named {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

@@ -10,6 +10,7 @@ import jadx.core.dex.info.AccessInfo.AFType;
 import jadx.core.dex.info.FieldInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.utils.ListUtils;
+import javax.annotation.Nullable;
 
 public class FieldNode extends NotificationAttrNode implements ICodeNode {
 
@@ -17,7 +18,7 @@ public class FieldNode extends NotificationAttrNode implements ICodeNode {
 	private final FieldInfo fieldInfo;
 	private AccessInfo accFlags;
 
-	private ArgType type;
+	@Nullable private ArgType type;
 
 	private List<MethodNode> useIn = Collections.emptyList();
 
@@ -73,7 +74,7 @@ public class FieldNode extends NotificationAttrNode implements ICodeNode {
 		fieldInfo.setAlias(alias);
 	}
 
-	public ArgType getType() {
+	@Nullable public ArgType getType() {
 		return type;
 	}
 

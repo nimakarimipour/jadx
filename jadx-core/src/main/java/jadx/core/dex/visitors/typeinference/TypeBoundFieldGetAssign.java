@@ -6,6 +6,7 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.RootNode;
+import javax.annotation.Nullable;
 
 /**
  * Dynamic bound for instance field get of generic type.
@@ -14,7 +15,7 @@ import jadx.core.dex.nodes.RootNode;
 public final class TypeBoundFieldGetAssign implements ITypeBoundDynamic {
 	private final RootNode root;
 	private final IndexInsnNode getNode;
-	private final FieldInfo fieldInfo;
+	@Nullable private final FieldInfo fieldInfo;
 	private final ArgType initType;
 
 	public TypeBoundFieldGetAssign(RootNode root, IndexInsnNode getNode, ArgType initType) {
@@ -39,7 +40,7 @@ public final class TypeBoundFieldGetAssign implements ITypeBoundDynamic {
 		return getResultType(getInstanceArg().getType());
 	}
 
-	private ArgType getResultType(ArgType instanceType) {
+	private ArgType getResultType(@Nullable ArgType instanceType) {
 		ArgType resultGeneric = root.getTypeUtils().replaceClassGenerics(instanceType, initType);
 		if (resultGeneric != null && !resultGeneric.isWildcard()) {
 			return resultGeneric;
@@ -51,7 +52,7 @@ public final class TypeBoundFieldGetAssign implements ITypeBoundDynamic {
 		return getNode.getArg(0);
 	}
 
-	@Override
+	@Nullable @Override
 	public RegisterArg getArg() {
 		return getNode.getResult();
 	}
