@@ -165,7 +165,7 @@ public class ValuesParser extends ParserConstants {
 		}
 	}
 
-	public String decodeNameRef(int nameRef) {
+	@Nullable public String decodeNameRef(int nameRef) {
 		int ref = nameRef;
 		if (isResInternalId(nameRef)) {
 			ref = nameRef & ATTR_TYPE_ANY;

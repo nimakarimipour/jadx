@@ -13,6 +13,7 @@ import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.IRegion;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxOverflowException;
+import javax.annotation.Nullable;
 
 final class RegionStack {
 	private static final Logger LOG = LoggerFactory.getLogger(RegionStack.class);
@@ -28,7 +29,7 @@ final class RegionStack {
 
 	private static final class State {
 		final Set<BlockNode> exits;
-		IRegion region;
+		@Nullable IRegion region;
 
 		public State() {
 			exits = new HashSet<>(4);
@@ -83,7 +84,7 @@ final class RegionStack {
 	 *
 	 * @param exit boundary node, null will be ignored
 	 */
-	public void addExit(BlockNode exit) {
+	public void addExit(@Nullable BlockNode exit) {
 		if (exit != null) {
 			curState.exits.add(exit);
 		}
@@ -95,7 +96,7 @@ final class RegionStack {
 		}
 	}
 
-	public void removeExit(BlockNode exit) {
+	public void removeExit(@Nullable BlockNode exit) {
 		if (exit != null) {
 			curState.exits.remove(exit);
 		}
@@ -105,7 +106,7 @@ final class RegionStack {
 		return curState.exits.contains(exit);
 	}
 
-	public IRegion peekRegion() {
+	@Nullable public IRegion peekRegion() {
 		return curState.region;
 	}
 

@@ -6,13 +6,14 @@ import org.jetbrains.annotations.NotNull;
 
 import jadx.api.ICodeWriter;
 import jadx.core.utils.Utils;
+import javax.annotation.Nullable;
 
 public class JadxError implements Comparable<JadxError> {
 
 	private final String error;
-	private final Throwable cause;
+	@Nullable private final Throwable cause;
 
-	public JadxError(String error, Throwable cause) {
+	public JadxError(String error, @Nullable Throwable cause) {
 		this.error = Objects.requireNonNull(error);
 		this.cause = cause;
 	}
@@ -21,7 +22,7 @@ public class JadxError implements Comparable<JadxError> {
 		return error;
 	}
 
-	public Throwable getCause() {
+	@Nullable public Throwable getCause() {
 		return cause;
 	}
 

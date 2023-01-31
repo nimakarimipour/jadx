@@ -5,6 +5,7 @@ import java.util.List;
 
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.SSAVar;
+import javax.annotation.Nullable;
 
 public class TypeSearchVarInfo {
 	private final SSAVar var;

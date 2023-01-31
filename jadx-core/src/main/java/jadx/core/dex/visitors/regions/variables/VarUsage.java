@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jadx.core.dex.instructions.args.SSAVar;
+import javax.annotation.Nullable;
 
 class VarUsage {
-	private final SSAVar var;
+	@Nullable private final SSAVar var;
 	private final List<UsePlace> assigns = new ArrayList<>(3);
 	private final List<UsePlace> uses = new ArrayList<>(3);
 
-	VarUsage(SSAVar var) {
+	VarUsage(@Nullable SSAVar var) {
 		this.var = var;
 	}
 
-	public SSAVar getVar() {
+	@Nullable public SSAVar getVar() {
 		return var;
 	}
 

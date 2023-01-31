@@ -10,6 +10,7 @@ import jadx.core.dex.attributes.AType;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.Utils;
+import javax.annotation.Nullable;
 
 public class TryCatchBlockAttr implements IJadxAttribute {
 

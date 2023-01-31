@@ -31,7 +31,7 @@ public class SSAVar {
 
 	private RegisterArg assign;
 	private final List<RegisterArg> useList = new ArrayList<>(2);
-	private List<PhiInsn> usedInPhi = null;
+	@Nullable private List<PhiInsn> usedInPhi = null;
 
 	private final TypeInfo typeInfo = new TypeInfo();
 
@@ -210,7 +210,7 @@ public class SSAVar {
 		}
 	}
 
-	public String getName() {
+	@Nullable public String getName() {
 		if (codeVar == null) {
 			return null;
 		}

@@ -15,6 +15,7 @@ import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.dex.trycatch.TryCatchBlockAttr;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.CodegenException;
+import javax.annotation.Nullable;
 
 public final class TryCatchRegion extends AbstractRegion implements IBranchRegion {
 
