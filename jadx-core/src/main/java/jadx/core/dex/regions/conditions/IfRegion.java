@@ -13,8 +13,8 @@ import jadx.core.dex.nodes.IRegion;
 import jadx.core.utils.exceptions.CodegenException;
 
 public final class IfRegion extends ConditionRegion implements IBranchRegion {
-	private IContainer thenRegion;
-	private IContainer elseRegion;
+	@SuppressWarnings("NullAway.Init") private IContainer thenRegion;
+	@SuppressWarnings("NullAway.Init") private IContainer elseRegion;
 
 	public IfRegion(IRegion parent) {
 		super(parent);

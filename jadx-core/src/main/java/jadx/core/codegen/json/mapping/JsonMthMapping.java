@@ -1,10 +1,10 @@
 package jadx.core.codegen.json.mapping;
 
 public class JsonMthMapping {
-	private String signature;
-	private String name;
-	private String alias;
-	private String offset;
+	@SuppressWarnings("NullAway.Init") private String signature;
+	@SuppressWarnings("NullAway.Init") private String name;
+	@SuppressWarnings("NullAway.Init") private String alias;
+	@SuppressWarnings("NullAway.Init") private String offset;
 
 	public String getSignature() {
 		return signature;

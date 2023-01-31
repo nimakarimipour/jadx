@@ -35,6 +35,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.CodeGenUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class JsonCodeGen {
 
@@ -59,7 +60,7 @@ public class JsonCodeGen {
 		return GSON.toJson(jsonCls);
 	}
 
-	private JsonClass processCls(ClassNode cls, @Nullable ClassGen parentCodeGen) {
+	@NullUnmarked private JsonClass processCls(ClassNode cls, @Nullable ClassGen parentCodeGen) {
 		ClassGen classGen;
 		if (parentCodeGen == null) {
 			classGen = new ClassGen(cls, args);

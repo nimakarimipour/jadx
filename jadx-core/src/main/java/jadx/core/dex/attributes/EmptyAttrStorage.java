@@ -6,6 +6,7 @@ import java.util.List;
 import jadx.api.plugins.input.data.annotations.IAnnotation;
 import jadx.api.plugins.input.data.attributes.IJadxAttrType;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
+import jadx.core.NullUnmarked;
 
 public final class EmptyAttrStorage extends AttributeStorage {
 
@@ -19,12 +20,12 @@ public final class EmptyAttrStorage extends AttributeStorage {
 		return false;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public <T extends IJadxAttribute> T get(IJadxAttrType<T> type) {
 		return null;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public IAnnotation getAnnotation(String cls) {
 		return null;
 	}

@@ -1,9 +1,9 @@
 package jadx.core.codegen.json.cls;
 
 public class JsonNode {
-	private String name;
-	private String alias;
-	private String declaration;
+	@SuppressWarnings("NullAway.Init") private String name;
+	@SuppressWarnings("NullAway.Init") private String alias;
+	@SuppressWarnings("NullAway.Init") private String declaration;
 	private int accessFlags;
 
 	public String getName() {

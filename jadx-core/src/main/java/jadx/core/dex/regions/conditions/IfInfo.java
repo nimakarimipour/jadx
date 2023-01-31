@@ -17,7 +17,7 @@ public final class IfInfo {
 	private final BlockNode elseBlock;
 	private final Set<BlockNode> skipBlocks;
 	private final List<InsnNode> forceInlineInsns;
-	private BlockNode outBlock;
+	@SuppressWarnings("NullAway.Init") private BlockNode outBlock;
 
 	public IfInfo(MethodNode mth, IfCondition condition, BlockNode thenBlock, BlockNode elseBlock) {
 		this(mth, condition, thenBlock, elseBlock, new ArrayList<>(), new HashSet<>(), new ArrayList<>());

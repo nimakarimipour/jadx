@@ -46,6 +46,7 @@ import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 /**
  * Prepare instructions for code generation pass,
@@ -247,7 +248,7 @@ public class PrepareForCodeGen extends AbstractVisitor {
 	 * Check that 'super' or 'this' call in constructor is a first instruction.
 	 * Otherwise move to top and add a warning if code breaks.
 	 */
-	private void moveConstructorInConstructor(MethodNode mth) {
+	@NullUnmarked private void moveConstructorInConstructor(MethodNode mth) {
 		if (mth.isConstructor()) {
 			ConstructorInsn constrInsn = searchConstructorCall(mth);
 			if (constrInsn != null && !constrInsn.contains(AFlag.DONT_GENERATE)) {

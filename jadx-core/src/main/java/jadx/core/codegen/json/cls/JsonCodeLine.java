@@ -1,11 +1,12 @@
 package jadx.core.codegen.json.cls;
 
 import org.jetbrains.annotations.Nullable;
+import jadx.core.NullUnmarked;
 
 public class JsonCodeLine {
-	private String code;
-	private String offset;
-	private Integer sourceLine;
+	@SuppressWarnings("NullAway.Init") private String code;
+	@SuppressWarnings("NullAway.Init") private String offset;
+	@SuppressWarnings("NullAway.Init") private Integer sourceLine;
 
 	public String getCode() {
 		return code;
@@ -27,7 +28,7 @@ public class JsonCodeLine {
 		return sourceLine;
 	}
 
-	public void setSourceLine(@Nullable Integer sourceLine) {
+	@NullUnmarked public void setSourceLine(@Nullable Integer sourceLine) {
 		this.sourceLine = sourceLine;
 	}
 }

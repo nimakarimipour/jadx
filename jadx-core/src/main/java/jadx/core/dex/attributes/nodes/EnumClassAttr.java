@@ -8,15 +8,16 @@ import jadx.core.dex.instructions.mods.ConstructorInsn;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.MethodNode;
+import jadx.core.NullUnmarked;
 
 public class EnumClassAttr implements IJadxAttribute {
 
 	public static class EnumField {
 		private final FieldNode field;
 		private final ConstructorInsn constrInsn;
-		private ClassNode cls;
+		@SuppressWarnings("NullAway.Init") private ClassNode cls;
 
-		public EnumField(FieldNode field, ConstructorInsn co) {
+		@NullUnmarked public EnumField(FieldNode field, ConstructorInsn co) {
 			this.field = field;
 			this.constrInsn = co;
 		}
@@ -44,7 +45,7 @@ public class EnumClassAttr implements IJadxAttribute {
 	}
 
 	private final List<EnumField> fields;
-	private MethodNode staticMethod;
+	@SuppressWarnings("NullAway.Init") private MethodNode staticMethod;
 
 	public EnumClassAttr(List<EnumField> fields) {
 		this.fields = fields;

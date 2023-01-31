@@ -50,6 +50,7 @@ import jadx.core.utils.exceptions.JadxOverflowException;
 import static jadx.core.codegen.MethodGen.FallbackOption.BLOCK_DUMP;
 import static jadx.core.codegen.MethodGen.FallbackOption.COMMENTED_DUMP;
 import static jadx.core.codegen.MethodGen.FallbackOption.FALLBACK_MODE;
+import jadx.core.NullUnmarked;
 
 public class MethodGen {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodGen.class);
@@ -447,7 +448,7 @@ public class MethodGen {
 		}
 	}
 
-	private boolean dumpInsn(ICodeWriter code, InsnGen insnGen, FallbackOption option, int startIndent,
+	@NullUnmarked private boolean dumpInsn(ICodeWriter code, InsnGen insnGen, FallbackOption option, int startIndent,
 			@Nullable InsnNode prevInsn, InsnNode insn) {
 		if (insn.contains(AType.JADX_ERROR)) {
 			for (JadxError error : insn.getAll(AType.JADX_ERROR)) {
@@ -547,7 +548,7 @@ public class MethodGen {
 	/**
 	 * Return fallback variant of method codegen
 	 */
-	public static MethodGen getFallbackMethodGen(MethodNode mth) {
+	@NullUnmarked public static MethodGen getFallbackMethodGen(MethodNode mth) {
 		ClassGen clsGen = new ClassGen(mth.getParentClass(), null, false, true, true);
 		return new MethodGen(clsGen, mth);
 	}

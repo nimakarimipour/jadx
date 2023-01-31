@@ -50,6 +50,7 @@ import jadx.core.utils.Utils;
 import jadx.core.utils.android.AndroidResourcesUtils;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class ClassGen {
 
@@ -68,7 +69,7 @@ public class ClassGen {
 	@Nullable
 	private NameGen outerNameGen;
 
-	public ClassGen(ClassNode cls, JadxArgs jadxArgs) {
+	@NullUnmarked public ClassGen(ClassNode cls, JadxArgs jadxArgs) {
 		this(cls, null, jadxArgs.isUseImports(), jadxArgs.isFallbackMode(), jadxArgs.isShowInconsistentCode());
 	}
 
@@ -614,7 +615,7 @@ public class ClassGen {
 		code.add(clsName);
 	}
 
-	private String useClassInternal(ClassInfo useCls, ClassInfo extClsInfo) {
+	@NullUnmarked private String useClassInternal(ClassInfo useCls, ClassInfo extClsInfo) {
 		String fullName = extClsInfo.getAliasFullName();
 		if (fallback || !useImports) {
 			return fullName;
@@ -712,7 +713,7 @@ public class ClassGen {
 		return useCls.equals(b);
 	}
 
-	private static boolean isClassInnerFor(ClassInfo inner, ClassInfo parent) {
+	@NullUnmarked private static boolean isClassInnerFor(ClassInfo inner, ClassInfo parent) {
 		if (inner.isInner()) {
 			ClassInfo p = inner.getParentClass();
 			return Objects.equals(p, parent) || isClassInnerFor(p, parent);

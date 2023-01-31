@@ -15,6 +15,7 @@ import jadx.core.dex.attributes.nodes.RenameReasonAttr;
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.utils.Utils;
+import jadx.core.NullUnmarked;
 
 // TODO: parse data from d1 (protobuf encoded) to get original method names and other useful info
 public class KotlinMetadataUtils {
@@ -55,7 +56,7 @@ public class KotlinMetadataUtils {
 	}
 
 	// Don't use ClassInfo facility to not pollute class into cache
-	private static ClsAliasPair splitAndCheckClsName(ClassNode originCls, String fullClsName) {
+	@NullUnmarked private static ClsAliasPair splitAndCheckClsName(ClassNode originCls, String fullClsName) {
 		if (!NameMapper.isValidFullIdentifier(fullClsName)) {
 			return null;
 		}
@@ -102,7 +103,7 @@ public class KotlinMetadataUtils {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@NullUnmarked @SuppressWarnings("unchecked")
 	private static List<EncodedValue> getParamAsList(IAnnotation annotation, String paramName) {
 		if (annotation == null) {
 			return null;

@@ -38,6 +38,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.files.FileUtils;
+import jadx.core.NullUnmarked;
 
 /**
  * Classes list for import into classpath graph
@@ -72,7 +73,7 @@ public class ClsSet {
 		PRIMITIVE
 	}
 
-	private ClspClass[] classes;
+	@SuppressWarnings("NullAway.Init") private ClspClass[] classes;
 
 	public void loadFromClstFile() throws IOException, DecodeException {
 		long startTime = System.currentTimeMillis();
@@ -162,7 +163,7 @@ public class ClsSet {
 		return getCls(clsType.getObject(), names);
 	}
 
-	private static ClspClass getCls(String fullName, Map<String, ClspClass> names) {
+	@NullUnmarked private static ClspClass getCls(String fullName, Map<String, ClspClass> names) {
 		ClspClass cls = names.get(fullName);
 		if (cls == null) {
 			LOG.debug("Class not found: {}", fullName);
@@ -330,7 +331,7 @@ public class ClsSet {
 		}
 	}
 
-	private void load(InputStream input) throws IOException, DecodeException {
+	@NullUnmarked private void load(InputStream input) throws IOException, DecodeException {
 		try (DataInputStream in = new DataInputStream(new BufferedInputStream(input))) {
 			byte[] header = new byte[JADX_CLS_SET_HEADER.length()];
 			int readHeaderLength = in.read(header);
@@ -414,7 +415,7 @@ public class ClsSet {
 		return arr;
 	}
 
-	private ArgType readArgType(DataInputStream in) throws IOException {
+	@NullUnmarked private ArgType readArgType(DataInputStream in) throws IOException {
 		int ordinal = in.readByte();
 		if (ordinal == -1) {
 			return null;

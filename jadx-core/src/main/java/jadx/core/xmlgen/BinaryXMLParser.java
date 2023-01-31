@@ -20,6 +20,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.entry.ValuesParser;
+import jadx.core.NullUnmarked;
 
 /*
  * TODO:
@@ -39,24 +40,24 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	private static final boolean ATTR_NEW_LINE = false;
 
 	private final Map<Integer, String> resNames;
-	private Map<String, String> nsMap;
-	private Set<String> nsMapGenerated;
+	@SuppressWarnings("NullAway.Init") private Map<String, String> nsMap;
+	@SuppressWarnings("NullAway.Init") private Set<String> nsMapGenerated;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
-	private ICodeWriter writer;
-	private String[] strings;
+	@SuppressWarnings("NullAway.Init") private ICodeWriter writer;
+	@SuppressWarnings("NullAway.Init") private String[] strings;
 	private String currentTag = "ERROR";
 	private boolean firstElement;
-	private ValuesParser valuesParser;
+	@SuppressWarnings("NullAway.Init") private ValuesParser valuesParser;
 	private boolean isLastEnd = true;
 	private boolean isOneLine = true;
 	private int namespaceDepth = 0;
-	private int[] resourceIds;
+	@SuppressWarnings("NullAway.Init") private int[] resourceIds;
 
 	private final RootNode rootNode;
-	private String appPackageName;
+	@SuppressWarnings("NullAway.Init") private String appPackageName;
 
-	private Map<String, ClassNode> classNameCache;
+	@SuppressWarnings("NullAway.Init") private Map<String, ClassNode> classNameCache;
 
 	public BinaryXMLParser(RootNode rootNode) {
 		this.rootNode = rootNode;
@@ -68,7 +69,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	public synchronized ICodeInfo parse(InputStream inputStream) throws IOException {
+	@NullUnmarked public synchronized ICodeInfo parse(InputStream inputStream) throws IOException {
 		is = new ParserStream(inputStream);
 		if (!isBinaryXml()) {
 			return ResourcesLoader.loadToCodeWriter(inputStream);
@@ -283,7 +284,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	private void parseAttribute(int i, boolean newLine) throws IOException {
+	@NullUnmarked private void parseAttribute(int i, boolean newLine) throws IOException {
 		int attributeNS = is.readInt32();
 		int attributeName = is.readInt32();
 		int attributeRawValue = is.readInt32();
@@ -318,7 +319,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		writer.add('"');
 	}
 
-	private String getAttributeNS(int attributeNS) {
+	@NullUnmarked private String getAttributeNS(int attributeNS) {
 		String attrUrl = getString(attributeNS);
 		if (attrUrl == null || attrUrl.isEmpty()) {
 			if (isResInternalId(attributeNS)) {
@@ -385,7 +386,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return "NOT_FOUND_STR_0x" + Integer.toHexString(strId);
 	}
 
-	private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
+	@NullUnmarked private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
 			String shortNsName, String attrName) {
 		if (attrValDataType == TYPE_REFERENCE) {
 			// reference custom processing

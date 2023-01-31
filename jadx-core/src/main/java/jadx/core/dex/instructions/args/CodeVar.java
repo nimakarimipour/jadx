@@ -7,15 +7,15 @@ import java.util.List;
 import jadx.api.metadata.annotations.VarNode;
 
 public class CodeVar {
-	private String name;
-	private ArgType type; // before type inference can be null and set only for immutable types
+	@SuppressWarnings("NullAway.Init") private String name;
+	@SuppressWarnings("NullAway.Init") private ArgType type; // before type inference can be null and set only for immutable types
 	private List<SSAVar> ssaVars = Collections.emptyList();
 
 	private boolean isFinal;
 	private boolean isThis;
 	private boolean isDeclared;
 
-	private VarNode cachedVarNode; // set and used at codegen stage
+	@SuppressWarnings("NullAway.Init") private VarNode cachedVarNode; // set and used at codegen stage
 
 	public static CodeVar fromMthArg(RegisterArg mthArg, boolean linkRegister) {
 		CodeVar var = new CodeVar();

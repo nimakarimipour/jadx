@@ -32,6 +32,7 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.Utils;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "MarkFinallyVisitor",
@@ -99,7 +100,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 	/**
 	 * Search and mark common code from 'try' block and 'handlers'.
 	 */
-	private static boolean extractFinally(MethodNode mth, TryCatchBlockAttr tryBlock, ExceptionHandler allHandler) {
+	@NullUnmarked private static boolean extractFinally(MethodNode mth, TryCatchBlockAttr tryBlock, ExceptionHandler allHandler) {
 		BlockNode handlerBlock = allHandler.getHandlerBlock();
 		List<BlockNode> handlerBlocks =
 				new ArrayList<>(BlockUtils.collectBlocksDominatedByWithExcHandlers(mth, handlerBlock, handlerBlock));
@@ -346,7 +347,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private static InsnsSlice searchFromFirstBlock(BlockNode dupBlock, BlockNode startBlock, FinallyExtractInfo extractInfo) {
+	@NullUnmarked private static InsnsSlice searchFromFirstBlock(BlockNode dupBlock, BlockNode startBlock, FinallyExtractInfo extractInfo) {
 		InsnsSlice dupSlice = isStartBlock(dupBlock, startBlock, extractInfo);
 		if (dupSlice == null) {
 			return null;
@@ -377,7 +378,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 	/**
 	 * 'Finally' instructions can start in the middle of the first block.
 	 */
-	private static InsnsSlice isStartBlock(BlockNode dupBlock, BlockNode finallyBlock, FinallyExtractInfo extractInfo) {
+	@NullUnmarked private static InsnsSlice isStartBlock(BlockNode dupBlock, BlockNode finallyBlock, FinallyExtractInfo extractInfo) {
 		extractInfo.setCurDupSlice(null);
 		List<InsnNode> dupInsns = dupBlock.getInstructions();
 		List<InsnNode> finallyInsns = finallyBlock.getInstructions();
@@ -595,7 +596,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	@SuppressWarnings("RedundantIfStatement")
+	@NullUnmarked @SuppressWarnings("RedundantIfStatement")
 	private static boolean assignedOutsideHandler(FinallyExtractInfo extractInfo, RegisterArg dupReg, RegisterArg fReg) {
 		if (InsnList.contains(extractInfo.getFinallyInsnsSlice().getInsnsList(), fReg.getAssignInsn())) {
 			return false;

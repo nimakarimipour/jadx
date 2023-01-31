@@ -20,6 +20,7 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.ICodeNode;
+import jadx.core.NullUnmarked;
 
 public class CodeGenUtils {
 
@@ -155,7 +156,7 @@ public class CodeGenUtils {
 		}
 	}
 
-	public static CodeVar getCodeVar(RegisterArg arg) {
+	@NullUnmarked public static CodeVar getCodeVar(RegisterArg arg) {
 		SSAVar svar = arg.getSVar();
 		if (svar != null) {
 			return svar.getCodeVar();

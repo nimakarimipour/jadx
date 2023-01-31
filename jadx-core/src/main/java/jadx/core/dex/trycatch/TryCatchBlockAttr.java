@@ -17,11 +17,11 @@ public class TryCatchBlockAttr implements IJadxAttribute {
 	private final List<ExceptionHandler> handlers;
 	private List<BlockNode> blocks;
 
-	private TryCatchBlockAttr outerTryBlock;
+	@SuppressWarnings("NullAway.Init") private TryCatchBlockAttr outerTryBlock;
 	private List<TryCatchBlockAttr> innerTryBlocks = Collections.emptyList();
 	private boolean merged = false;
 
-	private BlockNode topSplitter;
+	@SuppressWarnings("NullAway.Init") private BlockNode topSplitter;
 
 	public TryCatchBlockAttr(int id, List<ExceptionHandler> handlers, List<BlockNode> blocks) {
 		this.id = id;

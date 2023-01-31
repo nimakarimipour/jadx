@@ -16,7 +16,7 @@ public class ClspClass {
 
 	private final ArgType clsType;
 	private final int id;
-	private ArgType[] parents;
+	@SuppressWarnings("NullAway.Init") private ArgType[] parents;
 	private Map<String, ClspMethod> methodsMap = Collections.emptyMap();
 	private List<ArgType> typeParameters = Collections.emptyList();
 

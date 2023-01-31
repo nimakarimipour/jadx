@@ -1,8 +1,8 @@
 package jadx.core.codegen.json.mapping;
 
 public class JsonFieldMapping {
-	private String name;
-	private String alias;
+	@SuppressWarnings("NullAway.Init") private String name;
+	@SuppressWarnings("NullAway.Init") private String alias;
 
 	public String getName() {
 		return name;

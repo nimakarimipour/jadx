@@ -27,6 +27,7 @@ import jadx.core.xmlgen.entry.RawNamedValue;
 import jadx.core.xmlgen.entry.RawValue;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import jadx.core.xmlgen.entry.ValuesParser;
+import jadx.core.NullUnmarked;
 
 public class ResTableParser extends CommonBinaryParser implements IResParser {
 	private static final Logger LOG = LoggerFactory.getLogger(ResTableParser.class);
@@ -69,7 +70,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 	private final boolean useRawResName;
 	private final RootNode root;
 	private final ResourceStorage resStorage = new ResourceStorage();
-	private String[] strings;
+	@SuppressWarnings("NullAway.Init") private String[] strings;
 
 	public ResTableParser(RootNode root) {
 		this(root, false);
@@ -111,7 +112,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		}
 	}
 
-	private PackageChunk parsePackage() throws IOException {
+	@NullUnmarked private PackageChunk parsePackage() throws IOException {
 		long start = is.getPos();
 		is.checkInt16(RES_TABLE_PACKAGE_TYPE, "Not a table chunk");
 		int headerSize = is.readInt16();
@@ -410,7 +411,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		return new RawValue(dataType, data);
 	}
 
-	private EntryConfig parseConfig() throws IOException {
+	@NullUnmarked private EntryConfig parseConfig() throws IOException {
 		long start = is.getPos();
 		int size = is.readInt32();
 		if (size < 28) {

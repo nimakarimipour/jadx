@@ -20,8 +20,8 @@ public class FinallyExtractInfo {
 	private final InsnsSlice finallyInsnsSlice = new InsnsSlice();
 	private final BlockNode startBlock;
 
-	private InsnsSlice curDupSlice;
-	private List<InsnNode> curDupInsns;
+	@SuppressWarnings("NullAway.Init") private InsnsSlice curDupSlice;
+	@SuppressWarnings("NullAway.Init") private List<InsnNode> curDupInsns;
 	private int curDupInsnsOffset;
 
 	public FinallyExtractInfo(MethodNode mth, ExceptionHandler finallyHandler, BlockNode startBlock, List<BlockNode> allHandlerBlocks) {

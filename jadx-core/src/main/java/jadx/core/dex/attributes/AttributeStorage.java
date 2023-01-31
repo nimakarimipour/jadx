@@ -15,6 +15,7 @@ import jadx.api.plugins.input.data.attributes.JadxAttrType;
 import jadx.api.plugins.input.data.attributes.types.AnnotationsAttr;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 /**
  * Storage for different attribute types:
@@ -80,12 +81,12 @@ public class AttributeStorage {
 		return attributes.containsKey(type);
 	}
 
-	@SuppressWarnings("unchecked")
+	@NullUnmarked @SuppressWarnings("unchecked")
 	public <T extends IJadxAttribute> T get(IJadxAttrType<T> type) {
 		return (T) attributes.get(type);
 	}
 
-	public IAnnotation getAnnotation(String cls) {
+	@NullUnmarked public IAnnotation getAnnotation(String cls) {
 		AnnotationsAttr aList = get(JadxAttrType.ANNOTATION_LIST);
 		return aList == null ? null : aList.get(cls);
 	}

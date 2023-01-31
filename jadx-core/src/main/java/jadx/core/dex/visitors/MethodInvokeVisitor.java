@@ -30,6 +30,7 @@ import jadx.core.dex.visitors.typeinference.TypeCompare;
 import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "MethodInvokeVisitor",
@@ -43,7 +44,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 		}
 )
 public class MethodInvokeVisitor extends AbstractVisitor {
-	private RootNode root;
+	@SuppressWarnings("NullAway.Init") private RootNode root;
 
 	@Override
 	public void init(RootNode root) {
@@ -131,7 +132,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		}
 	}
 
-	private ArgType getCallClassFromInvoke(MethodNode parentMth, BaseInvokeNode invokeInsn, MethodInfo callMth) {
+	@NullUnmarked private ArgType getCallClassFromInvoke(MethodNode parentMth, BaseInvokeNode invokeInsn, MethodInfo callMth) {
 		if (invokeInsn instanceof ConstructorInsn) {
 			ConstructorInsn constrInsn = (ConstructorInsn) invokeInsn;
 			if (constrInsn.isSuper()) {

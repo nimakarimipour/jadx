@@ -53,6 +53,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.dex.nodes.ProcessState.LOADED;
 import static jadx.core.dex.nodes.ProcessState.NOT_LOADED;
+import jadx.core.NullUnmarked;
 
 public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeNode, Comparable<ClassNode> {
 	private static final Logger LOG = LoggerFactory.getLogger(ClassNode.class);
@@ -62,7 +63,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 
 	private final ClassInfo clsInfo;
 	private AccessInfo accessFlags;
-	private ArgType superClass;
+	@SuppressWarnings("NullAway.Init") private ArgType superClass;
 	private List<ArgType> interfaces;
 	private List<ArgType> generics = Collections.emptyList();
 
@@ -73,9 +74,9 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	private List<ClassNode> inlinedClasses = Collections.emptyList();
 
 	// store smali
-	private String smali;
+	@SuppressWarnings("NullAway.Init") private String smali;
 	// store parent for inner classes or 'this' otherwise
-	private ClassNode parentClass;
+	@SuppressWarnings("NullAway.Init") private ClassNode parentClass;
 
 	private volatile ProcessState state = ProcessState.NOT_LOADED;
 	private LoadStage loadStage = LoadStage.NONE;
@@ -155,7 +156,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		}
 	}
 
-	private ArgType checkSuperType(IClassData cls) {
+	@NullUnmarked private ArgType checkSuperType(IClassData cls) {
 		String superType = cls.getSuperType();
 		if (superType == null) {
 			if (clsInfo.getType().getObject().equals(Consts.CLASS_OBJECT)) {
@@ -227,7 +228,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	}
 
 	// Create empty class
-	private ClassNode(RootNode root, ClassInfo clsInfo, int accessFlags) {
+	@NullUnmarked private ClassNode(RootNode root, ClassInfo clsInfo, int accessFlags) {
 		this.root = root;
 		this.clsData = null;
 		this.clsInfo = clsInfo;
@@ -418,7 +419,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		setState(LOADED);
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public void unload() {
 		if (state == NOT_LOADED) {
 			return;
@@ -475,7 +476,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		fields.add(fld);
 	}
 
-	public FieldNode getConstField(Object obj) {
+	@NullUnmarked public FieldNode getConstField(Object obj) {
 		return getConstField(obj, true);
 	}
 
@@ -489,7 +490,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return root().getConstValues().getConstFieldByLiteralArg(this, arg);
 	}
 
-	public FieldNode searchField(FieldInfo field) {
+	@NullUnmarked public FieldNode searchField(FieldInfo field) {
 		for (FieldNode f : fields) {
 			if (f.getFieldInfo().equals(field)) {
 				return f;
@@ -498,7 +499,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
-	public FieldNode searchFieldByNameAndType(FieldInfo field) {
+	@NullUnmarked public FieldNode searchFieldByNameAndType(FieldInfo field) {
 		for (FieldNode f : fields) {
 			if (f.getFieldInfo().equalsNameAndType(field)) {
 				return f;
@@ -507,7 +508,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
-	public FieldNode searchFieldByName(String name) {
+	@NullUnmarked public FieldNode searchFieldByName(String name) {
 		for (FieldNode f : fields) {
 			if (f.getName().equals(name)) {
 				return f;
@@ -516,7 +517,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
-	public FieldNode searchFieldByShortId(String shortId) {
+	@NullUnmarked public FieldNode searchFieldByShortId(String shortId) {
 		for (FieldNode f : fields) {
 			if (f.getFieldInfo().getShortId().equals(shortId)) {
 				return f;
@@ -525,11 +526,11 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
-	public MethodNode searchMethod(MethodInfo mth) {
+	@NullUnmarked public MethodNode searchMethod(MethodInfo mth) {
 		return mthInfoMap.get(mth);
 	}
 
-	public MethodNode searchMethodByShortId(String shortId) {
+	@NullUnmarked public MethodNode searchMethodByShortId(String shortId) {
 		for (MethodNode m : methods) {
 			if (m.getMethodInfo().getShortId().equals(shortId)) {
 				return m;
@@ -557,7 +558,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return parentClass;
 	}
 
-	public void updateParentClass() {
+	@NullUnmarked public void updateParentClass() {
 		if (clsInfo.isInner()) {
 			ClassNode parent = root.resolveClass(clsInfo.getParentClass());
 			if (parent != null) {

@@ -25,6 +25,7 @@ import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "SSATransform",
@@ -47,7 +48,7 @@ public class SSATransform extends AbstractVisitor {
 		process(mth);
 	}
 
-	private static void process(MethodNode mth) {
+	@NullUnmarked private static void process(MethodNode mth) {
 		if (!mth.getSVars().isEmpty()) {
 			return;
 		}

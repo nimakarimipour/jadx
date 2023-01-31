@@ -24,6 +24,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.files.FileUtils;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import jadx.core.NullUnmarked;
 
 public class DeobfPresets {
 	private static final Logger LOG = LoggerFactory.getLogger(DeobfPresets.class);
@@ -45,7 +46,7 @@ public class DeobfPresets {
 		return new DeobfPresets(deobfMapPath);
 	}
 
-	private static Path getPathDeobfMapPath(RootNode root) {
+	@NullUnmarked private static Path getPathDeobfMapPath(RootNode root) {
 		JadxArgs jadxArgs = root.getArgs();
 		File deobfMapFile = jadxArgs.getDeobfuscationMapFile();
 		if (deobfMapFile != null) {
@@ -140,21 +141,21 @@ public class DeobfPresets {
 		LOG.info("Deobfuscation map file saved as: {}", deobfMapFile);
 	}
 
-	public String getForCls(ClassInfo cls) {
+	@NullUnmarked public String getForCls(ClassInfo cls) {
 		if (clsPresetMap.isEmpty()) {
 			return null;
 		}
 		return clsPresetMap.get(cls.makeRawFullName());
 	}
 
-	public String getForFld(FieldInfo fld) {
+	@NullUnmarked public String getForFld(FieldInfo fld) {
 		if (fldPresetMap.isEmpty()) {
 			return null;
 		}
 		return fldPresetMap.get(fld.getRawFullId());
 	}
 
-	public String getForMth(MethodInfo mth) {
+	@NullUnmarked public String getForMth(MethodInfo mth) {
 		if (mthPresetMap.isEmpty()) {
 			return null;
 		}

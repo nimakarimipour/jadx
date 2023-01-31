@@ -5,20 +5,20 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class JsonClass extends JsonNode {
-	@SerializedName("package")
+	@SuppressWarnings("NullAway.Init") @SerializedName("package")
 	private String pkg;
-	private String type; // class, interface, enum
-	@SerializedName("extends")
+	@SuppressWarnings("NullAway.Init") private String type; // class, interface, enum
+	@SuppressWarnings("NullAway.Init") @SerializedName("extends")
 	private String superClass;
-	@SerializedName("implements")
+	@SuppressWarnings("NullAway.Init") @SerializedName("implements")
 	private List<String> interfaces;
-	private String dex;
+	@SuppressWarnings("NullAway.Init") private String dex;
 
-	private List<JsonField> fields;
-	private List<JsonMethod> methods;
-	private List<JsonClass> innerClasses;
+	@SuppressWarnings("NullAway.Init") private List<JsonField> fields;
+	@SuppressWarnings("NullAway.Init") private List<JsonMethod> methods;
+	@SuppressWarnings("NullAway.Init") private List<JsonClass> innerClasses;
 
-	private List<String> imports;
+	@SuppressWarnings("NullAway.Init") private List<String> imports;
 
 	public String getType() {
 		return type;

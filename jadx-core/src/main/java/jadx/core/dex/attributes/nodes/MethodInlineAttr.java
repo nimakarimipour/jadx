@@ -8,6 +8,7 @@ import jadx.core.dex.attributes.AType;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
+import jadx.core.NullUnmarked;
 
 public class MethodInlineAttr extends PinnedAttribute {
 
@@ -40,7 +41,7 @@ public class MethodInlineAttr extends PinnedAttribute {
 	 */
 	private final int[] argsRegNums;
 
-	private MethodInlineAttr(InsnNode insn, int[] argsRegNums) {
+	@NullUnmarked private MethodInlineAttr(InsnNode insn, int[] argsRegNums) {
 		this.insn = insn;
 		this.argsRegNums = argsRegNums;
 	}

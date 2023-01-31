@@ -1,7 +1,7 @@
 package jadx.core.dex.instructions.args;
 
 public class VarName {
-	private String name;
+	@SuppressWarnings("NullAway.Init") private String name;
 
 	public String getName() {
 		return name;

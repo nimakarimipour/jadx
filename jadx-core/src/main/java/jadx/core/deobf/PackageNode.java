@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
+import jadx.core.NullUnmarked;
 
 public class PackageNode {
 
@@ -14,10 +15,10 @@ public class PackageNode {
 	private List<PackageNode> innerPackages = Collections.emptyList();
 
 	private final String packageName;
-	private String packageAlias;
+	@SuppressWarnings("NullAway.Init") private String packageAlias;
 
-	private String cachedPackageFullName;
-	private String cachedPackageFullAlias;
+	@SuppressWarnings("NullAway.Init") private String cachedPackageFullName;
+	@SuppressWarnings("NullAway.Init") private String cachedPackageFullAlias;
 
 	public PackageNode(String packageName) {
 		this.packageName = packageName;
@@ -53,7 +54,7 @@ public class PackageNode {
 		return packageName;
 	}
 
-	public void setAlias(String alias) {
+	@NullUnmarked public void setAlias(String alias) {
 		packageAlias = alias;
 		cachedPackageFullAlias = null;
 	}
@@ -114,7 +115,7 @@ public class PackageNode {
 	 *             inner package name
 	 * @return package node or {@code null}
 	 */
-	public PackageNode getInnerPackageByName(String name) {
+	@NullUnmarked public PackageNode getInnerPackageByName(String name) {
 		PackageNode result = null;
 		for (PackageNode p : innerPackages) {
 			if (p.getName().equals(name)) {

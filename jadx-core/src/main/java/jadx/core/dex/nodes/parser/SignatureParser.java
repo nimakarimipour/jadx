@@ -13,6 +13,7 @@ import jadx.api.plugins.input.data.attributes.types.SignatureAttr;
 import jadx.core.dex.attributes.IAttributeNode;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class SignatureParser {
 	private static final Logger LOG = LoggerFactory.getLogger(SignatureParser.class);
@@ -130,7 +131,7 @@ public class SignatureParser {
 		return skipUntil(lastChar) ? inclusiveSlice() : null;
 	}
 
-	public ArgType consumeType() {
+	@NullUnmarked public ArgType consumeType() {
 		char ch = next();
 		switch (ch) {
 			case 'L':
@@ -169,7 +170,7 @@ public class SignatureParser {
 		throw new JadxRuntimeException("Can't parse type: " + debugString() + ", unexpected: " + ch);
 	}
 
-	private ArgType consumeObjectType(boolean innerType) {
+	@NullUnmarked private ArgType consumeObjectType(boolean innerType) {
 		mark();
 		int ch;
 		do {

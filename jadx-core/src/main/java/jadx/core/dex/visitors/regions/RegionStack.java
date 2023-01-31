@@ -13,6 +13,7 @@ import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.IRegion;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxOverflowException;
+import jadx.core.NullUnmarked;
 
 final class RegionStack {
 	private static final Logger LOG = LoggerFactory.getLogger(RegionStack.class);
@@ -28,9 +29,9 @@ final class RegionStack {
 
 	private static final class State {
 		final Set<BlockNode> exits;
-		IRegion region;
+		@SuppressWarnings("NullAway.Init") IRegion region;
 
-		public State() {
+		@NullUnmarked public State() {
 			exits = new HashSet<>(4);
 		}
 

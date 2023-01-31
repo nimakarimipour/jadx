@@ -21,6 +21,7 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
+import jadx.core.NullUnmarked;
 
 /**
  * Slow and memory consuming multi-variable type search algorithm.
@@ -332,7 +333,7 @@ public class TypeSearch {
 		return list;
 	}
 
-	private void collectConstraints(SSAVar var) {
+	@NullUnmarked private void collectConstraints(SSAVar var) {
 		TypeSearchVarInfo varInfo = state.getVarInfo(var);
 		if (varInfo.isTypeResolved()) {
 			varInfo.setConstraints(Collections.emptyList());
