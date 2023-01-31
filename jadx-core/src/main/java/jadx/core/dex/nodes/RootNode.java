@@ -47,6 +47,7 @@ import jadx.core.xmlgen.ResDecoder;
 import jadx.core.xmlgen.ResourceStorage;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import jadx.core.xmlgen.entry.ValuesParser;
+import jadx.core.NullUnmarked;
 
 public class RootNode {
 	private static final Logger LOG = LoggerFactory.getLogger(RootNode.class);
@@ -320,7 +321,7 @@ public class RootNode {
 		return clsMap.get(clsInfo);
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public ClassNode resolveClass(@Nullable ArgType clsType) {
 		if (!clsType.isTypeKnown() || clsType.isGenericType()) {
 			return null;
@@ -492,7 +493,7 @@ public class RootNode {
 		codeDataUpdateListeners.forEach(l -> l.updated(codeData));
 	}
 
-	public ClspGraph getClsp() {
+	@NullUnmarked public ClspGraph getClsp() {
 		return clsp;
 	}
 

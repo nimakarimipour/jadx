@@ -37,6 +37,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.regions.conditions.IfCondition;
 import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class BlockUtils {
 
@@ -223,7 +224,7 @@ public class BlockUtils {
 		return isExitBlock(block);
 	}
 
-	public static boolean isExitBlock(@Nullable BlockNode block) {
+	@NullUnmarked public static boolean isExitBlock(@Nullable BlockNode block) {
 		List<BlockNode> successors = block.getSuccessors();
 		if (successors.isEmpty()) {
 			return true;
@@ -351,7 +352,7 @@ public class BlockUtils {
 		return new BitSet(mth.getBasicBlocks().size());
 	}
 
-	public static BitSet copyBlocksBitSet(MethodNode mth, @Nullable BitSet bitSet) {
+	@NullUnmarked public static BitSet copyBlocksBitSet(MethodNode mth, @Nullable BitSet bitSet) {
 		BitSet copy = new BitSet(mth.getBasicBlocks().size());
 		if (!bitSet.isEmpty()) {
 			copy.or(bitSet);
@@ -1134,7 +1135,7 @@ public class BlockUtils {
 		return calcPartialPostDominance(mth, mth.getBasicBlocks(), mth.getPreExitBlocks().get(0));
 	}
 
-	public static Map<BlockNode, BitSet> calcPartialPostDominance(MethodNode mth, Collection<BlockNode> blockNodes, BlockNode exitBlock) {
+	@NullUnmarked public static Map<BlockNode, BitSet> calcPartialPostDominance(MethodNode mth, Collection<BlockNode> blockNodes, BlockNode exitBlock) {
 		int blocksCount = mth.getBasicBlocks().size();
 		Map<BlockNode, BitSet> map = new HashMap<>(blocksCount);
 

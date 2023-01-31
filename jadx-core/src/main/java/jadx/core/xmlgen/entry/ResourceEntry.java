@@ -2,6 +2,7 @@ package jadx.core.xmlgen.entry;
 
 import java.util.List;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public final class ResourceEntry {
 
@@ -85,7 +86,7 @@ public final class ResourceEntry {
 		this.namedValues = namedValues;
 	}
 
-	public List<RawNamedValue> getNamedValues() {
+	@NullUnmarked public List<RawNamedValue> getNamedValues() {
 		return namedValues;
 	}
 

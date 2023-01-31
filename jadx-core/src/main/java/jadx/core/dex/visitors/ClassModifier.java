@@ -38,6 +38,7 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "ClassModifier",
@@ -170,7 +171,7 @@ public class ClassModifier extends AbstractVisitor {
 		}
 	}
 
-	private static boolean isRemovedClassInArgs(ClassNode cls, List<RegisterArg> mthArgs) {
+	@NullUnmarked private static boolean isRemovedClassInArgs(ClassNode cls, List<RegisterArg> mthArgs) {
 		for (RegisterArg arg : mthArgs) {
 			ArgType argType = arg.getType();
 			if (!argType.isObject()) {

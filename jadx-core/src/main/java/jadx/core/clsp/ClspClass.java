@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import jadx.core.dex.instructions.args.ArgType;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 /**
  * Class node in classpath graph
@@ -38,7 +39,7 @@ public class ClspClass {
 		return id;
 	}
 
-	public ArgType[] getParents() {
+	@NullUnmarked public ArgType[] getParents() {
 		return parents;
 	}
 

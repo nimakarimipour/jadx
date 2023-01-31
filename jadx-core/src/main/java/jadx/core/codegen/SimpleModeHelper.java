@@ -19,6 +19,7 @@ import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.dex.visitors.blocks.BlockProcessor;
 import jadx.core.dex.visitors.blocks.BlockSplitter;
 import jadx.core.utils.BlockUtils;
+import jadx.core.NullUnmarked;
 
 public class SimpleModeHelper {
 
@@ -116,7 +117,7 @@ public class SimpleModeHelper {
 		}
 	}
 
-	private void processTargetInsn(BlockNode block, InsnNode lastInsn, @Nullable BlockNode next) {
+	@NullUnmarked private void processTargetInsn(BlockNode block, InsnNode lastInsn, @Nullable BlockNode next) {
 		if (lastInsn instanceof IfNode) {
 			IfNode ifInsn = (IfNode) lastInsn;
 			BlockNode thenBlock = ifInsn.getThenBlock();

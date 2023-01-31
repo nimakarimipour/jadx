@@ -44,6 +44,7 @@ import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class SimplifyVisitor extends AbstractVisitor {
 
@@ -171,7 +172,7 @@ public class SimplifyVisitor extends AbstractVisitor {
 		return null;
 	}
 
-	@Nullable private InsnNode simplifyStringConstructor(MethodNode mth, ConstructorInsn insn) {
+	@NullUnmarked @Nullable private InsnNode simplifyStringConstructor(MethodNode mth, ConstructorInsn insn) {
 		if (insn.getCallMth().getDeclClass().getType().equals(ArgType.STRING)
 				&& insn.getArgsCount() != 0
 				&& insn.getArg(0).isInsnWrap()) {

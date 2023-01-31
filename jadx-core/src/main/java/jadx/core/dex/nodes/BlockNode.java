@@ -17,6 +17,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.Utils.lockList;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public final class BlockNode extends AttrNode implements IBlock, Comparable<BlockNode> {
 
@@ -40,7 +41,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 
 	private List<BlockNode> predecessors = new ArrayList<>(1);
 	private List<BlockNode> successors = new ArrayList<>(1);
-	private List<BlockNode> cleanSuccessors;
+	@SuppressWarnings("NullAway.Init") private List<BlockNode> cleanSuccessors;
 
 	/**
 	 * All dominators, excluding self
@@ -162,11 +163,11 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return doms;
 	}
 
-	public void setDoms(@Nullable BitSet doms) {
+	@NullUnmarked public void setDoms(@Nullable BitSet doms) {
 		this.doms = doms;
 	}
 
-	public BitSet getDomFrontier() {
+	@NullUnmarked public BitSet getDomFrontier() {
 		return domFrontier;
 	}
 
@@ -177,7 +178,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	/**
 	 * Immediate dominator
 	 */
-	public BlockNode getIDom() {
+	@NullUnmarked public BlockNode getIDom() {
 		return idom;
 	}
 

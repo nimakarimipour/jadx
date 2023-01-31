@@ -23,6 +23,7 @@ import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public final class IfCondition extends AttrNode {
 
@@ -44,7 +45,7 @@ public final class IfCondition extends AttrNode {
 		this.args = Collections.emptyList();
 	}
 
-	private IfCondition(Mode mode, List<IfCondition> args) {
+	@NullUnmarked private IfCondition(Mode mode, List<IfCondition> args) {
 		this.mode = mode;
 		this.args = args;
 		this.compare = null;
@@ -117,7 +118,7 @@ public final class IfCondition extends AttrNode {
 		return compare;
 	}
 
-	public static IfCondition invert(@Nullable IfCondition cond) {
+	@NullUnmarked public static IfCondition invert(@Nullable IfCondition cond) {
 		Mode mode = cond.getMode();
 		switch (mode) {
 			case COMPARE:

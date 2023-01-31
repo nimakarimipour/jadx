@@ -32,6 +32,7 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.Utils;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "MarkFinallyVisitor",
@@ -332,7 +333,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		toSsaVar.setCodeVar(fromSsaVar.getCodeVar());
 	}
 
-	private static boolean searchDuplicateInsns(BlockNode checkBlock, FinallyExtractInfo extractInfo) {
+	@NullUnmarked private static boolean searchDuplicateInsns(BlockNode checkBlock, FinallyExtractInfo extractInfo) {
 		boolean isNew = extractInfo.getCheckedBlocks().add(checkBlock);
 		if (!isNew) {
 			return false;

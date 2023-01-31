@@ -50,8 +50,9 @@ import jadx.core.utils.exceptions.JadxOverflowException;
 import static jadx.core.codegen.MethodGen.FallbackOption.BLOCK_DUMP;
 import static jadx.core.codegen.MethodGen.FallbackOption.COMMENTED_DUMP;
 import static jadx.core.codegen.MethodGen.FallbackOption.FALLBACK_MODE;
+import jadx.core.NullUnmarked;
 
-public class MethodGen {
+@NullUnmarked public class MethodGen {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodGen.class);
 
 	private final MethodNode mth;

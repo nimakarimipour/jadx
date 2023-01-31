@@ -10,6 +10,7 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public final class ClassInfo implements Comparable<ClassInfo> {
 	private final ArgType type;
@@ -85,7 +86,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		}
 	}
 
-	public String getAliasPkg() {
+	@NullUnmarked public String getAliasPkg() {
 		if (isInner()) {
 			return parentClass.getAliasPkg();
 		}
@@ -158,7 +159,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		this.fullName = makeFullName();
 	}
 
-	private static String makeFullClsName(@Nullable String pkg, String shortName, @Nullable ClassInfo parentClass, boolean alias, boolean raw) {
+	@NullUnmarked private static String makeFullClsName(@Nullable String pkg, String shortName, @Nullable ClassInfo parentClass, boolean alias, boolean raw) {
 		if (parentClass != null) {
 			String innerSep = raw ? "$" : ".";
 			String parentFullName;

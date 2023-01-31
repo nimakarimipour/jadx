@@ -28,6 +28,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 import static jadx.core.dex.visitors.regions.RegionMaker.isEqualPaths;
 import static jadx.core.dex.visitors.regions.RegionMaker.isEqualReturnBlocks;
 import static jadx.core.utils.BlockUtils.isPathExists;
+import jadx.core.NullUnmarked;
 
 public class IfMakerHelper {
 	private static final Logger LOG = LoggerFactory.getLogger(IfMakerHelper.class);
@@ -56,7 +57,7 @@ public class IfMakerHelper {
 		return info;
 	}
 
-	@Nullable static IfInfo restructureIf(MethodNode mth, BlockNode block, @Nullable IfInfo info) {
+	@NullUnmarked @Nullable static IfInfo restructureIf(MethodNode mth, BlockNode block, @Nullable IfInfo info) {
 		BlockNode thenBlock = info.getThenBlock();
 		BlockNode elseBlock = info.getElseBlock();
 
@@ -125,7 +126,7 @@ public class IfMakerHelper {
 		return true;
 	}
 
-	@Nullable static IfInfo mergeNestedIfNodes(@Nullable IfInfo currentIf) {
+	@NullUnmarked @Nullable static IfInfo mergeNestedIfNodes(@Nullable IfInfo currentIf) {
 		BlockNode curThen = currentIf.getThenBlock();
 		BlockNode curElse = currentIf.getElseBlock();
 		if (curThen == curElse) {
@@ -206,7 +207,7 @@ public class IfMakerHelper {
 		return searchNestedIf(result);
 	}
 
-	@Nullable private static IfInfo checkForTernaryInCondition(IfInfo currentIf) {
+	@NullUnmarked @Nullable private static IfInfo checkForTernaryInCondition(IfInfo currentIf) {
 		IfInfo nextThen = getNextIf(currentIf, currentIf.getThenBlock());
 		IfInfo nextElse = getNextIf(currentIf, currentIf.getElseBlock());
 		if (nextThen == null || nextElse == null) {
@@ -301,7 +302,7 @@ public class IfMakerHelper {
 		throw new JadxRuntimeException("Unexpected merge pattern");
 	}
 
-	static void confirmMerge(@Nullable IfInfo info) {
+	@NullUnmarked static void confirmMerge(@Nullable IfInfo info) {
 		if (info.getMergedBlocks().size() > 1) {
 			for (BlockNode block : info.getMergedBlocks()) {
 				if (block != info.getFirstIfBlock()) {

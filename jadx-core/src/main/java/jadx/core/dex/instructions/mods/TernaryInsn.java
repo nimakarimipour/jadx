@@ -10,12 +10,13 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.regions.conditions.IfCondition;
 import jadx.core.utils.InsnUtils;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public final class TernaryInsn extends InsnNode {
 
-	private IfCondition condition;
+	@SuppressWarnings("NullAway.Init") private IfCondition condition;
 
-	public TernaryInsn(@Nullable IfCondition condition, @Nullable RegisterArg result, InsnArg th, InsnArg els) {
+	@NullUnmarked public TernaryInsn(@Nullable IfCondition condition, @Nullable RegisterArg result, InsnArg th, InsnArg els) {
 		this();
 		setResult(result);
 

@@ -23,8 +23,8 @@ public class SwitchInsn extends TargetInsnNode {
 	private int def; // next instruction
 
 	@Nullable private Object[] modifiedKeys;
-	private BlockNode[] targetBlocks;
-	private BlockNode defTargetBlock;
+	@SuppressWarnings("NullAway.Init") private BlockNode[] targetBlocks;
+	@SuppressWarnings("NullAway.Init") private BlockNode defTargetBlock;
 
 	public SwitchInsn(InsnArg arg, int dataTarget, boolean packed) {
 		super(InsnType.SWITCH, 1);

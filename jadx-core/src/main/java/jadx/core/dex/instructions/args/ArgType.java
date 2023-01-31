@@ -17,6 +17,7 @@ import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public abstract class ArgType {
 	public static final ArgType INT = primitive(PrimitiveType.INT);
@@ -179,7 +180,7 @@ public abstract class ArgType {
 			return getPrimitiveType() == type;
 		}
 
-		@Nullable @Override
+		@NullUnmarked @Nullable @Override
 		public ArgType selectFirst() {
 			return null;
 		}
@@ -574,7 +575,7 @@ public abstract class ArgType {
 		return false;
 	}
 
-	public PrimitiveType getPrimitiveType() {
+	@NullUnmarked public PrimitiveType getPrimitiveType() {
 		return null;
 	}
 
@@ -598,7 +599,7 @@ public abstract class ArgType {
 		return false;
 	}
 
-	public List<ArgType> getGenericTypes() {
+	@NullUnmarked public List<ArgType> getGenericTypes() {
 		return null;
 	}
 
@@ -609,11 +610,11 @@ public abstract class ArgType {
 	public void setExtendTypes(List<ArgType> extendTypes) {
 	}
 
-	public ArgType getWildcardType() {
+	@NullUnmarked public ArgType getWildcardType() {
 		return null;
 	}
 
-	public WildcardBound getWildcardBound() {
+	@NullUnmarked public WildcardBound getWildcardBound() {
 		return null;
 	}
 
@@ -625,7 +626,7 @@ public abstract class ArgType {
 		return null;
 	}
 
-	public ArgType getInnerType() {
+	@NullUnmarked public ArgType getInnerType() {
 		return null;
 	}
 
@@ -637,7 +638,7 @@ public abstract class ArgType {
 		return 0;
 	}
 
-	public ArgType getArrayElement() {
+	@NullUnmarked public ArgType getArrayElement() {
 		return null;
 	}
 
@@ -746,7 +747,7 @@ public abstract class ArgType {
 		}
 	}
 
-	public static ArgType parse(char f) {
+	@NullUnmarked public static ArgType parse(char f) {
 		switch (f) {
 			case 'Z':
 				return BOOLEAN;

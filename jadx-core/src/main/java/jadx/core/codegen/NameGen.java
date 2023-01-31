@@ -27,6 +27,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.Utils;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class NameGen {
 
@@ -55,7 +56,7 @@ public class NameGen {
 				"java.lang.Exception", "exc");
 	}
 
-	public NameGen(@Nullable MethodNode mth, ClassGen classGen) {
+	@NullUnmarked public NameGen(@Nullable MethodNode mth, ClassGen classGen) {
 		this.mth = mth;
 		this.fallback = classGen.isFallbackMode();
 		NameGen outerNameGen = classGen.getOuterNameGen();

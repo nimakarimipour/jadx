@@ -6,6 +6,7 @@ import java.util.List;
 
 import jadx.api.metadata.annotations.VarNode;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class CodeVar {
 	@Nullable private String name;
@@ -39,7 +40,7 @@ public class CodeVar {
 		this.name = name;
 	}
 
-	public ArgType getType() {
+	@NullUnmarked public ArgType getType() {
 		return type;
 	}
 

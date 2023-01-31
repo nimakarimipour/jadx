@@ -25,6 +25,7 @@ import jadx.core.utils.files.FileUtils;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class DeobfPresets {
 	private static final Logger LOG = LoggerFactory.getLogger(DeobfPresets.class);
@@ -46,7 +47,7 @@ public class DeobfPresets {
 		return new DeobfPresets(deobfMapPath);
 	}
 
-	private static Path getPathDeobfMapPath(RootNode root) {
+	@NullUnmarked private static Path getPathDeobfMapPath(RootNode root) {
 		JadxArgs jadxArgs = root.getArgs();
 		File deobfMapFile = jadxArgs.getDeobfuscationMapFile();
 		if (deobfMapFile != null) {

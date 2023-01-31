@@ -36,6 +36,7 @@ import jadx.core.dex.visitors.debuginfo.DebugInfoApplyVisitor;
 import jadx.core.dex.visitors.rename.CodeRenameVisitor;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "ProcessKotlinInternals",
@@ -102,7 +103,7 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 		}
 	}
 
-	private void processInvoke(MethodNode mth, InsnNode insn) {
+	@NullUnmarked private void processInvoke(MethodNode mth, InsnNode insn) {
 		int argsCount = insn.getArgsCount();
 		if (argsCount < 2) {
 			return;

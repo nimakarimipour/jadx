@@ -5,7 +5,7 @@ import java.util.Arrays;
 import javax.annotation.Nullable;
 
 public class CommonBinaryParser extends ParserConstants {
-	protected ParserStream is;
+	@SuppressWarnings("NullAway.Init") protected ParserStream is;
 
 	protected String[] parseStringPool() throws IOException {
 		is.checkInt16(RES_STRING_POOL_TYPE, "String pool expected");

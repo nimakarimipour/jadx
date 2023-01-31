@@ -7,13 +7,14 @@ import org.jetbrains.annotations.NotNull;
 
 import jadx.core.dex.instructions.args.ArgType;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class TypeInfo {
 	@Nullable private ArgType type = ArgType.UNKNOWN;
 
 	private final Set<ITypeBound> bounds = new LinkedHashSet<>();
 
-	@NotNull
+	@NullUnmarked @NotNull
 	public ArgType getType() {
 		return type;
 	}

@@ -56,6 +56,7 @@ import static jadx.core.dex.visitors.regions.IfMakerHelper.searchNestedIf;
 import static jadx.core.utils.BlockUtils.followEmptyPath;
 import static jadx.core.utils.BlockUtils.getNextBlock;
 import static jadx.core.utils.BlockUtils.isPathExists;
+import jadx.core.NullUnmarked;
 
 public class RegionMaker {
 	private static final Logger LOG = LoggerFactory.getLogger(RegionMaker.class);
@@ -180,7 +181,7 @@ public class RegionMaker {
 		return null;
 	}
 
-	@Nullable private BlockNode processLoop(IRegion curRegion, LoopInfo loop, RegionStack stack) {
+	@NullUnmarked @Nullable private BlockNode processLoop(IRegion curRegion, LoopInfo loop, RegionStack stack) {
 		BlockNode loopStart = loop.getStart();
 		Set<BlockNode> exitBlocksSet = loop.getExitNodes();
 

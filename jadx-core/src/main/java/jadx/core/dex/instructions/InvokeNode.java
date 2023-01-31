@@ -7,8 +7,9 @@ import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.nodes.InsnNode;
+import jadx.core.NullUnmarked;
 
-public class InvokeNode extends BaseInvokeNode {
+@NullUnmarked public class InvokeNode extends BaseInvokeNode {
 
 	private final InvokeType type;
 	private final MethodInfo mth;

@@ -11,6 +11,7 @@ import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.Utils;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class TryCatchBlockAttr implements IJadxAttribute {
 
@@ -115,7 +116,7 @@ public class TryCatchBlockAttr implements IJadxAttribute {
 		this.outerTryBlock = outerTryBlock;
 	}
 
-	public BlockNode getTopSplitter() {
+	@NullUnmarked public BlockNode getTopSplitter() {
 		return topSplitter;
 	}
 

@@ -7,6 +7,7 @@ import jadx.core.dex.attributes.AttrNode;
 import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.IRegion;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public abstract class AbstractRegion extends AttrNode implements IRegion {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractRegion.class);
@@ -17,7 +18,7 @@ public abstract class AbstractRegion extends AttrNode implements IRegion {
 		this.parent = parent;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public IRegion getParent() {
 		return parent;
 	}
