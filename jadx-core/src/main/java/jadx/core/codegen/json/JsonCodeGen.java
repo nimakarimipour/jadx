@@ -35,6 +35,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.CodeGenUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class JsonCodeGen {
 
@@ -101,7 +102,7 @@ public class JsonCodeGen {
 		return jsonCls;
 	}
 
-	private void addInnerClasses(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
+	@NullUnmarked private void addInnerClasses(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
 		List<ClassNode> innerClasses = cls.getInnerClasses();
 		if (innerClasses.isEmpty()) {
 			return;
@@ -116,7 +117,7 @@ public class JsonCodeGen {
 		}
 	}
 
-	private void addFields(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
+	@NullUnmarked private void addFields(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
 		jsonCls.setFields(new ArrayList<>());
 		for (FieldNode field : cls.getFields()) {
 			if (field.contains(AFlag.DONT_GENERATE)) {
@@ -136,7 +137,7 @@ public class JsonCodeGen {
 		}
 	}
 
-	private void addMethods(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
+	@NullUnmarked private void addMethods(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
 		jsonCls.setMethods(new ArrayList<>());
 		for (MethodNode mth : cls.getMethods()) {
 			if (mth.contains(AFlag.DONT_GENERATE)) {
@@ -205,7 +206,7 @@ public class JsonCodeGen {
 		return codeLines;
 	}
 
-	private String getTypeAlias(@Nullable ArgType clsType) {
+	@NullUnmarked private String getTypeAlias(@Nullable ArgType clsType) {
 		if (Objects.equals(clsType, ArgType.OBJECT)) {
 			return ArgType.OBJECT.getObject();
 		}

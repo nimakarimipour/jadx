@@ -21,11 +21,12 @@ import jadx.core.dex.regions.loops.LoopRegion;
 import jadx.core.dex.visitors.AbstractVisitor;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 public class CheckRegions extends AbstractVisitor {
 	private static final Logger LOG = LoggerFactory.getLogger(CheckRegions.class);
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) throws JadxException {
 		if (mth.isNoCode()
 				|| mth.getRegion() == null

@@ -6,12 +6,13 @@ import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.InsnNode;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public final class ForEachLoop extends LoopType {
 	private final InsnNode varArgInsn;
 	private final InsnNode iterableArgInsn;
 
-	public ForEachLoop(RegisterArg varArg, InsnArg iterableArg) {
+	@NullUnmarked public ForEachLoop(RegisterArg varArg, InsnArg iterableArg) {
 		// store for-each args in fake instructions to
 		// save code semantics and allow args manipulations like args inlining
 		varArgInsn = new InsnNode(InsnType.REGION_ARG, 1);
@@ -26,7 +27,7 @@ public final class ForEachLoop extends LoopType {
 		getVarArg().getSVar().getCodeVar().setDeclared(true);
 	}
 
-	public void injectFakeInsns(LoopRegion loopRegion) {
+	@NullUnmarked public void injectFakeInsns(LoopRegion loopRegion) {
 		loopRegion.getInfo().getPreHeader().getInstructions().add(iterableArgInsn);
 		loopRegion.getHeader().getInstructions().add(0, varArgInsn);
 	}

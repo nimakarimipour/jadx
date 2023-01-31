@@ -17,6 +17,7 @@ import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public abstract class ArgType {
 	public static final ArgType INT = primitive(PrimitiveType.INT);
@@ -411,7 +412,7 @@ public abstract class ArgType {
 		private final ObjectType outerType;
 		private final ObjectType innerType;
 
-		public OuterGenericObject(@Nullable ObjectType outerType, @Nullable ObjectType innerType) {
+		@NullUnmarked public OuterGenericObject(@Nullable ObjectType outerType, @Nullable ObjectType innerType) {
 			super(outerType.getObject() + '$' + innerType.getObject());
 			this.outerType = outerType;
 			this.innerType = innerType;
@@ -484,7 +485,7 @@ public abstract class ArgType {
 			return arrayElement.isTypeKnown();
 		}
 
-		@Override
+		@NullUnmarked @Override
 		public ArgType selectFirst() {
 			return array(arrayElement.selectFirst());
 		}
@@ -651,7 +652,7 @@ public abstract class ArgType {
 
 	public abstract PrimitiveType[] getPossibleTypes();
 
-	public static boolean isCastNeeded(RootNode root, @Nullable ArgType from, @Nullable ArgType to) {
+	@NullUnmarked public static boolean isCastNeeded(RootNode root, @Nullable ArgType from, @Nullable ArgType to) {
 		if (from.equals(to)) {
 			return false;
 		}
@@ -659,7 +660,7 @@ public abstract class ArgType {
 		return !result.isNarrow();
 	}
 
-	public static boolean isInstanceOf(RootNode root, ArgType type, ArgType of) {
+	@NullUnmarked public static boolean isInstanceOf(RootNode root, ArgType type, ArgType of) {
 		if (type.equals(of)) {
 			return true;
 		}
@@ -669,7 +670,7 @@ public abstract class ArgType {
 		return root.getClsp().isImplements(type.getObject(), of.getObject());
 	}
 
-	public static boolean isClsKnown(RootNode root, ArgType cls) {
+	@NullUnmarked public static boolean isClsKnown(RootNode root, ArgType cls) {
 		if (cls.isObject()) {
 			return root.getClsp().isClsKnown(cls.getObject());
 		}
@@ -689,7 +690,7 @@ public abstract class ArgType {
 				|| (!isTypeKnown() && contains(primitiveType));
 	}
 
-	public boolean canBeAnyNumber() {
+	@NullUnmarked public boolean canBeAnyNumber() {
 		if (isPrimitive()) {
 			return !getPrimitiveType().isObjectOrArray();
 		}
@@ -729,7 +730,7 @@ public abstract class ArgType {
 		return OBJECT;
 	}
 
-	@Nullable public static ArgType parse(String type) {
+	@NullUnmarked @Nullable public static ArgType parse(String type) {
 		if (type == null || type.isEmpty()) {
 			throw new JadxRuntimeException("Failed to parse type string: " + type);
 		}

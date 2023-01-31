@@ -12,6 +12,7 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.EmptyBitSet;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 /**
  * Build dominator tree based on the algorithm described in paper:
@@ -28,7 +29,7 @@ public class DominatorTree {
 		apply(sorted, doms);
 	}
 
-	private static List<BlockNode> sortBlocks(MethodNode mth) {
+	@NullUnmarked private static List<BlockNode> sortBlocks(MethodNode mth) {
 		int blocksCount = mth.getBasicBlocks().size();
 		List<BlockNode> sorted = new ArrayList<>(blocksCount);
 		BlockUtils.dfsVisit(mth, sorted::add);
@@ -131,7 +132,7 @@ public class DominatorTree {
 		return domBS;
 	}
 
-	public static void computeDominanceFrontier(MethodNode mth) {
+	@NullUnmarked public static void computeDominanceFrontier(MethodNode mth) {
 		List<BlockNode> blocks = mth.getBasicBlocks();
 		for (BlockNode block : blocks) {
 			block.setDomFrontier(null);
@@ -158,7 +159,7 @@ public class DominatorTree {
 		}
 	}
 
-	private static void addToDF(@Nullable BlockNode block, BlockNode dfBlock, int blocksCount) {
+	@NullUnmarked private static void addToDF(@Nullable BlockNode block, BlockNode dfBlock, int blocksCount) {
 		BitSet df = block.getDomFrontier();
 		if (df == null) {
 			df = new BitSet(blocksCount);

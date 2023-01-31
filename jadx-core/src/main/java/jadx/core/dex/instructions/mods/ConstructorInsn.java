@@ -11,8 +11,9 @@ import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
+import jadx.core.NullUnmarked;
 
-public final class ConstructorInsn extends BaseInvokeNode {
+@NullUnmarked public final class ConstructorInsn extends BaseInvokeNode {
 
 	@Nullable private final MethodInfo callMth;
 	private final CallType callType;
@@ -24,7 +25,7 @@ public final class ConstructorInsn extends BaseInvokeNode {
 		SELF // call itself
 	}
 
-	public ConstructorInsn(MethodNode mth, InvokeNode invoke) {
+	@NullUnmarked public ConstructorInsn(MethodNode mth, InvokeNode invoke) {
 		super(InsnType.CONSTRUCTOR, invoke.getArgsCount() - 1);
 		this.callMth = invoke.getCallMth();
 		this.callType = getCallType(mth, callMth.getDeclClass(), invoke.getArg(0));
@@ -34,7 +35,7 @@ public final class ConstructorInsn extends BaseInvokeNode {
 		}
 	}
 
-	private CallType getCallType(MethodNode mth, ClassInfo classType, InsnArg instanceArg) {
+	@NullUnmarked private CallType getCallType(MethodNode mth, ClassInfo classType, InsnArg instanceArg) {
 		if (!instanceArg.isThis()) {
 			return CallType.CONSTRUCTOR;
 		}
@@ -65,7 +66,7 @@ public final class ConstructorInsn extends BaseInvokeNode {
 		return null;
 	}
 
-	public ClassInfo getClassType() {
+	@NullUnmarked public ClassInfo getClassType() {
 		return callMth.getDeclClass();
 	}
 
@@ -99,7 +100,7 @@ public final class ConstructorInsn extends BaseInvokeNode {
 		return 0;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;

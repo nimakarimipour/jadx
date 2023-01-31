@@ -9,6 +9,7 @@ import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class RegisterArg extends InsnArg implements Named {
 	public static final String THIS_ARG_NAME = "this";
@@ -162,7 +163,7 @@ public class RegisterArg extends InsnArg implements Named {
 		return sVar.getAssign().getParentInsn();
 	}
 
-	public boolean equalRegisterAndType(RegisterArg arg) {
+	@NullUnmarked public boolean equalRegisterAndType(RegisterArg arg) {
 		return regNum == arg.regNum && type.equals(arg.type);
 	}
 
@@ -185,11 +186,11 @@ public class RegisterArg extends InsnArg implements Named {
 		return regNum == ((RegisterArg) arg).getRegNum();
 	}
 
-	public boolean sameCodeVar(RegisterArg arg) {
+	@NullUnmarked public boolean sameCodeVar(RegisterArg arg) {
 		return this.getSVar().getCodeVar() == arg.getSVar().getCodeVar();
 	}
 
-	public boolean isLinkedToOtherSsaVars() {
+	@NullUnmarked public boolean isLinkedToOtherSsaVars() {
 		return getSVar().getCodeVar().getSsaVars().size() > 1;
 	}
 

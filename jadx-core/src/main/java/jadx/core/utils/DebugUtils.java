@@ -42,6 +42,7 @@ import jadx.core.dex.visitors.regions.TracedRegionVisitor;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 /**
  * Use these methods only for debug purpose.
@@ -258,16 +259,16 @@ public class DebugUtils {
 		mergeExecTime(tag, System.currentTimeMillis() - startTimeMillis);
 	}
 
-	public static void mergeExecTime(String tag, long execTimeMillis) {
+	@NullUnmarked public static void mergeExecTime(String tag, long execTimeMillis) {
 		execTimes.merge(tag, execTimeMillis, Long::sum);
 	}
 
-	public static void printExecTimes() {
+	@NullUnmarked public static void printExecTimes() {
 		System.out.println("Exec times:");
 		execTimes.forEach((tag, time) -> System.out.println(" " + tag + ": " + time + "ms"));
 	}
 
-	public static void printExecTimesWithTotal(long totalMillis) {
+	@NullUnmarked public static void printExecTimesWithTotal(long totalMillis) {
 		System.out.println("Exec times: total " + totalMillis + "ms");
 		execTimes.forEach((tag, time) -> System.out.println(" " + tag + ": " + time + "ms"
 				+ String.format(" (%.2f%%)", time * 100. / (double) totalMillis)));

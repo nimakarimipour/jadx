@@ -26,6 +26,7 @@ import static jadx.core.dex.visitors.typeinference.TypeCompareEnum.WIDER;
 import static jadx.core.dex.visitors.typeinference.TypeCompareEnum.WIDER_BY_GENERIC;
 import static jadx.core.utils.Utils.isEmpty;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class TypeCompare {
 	private static final Logger LOG = LoggerFactory.getLogger(TypeCompare.class);
@@ -58,7 +59,7 @@ public class TypeCompare {
 	/**
 	 * Compare two type and return result for first argument (narrow, wider or conflict)
 	 */
-	public TypeCompareEnum compareTypes(@Nullable ArgType first, @Nullable ArgType second) {
+	@NullUnmarked public TypeCompareEnum compareTypes(@Nullable ArgType first, @Nullable ArgType second) {
 		if (first == second || Objects.equals(first, second)) {
 			return TypeCompareEnum.EQUAL;
 		}
@@ -172,7 +173,7 @@ public class TypeCompare {
 		return CONFLICT;
 	}
 
-	private TypeCompareEnum compareObjectsNoPreCheck(ArgType first, ArgType second) {
+	@NullUnmarked private TypeCompareEnum compareObjectsNoPreCheck(ArgType first, ArgType second) {
 		boolean objectsEquals = first.getObject().equals(second.getObject());
 		boolean firstGenericType = first.isGenericType();
 		boolean secondGenericType = second.isGenericType();

@@ -21,6 +21,7 @@ import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.entry.ValuesParser;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 /*
  * TODO:
@@ -86,7 +87,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return codeInfo;
 	}
 
-	private boolean isBinaryXml() throws IOException {
+	@NullUnmarked private boolean isBinaryXml() throws IOException {
 		is.mark(4);
 		int v = is.readInt16(); // version
 		int h = is.readInt16(); // header size
@@ -98,7 +99,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return false;
 	}
 
-	void decode() throws IOException {
+	@NullUnmarked void decode() throws IOException {
 		int size = is.readInt32();
 		while (is.getPos() < size) {
 			int type = is.readInt16();
@@ -140,7 +141,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	private void parseResourceMap() throws IOException {
+	@NullUnmarked private void parseResourceMap() throws IOException {
 		if (is.readInt16() != 0x8) {
 			die("Header size of resmap is not 8!");
 		}
@@ -152,7 +153,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	private void parseNameSpace() throws IOException {
+	@NullUnmarked private void parseNameSpace() throws IOException {
 		int headerSize = is.readInt16();
 		if (headerSize > 0x10) {
 			LOG.warn("Invalid namespace header");
@@ -180,7 +181,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		namespaceDepth++;
 	}
 
-	private void parseNameSpaceEnd() throws IOException {
+	@NullUnmarked private void parseNameSpaceEnd() throws IOException {
 		int headerSize = is.readInt16();
 		if (headerSize > 0x10) {
 			LOG.warn("Invalid namespace end");
@@ -207,7 +208,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	private void parseCData() throws IOException {
+	@NullUnmarked private void parseCData() throws IOException {
 		if (is.readInt16() != 0x10) {
 			die("CDATA header is not 0x10");
 		}
@@ -231,7 +232,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		is.skip(size - 2);
 	}
 
-	private void parseElement() throws IOException {
+	@NullUnmarked private void parseElement() throws IOException {
 		if (firstElement) {
 			firstElement = false;
 		} else {
@@ -284,7 +285,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	private void parseAttribute(int i, boolean newLine) throws IOException {
+	@NullUnmarked private void parseAttribute(int i, boolean newLine) throws IOException {
 		int attributeNS = is.readInt32();
 		int attributeName = is.readInt32();
 		int attributeRawValue = is.readInt32();
@@ -319,7 +320,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		writer.add('"');
 	}
 
-	@Nullable private String getAttributeNS(int attributeNS) {
+	@NullUnmarked @Nullable private String getAttributeNS(int attributeNS) {
 		String attrUrl = getString(attributeNS);
 		if (attrUrl == null || attrUrl.isEmpty()) {
 			if (isResInternalId(attributeNS)) {
@@ -335,7 +336,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return attrName;
 	}
 
-	private String generateNameForNS(String attrUrl) {
+	@NullUnmarked private String generateNameForNS(String attrUrl) {
 		String attrName;
 		if (ANDROID_NS_URL.equals(attrUrl)) {
 			attrName = ANDROID_NS_VALUE;
@@ -355,7 +356,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return attrName;
 	}
 
-	private String getAttributeName(int id) {
+	@NullUnmarked private String getAttributeName(int id) {
 		// As the outcome of https://github.com/skylot/jadx/issues/1208
 		// Android seems to favor entries from AndroidResMap and only if
 		// there is no entry uses the values form the XML string pool
@@ -379,14 +380,14 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return str;
 	}
 
-	private String getString(int strId) {
+	@NullUnmarked private String getString(int strId) {
 		if (0 <= strId && strId < strings.length) {
 			return strings[strId];
 		}
 		return "NOT_FOUND_STR_0x" + Integer.toHexString(strId);
 	}
 
-	private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
+	@NullUnmarked private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
 			@Nullable String shortNsName, @Nullable String attrName) {
 		if (attrValDataType == TYPE_REFERENCE) {
 			// reference custom processing
@@ -418,7 +419,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	private void parseElementEnd() throws IOException {
+	@NullUnmarked private void parseElementEnd() throws IOException {
 		if (is.readInt16() != 0x10) {
 			die("ELEMENT END header is not 0x10");
 		}
@@ -472,7 +473,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return sb.toString();
 	}
 
-	private void attachClassNode(@Nullable ICodeWriter writer, @Nullable String attrName, @Nullable String clsName) {
+	@NullUnmarked private void attachClassNode(@Nullable ICodeWriter writer, @Nullable String attrName, @Nullable String clsName) {
 		if (!writer.isMetadataSupported()) {
 			return;
 		}

@@ -23,6 +23,7 @@ import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnRemover;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 /**
  * Convert 'if' to ternary operation
@@ -65,7 +66,7 @@ public class TernaryMod extends AbstractRegionVisitor implements IRegionIterativ
 		return false;
 	}
 
-	private static boolean makeTernaryInsn(MethodNode mth, IfRegion ifRegion) {
+	@NullUnmarked private static boolean makeTernaryInsn(MethodNode mth, IfRegion ifRegion) {
 		if (ifRegion.contains(AFlag.ELSE_IF_CHAIN)) {
 			return false;
 		}
@@ -227,7 +228,7 @@ public class TernaryMod extends AbstractRegionVisitor implements IRegionIterativ
 	/**
 	 * Return 'true' if there are several args with same source lines
 	 */
-	private static boolean checkLineStats(InsnNode t, InsnNode e) {
+	@NullUnmarked private static boolean checkLineStats(InsnNode t, InsnNode e) {
 		if (t.getResult() == null || e.getResult() == null) {
 			return false;
 		}
@@ -276,7 +277,7 @@ public class TernaryMod extends AbstractRegionVisitor implements IRegionIterativ
 		return false;
 	}
 
-	@SuppressWarnings("StatementWithEmptyBody")
+	@NullUnmarked @SuppressWarnings("StatementWithEmptyBody")
 	private static void replaceWithTernary(MethodNode mth, IfRegion ifRegion, BlockNode block, InsnNode insn) {
 		RegisterArg resArg = insn.getResult();
 		if (resArg.getSVar().getUseList().size() != 1) {

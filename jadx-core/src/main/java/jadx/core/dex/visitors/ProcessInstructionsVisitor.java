@@ -21,6 +21,7 @@ import jadx.core.dex.visitors.blocks.BlockSplitter;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "Process Instructions Visitor",
@@ -40,7 +41,7 @@ public class ProcessInstructionsVisitor extends AbstractVisitor {
 		initJumps(mth, mth.getInstructions());
 	}
 
-	private static void initJumps(MethodNode mth, @Nullable InsnNode[] insnByOffset) {
+	@NullUnmarked private static void initJumps(MethodNode mth, @Nullable InsnNode[] insnByOffset) {
 		for (int offset = 0; offset < insnByOffset.length; offset++) {
 			InsnNode insn = insnByOffset[offset];
 			if (insn == null) {
@@ -124,7 +125,7 @@ public class ProcessInstructionsVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void mergeMoveResult(InsnNode[] insnByOffset, int offset, InsnNode insn, @Nullable ArgType resType) {
+	@NullUnmarked private static void mergeMoveResult(InsnNode[] insnByOffset, int offset, InsnNode insn, @Nullable ArgType resType) {
 		int nextInsnOffset = getNextInsnOffset(insnByOffset, offset);
 		if (nextInsnOffset == -1) {
 			return;

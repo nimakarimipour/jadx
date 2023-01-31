@@ -22,6 +22,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.dex.visitors.usage.UsageInfoVisitor;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "ProcessAnonymous",
@@ -92,7 +93,7 @@ public class ProcessAnonymous extends AbstractVisitor {
 		}
 	}
 
-	private static void undoAnonymousMark(ClassNode cls) {
+	@NullUnmarked private static void undoAnonymousMark(ClassNode cls) {
 		AnonymousClassAttr attr = cls.get(AType.ANONYMOUS_CLASS);
 		ClassNode outerCls = attr.getOuterCls();
 		cls.setDependencies(ListUtils.safeAdd(cls.getDependencies(), outerCls.getTopParentClass()));
@@ -249,7 +250,7 @@ public class ProcessAnonymous extends AbstractVisitor {
 		return ctr;
 	}
 
-	private static boolean badMethodUsage(ClassNode cls, MethodNode useMth, AccessInfo accessFlags) {
+	@NullUnmarked private static boolean badMethodUsage(ClassNode cls, MethodNode useMth, AccessInfo accessFlags) {
 		ClassNode useCls = useMth.getParentClass();
 		if (useCls.equals(cls)) {
 			return false;
@@ -276,7 +277,7 @@ public class ProcessAnonymous extends AbstractVisitor {
 		return ListUtils.allMatch(ctrUse, m -> m.isConstructor() && m.getParentClass().equals(firstUseCls));
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	private static ArgType getBaseType(ClassNode cls) {
 		int interfacesCount = cls.getInterfaces().size();
 		if (interfacesCount > 1) {

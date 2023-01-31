@@ -22,6 +22,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.visitors.typeinference.TypeInfo;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class SSAVar {
 	private static final Logger LOG = LoggerFactory.getLogger(SSAVar.class);
@@ -88,7 +89,7 @@ public class SSAVar {
 		return assign.contains(AFlag.IMMUTABLE_TYPE);
 	}
 
-	public void markAsImmutable(ArgType type) {
+	@NullUnmarked public void markAsImmutable(ArgType type) {
 		assign.add(AFlag.IMMUTABLE_TYPE);
 		ArgType initType = assign.getInitType();
 		if (!initType.equals(type)) {
@@ -278,7 +279,7 @@ public class SSAVar {
 				+ ' ' + typeInfo.getType();
 	}
 
-	public String getDetailedVarInfo(MethodNode mth) {
+	@NullUnmarked public String getDetailedVarInfo(MethodNode mth) {
 		Set<ArgType> types = new HashSet<>();
 		Set<String> names = Collections.emptySet();
 

@@ -19,6 +19,7 @@ import jadx.core.dex.instructions.args.PrimitiveType;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.RootNode;
+import jadx.core.NullUnmarked;
 
 public class ConstStorage {
 
@@ -174,7 +175,7 @@ public class ConstStorage {
 		return null;
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public FieldNode getConstFieldByLiteralArg(ClassNode cls, LiteralArg arg) {
 		if (!replaceEnabled) {
 			return null;

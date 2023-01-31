@@ -36,6 +36,7 @@ import jadx.core.dex.visitors.debuginfo.DebugInfoApplyVisitor;
 import jadx.core.dex.visitors.rename.CodeRenameVisitor;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "ProcessKotlinInternals",
@@ -85,7 +86,7 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 		return true;
 	}
 
-	private void processMth(MethodNode mth) {
+	@NullUnmarked private void processMth(MethodNode mth) {
 		if (mth.isNoCode()) {
 			return;
 		}
@@ -102,7 +103,7 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 		}
 	}
 
-	private void processInvoke(MethodNode mth, InsnNode insn) {
+	@NullUnmarked private void processInvoke(MethodNode mth, InsnNode insn) {
 		int argsCount = insn.getArgsCount();
 		if (argsCount < 2) {
 			return;
@@ -134,7 +135,7 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 		}
 	}
 
-	private boolean checkAndRename(RegisterArg arg, String str) {
+	@NullUnmarked private boolean checkAndRename(RegisterArg arg, String str) {
 		String name = trimName(str);
 		if (NameMapper.isValidAndPrintable(name)) {
 			arg.getSVar().getCodeVar().setName(name);
@@ -143,7 +144,7 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 		return false;
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	private String getConstString(MethodNode mth, InsnNode insn, int arg) {
 		InsnArg strArg = insn.getArg(arg);
 		if (!strArg.isInsnWrap()) {

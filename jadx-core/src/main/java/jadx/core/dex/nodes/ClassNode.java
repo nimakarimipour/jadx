@@ -53,6 +53,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.dex.nodes.ProcessState.LOADED;
 import static jadx.core.dex.nodes.ProcessState.NOT_LOADED;
+import jadx.core.NullUnmarked;
 
 public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeNode, Comparable<ClassNode> {
 	private static final Logger LOG = LoggerFactory.getLogger(ClassNode.class);
@@ -568,12 +569,12 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		parentClass = this;
 	}
 
-	public ClassNode getTopParentClass() {
+	@NullUnmarked public ClassNode getTopParentClass() {
 		ClassNode parent = getParentClass();
 		return parent == this ? this : parent.getTopParentClass();
 	}
 
-	public void visitParentClasses(Consumer<ClassNode> consumer) {
+	@NullUnmarked public void visitParentClasses(Consumer<ClassNode> consumer) {
 		ClassNode currentCls = this;
 		ClassNode parentCls = currentCls.getParentClass();
 		while (parentCls != currentCls) {
@@ -583,7 +584,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		}
 	}
 
-	public void visitSuperTypes(BiConsumer<ArgType, ArgType> consumer) {
+	@NullUnmarked public void visitSuperTypes(BiConsumer<ArgType, ArgType> consumer) {
 		TypeUtils typeUtils = root.getTypeUtils();
 		ArgType thisType = this.getType();
 		if (!superClass.equals(ArgType.OBJECT)) {
@@ -596,7 +597,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		}
 	}
 
-	public boolean hasNotGeneratedParent() {
+	@NullUnmarked public boolean hasNotGeneratedParent() {
 		if (contains(AFlag.DONT_GENERATE)) {
 			return true;
 		}

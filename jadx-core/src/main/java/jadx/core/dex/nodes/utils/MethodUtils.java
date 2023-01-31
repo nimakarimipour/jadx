@@ -19,6 +19,7 @@ import jadx.core.dex.nodes.IMethodDetails;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.Utils;
+import jadx.core.NullUnmarked;
 
 public class MethodUtils {
 	private final RootNode root;
@@ -36,7 +37,7 @@ public class MethodUtils {
 		return getMethodDetails(invokeNode.getCallMth());
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public IMethodDetails getMethodDetails(@Nullable MethodInfo callMth) {
 		MethodNode mthNode = root.resolveMethod(callMth);
 		if (mthNode != null) {
@@ -80,7 +81,7 @@ public class MethodUtils {
 		return null;
 	}
 
-	private boolean processMethodArgsOverloaded(@Nullable ArgType startCls, @Nullable MethodInfo mthInfo, @Nullable List<IMethodDetails> collectedMths) {
+	@NullUnmarked private boolean processMethodArgsOverloaded(@Nullable ArgType startCls, @Nullable MethodInfo mthInfo, @Nullable List<IMethodDetails> collectedMths) {
 		if (startCls == null || !startCls.isObject()) {
 			return false;
 		}

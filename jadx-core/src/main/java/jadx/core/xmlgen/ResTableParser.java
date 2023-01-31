@@ -27,6 +27,7 @@ import jadx.core.xmlgen.entry.RawNamedValue;
 import jadx.core.xmlgen.entry.RawValue;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import jadx.core.xmlgen.entry.ValuesParser;
+import jadx.core.NullUnmarked;
 
 public class ResTableParser extends CommonBinaryParser implements IResParser {
 	private static final Logger LOG = LoggerFactory.getLogger(ResTableParser.class);
@@ -98,7 +99,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		return ResContainer.resourceTable("res", xmlFiles, content);
 	}
 
-	void decodeTableChunk() throws IOException {
+	@NullUnmarked void decodeTableChunk() throws IOException {
 		is.checkInt16(RES_TABLE_TYPE, "Not a table chunk");
 		is.checkInt16(0x000c, "Unexpected table header size");
 		/* int size = */
@@ -111,7 +112,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		}
 	}
 
-	private PackageChunk parsePackage() throws IOException {
+	@NullUnmarked private PackageChunk parsePackage() throws IOException {
 		long start = is.getPos();
 		is.checkInt16(RES_TABLE_PACKAGE_TYPE, "Not a table chunk");
 		int headerSize = is.readInt16();
@@ -206,7 +207,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		return String.format("jadx_deobf_0x%08x", idx);
 	}
 
-	@SuppressWarnings("unused")
+	@NullUnmarked @SuppressWarnings("unused")
 	private void parseTypeSpecChunk(long chunkStart) throws IOException {
 		is.checkInt16(0x0010, "Unexpected type spec header size");
 		int chunkSize = is.readInt32();
@@ -223,7 +224,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		}
 	}
 
-	private void parseLibraryTypeChunk(long chunkStart) throws IOException {
+	@NullUnmarked private void parseLibraryTypeChunk(long chunkStart) throws IOException {
 		LOG.trace("parsing library type chunk starting at offset {}", chunkStart);
 		is.checkInt16(12, "Unexpected header size");
 		int chunkSize = is.readInt32();
@@ -242,7 +243,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		}
 	}
 
-	private void parseTypeChunk(long start, PackageChunk pkg) throws IOException {
+	@NullUnmarked private void parseTypeChunk(long start, PackageChunk pkg) throws IOException {
 		/* int headerSize = */
 		is.readInt16();
 		/* int size = */
@@ -287,7 +288,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		}
 	}
 
-	private void parseEntry(PackageChunk pkg, int typeId, int entryId, String config) throws IOException {
+	@NullUnmarked private void parseEntry(PackageChunk pkg, int typeId, int entryId, String config) throws IOException {
 		int size = is.readInt16();
 		int flags = is.readInt16();
 		int key = is.readInt32();
@@ -397,12 +398,12 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		return sb.toString();
 	}
 
-	private RawNamedValue parseValueMap() throws IOException {
+	@NullUnmarked private RawNamedValue parseValueMap() throws IOException {
 		int nameRef = is.readInt32();
 		return new RawNamedValue(nameRef, parseValue());
 	}
 
-	private RawValue parseValue() throws IOException {
+	@NullUnmarked private RawValue parseValue() throws IOException {
 		is.checkInt16(8, "value size");
 		is.checkInt8(0, "value res0 not 0");
 		int dataType = is.readInt8();
@@ -410,7 +411,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		return new RawValue(dataType, data);
 	}
 
-	private EntryConfig parseConfig() throws IOException {
+	@NullUnmarked private EntryConfig parseConfig() throws IOException {
 		long start = is.getPos();
 		int size = is.readInt32();
 		if (size < 28) {
@@ -493,7 +494,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		return new char[] { (char) in0, (char) in1 };
 	}
 
-	private String readScriptOrVariantChar(int length) throws IOException {
+	@NullUnmarked private String readScriptOrVariantChar(int length) throws IOException {
 		long start = is.getPos();
 		StringBuilder sb = new StringBuilder(16);
 		for (int i = 0; i < length; i++) {

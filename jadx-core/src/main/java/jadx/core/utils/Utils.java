@@ -22,6 +22,7 @@ import jadx.api.ICodeWriter;
 import jadx.api.JadxDecompiler;
 import jadx.core.dex.visitors.DepthTraversal;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class Utils {
 
@@ -249,7 +250,7 @@ public class Utils {
 		return -1;
 	}
 
-	public static <T> List<T> lockList(@Nullable List<T> list) {
+	@NullUnmarked public static <T> List<T> lockList(@Nullable List<T> list) {
 		if (list.isEmpty()) {
 			return Collections.emptyList();
 		}
@@ -361,7 +362,7 @@ public class Utils {
 		return collection.iterator().next();
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public static <T> T first(@Nullable List<T> list) {
 		if (list.isEmpty()) {
 			return null;

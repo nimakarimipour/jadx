@@ -8,6 +8,7 @@ import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.IMethodDetails;
 import jadx.core.dex.nodes.RootNode;
+import jadx.core.NullUnmarked;
 
 /**
  * Special dynamic bound for invoke with generics.
@@ -40,7 +41,7 @@ public final class TypeBoundInvokeAssign implements ITypeBoundDynamic {
 		return getReturnType(getInstanceArg().getType());
 	}
 
-	@Nullable private ArgType getReturnType(@Nullable ArgType instanceType) {
+	@NullUnmarked @Nullable private ArgType getReturnType(@Nullable ArgType instanceType) {
 		ArgType mthDeclType;
 		IMethodDetails methodDetails = root.getMethodUtils().getMethodDetails(invokeNode);
 		if (methodDetails != null) {
@@ -94,7 +95,7 @@ public final class TypeBoundInvokeAssign implements ITypeBoundDynamic {
 		return invokeNode.hashCode();
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public String toString() {
 		return "InvokeAssign{" + invokeNode.getCallMth().getShortId()
 				+ ", returnType=" + genericReturnType

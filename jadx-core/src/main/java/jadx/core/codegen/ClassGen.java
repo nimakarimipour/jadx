@@ -50,6 +50,7 @@ import jadx.core.utils.Utils;
 import jadx.core.utils.android.AndroidResourcesUtils;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class ClassGen {
 
@@ -446,7 +447,7 @@ public class ClassGen {
 		return false;
 	}
 
-	private void addEnumFields(ICodeWriter code) throws CodegenException {
+	@NullUnmarked private void addEnumFields(ICodeWriter code) throws CodegenException {
 		EnumClassAttr enumFields = cls.get(AType.ENUM_CLASS);
 		if (enumFields == null) {
 			return;
@@ -508,7 +509,7 @@ public class ClassGen {
 		}
 	}
 
-	public void useType(ICodeWriter code, @Nullable ArgType type) {
+	@NullUnmarked public void useType(ICodeWriter code, @Nullable ArgType type) {
 		PrimitiveType stype = type.getPrimitiveType();
 		if (stype == null) {
 			code.add(type.toString());
@@ -542,7 +543,7 @@ public class ClassGen {
 		addGenerics(code, type);
 	}
 
-	private void addInnerType(ICodeWriter code, ArgType baseType) {
+	@NullUnmarked private void addInnerType(ICodeWriter code, ArgType baseType) {
 		ArgType innerType = baseType.getInnerType();
 		ArgType outerType = innerType.getOuterType();
 		if (outerType != null) {
@@ -570,7 +571,7 @@ public class ClassGen {
 		addGenerics(code, type);
 	}
 
-	private void addGenerics(ICodeWriter code, ArgType type) {
+	@NullUnmarked private void addGenerics(ICodeWriter code, ArgType type) {
 		List<ArgType> generics = type.getGenericTypes();
 		if (generics != null) {
 			code.add('<');
@@ -614,7 +615,7 @@ public class ClassGen {
 		code.add(clsName);
 	}
 
-	private String useClassInternal(ClassInfo useCls, @Nullable ClassInfo extClsInfo) {
+	@NullUnmarked private String useClassInternal(ClassInfo useCls, @Nullable ClassInfo extClsInfo) {
 		String fullName = extClsInfo.getAliasFullName();
 		if (fallback || !useImports) {
 			return fullName;
@@ -712,7 +713,7 @@ public class ClassGen {
 		return useCls.equals(b);
 	}
 
-	private static boolean isClassInnerFor(@Nullable ClassInfo inner, ClassInfo parent) {
+	@NullUnmarked private static boolean isClassInnerFor(@Nullable ClassInfo inner, ClassInfo parent) {
 		if (inner.isInner()) {
 			ClassInfo p = inner.getParentClass();
 			return Objects.equals(p, parent) || isClassInnerFor(p, parent);
@@ -743,7 +744,7 @@ public class ClassGen {
 	/**
 	 * Check if class with same name exists in current package
 	 */
-	private static boolean checkInPackageCollision(RootNode root, ClassInfo useCls, ClassInfo searchCls) {
+	@NullUnmarked private static boolean checkInPackageCollision(RootNode root, ClassInfo useCls, ClassInfo searchCls) {
 		String currentPkg = useCls.getAliasPkg();
 		if (currentPkg.equals(searchCls.getAliasPkg())) {
 			// search class already from current package

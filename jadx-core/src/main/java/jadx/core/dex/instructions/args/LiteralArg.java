@@ -5,8 +5,9 @@ import org.jetbrains.annotations.Nullable;
 import jadx.core.codegen.TypeGen;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
-public final class LiteralArg extends InsnArg {
+@NullUnmarked public final class LiteralArg extends InsnArg {
 
 	public static LiteralArg make(long value, @Nullable ArgType type) {
 		return new LiteralArg(value, type);
@@ -16,7 +17,7 @@ public final class LiteralArg extends InsnArg {
 		return new LiteralArg(value, fixLiteralType(value, type));
 	}
 
-	@Nullable private static ArgType fixLiteralType(long value, @Nullable ArgType type) {
+	@NullUnmarked @Nullable private static ArgType fixLiteralType(long value, @Nullable ArgType type) {
 		if (value == 0 || type.isTypeKnown() || type.contains(PrimitiveType.LONG) || type.contains(PrimitiveType.DOUBLE)) {
 			return type;
 		}
@@ -58,7 +59,7 @@ public final class LiteralArg extends InsnArg {
 		return true;
 	}
 
-	public boolean isInteger() {
+	@NullUnmarked public boolean isInteger() {
 		switch (type.getPrimitiveType()) {
 			case INT:
 			case BYTE:
@@ -108,12 +109,12 @@ public final class LiteralArg extends InsnArg {
 		return copyCommonParams(new LiteralArg(literal, type));
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public int hashCode() {
 		return (int) (literal ^ literal >>> 32) + 31 * getType().hashCode();
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
@@ -125,7 +126,7 @@ public final class LiteralArg extends InsnArg {
 		return literal == that.literal && getType().equals(that.getType());
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public String toString() {
 		try {
 			String value = TypeGen.literalToString(literal, getType(), StringUtils.getInstance(), true, false);

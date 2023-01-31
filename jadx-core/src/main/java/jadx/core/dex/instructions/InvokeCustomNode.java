@@ -8,6 +8,7 @@ import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.InsnUtils;
+import jadx.core.NullUnmarked;
 
 public class InvokeCustomNode extends InvokeNode {
 	@Nullable private MethodInfo implMthInfo;
@@ -36,7 +37,7 @@ public class InvokeCustomNode extends InvokeNode {
 		return copy;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;
@@ -92,7 +93,7 @@ public class InvokeCustomNode extends InvokeNode {
 		this.useRef = useRef;
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public BaseInvokeNode getInvokeCall() {
 		if (callInsn.getType() == InsnType.INVOKE) {
 			return (BaseInvokeNode) callInsn;

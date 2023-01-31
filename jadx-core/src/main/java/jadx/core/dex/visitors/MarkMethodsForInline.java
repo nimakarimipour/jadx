@@ -21,6 +21,7 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "MarkMethodsForInline",
@@ -101,7 +102,7 @@ public class MarkMethodsForInline extends AbstractVisitor {
 		return MethodInlineAttr.markForInline(mth, copy);
 	}
 
-	private static boolean fixVisibilityOfInlineCode(MethodNode mth, InsnNode insn) {
+	@NullUnmarked private static boolean fixVisibilityOfInlineCode(MethodNode mth, InsnNode insn) {
 		int newVisFlag = AccessFlags.PUBLIC; // TODO: calculate more precisely
 		InsnType insnType = insn.getType();
 		if (insnType == InsnType.INVOKE) {

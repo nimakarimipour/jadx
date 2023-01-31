@@ -20,6 +20,7 @@ import jadx.core.dex.regions.conditions.IfCondition.Mode;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class ConditionGen extends InsnGen {
 
@@ -51,7 +52,7 @@ public class ConditionGen extends InsnGen {
 		wrap(code, new CondStack(), condition);
 	}
 
-	private void add(ICodeWriter code, CondStack stack, @Nullable IfCondition condition) throws CodegenException {
+	@NullUnmarked private void add(ICodeWriter code, CondStack stack, @Nullable IfCondition condition) throws CodegenException {
 		stack.push(condition);
 		switch (condition.getMode()) {
 			case COMPARE:
@@ -99,7 +100,7 @@ public class ConditionGen extends InsnGen {
 		}
 	}
 
-	private void addCompare(ICodeWriter code, CondStack stack, @Nullable Compare compare) throws CodegenException {
+	@NullUnmarked private void addCompare(ICodeWriter code, CondStack stack, @Nullable Compare compare) throws CodegenException {
 		IfOp op = compare.getOp();
 		InsnArg firstArg = compare.getA();
 		InsnArg secondArg = compare.getB();
@@ -156,7 +157,7 @@ public class ConditionGen extends InsnGen {
 		}
 	}
 
-	private boolean isWrapNeeded(@Nullable IfCondition condition) {
+	@NullUnmarked private boolean isWrapNeeded(@Nullable IfCondition condition) {
 		if (condition.isCompare() || condition.contains(AFlag.DONT_WRAP)) {
 			return false;
 		}

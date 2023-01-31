@@ -23,6 +23,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "AttachComments",
@@ -87,7 +88,7 @@ public class AttachCommentsVisitor extends AbstractVisitor {
 		}
 	}
 
-	@Nullable private static InsnNode getInsnByOffset(MethodNode mth, int offset) {
+	@NullUnmarked @Nullable private static InsnNode getInsnByOffset(MethodNode mth, int offset) {
 		try {
 			return mth.getInstructions()[offset];
 		} catch (Exception e) {

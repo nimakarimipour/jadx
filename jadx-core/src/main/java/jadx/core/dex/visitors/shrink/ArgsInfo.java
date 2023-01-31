@@ -13,6 +13,7 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.EmptyBitSet;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 final class ArgsInfo {
 	private final InsnNode insn;
@@ -36,7 +37,7 @@ final class ArgsInfo {
 		return args;
 	}
 
-	private static void addArgs(InsnNode insn, List<RegisterArg> args) {
+	@NullUnmarked private static void addArgs(InsnNode insn, List<RegisterArg> args) {
 		if (insn.getType() == InsnType.TERNARY) {
 			args.addAll(((TernaryInsn) insn).getCondition().getRegisterArgs());
 		}

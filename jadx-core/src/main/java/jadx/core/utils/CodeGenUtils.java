@@ -20,6 +20,7 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.ICodeNode;
+import jadx.core.NullUnmarked;
 
 public class CodeGenUtils {
 
@@ -59,7 +60,7 @@ public class CodeGenUtils {
 		addCodeComments(code, node, node);
 	}
 
-	public static void addCodeComments(ICodeWriter code, @Nullable NotificationAttrNode parent, @Nullable IAttributeNode node) {
+	@NullUnmarked public static void addCodeComments(ICodeWriter code, @Nullable NotificationAttrNode parent, @Nullable IAttributeNode node) {
 		if (node == null) {
 			return;
 		}

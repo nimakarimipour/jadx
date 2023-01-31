@@ -8,6 +8,7 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.Utils;
+import jadx.core.NullUnmarked;
 
 public abstract class AbstractTypeConstraint implements ITypeConstraint {
 
@@ -19,7 +20,7 @@ public abstract class AbstractTypeConstraint implements ITypeConstraint {
 		this.relatedVars = collectRelatedVars(insn, arg);
 	}
 
-	private List<SSAVar> collectRelatedVars(InsnNode insn, InsnArg arg) {
+	@NullUnmarked private List<SSAVar> collectRelatedVars(InsnNode insn, InsnArg arg) {
 		List<SSAVar> list = new ArrayList<>(insn.getArgsCount());
 		if (insn.getResult() == arg) {
 			for (InsnArg insnArg : insn.getArguments()) {

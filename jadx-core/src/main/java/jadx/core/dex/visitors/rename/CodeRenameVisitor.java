@@ -23,6 +23,7 @@ import jadx.core.dex.visitors.InitCodeVariables;
 import jadx.core.dex.visitors.JadxVisitor;
 import jadx.core.dex.visitors.debuginfo.DebugInfoApplyVisitor;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "ApplyCodeRename",
@@ -71,7 +72,7 @@ public class CodeRenameVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void processRename(MethodNode mth, IJavaCodeRef codeRef, ICodeRename rename) {
+	@NullUnmarked private static void processRename(MethodNode mth, IJavaCodeRef codeRef, ICodeRename rename) {
 		switch (codeRef.getAttachType()) {
 			case MTH_ARG: {
 				List<RegisterArg> argRegs = mth.getArgRegs();

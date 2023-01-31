@@ -25,6 +25,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.exceptions.JadxException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "AnonymousClassVisitor",
@@ -116,7 +117,7 @@ public class AnonymousClassVisitor extends AbstractVisitor {
 		return map;
 	}
 
-	@Nullable private static InsnNode getParentInsnSkipMove(@Nullable RegisterArg arg) {
+	@NullUnmarked @Nullable private static InsnNode getParentInsnSkipMove(@Nullable RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		if (sVar.getUseCount() != 1) {
 			return null;

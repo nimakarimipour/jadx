@@ -38,6 +38,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.files.FileUtils;
+import jadx.core.NullUnmarked;
 
 /**
  * Classes list for import into classpath graph
@@ -74,7 +75,7 @@ public class ClsSet {
 
 	@Nullable private ClspClass[] classes;
 
-	public void loadFromClstFile() throws IOException, DecodeException {
+	@NullUnmarked public void loadFromClstFile() throws IOException, DecodeException {
 		long startTime = System.currentTimeMillis();
 		try (InputStream input = ClsSet.class.getResourceAsStream(CLST_PATH)) {
 			if (input == null) {
@@ -209,7 +210,7 @@ public class ClsSet {
 		}
 	}
 
-	private void save(OutputStream output) throws IOException {
+	@NullUnmarked private void save(OutputStream output) throws IOException {
 		DataOutputStream out = new DataOutputStream(output);
 		out.writeBytes(JADX_CLS_SET_HEADER);
 		out.writeByte(VERSION);
@@ -247,7 +248,7 @@ public class ClsSet {
 		writeArgTypesList(out, method.getThrows(), names);
 	}
 
-	private static void writeArgTypesList(DataOutputStream out, @Nullable List<ArgType> list, Map<String, ClspClass> names) throws IOException {
+	@NullUnmarked private static void writeArgTypesList(DataOutputStream out, @Nullable List<ArgType> list, Map<String, ClspClass> names) throws IOException {
 		int size = list.size();
 		writeUnsignedByte(out, size);
 		if (size != 0) {
@@ -271,7 +272,7 @@ public class ClsSet {
 		}
 	}
 
-	private static void writeArgType(DataOutputStream out, @Nullable ArgType argType, Map<String, ClspClass> names) throws IOException {
+	@NullUnmarked private static void writeArgType(DataOutputStream out, @Nullable ArgType argType, Map<String, ClspClass> names) throws IOException {
 		if (argType == null) {
 			out.writeByte(-1);
 			return;
@@ -414,7 +415,7 @@ public class ClsSet {
 		return arr;
 	}
 
-	@Nullable private ArgType readArgType(DataInputStream in) throws IOException {
+	@NullUnmarked @Nullable private ArgType readArgType(DataInputStream in) throws IOException {
 		int ordinal = in.readByte();
 		if (ordinal == -1) {
 			return null;
@@ -500,11 +501,11 @@ public class ClsSet {
 		return ((int) in.readByte()) & 0xFF;
 	}
 
-	public int getClassesCount() {
+	@NullUnmarked public int getClassesCount() {
 		return classes.length;
 	}
 
-	public void addToMap(Map<String, ClspClass> nameMap) {
+	@NullUnmarked public void addToMap(Map<String, ClspClass> nameMap) {
 		for (ClspClass cls : classes) {
 			nameMap.put(cls.getName(), cls);
 		}

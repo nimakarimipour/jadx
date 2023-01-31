@@ -2,6 +2,7 @@ package jadx.core.deobf;
 
 import jadx.core.dex.nodes.ClassNode;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 class DeobfClsInfo {
 	private final Deobfuscator deobfuscator;
@@ -16,7 +17,7 @@ class DeobfClsInfo {
 		this.alias = alias;
 	}
 
-	public String makeNameWithoutPkg() {
+	@NullUnmarked public String makeNameWithoutPkg() {
 		String prefix;
 		ClassNode parentClass = cls.getParentClass();
 		if (parentClass != cls) {
@@ -33,7 +34,7 @@ class DeobfClsInfo {
 		return prefix + (this.alias != null ? this.alias : this.cls.getShortName());
 	}
 
-	public String getFullName() {
+	@NullUnmarked public String getFullName() {
 		return pkg.getFullAlias() + Deobfuscator.CLASS_NAME_SEPARATOR + makeNameWithoutPkg();
 	}
 

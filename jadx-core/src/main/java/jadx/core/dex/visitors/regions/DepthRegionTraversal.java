@@ -8,6 +8,7 @@ import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.utils.exceptions.JadxOverflowException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class DepthRegionTraversal {
 
@@ -24,7 +25,7 @@ public class DepthRegionTraversal {
 		traverseInternal(mth, visitor, container);
 	}
 
-	public static void traverseIterative(MethodNode mth, IRegionIterativeVisitor visitor) {
+	@NullUnmarked public static void traverseIterative(MethodNode mth, IRegionIterativeVisitor visitor) {
 		boolean repeat;
 		int k = 0;
 		int limit = ITERATIVE_LIMIT_MULTIPLIER * mth.getBasicBlocks().size();
@@ -38,7 +39,7 @@ public class DepthRegionTraversal {
 		} while (repeat);
 	}
 
-	public static void traverseIncludingExcHandlers(MethodNode mth, IRegionIterativeVisitor visitor) {
+	@NullUnmarked public static void traverseIncludingExcHandlers(MethodNode mth, IRegionIterativeVisitor visitor) {
 		boolean repeat;
 		int k = 0;
 		int limit = ITERATIVE_LIMIT_MULTIPLIER * mth.getBasicBlocks().size();

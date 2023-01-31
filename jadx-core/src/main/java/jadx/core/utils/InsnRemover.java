@@ -21,6 +21,7 @@ import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 /**
  * Helper class for correct instructions removing,
@@ -88,7 +89,7 @@ public class InsnRemover {
 		});
 	}
 
-	public static void unbindAllArgs(@Nullable MethodNode mth, InsnNode insn) {
+	@NullUnmarked public static void unbindAllArgs(@Nullable MethodNode mth, InsnNode insn) {
 		for (InsnArg arg : insn.getArguments()) {
 			unbindArgUsage(mth, arg);
 		}
@@ -234,7 +235,7 @@ public class InsnRemover {
 		RegionUtils.visitBlocks(mth, container, b -> removeAll(b.getInstructions(), insns));
 	}
 
-	public static void removeAllAndUnbind(MethodNode mth, List<InsnNode> insns) {
+	@NullUnmarked public static void removeAllAndUnbind(MethodNode mth, List<InsnNode> insns) {
 		unbindInsns(mth, insns);
 		for (BlockNode block : mth.getBasicBlocks()) {
 			removeAll(block.getInstructions(), insns);
@@ -245,7 +246,7 @@ public class InsnRemover {
 		removeAll(block.getInstructions(), insns);
 	}
 
-	public static void removeAllMarked(MethodNode mth) {
+	@NullUnmarked public static void removeAllMarked(MethodNode mth) {
 		InsnRemover insnRemover = new InsnRemover(mth);
 		for (BlockNode blockNode : mth.getBasicBlocks()) {
 			for (InsnNode insn : blockNode.getInstructions()) {

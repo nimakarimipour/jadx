@@ -24,6 +24,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class CustomLambdaCall {
 
@@ -61,7 +62,7 @@ public class CustomLambdaCall {
 		return resNode;
 	}
 
-	@NotNull
+	@NullUnmarked @NotNull
 	private static InvokeCustomNode buildMethodCall(MethodNode mth, InsnData insn, boolean isRange,
 			List<EncodedValue> values, IMethodHandle callMthHandle) {
 		RootNode root = mth.root();

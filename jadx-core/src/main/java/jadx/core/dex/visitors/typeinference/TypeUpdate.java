@@ -34,6 +34,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 import static jadx.core.dex.visitors.typeinference.TypeUpdateResult.CHANGED;
 import static jadx.core.dex.visitors.typeinference.TypeUpdateResult.REJECT;
 import static jadx.core.dex.visitors.typeinference.TypeUpdateResult.SAME;
+import jadx.core.NullUnmarked;
 
 public final class TypeUpdate {
 	private static final Logger LOG = LoggerFactory.getLogger(TypeUpdate.class);
@@ -73,7 +74,7 @@ public final class TypeUpdate {
 		return apply(mth, ssaVar, candidateType, TypeUpdateFlags.FLAGS_WIDER_IGNORE_UNKNOWN);
 	}
 
-	private TypeUpdateResult apply(MethodNode mth, @Nullable SSAVar ssaVar, @Nullable ArgType candidateType, TypeUpdateFlags flags) {
+	@NullUnmarked private TypeUpdateResult apply(MethodNode mth, @Nullable SSAVar ssaVar, @Nullable ArgType candidateType, TypeUpdateFlags flags) {
 		if (candidateType == null || !candidateType.isTypeKnown()) {
 			return REJECT;
 		}
@@ -96,7 +97,7 @@ public final class TypeUpdate {
 		return CHANGED;
 	}
 
-	private TypeUpdateResult updateTypeChecked(TypeUpdateInfo updateInfo, @Nullable InsnArg arg, ArgType candidateType) {
+	@NullUnmarked private TypeUpdateResult updateTypeChecked(TypeUpdateInfo updateInfo, @Nullable InsnArg arg, ArgType candidateType) {
 		if (candidateType == null) {
 			throw new JadxRuntimeException("Null type update for arg: " + arg);
 		}
@@ -151,7 +152,7 @@ public final class TypeUpdate {
 		return requestUpdate(updateInfo, arg, candidateType);
 	}
 
-	private TypeUpdateResult updateTypeForSsaVar(TypeUpdateInfo updateInfo, @Nullable SSAVar ssaVar, ArgType candidateType) {
+	@NullUnmarked private TypeUpdateResult updateTypeForSsaVar(TypeUpdateInfo updateInfo, @Nullable SSAVar ssaVar, ArgType candidateType) {
 		TypeInfo typeInfo = ssaVar.getTypeInfo();
 		ArgType immutableType = ssaVar.getImmutableType();
 		if (immutableType != null && !Objects.equals(immutableType, candidateType)) {
@@ -277,7 +278,7 @@ public final class TypeUpdate {
 		}
 	}
 
-	private boolean checkAssignForUnknown(@Nullable ArgType boundType, @Nullable ArgType candidateType) {
+	@NullUnmarked private boolean checkAssignForUnknown(@Nullable ArgType boundType, @Nullable ArgType candidateType) {
 		if (boundType == ArgType.UNKNOWN) {
 			return true;
 		}
@@ -410,7 +411,7 @@ public final class TypeUpdate {
 		return updateTypeChecked(updateInfo, changeArg, candidateType);
 	}
 
-	private TypeUpdateResult moveListener(TypeUpdateInfo updateInfo, InsnNode insn, InsnArg arg, ArgType candidateType) {
+	@NullUnmarked private TypeUpdateResult moveListener(TypeUpdateInfo updateInfo, InsnNode insn, InsnArg arg, ArgType candidateType) {
 		boolean assignChanged = isAssign(insn, arg);
 		InsnArg changeArg = assignChanged ? insn.getArg(0) : insn.getResult();
 
@@ -511,7 +512,7 @@ public final class TypeUpdate {
 		return SAME;
 	}
 
-	private TypeUpdateResult arrayGetListener(TypeUpdateInfo updateInfo, InsnNode insn, InsnArg arg, ArgType candidateType) {
+	@NullUnmarked private TypeUpdateResult arrayGetListener(TypeUpdateInfo updateInfo, InsnNode insn, InsnArg arg, ArgType candidateType) {
 		if (isAssign(insn, arg)) {
 			TypeUpdateResult result = updateTypeChecked(updateInfo, insn.getArg(0), ArgType.array(candidateType));
 			if (result == REJECT) {
@@ -549,7 +550,7 @@ public final class TypeUpdate {
 		return SAME;
 	}
 
-	private TypeUpdateResult arrayPutListener(TypeUpdateInfo updateInfo, InsnNode insn, InsnArg arg, ArgType candidateType) {
+	@NullUnmarked private TypeUpdateResult arrayPutListener(TypeUpdateInfo updateInfo, InsnNode insn, InsnArg arg, ArgType candidateType) {
 		InsnArg arrArg = insn.getArg(0);
 		InsnArg putArg = insn.getArg(2);
 		if (arrArg == arg) {
@@ -577,7 +578,7 @@ public final class TypeUpdate {
 		return SAME;
 	}
 
-	private TypeUpdateResult ifListener(TypeUpdateInfo updateInfo, InsnNode insn, InsnArg arg, ArgType candidateType) {
+	@NullUnmarked private TypeUpdateResult ifListener(TypeUpdateInfo updateInfo, InsnNode insn, InsnArg arg, ArgType candidateType) {
 		InsnArg firstArg = insn.getArg(0);
 		InsnArg secondArg = insn.getArg(1);
 		InsnArg updateArg = firstArg == arg ? secondArg : firstArg;

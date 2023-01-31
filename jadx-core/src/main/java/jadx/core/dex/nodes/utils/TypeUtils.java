@@ -27,6 +27,7 @@ import jadx.core.utils.Utils;
 
 import static jadx.core.utils.Utils.isEmpty;
 import static jadx.core.utils.Utils.notEmpty;
+import jadx.core.NullUnmarked;
 
 public class TypeUtils {
 	private final RootNode root;
@@ -35,7 +36,7 @@ public class TypeUtils {
 		this.root = rootNode;
 	}
 
-	public List<ArgType> getClassGenerics(ArgType type) {
+	@NullUnmarked public List<ArgType> getClassGenerics(ArgType type) {
 		ClassNode classNode = root.resolveClass(type);
 		if (classNode != null) {
 			return classNode.getGenericTypeParameters();
@@ -68,7 +69,7 @@ public class TypeUtils {
 		return type;
 	}
 
-	public ArgType expandTypeVariables(MethodNode mth, @Nullable ArgType type) {
+	@NullUnmarked public ArgType expandTypeVariables(MethodNode mth, @Nullable ArgType type) {
 		if (type.containsTypeVariable()) {
 			expandTypeVar(mth, type, getKnownTypeVarsAtMethod(mth));
 		}
@@ -166,7 +167,7 @@ public class TypeUtils {
 		return replaceClassGenerics(instanceType, instanceType, typeWithGeneric);
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public ArgType replaceClassGenerics(@Nullable ArgType instanceType, @Nullable ArgType genericSourceType, ArgType typeWithGeneric) {
 		if (typeWithGeneric == null || genericSourceType == null) {
 			return null;
@@ -206,7 +207,7 @@ public class TypeUtils {
 		return map;
 	}
 
-	public Map<ArgType, ArgType> getTypeVariablesMapping(@Nullable ArgType clsType) {
+	@NullUnmarked public Map<ArgType, ArgType> getTypeVariablesMapping(@Nullable ArgType clsType) {
 		if (!clsType.isGeneric()) {
 			return Collections.emptyMap();
 		}
@@ -278,7 +279,7 @@ public class TypeUtils {
 		return null;
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public ArgType replaceTypeVariablesUsingMap(@Nullable ArgType replaceType, Map<ArgType, ArgType> replaceMap) {
 		if (replaceMap.isEmpty()) {
 			return null;
@@ -326,7 +327,7 @@ public class TypeUtils {
 		return null;
 	}
 
-	private ClassTypeVarsAttr buildClassTypeVarsAttr(ClassNode cls) {
+	@NullUnmarked private ClassTypeVarsAttr buildClassTypeVarsAttr(ClassNode cls) {
 		Map<String, Map<ArgType, ArgType>> map = new HashMap<>();
 		ArgType currentClsType = cls.getClassInfo().getType();
 		map.put(currentClsType.getObject(), getTypeVariablesMapping(currentClsType));
@@ -355,7 +356,7 @@ public class TypeUtils {
 		return typeVarsAttr;
 	}
 
-	public void visitSuperTypes(ArgType type, BiConsumer<ArgType, ArgType> consumer) {
+	@NullUnmarked public void visitSuperTypes(ArgType type, BiConsumer<ArgType, ArgType> consumer) {
 		ClassNode cls = root.resolveClass(type);
 		if (cls != null) {
 			cls.visitSuperTypes(consumer);

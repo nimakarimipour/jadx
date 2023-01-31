@@ -6,6 +6,7 @@ import java.util.List;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.SSAVar;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class TypeSearchVarInfo {
 	private final SSAVar var;
@@ -25,7 +26,7 @@ public class TypeSearchVarInfo {
 		this.candidateTypes = Collections.emptyList();
 	}
 
-	public void reset() {
+	@NullUnmarked public void reset() {
 		if (typeResolved) {
 			return;
 		}
@@ -38,7 +39,7 @@ public class TypeSearchVarInfo {
 	 *
 	 * @return true - if this is the first candidate
 	 */
-	public boolean nextType() {
+	@NullUnmarked public boolean nextType() {
 		if (typeResolved) {
 			return false;
 		}

@@ -19,6 +19,7 @@ import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.dex.visitors.blocks.BlockProcessor;
 import jadx.core.dex.visitors.blocks.BlockSplitter;
 import jadx.core.utils.BlockUtils;
+import jadx.core.NullUnmarked;
 
 public class SimpleModeHelper {
 
@@ -33,7 +34,7 @@ public class SimpleModeHelper {
 		this.endGoto = BlockUtils.newBlocksBitSet(mth);
 	}
 
-	public List<BlockNode> prepareBlocks() {
+	@NullUnmarked public List<BlockNode> prepareBlocks() {
 		removeEmptyBlocks();
 		List<BlockNode> blocksList = getSortedBlocks();
 		blocksList.removeIf(b -> b.equals(mth.getEnterBlock()) || b.equals(mth.getExitBlock()));
@@ -83,7 +84,7 @@ public class SimpleModeHelper {
 		return blocksList;
 	}
 
-	private void removeEmptyBlocks() {
+	@NullUnmarked private void removeEmptyBlocks() {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			if (block.getInstructions().isEmpty()
 					&& block.getPredecessors().size() > 0
@@ -104,7 +105,7 @@ public class SimpleModeHelper {
 		BlockProcessor.removeMarkedBlocks(mth);
 	}
 
-	private void unbindExceptionHandlers() {
+	@NullUnmarked private void unbindExceptionHandlers() {
 		if (mth.isNoExceptionHandlers()) {
 			return;
 		}
@@ -116,7 +117,7 @@ public class SimpleModeHelper {
 		}
 	}
 
-	private void processTargetInsn(BlockNode block, InsnNode lastInsn, @Nullable BlockNode next) {
+	@NullUnmarked private void processTargetInsn(BlockNode block, InsnNode lastInsn, @Nullable BlockNode next) {
 		if (lastInsn instanceof IfNode) {
 			IfNode ifInsn = (IfNode) lastInsn;
 			BlockNode thenBlock = ifInsn.getThenBlock();
@@ -143,7 +144,7 @@ public class SimpleModeHelper {
 	}
 
 	// DFS sort blocks to reduce goto count
-	private List<BlockNode> getSortedBlocks() {
+	@NullUnmarked private List<BlockNode> getSortedBlocks() {
 		List<BlockNode> list = new ArrayList<>(mth.getBasicBlocks().size());
 		BlockUtils.dfsVisit(mth, list::add);
 		return list;

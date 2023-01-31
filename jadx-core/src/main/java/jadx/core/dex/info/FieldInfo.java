@@ -7,6 +7,7 @@ import jadx.core.codegen.TypeGen;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.RootNode;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public final class FieldInfo {
 
@@ -77,11 +78,11 @@ public final class FieldInfo {
 		return !name.equals(alias);
 	}
 
-	public boolean equalsNameAndType(FieldInfo other) {
+	@NullUnmarked public boolean equalsNameAndType(FieldInfo other) {
 		return name.equals(other.name) && type.equals(other.type);
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public boolean equals(@Nullable Object o) {
 		if (this == o) {
 			return true;
@@ -95,7 +96,7 @@ public final class FieldInfo {
 				&& declClass.equals(fieldInfo.declClass);
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public int hashCode() {
 		int result = name.hashCode();
 		result = 31 * result + type.hashCode();

@@ -34,11 +34,12 @@ import jadx.core.utils.RegionUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class ProcessVariables extends AbstractVisitor {
 	private static final Logger LOG = LoggerFactory.getLogger(ProcessVariables.class);
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) throws JadxException {
 		if (mth.isNoCode() || mth.getSVars().isEmpty()) {
 			return;
@@ -69,7 +70,7 @@ public class ProcessVariables extends AbstractVisitor {
 
 	private static void removeUnusedResults(MethodNode mth) {
 		DepthRegionTraversal.traverse(mth, new AbstractRegionVisitor() {
-			@Override
+			@NullUnmarked @Override
 			public void processBlock(MethodNode mth, IBlock container) {
 				for (InsnNode insn : container.getInstructions()) {
 					RegisterArg resultArg = insn.getResult();
@@ -137,7 +138,7 @@ public class ProcessVariables extends AbstractVisitor {
 		declareVarInRegion(mth.getRegion(), codeVar);
 	}
 
-	private List<CodeVar> collectCodeVars(MethodNode mth) {
+	@NullUnmarked private List<CodeVar> collectCodeVars(MethodNode mth) {
 		Map<CodeVar, List<SSAVar>> codeVars = new LinkedHashMap<>();
 		for (SSAVar ssaVar : mth.getSVars()) {
 			if (ssaVar.getCodeVar().isThis()) {
@@ -246,7 +247,7 @@ public class ProcessVariables extends AbstractVisitor {
 		return false;
 	}
 
-	private static boolean checkDeclareAtAssign(@Nullable SSAVar var) {
+	@NullUnmarked private static boolean checkDeclareAtAssign(@Nullable SSAVar var) {
 		RegisterArg arg = var.getAssign();
 		InsnNode parentInsn = arg.getParentInsn();
 		if (parentInsn == null
@@ -261,7 +262,7 @@ public class ProcessVariables extends AbstractVisitor {
 		return true;
 	}
 
-	private static void declareVarInRegion(@Nullable IContainer region, CodeVar var) {
+	@NullUnmarked private static void declareVarInRegion(@Nullable IContainer region, CodeVar var) {
 		if (var.isDeclared()) {
 			LOG.warn("Try to declare already declared variable: {}", var);
 			return;

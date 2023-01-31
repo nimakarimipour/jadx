@@ -20,6 +20,7 @@ import jadx.core.dex.nodes.IMethodDetails;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 /**
  * Classes hierarchy graph with methods additional info
@@ -67,15 +68,15 @@ public class ClspGraph {
 		fillImplementsCache();
 	}
 
-	public boolean isClsKnown(String fullName) {
+	@NullUnmarked public boolean isClsKnown(String fullName) {
 		return nameMap.containsKey(fullName);
 	}
 
-	@Nullable public ClspClass getClsDetails(ArgType type) {
+	@NullUnmarked @Nullable public ClspClass getClsDetails(ArgType type) {
 		return nameMap.get(type.getObject());
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public IMethodDetails getMethodDetails(@Nullable MethodInfo methodInfo) {
 		ClspClass cls = nameMap.get(methodInfo.getDeclClass().getRawName());
 		if (cls == null) {
@@ -103,7 +104,7 @@ public class ClspGraph {
 		return cls.getMethodsMap().get(methodInfo.getShortId());
 	}
 
-	private void addClass(ClassNode cls) {
+	@NullUnmarked private void addClass(ClassNode cls) {
 		ArgType clsType = cls.getClassInfo().getType();
 		String rawName = clsType.getObject();
 		ClspClass clspClass = new ClspClass(clsType, -1);
@@ -119,12 +120,12 @@ public class ClspGraph {
 		return anc.contains(implClsName);
 	}
 
-	public List<String> getImplementations(String clsName) {
+	@NullUnmarked public List<String> getImplementations(String clsName) {
 		List<String> list = implementsCache.get(clsName);
 		return list == null ? Collections.emptyList() : list;
 	}
 
-	private void fillImplementsCache() {
+	@NullUnmarked private void fillImplementsCache() {
 		Map<String, List<String>> map = new HashMap<>(nameMap.size());
 		List<String> classes = new ArrayList<>(nameMap.keySet());
 		Collections.sort(classes);
@@ -136,7 +137,7 @@ public class ClspGraph {
 		implementsCache = map;
 	}
 
-	@Nullable public String getCommonAncestor(String clsName, String implClsName) {
+	@NullUnmarked @Nullable public String getCommonAncestor(String clsName, String implClsName) {
 		if (clsName.equals(implClsName)) {
 			return clsName;
 		}
@@ -152,7 +153,7 @@ public class ClspGraph {
 		return searchCommonParent(anc, cls);
 	}
 
-	@Nullable private String searchCommonParent(Set<String> anc, ClspClass cls) {
+	@NullUnmarked @Nullable private String searchCommonParent(Set<String> anc, ClspClass cls) {
 		for (ArgType p : cls.getParents()) {
 			String name = p.getObject();
 			if (anc.contains(name)) {
@@ -169,12 +170,12 @@ public class ClspGraph {
 		return null;
 	}
 
-	public Set<String> getSuperTypes(String clsName) {
+	@NullUnmarked public Set<String> getSuperTypes(String clsName) {
 		Set<String> result = superTypesCache.get(clsName);
 		return result == null ? Collections.emptySet() : result;
 	}
 
-	private void fillSuperTypesCache() {
+	@NullUnmarked private void fillSuperTypesCache() {
 		Map<String, Set<String>> map = new HashMap<>(nameMap.size());
 		Set<String> tmpSet = new HashSet<>();
 		for (Map.Entry<String, ClspClass> entry : nameMap.entrySet()) {
@@ -192,7 +193,7 @@ public class ClspGraph {
 		superTypesCache = map;
 	}
 
-	private void addSuperTypes(ClspClass cls, Set<String> result) {
+	@NullUnmarked private void addSuperTypes(ClspClass cls, Set<String> result) {
 		for (ArgType parentType : cls.getParents()) {
 			if (parentType == null) {
 				continue;
@@ -210,7 +211,7 @@ public class ClspGraph {
 		}
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	private ClspClass getClspClass(ArgType clsType) {
 		ClspClass clspClass = nameMap.get(clsType.getObject());
 		if (clspClass == null) {

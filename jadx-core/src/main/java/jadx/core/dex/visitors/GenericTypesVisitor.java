@@ -15,6 +15,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "GenericTypesVisitor",
@@ -25,7 +26,7 @@ import jadx.core.utils.exceptions.JadxException;
 public class GenericTypesVisitor extends AbstractVisitor {
 	private static final Logger LOG = LoggerFactory.getLogger(GenericTypesVisitor.class);
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) throws JadxException {
 		if (mth.isNoCode()) {
 			return;
@@ -39,7 +40,7 @@ public class GenericTypesVisitor extends AbstractVisitor {
 		}
 	}
 
-	private void attachGenericTypesInfo(MethodNode mth, ConstructorInsn insn) {
+	@NullUnmarked private void attachGenericTypesInfo(MethodNode mth, ConstructorInsn insn) {
 		try {
 			RegisterArg resultArg = insn.getResult();
 			if (resultArg == null) {

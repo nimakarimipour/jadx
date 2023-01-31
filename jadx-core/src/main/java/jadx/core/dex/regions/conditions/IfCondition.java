@@ -23,6 +23,7 @@ import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public final class IfCondition extends AttrNode {
 
@@ -117,7 +118,7 @@ public final class IfCondition extends AttrNode {
 		return compare;
 	}
 
-	public static IfCondition invert(@Nullable IfCondition cond) {
+	@NullUnmarked public static IfCondition invert(@Nullable IfCondition cond) {
 		Mode mode = cond.getMode();
 		switch (mode) {
 			case COMPARE:
@@ -138,7 +139,7 @@ public final class IfCondition extends AttrNode {
 		throw new JadxRuntimeException("Unknown mode for invert: " + mode);
 	}
 
-	public static IfCondition not(IfCondition cond) {
+	@NullUnmarked public static IfCondition not(IfCondition cond) {
 		if (cond.getMode() == Mode.NOT) {
 			return cond.first();
 		}
@@ -148,7 +149,7 @@ public final class IfCondition extends AttrNode {
 		return new IfCondition(Mode.NOT, Collections.singletonList(cond));
 	}
 
-	public static IfCondition simplify(@Nullable IfCondition cond) {
+	@NullUnmarked public static IfCondition simplify(@Nullable IfCondition cond) {
 		if (cond.isCompare()) {
 			Compare c = cond.getCompare();
 			IfCondition i = simplifyCmpOp(c);
@@ -202,7 +203,7 @@ public final class IfCondition extends AttrNode {
 		return cond;
 	}
 
-	@Nullable private static IfCondition simplifyCmpOp(@Nullable Compare c) {
+	@NullUnmarked @Nullable private static IfCondition simplifyCmpOp(@Nullable Compare c) {
 		if (!c.getA().isInsnWrap()) {
 			return null;
 		}
@@ -252,7 +253,7 @@ public final class IfCondition extends AttrNode {
 		return null;
 	}
 
-	public List<RegisterArg> getRegisterArgs() {
+	@NullUnmarked public List<RegisterArg> getRegisterArgs() {
 		List<RegisterArg> list = new ArrayList<>();
 		if (mode == Mode.COMPARE) {
 			compare.getInsn().getRegisterArgs(list);
@@ -264,7 +265,7 @@ public final class IfCondition extends AttrNode {
 		return list;
 	}
 
-	public void visitInsns(Consumer<InsnNode> visitor) {
+	@NullUnmarked public void visitInsns(Consumer<InsnNode> visitor) {
 		if (mode == Mode.COMPARE) {
 			compare.getInsn().visitInsns(visitor);
 		} else {
@@ -288,7 +289,7 @@ public final class IfCondition extends AttrNode {
 		return 0;
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public InsnNode getFirstInsn() {
 		if (mode == Mode.COMPARE) {
 			return compare.getInsn();
@@ -296,7 +297,7 @@ public final class IfCondition extends AttrNode {
 		return args.get(0).getFirstInsn();
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public String toString() {
 		switch (mode) {
 			case COMPARE:

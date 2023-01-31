@@ -3,16 +3,17 @@ package jadx.core.xmlgen;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class CommonBinaryParser extends ParserConstants {
 	@Nullable protected ParserStream is;
 
-	protected String[] parseStringPool() throws IOException {
+	@NullUnmarked protected String[] parseStringPool() throws IOException {
 		is.checkInt16(RES_STRING_POOL_TYPE, "String pool expected");
 		return parseStringPoolNoType();
 	}
 
-	protected String[] parseStringPoolNoType() throws IOException {
+	@NullUnmarked protected String[] parseStringPoolNoType() throws IOException {
 		long start = is.getPos() - 2;
 		is.checkInt16(0x001c, "String pool header size not 0x001c");
 		long size = is.readUInt32();
@@ -88,7 +89,7 @@ public class CommonBinaryParser extends ParserConstants {
 		return (strArray[offset + 1] & 0x80) == 0 ? 2 : 4;
 	}
 
-	protected void die(String message) throws IOException {
+	@NullUnmarked protected void die(String message) throws IOException {
 		throw new IOException("Decode error: " + message
 				+ ", position: 0x" + Long.toHexString(is.getPos()));
 	}

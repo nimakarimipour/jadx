@@ -6,6 +6,7 @@ import java.util.List;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public final class InsnList implements Iterable<InsnNode> {
 
@@ -33,7 +34,7 @@ public final class InsnList implements Iterable<InsnNode> {
 		return getIndex(list, insn, 0);
 	}
 
-	public static int getIndex(@Nullable List<InsnNode> list, @Nullable InsnNode insn, int startOffset) {
+	@NullUnmarked public static int getIndex(@Nullable List<InsnNode> list, @Nullable InsnNode insn, int startOffset) {
 		int size = list.size();
 		for (int i = startOffset; i < size; i++) {
 			if (list.get(i) == insn) {

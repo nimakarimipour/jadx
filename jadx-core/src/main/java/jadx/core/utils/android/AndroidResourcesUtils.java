@@ -27,6 +27,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.xmlgen.ResourceStorage;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 /**
  * Android resources specific handlers
@@ -77,7 +78,7 @@ public class AndroidResourcesUtils {
 	/**
 	 * Force hex format for Android resources ids
 	 */
-	public static boolean handleResourceFieldValue(ClassNode cls, ICodeWriter code, long lit, @Nullable ArgType type) {
+	@NullUnmarked public static boolean handleResourceFieldValue(ClassNode cls, ICodeWriter code, long lit, @Nullable ArgType type) {
 		if (type.equals(ArgType.INT) && isResourceClass(cls)) {
 			code.add(String.format("0x%08x", lit));
 			return true;
@@ -171,7 +172,7 @@ public class AndroidResourcesUtils {
 		return new ResClsInfo(newTypeCls);
 	}
 
-	@NotNull
+	@NullUnmarked @NotNull
 	private static Map<Integer, FieldNode> fillResFieldsMap(ClassNode resCls) {
 		Map<Integer, FieldNode> resFieldsMap = new HashMap<>();
 		ConstStorage constStorage = resCls.root().getConstValues();

@@ -29,6 +29,7 @@ import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.input.InsnDataUtils;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class InsnDecoder {
 	private static final Logger LOG = LoggerFactory.getLogger(InsnDecoder.class);
@@ -506,7 +507,7 @@ public class InsnDecoder {
 		return swInsn;
 	}
 
-	private InsnNode makeNewArray(InsnData insn) {
+	@NullUnmarked private InsnNode makeNewArray(InsnData insn) {
 		ArgType indexType = ArgType.parse(insn.getIndexAsType());
 		int dim = (int) insn.getLiteral();
 		ArgType arrType;
@@ -537,7 +538,7 @@ public class InsnDecoder {
 		return igetFld.getType();
 	}
 
-	private InsnNode filledNewArray(InsnData insn, boolean isRange) {
+	@NullUnmarked private InsnNode filledNewArray(InsnData insn, boolean isRange) {
 		ArgType arrType = ArgType.parse(insn.getIndexAsType());
 		ArgType elType = arrType.getArrayElement();
 		boolean typeImmutable = elType.isPrimitive();

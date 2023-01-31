@@ -57,6 +57,7 @@ import static jadx.core.utils.InsnUtils.checkInsnType;
 import static jadx.core.utils.InsnUtils.getSingleArg;
 import static jadx.core.utils.InsnUtils.getWrappedInsn;
 import jadx.core.Initializer;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "EnumVisitor",
@@ -114,7 +115,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private boolean convertToEnum(ClassNode cls) {
+	@NullUnmarked private boolean convertToEnum(ClassNode cls) {
 		ArgType superType = cls.getSuperClass();
 		if (superType != null && superType.getObject().equals(ArgType.ENUM.getObject())) {
 			cls.add(AFlag.REMOVE_SUPER_CLASS);
@@ -191,7 +192,7 @@ public class EnumVisitor extends AbstractVisitor {
 	/**
 	 * Search "$VALUES" field (holds all enum values)
 	 */
-	private boolean searchValuesField(EnumData data) {
+	@NullUnmarked private boolean searchValuesField(EnumData data) {
 		ArgType clsType = data.cls.getClassInfo().getType();
 		List<FieldNode> valuesCandidates = data.cls.getFields().stream()
 				.filter(f -> f.getAccessFlags().isStatic())
@@ -228,7 +229,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private void processConstructorInsn(EnumData data, EnumField enumField, MethodNode classInitMth) {
+	@NullUnmarked private void processConstructorInsn(EnumData data, EnumField enumField, MethodNode classInitMth) {
 		ConstructorInsn co = enumField.getConstrInsn();
 		ClassInfo enumClsInfo = co.getClassType();
 		if (!enumClsInfo.equals(data.cls.getClassInfo())) {
@@ -275,7 +276,7 @@ public class EnumVisitor extends AbstractVisitor {
 		}
 	}
 
-	@Nullable private List<EnumField> extractEnumFieldsFromInvoke(EnumData enumData, InvokeNode invokeNode) {
+	@NullUnmarked @Nullable private List<EnumField> extractEnumFieldsFromInvoke(EnumData enumData, InvokeNode invokeNode) {
 		MethodInfo callMth = invokeNode.getCallMth();
 		MethodNode valuesMth = enumData.cls.root().resolveMethod(callMth);
 		if (valuesMth == null || valuesMth.isVoidReturn()) {
@@ -294,7 +295,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return enumFields;
 	}
 
-	@Nullable private BlockInsnPair getValuesInitInsn(EnumData data) {
+	@NullUnmarked @Nullable private BlockInsnPair getValuesInitInsn(EnumData data) {
 		FieldInfo searchField = data.valuesField.getFieldInfo();
 		for (BlockNode blockNode : data.staticBlocks) {
 			for (InsnNode insn : blockNode.getInstructions()) {
@@ -342,7 +343,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return null;
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	private EnumField processEnumFieldByField(EnumData data, InsnNode sgetInsn) {
 		if (sgetInsn.getType() != InsnType.SGET) {
 			return null;
@@ -369,7 +370,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return createEnumFieldByConstructor(data.cls, enumFieldNode, co);
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	private EnumField processEnumFieldByRegister(EnumData data, RegisterArg arg) {
 		InsnNode assignInsn = arg.getAssignInsn();
 		if (assignInsn != null && assignInsn.getType() == InsnType.SGET) {
@@ -416,7 +417,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return enumFieldNode;
 	}
 
-	@Nullable @SuppressWarnings("StatementWithEmptyBody")
+	@NullUnmarked @Nullable @SuppressWarnings("StatementWithEmptyBody")
 	private EnumField createEnumFieldByConstructor(ClassNode cls, FieldNode enumFieldNode, ConstructorInsn co) {
 		// usually constructor signature is '<init>(Ljava/lang/String;I)V'.
 		// sometimes for one field enum second arg can be omitted
@@ -527,7 +528,7 @@ public class EnumVisitor extends AbstractVisitor {
 	}
 
 	// TODO: support other method patterns ???
-	private boolean isValuesMethod(MethodNode mth, ArgType clsType) {
+	@NullUnmarked private boolean isValuesMethod(MethodNode mth, ArgType clsType) {
 		ArgType retType = mth.getReturnType();
 		if (!retType.isArray() || !retType.getArrayElement().equals(clsType)) {
 			return false;
@@ -545,7 +546,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	private boolean simpleValueOfMth(MethodNode mth, ArgType clsType) {
+	@NullUnmarked private boolean simpleValueOfMth(MethodNode mth, ArgType clsType) {
 		InsnNode returnInsn = InsnUtils.searchSingleReturnInsn(mth, insn -> insn.getArgsCount() == 1);
 		if (returnInsn == null) {
 			return false;
@@ -596,7 +597,7 @@ public class EnumVisitor extends AbstractVisitor {
 				Collections.emptyList(), ArgType.array(clsType));
 	}
 
-	private static void processEnumCls(ClassNode cls, EnumField field, ClassNode innerCls) {
+	@NullUnmarked private static void processEnumCls(ClassNode cls, EnumField field, ClassNode innerCls) {
 		// remove constructor, because it is anonymous class
 		for (MethodNode innerMth : innerCls.getMethods()) {
 			if (innerMth.getAccessFlags().isConstructor()) {

@@ -50,6 +50,7 @@ import jadx.core.utils.exceptions.JadxOverflowException;
 import static jadx.core.codegen.MethodGen.FallbackOption.BLOCK_DUMP;
 import static jadx.core.codegen.MethodGen.FallbackOption.COMMENTED_DUMP;
 import static jadx.core.codegen.MethodGen.FallbackOption.FALLBACK_MODE;
+import jadx.core.NullUnmarked;
 
 public class MethodGen {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodGen.class);
@@ -78,7 +79,7 @@ public class MethodGen {
 		return mth;
 	}
 
-	public boolean addDefinition(ICodeWriter code) {
+	@NullUnmarked public boolean addDefinition(ICodeWriter code) {
 		if (mth.getMethodInfo().isClassInit()) {
 			code.attachDefinition(mth);
 			code.startLine("static");
@@ -180,7 +181,7 @@ public class MethodGen {
 		return true;
 	}
 
-	private MethodNode getMethodForDefinition() {
+	@NullUnmarked private MethodNode getMethodForDefinition() {
 		MethodReplaceAttr replaceAttr = mth.get(AType.METHOD_REPLACE);
 		if (replaceAttr != null) {
 			return replaceAttr.getReplaceMth();
@@ -207,7 +208,7 @@ public class MethodGen {
 		}
 	}
 
-	private void addMethodArguments(ICodeWriter code, List<RegisterArg> args) {
+	@NullUnmarked private void addMethodArguments(ICodeWriter code, List<RegisterArg> args) {
 		AnnotationMethodParamsAttr paramsAnnotation = mth.get(JadxAttrType.ANNOTATION_MTH_PARAMETERS);
 		int i = 0;
 		Iterator<RegisterArg> it = args.iterator();
@@ -264,7 +265,7 @@ public class MethodGen {
 		}
 	}
 
-	public void addInstructions(ICodeWriter code) throws CodegenException {
+	@NullUnmarked public void addInstructions(ICodeWriter code) throws CodegenException {
 		JadxArgs args = mth.root().getArgs();
 		switch (args.getDecompilationMode()) {
 			case AUTO:
@@ -290,7 +291,7 @@ public class MethodGen {
 		}
 	}
 
-	public void addRegionInsns(ICodeWriter code) throws CodegenException {
+	@NullUnmarked public void addRegionInsns(ICodeWriter code) throws CodegenException {
 		try {
 			RegionGen regionGen = new RegionGen(this);
 			regionGen.makeRegion(code, mth.getRegion());
@@ -308,7 +309,7 @@ public class MethodGen {
 		}
 	}
 
-	private void addSimpleMethodCode(ICodeWriter code) {
+	@NullUnmarked private void addSimpleMethodCode(ICodeWriter code) {
 		if (mth.getBasicBlocks() == null) {
 			code.startLine("// Blocks not ready for simple mode, using fallback");
 			addFallbackMethodCode(code, FALLBACK_MODE);
@@ -327,7 +328,7 @@ public class MethodGen {
 		}
 	}
 
-	private void generateSimpleCode(ICodeWriter code) throws CodegenException {
+	@NullUnmarked private void generateSimpleCode(ICodeWriter code) throws CodegenException {
 		SimpleModeHelper helper = new SimpleModeHelper(mth);
 		List<BlockNode> blocks = helper.prepareBlocks();
 		InsnGen insnGen = new InsnGen(this, true);
@@ -361,7 +362,7 @@ public class MethodGen {
 		}
 	}
 
-	public void dumpInstructions(ICodeWriter code) {
+	@NullUnmarked public void dumpInstructions(ICodeWriter code) {
 		if (mth.checkCommentsLevel(CommentsLevel.ERROR)) {
 			code.startLine("/*");
 			addFallbackMethodCode(code, COMMENTED_DUMP);
@@ -378,7 +379,7 @@ public class MethodGen {
 				.add("\");");
 	}
 
-	public void addFallbackMethodCode(ICodeWriter code, FallbackOption fallbackOption) {
+	@NullUnmarked public void addFallbackMethodCode(ICodeWriter code, FallbackOption fallbackOption) {
 		if (fallbackOption != FALLBACK_MODE) {
 			List<JadxError> errors = mth.getAll(AType.JADX_ERROR); // preserve error before unload
 			try {
@@ -447,7 +448,7 @@ public class MethodGen {
 		}
 	}
 
-	private boolean dumpInsn(ICodeWriter code, InsnGen insnGen, FallbackOption option, int startIndent,
+	@NullUnmarked private boolean dumpInsn(ICodeWriter code, InsnGen insnGen, FallbackOption option, int startIndent,
 			@Nullable InsnNode prevInsn, InsnNode insn) {
 		if (insn.contains(AType.JADX_ERROR)) {
 			for (JadxError error : insn.getAll(AType.JADX_ERROR)) {
@@ -552,7 +553,7 @@ public class MethodGen {
 		return new MethodGen(clsGen, mth);
 	}
 
-	public static String getLabelName(@Nullable BlockNode block) {
+	@NullUnmarked public static String getLabelName(@Nullable BlockNode block) {
 		return String.format("L%d", block.getId());
 	}
 

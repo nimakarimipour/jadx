@@ -56,6 +56,7 @@ import static jadx.core.dex.visitors.regions.IfMakerHelper.searchNestedIf;
 import static jadx.core.utils.BlockUtils.followEmptyPath;
 import static jadx.core.utils.BlockUtils.getNextBlock;
 import static jadx.core.utils.BlockUtils.isPathExists;
+import jadx.core.NullUnmarked;
 
 public class RegionMaker {
 	private static final Logger LOG = LoggerFactory.getLogger(RegionMaker.class);
@@ -65,7 +66,7 @@ public class RegionMaker {
 	private final BitSet processedBlocks;
 	private int regionsCount;
 
-	public RegionMaker(MethodNode mth) {
+	@NullUnmarked public RegionMaker(MethodNode mth) {
 		this.mth = mth;
 		int blocksCount = mth.getBasicBlocks().size();
 		this.processedBlocks = new BitSet(blocksCount);
@@ -180,7 +181,7 @@ public class RegionMaker {
 		return null;
 	}
 
-	@Nullable private BlockNode processLoop(IRegion curRegion, LoopInfo loop, RegionStack stack) {
+	@NullUnmarked @Nullable private BlockNode processLoop(IRegion curRegion, LoopInfo loop, RegionStack stack) {
 		BlockNode loopStart = loop.getStart();
 		Set<BlockNode> exitBlocksSet = loop.getExitNodes();
 
@@ -284,7 +285,7 @@ public class RegionMaker {
 	/**
 	 * Select loop exit and construct LoopRegion
 	 */
-	@Nullable private LoopRegion makeLoopRegion(IRegion curRegion, LoopInfo loop, List<BlockNode> exitBlocks) {
+	@NullUnmarked @Nullable private LoopRegion makeLoopRegion(IRegion curRegion, LoopInfo loop, List<BlockNode> exitBlocks) {
 		for (BlockNode block : exitBlocks) {
 			if (block.contains(AType.EXC_HANDLER)) {
 				continue;
@@ -421,7 +422,7 @@ public class RegionMaker {
 		return out;
 	}
 
-	private boolean inExceptionHandlerBlocks(BlockNode loopEnd) {
+	@NullUnmarked private boolean inExceptionHandlerBlocks(BlockNode loopEnd) {
 		if (mth.getExceptionHandlersCount() == 0) {
 			return false;
 		}
@@ -455,7 +456,7 @@ public class RegionMaker {
 		return true;
 	}
 
-	private boolean insertLoopBreak(RegionStack stack, LoopInfo loop, BlockNode loopExit, Edge exitEdge) {
+	@NullUnmarked private boolean insertLoopBreak(RegionStack stack, LoopInfo loop, BlockNode loopExit, Edge exitEdge) {
 		BlockNode exit = exitEdge.getTarget();
 		Edge insertEdge = null;
 		boolean confirm = false;
@@ -662,7 +663,7 @@ public class RegionMaker {
 	/**
 	 * Traverse from monitor-enter thru successors and search for exit paths cross
 	 */
-	@Nullable private static BlockNode traverseMonitorExitsCross(BlockNode block, Set<BlockNode> exits, Set<BlockNode> visited) {
+	@NullUnmarked @Nullable private static BlockNode traverseMonitorExitsCross(BlockNode block, Set<BlockNode> exits, Set<BlockNode> visited) {
 		visited.add(block);
 		for (BlockNode node : block.getCleanSuccessors()) {
 			boolean cross = true;
@@ -769,7 +770,7 @@ public class RegionMaker {
 		region.add(start);
 	}
 
-	@Nullable private BlockNode processSwitch(IRegion currentRegion, BlockNode block, SwitchInsn insn, RegionStack stack) {
+	@NullUnmarked @Nullable private BlockNode processSwitch(IRegion currentRegion, BlockNode block, SwitchInsn insn, RegionStack stack) {
 		// map case blocks to keys
 		int len = insn.getTargets().length;
 		Map<BlockNode, List<Object>> blocksMap = new LinkedHashMap<>(len);
@@ -870,7 +871,7 @@ public class RegionMaker {
 		return out;
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	private BlockNode searchFallThroughCase(BlockNode successor, BlockNode out, BitSet caseBlocks) {
 		BitSet df = successor.getDomFrontier();
 		if (df.intersects(caseBlocks)) {
@@ -893,7 +894,7 @@ public class RegionMaker {
 		return BlockUtils.bitSetToOneBlock(mth, caseExits);
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	private static BlockNode calcPostDomOut(MethodNode mth, BlockNode block, List<BlockNode> exits) {
 		if (exits.size() == 1 && mth.getExitBlock().equals(exits.get(0))) {
 			// simple case: for only one exit which is equal to method exit block
@@ -988,7 +989,7 @@ public class RegionMaker {
 		return newBlocksMap;
 	}
 
-	private void insertContinueInSwitch(BlockNode block, BlockNode out, BlockNode end) {
+	@NullUnmarked private void insertContinueInSwitch(BlockNode block, BlockNode out, BlockNode end) {
 		int endId = end.getId();
 		for (BlockNode s : block.getCleanSuccessors()) {
 			if (s.getDomFrontier().get(endId) && s != out) {
@@ -1078,7 +1079,7 @@ public class RegionMaker {
 		return excOutRegion;
 	}
 
-	private void processExcHandler(MethodNode mth, ExceptionHandler handler, Set<BlockNode> exits) {
+	@NullUnmarked private void processExcHandler(MethodNode mth, ExceptionHandler handler, Set<BlockNode> exits) {
 		BlockNode start = handler.getHandlerBlock();
 		if (start == null) {
 			return;
@@ -1129,7 +1130,7 @@ public class RegionMaker {
 		return n1 == n2 || isEqualReturnBlocks(n1, n2);
 	}
 
-	public static boolean isEqualReturnBlocks(@Nullable BlockNode b1, @Nullable BlockNode b2) {
+	@NullUnmarked public static boolean isEqualReturnBlocks(@Nullable BlockNode b1, @Nullable BlockNode b2) {
 		if (!b1.isReturnBlock() || !b2.isReturnBlock()) {
 			return false;
 		}

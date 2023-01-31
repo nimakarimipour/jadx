@@ -14,6 +14,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.dex.visitors.ssa.SSATransform;
 import jadx.core.utils.InsnRemover;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "MoveInlineVisitor",
@@ -30,7 +31,7 @@ public class MoveInlineVisitor extends AbstractVisitor {
 		moveInline(mth);
 	}
 
-	public static void moveInline(MethodNode mth) {
+	@NullUnmarked public static void moveInline(MethodNode mth) {
 		InsnRemover remover = new InsnRemover(mth);
 		for (BlockNode block : mth.getBasicBlocks()) {
 			remover.setBlock(block);
@@ -46,7 +47,7 @@ public class MoveInlineVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static boolean processMove(MethodNode mth, InsnNode move) {
+	@NullUnmarked private static boolean processMove(MethodNode mth, InsnNode move) {
 		RegisterArg resultArg = move.getResult();
 		InsnArg moveArg = move.getArg(0);
 		if (resultArg.sameRegAndSVar(moveArg)) {
@@ -103,7 +104,7 @@ public class MoveInlineVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private static boolean deleteMove(MethodNode mth, InsnNode move) {
+	@NullUnmarked private static boolean deleteMove(MethodNode mth, InsnNode move) {
 		InsnArg moveArg = move.getArg(0);
 		if (!moveArg.isRegister()) {
 			return false;

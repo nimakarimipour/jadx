@@ -14,6 +14,7 @@ import jadx.core.dex.nodes.RootNode;
 
 import static jadx.core.utils.Utils.notEmpty;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class UsageInfo {
 	private final RootNode root;
@@ -79,7 +80,7 @@ public class UsageInfo {
 		clsUse(mth, useFld.getType());
 	}
 
-	private void processType(@Nullable ArgType type, Consumer<ClassNode> consumer) {
+	@NullUnmarked private void processType(@Nullable ArgType type, Consumer<ClassNode> consumer) {
 		if (type == null) {
 			return;
 		}

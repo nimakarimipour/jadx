@@ -17,6 +17,7 @@ import jadx.api.ICodeWriter;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class ProtoXMLParser {
 	@Nullable private Map<String, String> nsMap;
@@ -41,7 +42,7 @@ public class ProtoXMLParser {
 		return writer.finish();
 	}
 
-	private void decode(XmlNode n) throws IOException {
+	@NullUnmarked private void decode(XmlNode n) throws IOException {
 		if (n.hasSource()) {
 			writer.attachSourceLine(n.getSource().getLineNumber());
 		}
@@ -51,7 +52,7 @@ public class ProtoXMLParser {
 		}
 	}
 
-	private void decode(XmlElement e) throws IOException {
+	@NullUnmarked private void decode(XmlElement e) throws IOException {
 		String tag = deobfClassName(e.getName());
 		tag = getValidTagAttributeName(tag);
 		currentTag = tag;
@@ -77,7 +78,7 @@ public class ProtoXMLParser {
 		}
 	}
 
-	private void decode(XmlAttribute a) {
+	@NullUnmarked private void decode(XmlAttribute a) {
 		writer.add(' ');
 		String namespace = a.getNamespaceUri();
 		if (!namespace.isEmpty()) {
@@ -89,7 +90,7 @@ public class ProtoXMLParser {
 		memorizePackageName(name, value);
 	}
 
-	private void decode(XmlNamespace n) {
+	@NullUnmarked private void decode(XmlNamespace n) {
 		String prefix = n.getPrefix();
 		String uri = n.getUri();
 		nsMap.put(uri, prefix);

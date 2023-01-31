@@ -51,6 +51,7 @@ import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class RegionGen extends InsnGen {
 	private static final Logger LOG = LoggerFactory.getLogger(RegionGen.class);
@@ -59,12 +60,12 @@ public class RegionGen extends InsnGen {
 		super(mgen, false);
 	}
 
-	public void makeRegion(ICodeWriter code, @Nullable IContainer cont) throws CodegenException {
+	@NullUnmarked public void makeRegion(ICodeWriter code, @Nullable IContainer cont) throws CodegenException {
 		declareVars(code, cont);
 		cont.generate(this, code);
 	}
 
-	private void declareVars(ICodeWriter code, @Nullable IContainer cont) {
+	@NullUnmarked private void declareVars(ICodeWriter code, @Nullable IContainer cont) {
 		DeclareVariablesAttr declVars = cont.get(AType.DECLARE_VARIABLES);
 		if (declVars != null) {
 			for (CodeVar v : declVars.getVars()) {
@@ -147,7 +148,7 @@ public class RegionGen extends InsnGen {
 	/**
 	 * Connect if-else-if block
 	 */
-	private boolean connectElseIf(ICodeWriter code, @Nullable IContainer els) throws CodegenException {
+	@NullUnmarked private boolean connectElseIf(ICodeWriter code, @Nullable IContainer els) throws CodegenException {
 		if (els.contains(AFlag.ELSE_IF_CHAIN) && els instanceof Region) {
 			List<IContainer> subBlocks = ((Region) els).getSubBlocks();
 			if (subBlocks.size() == 1) {
@@ -271,7 +272,7 @@ public class RegionGen extends InsnGen {
 		code.startLine('}');
 	}
 
-	private void addCaseKey(ICodeWriter code, InsnArg arg, Object k) {
+	@NullUnmarked private void addCaseKey(ICodeWriter code, InsnArg arg, Object k) {
 		if (k instanceof FieldNode) {
 			FieldNode fn = (FieldNode) k;
 			if (fn.getParentClass().isEnum()) {
@@ -293,7 +294,7 @@ public class RegionGen extends InsnGen {
 		}
 	}
 
-	public void makeTryCatch(TryCatchRegion region, ICodeWriter code) throws CodegenException {
+	@NullUnmarked public void makeTryCatch(TryCatchRegion region, ICodeWriter code) throws CodegenException {
 		code.startLine("try {");
 
 		InsnNode insn = BlockUtils.getFirstInsn(Utils.first(region.getTryCatchBlock().getBlocks()));
@@ -325,7 +326,7 @@ public class RegionGen extends InsnGen {
 		code.startLine('}');
 	}
 
-	private void makeCatchBlock(ICodeWriter code, ExceptionHandler handler) throws CodegenException {
+	@NullUnmarked private void makeCatchBlock(ICodeWriter code, ExceptionHandler handler) throws CodegenException {
 		IContainer region = handler.getHandlerRegion();
 		if (region == null) {
 			return;

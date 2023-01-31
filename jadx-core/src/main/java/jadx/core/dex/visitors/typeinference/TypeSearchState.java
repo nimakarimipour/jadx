@@ -15,12 +15,13 @@ import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class TypeSearchState {
 
 	private final Map<SSAVar, TypeSearchVarInfo> varInfoMap;
 
-	public TypeSearchState(MethodNode mth) {
+	@NullUnmarked public TypeSearchState(MethodNode mth) {
 		List<SSAVar> vars = mth.getSVars();
 		this.varInfoMap = new LinkedHashMap<>(vars.size());
 		for (SSAVar var : vars) {
@@ -37,7 +38,7 @@ public class TypeSearchState {
 		return varInfo;
 	}
 
-	@Nullable public ArgType getArgType(@Nullable InsnArg arg) {
+	@NullUnmarked @Nullable public ArgType getArgType(@Nullable InsnArg arg) {
 		if (arg.isRegister()) {
 			RegisterArg reg = (RegisterArg) arg;
 			return getVarInfo(reg.getSVar()).getCurrentType();

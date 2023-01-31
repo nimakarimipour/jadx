@@ -17,6 +17,7 @@ import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class SignatureProcessor extends AbstractVisitor {
 
@@ -62,7 +63,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		}
 	}
 
-	@Nullable private ArgType validateClsType(ClassNode cls, @Nullable ArgType candidateType, @Nullable ArgType currentType) {
+	@NullUnmarked @Nullable private ArgType validateClsType(ClassNode cls, @Nullable ArgType candidateType, @Nullable ArgType currentType) {
 		if (!candidateType.isObject()) {
 			cls.addWarnComment("Incorrect class signature, class is not object: " + SignatureParser.getSignature(cls));
 			return currentType;
@@ -74,7 +75,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		return candidateType;
 	}
 
-	private void parseFieldSignature(FieldNode field) {
+	@NullUnmarked private void parseFieldSignature(FieldNode field) {
 		SignatureParser sp = SignatureParser.fromNode(field);
 		if (sp == null) {
 			return;
@@ -100,7 +101,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		}
 	}
 
-	private void parseMethodSignature(MethodNode mth) {
+	@NullUnmarked private void parseMethodSignature(MethodNode mth) {
 		SignatureParser sp = SignatureParser.fromNode(mth);
 		if (sp == null) {
 			return;
@@ -178,7 +179,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		return parsedArgTypes;
 	}
 
-	private boolean validateParsedType(ArgType parsedType, @Nullable ArgType currentType) {
+	@NullUnmarked private boolean validateParsedType(ArgType parsedType, @Nullable ArgType currentType) {
 		TypeCompareEnum result = root.getTypeCompare().compareTypes(parsedType, currentType);
 		return result != TypeCompareEnum.CONFLICT;
 	}
@@ -192,7 +193,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		return true;
 	}
 
-	private boolean validateInnerType(@Nullable ArgType type) {
+	@NullUnmarked private boolean validateInnerType(@Nullable ArgType type) {
 		ArgType innerType = type.getInnerType();
 		if (innerType == null) {
 			return true;

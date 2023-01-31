@@ -34,6 +34,7 @@ import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "OverrideMethodVisitor",
@@ -78,7 +79,7 @@ public class OverrideMethodVisitor extends AbstractVisitor {
 		}
 	}
 
-	@Nullable private MethodOverrideAttr processOverrideMethods(MethodNode mth, SuperTypesData superData) {
+	@NullUnmarked @Nullable private MethodOverrideAttr processOverrideMethods(MethodNode mth, SuperTypesData superData) {
 		MethodOverrideAttr result = mth.get(AType.METHOD_OVERRIDE);
 		if (result != null) {
 			return result;
@@ -288,7 +289,7 @@ public class OverrideMethodVisitor extends AbstractVisitor {
 		}
 	}
 
-	private int addSuperType(RootNode root, List<ArgType> superTypesMap, Set<String> endTypes, ArgType superType) {
+	@NullUnmarked private int addSuperType(RootNode root, List<ArgType> superTypesMap, Set<String> endTypes, ArgType superType) {
 		if (Objects.equals(superType, ArgType.OBJECT)) {
 			return 0;
 		}
@@ -326,7 +327,7 @@ public class OverrideMethodVisitor extends AbstractVisitor {
 		return updated;
 	}
 
-	private boolean updateReturnType(MethodNode mth, IMethodDetails baseMth, SuperTypesData superData) {
+	@NullUnmarked private boolean updateReturnType(MethodNode mth, IMethodDetails baseMth, SuperTypesData superData) {
 		ArgType baseReturnType = baseMth.getReturnType();
 		if (mth.getReturnType().equals(baseReturnType)) {
 			return false;

@@ -10,6 +10,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.regions.Region;
 import jadx.core.dex.regions.loops.LoopRegion;
 import jadx.core.dex.visitors.AbstractVisitor;
+import jadx.core.NullUnmarked;
 
 public class CleanRegions extends AbstractVisitor {
 	private static final IRegionVisitor REMOVE_REGION_VISITOR = new RemoveRegionVisitor();
@@ -19,7 +20,7 @@ public class CleanRegions extends AbstractVisitor {
 		process(mth);
 	}
 
-	public static void process(MethodNode mth) {
+	@NullUnmarked public static void process(MethodNode mth) {
 		if (mth.isNoCode() || mth.getBasicBlocks().isEmpty()) {
 			return;
 		}

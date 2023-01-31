@@ -46,6 +46,7 @@ import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 /**
  * Prepare instructions for code generation pass,
@@ -68,7 +69,7 @@ public class PrepareForCodeGen extends AbstractVisitor {
 		return true;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) throws JadxException {
 		if (mth.isNoCode()) {
 			return;
@@ -87,7 +88,7 @@ public class PrepareForCodeGen extends AbstractVisitor {
 		collectFieldsUsageInAnnotations(mth, mth);
 	}
 
-	private static void removeInstructions(BlockNode block) {
+	@NullUnmarked private static void removeInstructions(BlockNode block) {
 		Iterator<InsnNode> it = block.getInstructions().iterator();
 		while (it.hasNext()) {
 			InsnNode insn = it.next();
@@ -207,7 +208,7 @@ public class PrepareForCodeGen extends AbstractVisitor {
 		}
 	}
 
-	private static void removeParenthesis(@Nullable IfCondition cond) {
+	@NullUnmarked private static void removeParenthesis(@Nullable IfCondition cond) {
 		Mode mode = cond.getMode();
 		for (IfCondition c : cond.getArgs()) {
 			if (c.getMode() == mode) {
@@ -220,7 +221,7 @@ public class PrepareForCodeGen extends AbstractVisitor {
 	 * Replace arithmetic operation with short form
 	 * ('a = a + 2' => 'a += 2')
 	 */
-	private static void modifyArith(BlockNode block) {
+	@NullUnmarked private static void modifyArith(BlockNode block) {
 		List<InsnNode> list = block.getInstructions();
 		for (InsnNode insn : list) {
 			if (insn.getType() == InsnType.ARITH
@@ -247,7 +248,7 @@ public class PrepareForCodeGen extends AbstractVisitor {
 	 * Check that 'super' or 'this' call in constructor is a first instruction.
 	 * Otherwise move to top and add a warning if code breaks.
 	 */
-	private void moveConstructorInConstructor(MethodNode mth) {
+	@NullUnmarked private void moveConstructorInConstructor(MethodNode mth) {
 		if (mth.isConstructor()) {
 			ConstructorInsn constrInsn = searchConstructorCall(mth);
 			if (constrInsn != null && !constrInsn.contains(AFlag.DONT_GENERATE)) {
@@ -288,7 +289,7 @@ public class PrepareForCodeGen extends AbstractVisitor {
 		}
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	private ConstructorInsn searchConstructorCall(MethodNode mth) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			for (InsnNode insn : block.getInstructions()) {

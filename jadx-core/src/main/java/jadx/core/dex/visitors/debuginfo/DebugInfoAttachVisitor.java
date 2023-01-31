@@ -23,6 +23,7 @@ import jadx.core.dex.visitors.ssa.SSATransform;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.exceptions.JadxException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "Debug Info Parser",
@@ -53,7 +54,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		setMethodSourceLine(mth, insnArr);
 	}
 
-	private void attachSourceLines(MethodNode mth, Map<Integer, Integer> lineMapping, @Nullable InsnNode[] insnArr) {
+	@NullUnmarked private void attachSourceLines(MethodNode mth, Map<Integer, Integer> lineMapping, @Nullable InsnNode[] insnArr) {
 		if (lineMapping.isEmpty()) {
 			return;
 		}
@@ -83,7 +84,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		}
 	}
 
-	private void attachDebugInfo(MethodNode mth, List<ILocalVar> localVars, @Nullable InsnNode[] insnArr) {
+	@NullUnmarked private void attachDebugInfo(MethodNode mth, List<ILocalVar> localVars, @Nullable InsnNode[] insnArr) {
 		if (localVars.isEmpty()) {
 			return;
 		}
@@ -154,7 +155,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		return type;
 	}
 
-	private static boolean checkSignature(MethodNode mth, @Nullable ArgType type, ArgType gType) {
+	@NullUnmarked private static boolean checkSignature(MethodNode mth, @Nullable ArgType type, ArgType gType) {
 		boolean apply;
 		ArgType el = gType.getArrayRootElement();
 		if (el.isGeneric()) {
@@ -171,7 +172,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 	/**
 	 * Set method source line from first instruction
 	 */
-	private void setMethodSourceLine(MethodNode mth, @Nullable InsnNode[] insnArr) {
+	@NullUnmarked private void setMethodSourceLine(MethodNode mth, @Nullable InsnNode[] insnArr) {
 		for (InsnNode insn : insnArr) {
 			if (insn != null) {
 				int line = insn.getSourceLine();

@@ -27,11 +27,12 @@ import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.dex.visitors.blocks.BlockSplitter.connect;
+import jadx.core.NullUnmarked;
 
 public class BlockProcessor extends AbstractVisitor {
 	private static final Logger LOG = LoggerFactory.getLogger(BlockProcessor.class);
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) {
 		if (mth.isNoCode() || mth.getBasicBlocks().isEmpty()) {
 			return;
@@ -39,7 +40,7 @@ public class BlockProcessor extends AbstractVisitor {
 		processBlocksTree(mth);
 	}
 
-	private static void processBlocksTree(MethodNode mth) {
+	@NullUnmarked private static void processBlocksTree(MethodNode mth) {
 		removeUnreachableBlocks(mth);
 
 		computeDominators(mth);
@@ -71,11 +72,11 @@ public class BlockProcessor extends AbstractVisitor {
 		}
 	}
 
-	static void updateCleanSuccessors(MethodNode mth) {
+	@NullUnmarked static void updateCleanSuccessors(MethodNode mth) {
 		mth.getBasicBlocks().forEach(BlockNode::updateCleanSuccessors);
 	}
 
-	private static void checkForUnreachableBlocks(MethodNode mth) {
+	@NullUnmarked private static void checkForUnreachableBlocks(MethodNode mth) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			if (block.getPredecessors().isEmpty() && block != mth.getEnterBlock()) {
 				throw new JadxRuntimeException("Unreachable block: " + block);
@@ -203,7 +204,7 @@ public class BlockProcessor extends AbstractVisitor {
 		markLoops(mth);
 	}
 
-	private static void markLoops(MethodNode mth) {
+	@NullUnmarked private static void markLoops(MethodNode mth) {
 		mth.getBasicBlocks().forEach(block -> {
 			// Every successor that dominates its predecessor is a header of a loop,
 			// block -> successor is a back edge.
@@ -221,7 +222,7 @@ public class BlockProcessor extends AbstractVisitor {
 		});
 	}
 
-	private static void registerLoops(MethodNode mth) {
+	@NullUnmarked private static void registerLoops(MethodNode mth) {
 		mth.getBasicBlocks().forEach(block -> {
 			if (block.contains(AFlag.LOOP_START)) {
 				block.getAll(AType.LOOP).forEach(mth::registerLoop);
@@ -229,7 +230,7 @@ public class BlockProcessor extends AbstractVisitor {
 		});
 	}
 
-	private static void processNestedLoops(MethodNode mth) {
+	@NullUnmarked private static void processNestedLoops(MethodNode mth) {
 		if (mth.getLoopsCount() == 0) {
 			return;
 		}
@@ -255,7 +256,7 @@ public class BlockProcessor extends AbstractVisitor {
 		}
 	}
 
-	private static boolean modifyBlocksTree(MethodNode mth) {
+	@NullUnmarked private static boolean modifyBlocksTree(MethodNode mth) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			if (checkLoops(mth, block)) {
 				return true;
@@ -267,7 +268,7 @@ public class BlockProcessor extends AbstractVisitor {
 		return splitReturnBlocks(mth);
 	}
 
-	private static boolean mergeConstReturn(MethodNode mth) {
+	@NullUnmarked private static boolean mergeConstReturn(MethodNode mth) {
 		if (mth.isVoidReturn()) {
 			return false;
 		}
@@ -307,7 +308,7 @@ public class BlockProcessor extends AbstractVisitor {
 		pred.updateCleanSuccessors();
 	}
 
-	private static boolean independentBlockTreeMod(MethodNode mth) {
+	@NullUnmarked private static boolean independentBlockTreeMod(MethodNode mth) {
 		boolean changed = false;
 		List<BlockNode> basicBlocks = mth.getBasicBlocks();
 		for (BlockNode basicBlock : basicBlocks) {
@@ -475,7 +476,7 @@ public class BlockProcessor extends AbstractVisitor {
 		return changed;
 	}
 
-	private static void updateExitBlockConnections(MethodNode mth) {
+	@NullUnmarked private static void updateExitBlockConnections(MethodNode mth) {
 		BlockNode exitBlock = mth.getExitBlock();
 		BlockSplitter.removePredecessors(exitBlock);
 		for (BlockNode block : mth.getBasicBlocks()) {
@@ -547,7 +548,7 @@ public class BlockProcessor extends AbstractVisitor {
 		return false;
 	}
 
-	public static void removeMarkedBlocks(MethodNode mth) {
+	@NullUnmarked public static void removeMarkedBlocks(MethodNode mth) {
 		mth.getBasicBlocks().removeIf(block -> {
 			if (block.contains(AFlag.REMOVE)) {
 				if (!block.getPredecessors().isEmpty() || !block.getSuccessors().isEmpty()) {
@@ -564,7 +565,7 @@ public class BlockProcessor extends AbstractVisitor {
 		});
 	}
 
-	private static void removeUnreachableBlocks(MethodNode mth) {
+	@NullUnmarked private static void removeUnreachableBlocks(MethodNode mth) {
 		Set<BlockNode> toRemove = null;
 		for (BlockNode block : mth.getBasicBlocks()) {
 			if (block.getPredecessors().isEmpty() && block != mth.getEnterBlock()) {
@@ -585,7 +586,7 @@ public class BlockProcessor extends AbstractVisitor {
 		}
 	}
 
-	private static void clearBlocksState(MethodNode mth) {
+	@NullUnmarked private static void clearBlocksState(MethodNode mth) {
 		mth.getBasicBlocks().forEach(block -> {
 			block.remove(AType.LOOP);
 			block.remove(AFlag.LOOP_START);

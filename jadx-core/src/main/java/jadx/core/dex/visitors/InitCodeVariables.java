@@ -16,6 +16,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.visitors.ssa.SSATransform;
 import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "InitCodeVariables",
@@ -29,14 +30,14 @@ public class InitCodeVariables extends AbstractVisitor {
 		initCodeVars(mth);
 	}
 
-	public static void rerun(MethodNode mth) {
+	@NullUnmarked public static void rerun(MethodNode mth) {
 		for (SSAVar sVar : mth.getSVars()) {
 			sVar.resetTypeAndCodeVar();
 		}
 		initCodeVars(mth);
 	}
 
-	private static void initCodeVars(MethodNode mth) {
+	@NullUnmarked private static void initCodeVars(MethodNode mth) {
 		RegisterArg thisArg = mth.getThisArg();
 		if (thisArg != null) {
 			initCodeVar(mth, thisArg);
@@ -109,7 +110,7 @@ public class InitCodeVariables extends AbstractVisitor {
 		}
 	}
 
-	private static void collectConnectedVars(List<PhiInsn> phiInsnList, Set<SSAVar> vars) {
+	@NullUnmarked private static void collectConnectedVars(List<PhiInsn> phiInsnList, Set<SSAVar> vars) {
 		if (phiInsnList.isEmpty()) {
 			return;
 		}

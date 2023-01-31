@@ -25,6 +25,7 @@ import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "CodeShrinkVisitor",
@@ -38,7 +39,7 @@ public class CodeShrinkVisitor extends AbstractVisitor {
 		shrinkMethod(mth);
 	}
 
-	public static void shrinkMethod(MethodNode mth) {
+	@NullUnmarked public static void shrinkMethod(MethodNode mth) {
 		if (mth.isNoCode()) {
 			return;
 		}
@@ -145,7 +146,7 @@ public class CodeShrinkVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static boolean varWithSameNameExists(MethodNode mth, SSAVar inlineVar) {
+	@NullUnmarked private static boolean varWithSameNameExists(MethodNode mth, SSAVar inlineVar) {
 		for (SSAVar ssaVar : mth.getSVars()) {
 			if (ssaVar == inlineVar || ssaVar.getCodeVar() == inlineVar.getCodeVar()) {
 				continue;
@@ -170,7 +171,7 @@ public class CodeShrinkVisitor extends AbstractVisitor {
 		return result != null;
 	}
 
-	private static boolean assignInline(MethodNode mth, RegisterArg arg, InsnNode assignInsn, BlockNode assignBlock) {
+	@NullUnmarked private static boolean assignInline(MethodNode mth, RegisterArg arg, InsnNode assignInsn, BlockNode assignBlock) {
 		RegisterArg useArg = arg.getSVar().getUseList().get(0);
 		InsnNode useInsn = useArg.getParentInsn();
 		if (useInsn == null || useInsn.contains(AFlag.DONT_GENERATE)) {
@@ -255,7 +256,7 @@ public class CodeShrinkVisitor extends AbstractVisitor {
 		throw new JadxRuntimeException("Can't process instruction move : " + assignBlock);
 	}
 
-	private static void simplifyMoveInsns(MethodNode mth, BlockNode block) {
+	@NullUnmarked private static void simplifyMoveInsns(MethodNode mth, BlockNode block) {
 		List<InsnNode> insns = block.getInstructions();
 		int size = insns.size();
 		for (int i = 0; i < size; i++) {

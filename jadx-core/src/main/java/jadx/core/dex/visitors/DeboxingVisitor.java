@@ -24,6 +24,7 @@ import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 /**
  * Remove primitives boxing
@@ -58,7 +59,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 		return MethodInfo.fromDetails(root, boxCls, "valueOf", Collections.singletonList(argType), boxType);
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) throws JadxException {
 		if (mth.isNoCode()) {
 			return;
@@ -83,7 +84,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 		}
 	}
 
-	@Nullable private InsnNode checkForReplace(InvokeNode insnNode) {
+	@NullUnmarked @Nullable private InsnNode checkForReplace(InvokeNode insnNode) {
 		if (insnNode.getInvokeType() != InvokeType.STATIC
 				|| insnNode.getResult() == null) {
 			return null;
@@ -133,7 +134,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	private boolean canChangeTypeToPrimitive(RegisterArg arg) {
+	@NullUnmarked private boolean canChangeTypeToPrimitive(RegisterArg arg) {
 		for (SSAVar ssaVar : arg.getSVar().getCodeVar().getSsaVars()) {
 			if (ssaVar.isTypeImmutable()) {
 				return false;
@@ -165,7 +166,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private Set<ArgType> collectUseTypes(RegisterArg arg) {
+	@NullUnmarked private Set<ArgType> collectUseTypes(RegisterArg arg) {
 		Set<ArgType> types = new HashSet<>();
 		for (RegisterArg useArg : arg.getSVar().getUseList()) {
 			types.add(useArg.getType());

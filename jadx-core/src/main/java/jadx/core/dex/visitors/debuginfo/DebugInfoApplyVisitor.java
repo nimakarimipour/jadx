@@ -37,6 +37,7 @@ import jadx.core.dex.visitors.typeinference.TypeUpdateResult;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "Debug Info Apply",
@@ -62,7 +63,7 @@ public class DebugInfoApplyVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void applyDebugInfo(MethodNode mth) {
+	@NullUnmarked private static void applyDebugInfo(MethodNode mth) {
 		if (Consts.DEBUG_TYPE_INFERENCE) {
 			LOG.info("Apply debug info for method: {}", mth);
 		}
@@ -134,7 +135,7 @@ public class DebugInfoApplyVisitor extends AbstractVisitor {
 		return applyDebugInfo(mth, ssaVar, debugInfoAttr.getRegType(), debugInfoAttr.getName());
 	}
 
-	public static boolean applyDebugInfo(MethodNode mth, @Nullable SSAVar ssaVar, @Nullable ArgType type, @Nullable String varName) {
+	@NullUnmarked public static boolean applyDebugInfo(MethodNode mth, @Nullable SSAVar ssaVar, @Nullable ArgType type, @Nullable String varName) {
 		TypeUpdateResult result = mth.root().getTypeUpdate().applyWithWiderIgnoreUnknown(mth, ssaVar, type);
 		if (result == TypeUpdateResult.REJECT) {
 			if (Consts.DEBUG_TYPE_INFERENCE) {
@@ -181,7 +182,7 @@ public class DebugInfoApplyVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void fixNamesForPhiInsns(MethodNode mth) {
+	@NullUnmarked private static void fixNamesForPhiInsns(MethodNode mth) {
 		mth.getSVars().forEach(ssaVar -> {
 			for (PhiInsn phiInsn : ssaVar.getUsedInPhi()) {
 				Set<String> names = new HashSet<>(1 + phiInsn.getArgsCount());
@@ -206,7 +207,7 @@ public class DebugInfoApplyVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void setNameForInsn(PhiInsn phiInsn, String name) {
+	@NullUnmarked private static void setNameForInsn(PhiInsn phiInsn, String name) {
 		phiInsn.getResult().setName(name);
 		phiInsn.getArguments().forEach(arg -> {
 			if (arg instanceof Named) {
@@ -215,7 +216,7 @@ public class DebugInfoApplyVisitor extends AbstractVisitor {
 		});
 	}
 
-	private void processMethodParametersAttribute(MethodNode mth) {
+	@NullUnmarked private void processMethodParametersAttribute(MethodNode mth) {
 		MethodParametersAttr parametersAttr = mth.get(JadxAttrType.METHOD_PARAMETERS);
 		if (parametersAttr == null) {
 			return;

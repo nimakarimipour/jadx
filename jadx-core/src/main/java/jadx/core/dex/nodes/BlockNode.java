@@ -17,6 +17,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.Utils.lockList;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public final class BlockNode extends AttrNode implements IBlock, Comparable<BlockNode> {
 
@@ -151,7 +152,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	/**
 	 * Check if 'block' dominated on this node
 	 */
-	public boolean isDominator(@Nullable BlockNode block) {
+	@NullUnmarked public boolean isDominator(@Nullable BlockNode block) {
 		return doms.get(block.getId());
 	}
 

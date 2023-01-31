@@ -13,6 +13,7 @@ import jadx.core.utils.android.TextResMapFile;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.ParserConstants;
 import jadx.core.xmlgen.XmlGenUtils;
+import jadx.core.NullUnmarked;
 
 public class ValuesParser extends ParserConstants {
 	private static final Logger LOG = LoggerFactory.getLogger(ValuesParser.class);
@@ -56,7 +57,7 @@ public class ValuesParser extends ParserConstants {
 		return decodeValue(simpleValue);
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public String getValueString(ResourceEntry ri) {
 		ProtoValue protoValue = ri.getProtoValue();
 		if (protoValue != null) {
@@ -99,7 +100,7 @@ public class ValuesParser extends ParserConstants {
 		return decodeValue(dataType, data);
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public String decodeValue(int dataType, int data) {
 		switch (dataType) {
 			case TYPE_NULL:
@@ -165,7 +166,7 @@ public class ValuesParser extends ParserConstants {
 		}
 	}
 
-	@Nullable public String decodeNameRef(int nameRef) {
+	@NullUnmarked @Nullable public String decodeNameRef(int nameRef) {
 		int ref = nameRef;
 		if (isResInternalId(nameRef)) {
 			ref = nameRef & ATTR_TYPE_ANY;

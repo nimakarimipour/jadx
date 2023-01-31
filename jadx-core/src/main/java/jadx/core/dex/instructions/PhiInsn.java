@@ -16,6 +16,7 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public final class PhiInsn extends InsnNode {
 
@@ -34,7 +35,7 @@ public final class PhiInsn extends InsnNode {
 		this.blockBinds = new ArrayList<>(argsCount);
 	}
 
-	public RegisterArg bindArg(@Nullable BlockNode pred) {
+	@NullUnmarked public RegisterArg bindArg(@Nullable BlockNode pred) {
 		RegisterArg arg = InsnArg.reg(getResult().getRegNum(), getResult().getInitType());
 		bindArg(arg, pred);
 		return arg;
@@ -77,7 +78,7 @@ public final class PhiInsn extends InsnNode {
 		return true;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public RegisterArg removeArg(int index) {
 		RegisterArg reg = (RegisterArg) super.removeArg(index);
 		blockBinds.remove(index);
@@ -99,7 +100,7 @@ public final class PhiInsn extends InsnNode {
 		return null;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public boolean replaceArg(@Nullable InsnArg from, InsnArg to) {
 		if (!(from instanceof RegisterArg) || !(to instanceof RegisterArg)) {
 			return false;

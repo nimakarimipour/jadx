@@ -41,11 +41,12 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class BlockExceptionHandler {
 	private static final Logger LOG = LoggerFactory.getLogger(BlockExceptionHandler.class);
 
-	public static boolean process(MethodNode mth) {
+	@NullUnmarked public static boolean process(MethodNode mth) {
 		if (mth.isNoExceptionHandlers()) {
 			return false;
 		}
@@ -91,7 +92,7 @@ public class BlockExceptionHandler {
 		}
 	}
 
-	private static void processCatchAttr(MethodNode mth) {
+	@NullUnmarked private static void processCatchAttr(MethodNode mth) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			for (InsnNode insn : block.getInstructions()) {
 				if (insn.contains(AType.EXC_CATCH) && !insn.canThrowException()) {
@@ -134,7 +135,7 @@ public class BlockExceptionHandler {
 		return commonCatchAttr;
 	}
 
-	@SuppressWarnings("ForLoopReplaceableByForEach")
+	@NullUnmarked @SuppressWarnings("ForLoopReplaceableByForEach")
 	private static void initExcHandlers(MethodNode mth) {
 		List<BlockNode> blocks = mth.getBasicBlocks();
 		int blocksCount = blocks.size();
@@ -180,7 +181,7 @@ public class BlockExceptionHandler {
 		}
 	}
 
-	private static List<TryCatchBlockAttr> prepareTryBlocks(MethodNode mth) {
+	@NullUnmarked private static List<TryCatchBlockAttr> prepareTryBlocks(MethodNode mth) {
 		Map<ExceptionHandler, List<BlockNode>> blocksByHandler = new HashMap<>();
 		for (BlockNode block : mth.getBasicBlocks()) {
 			CatchAttr catchAttr = block.get(AType.EXC_CATCH);
@@ -372,7 +373,7 @@ public class BlockExceptionHandler {
 		return true;
 	}
 
-	private static BlockNode getTopSplitterBlock(MethodNode mth, BlockNode top) {
+	@NullUnmarked private static BlockNode getTopSplitterBlock(MethodNode mth, BlockNode top) {
 		if (top == mth.getEnterBlock()) {
 			BlockNode fixedTop = mth.getEnterBlock().getSuccessors().get(0);
 			return BlockSplitter.blockSplitTop(mth, fixedTop);
@@ -465,7 +466,7 @@ public class BlockExceptionHandler {
 		}
 	}
 
-	private static void fixMoveExceptionInsn(BlockNode block, ExcHandlerAttr excHandlerAttr) {
+	@NullUnmarked private static void fixMoveExceptionInsn(BlockNode block, ExcHandlerAttr excHandlerAttr) {
 		ExceptionHandler excHandler = excHandlerAttr.getHandler();
 		ArgType argType = excHandler.getArgType();
 		InsnNode me = BlockUtils.getLastInsn(block);
@@ -512,7 +513,7 @@ public class BlockExceptionHandler {
 		}
 	}
 
-	private static boolean mergeMultiCatch(MethodNode mth, TryCatchBlockAttr tryCatch) {
+	@NullUnmarked private static boolean mergeMultiCatch(MethodNode mth, TryCatchBlockAttr tryCatch) {
 		if (tryCatch.getHandlers().size() < 2) {
 			return false;
 		}

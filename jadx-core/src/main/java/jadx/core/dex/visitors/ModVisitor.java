@@ -58,6 +58,7 @@ import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.BlockUtils.replaceInsn;
+import jadx.core.NullUnmarked;
 
 /**
  * Visitor for modify method instructions
@@ -94,7 +95,7 @@ public class ModVisitor extends AbstractVisitor {
 		iterativeRemoveStep(mth);
 	}
 
-	private static void replaceStep(MethodNode mth, InsnRemover remover) {
+	@NullUnmarked private static void replaceStep(MethodNode mth, InsnRemover remover) {
 		ClassNode parentClass = mth.getParentClass();
 		for (BlockNode block : mth.getBasicBlocks()) {
 			remover.setBlock(block);
@@ -163,7 +164,7 @@ public class ModVisitor extends AbstractVisitor {
 	/**
 	 * If field is not visible from use site => cast to origin class
 	 */
-	private static void fixFieldUsage(MethodNode mth, IndexInsnNode insn) {
+	@NullUnmarked private static void fixFieldUsage(MethodNode mth, IndexInsnNode insn) {
 		InsnArg instanceArg = insn.getArg(insn.getType() == InsnType.IGET ? 0 : 1);
 		if (instanceArg.contains(AFlag.SUPER)) {
 			return;
@@ -240,7 +241,7 @@ public class ModVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void fixPrimitiveCast(MethodNode mth, BlockNode block, int i, InsnNode insn) {
+	@NullUnmarked private static void fixPrimitiveCast(MethodNode mth, BlockNode block, int i, InsnNode insn) {
 		// replace boolean to (byte/char/short/long/double/float) cast with ternary
 		InsnArg castArg = insn.getArg(0);
 		if (castArg.getType() == ArgType.BOOLEAN) {
@@ -359,7 +360,7 @@ public class ModVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	private static void removeCheckCast(MethodNode mth, BlockNode block, int i, IndexInsnNode insn) {
+	@NullUnmarked private static void removeCheckCast(MethodNode mth, BlockNode block, int i, IndexInsnNode insn) {
 		InsnArg castArg = insn.getArg(0);
 		ArgType castType = (ArgType) insn.getIndex();
 		if (!ArgType.isCastNeeded(mth.root(), castArg.getType(), castType)) {
@@ -382,7 +383,7 @@ public class ModVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static @Nullable InsnNode isCastDuplicate(IndexInsnNode castInsn) {
+	@NullUnmarked private static @Nullable InsnNode isCastDuplicate(IndexInsnNode castInsn) {
 		InsnArg arg = castInsn.getArg(0);
 		if (arg.isRegister()) {
 			SSAVar sVar = ((RegisterArg) arg).getSVar();
@@ -402,7 +403,7 @@ public class ModVisitor extends AbstractVisitor {
 	/**
 	 * Remove unnecessary instructions
 	 */
-	private static void removeStep(MethodNode mth, InsnRemover remover) {
+	@NullUnmarked private static void removeStep(MethodNode mth, InsnRemover remover) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			remover.setBlock(block);
 			for (InsnNode insn : block.getInstructions()) {
@@ -424,7 +425,7 @@ public class ModVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void iterativeRemoveStep(MethodNode mth) {
+	@NullUnmarked private static void iterativeRemoveStep(MethodNode mth) {
 		boolean changed;
 		do {
 			changed = false;
@@ -442,7 +443,7 @@ public class ModVisitor extends AbstractVisitor {
 		} while (changed);
 	}
 
-	private static boolean isResultArgNotUsed(InsnNode insn) {
+	@NullUnmarked private static boolean isResultArgNotUsed(InsnNode insn) {
 		RegisterArg result = insn.getResult();
 		if (result != null) {
 			SSAVar ssaVar = result.getSVar();
@@ -479,7 +480,7 @@ public class ModVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void anonymousCallArgMod(InsnArg arg) {
+	@NullUnmarked private static void anonymousCallArgMod(InsnArg arg) {
 		arg.add(AFlag.DONT_INLINE);
 		if (arg.isRegister()) {
 			((RegisterArg) arg).getSVar().getCodeVar().setFinal(true);
@@ -490,7 +491,7 @@ public class ModVisitor extends AbstractVisitor {
 	 * Return first usage instruction for arg.
 	 * If used only once try to follow move chain
 	 */
-	@Nullable
+	@NullUnmarked @Nullable
 	private static InsnNode getFirstUseSkipMove(@Nullable RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		int useCount = sVar.getUseCount();
@@ -508,7 +509,7 @@ public class ModVisitor extends AbstractVisitor {
 		return parentInsn;
 	}
 
-	private static InsnNode makeFilledArrayInsn(MethodNode mth, NewArrayNode newArrayNode, FillArrayInsn insn) {
+	@NullUnmarked private static InsnNode makeFilledArrayInsn(MethodNode mth, NewArrayNode newArrayNode, FillArrayInsn insn) {
 		ArgType insnArrayType = newArrayNode.getArrayType();
 		ArgType insnElementType = insnArrayType.getArrayElement();
 		ArgType elType = insn.getElementType();
@@ -545,7 +546,7 @@ public class ModVisitor extends AbstractVisitor {
 		return filledArr;
 	}
 
-	private static void processMoveException(MethodNode mth, BlockNode block, InsnNode insn, InsnRemover remover) {
+	@NullUnmarked private static void processMoveException(MethodNode mth, BlockNode block, InsnNode insn, InsnRemover remover) {
 		ExcHandlerAttr excHandlerAttr = block.get(AType.EXC_HANDLER);
 		if (excHandlerAttr == null) {
 			return;

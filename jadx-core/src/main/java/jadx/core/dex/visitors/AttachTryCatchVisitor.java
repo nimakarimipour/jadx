@@ -28,6 +28,7 @@ import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.dex.visitors.ProcessInstructionsVisitor.getNextInsnOffset;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "Attach Try/Catch Visitor",
@@ -39,7 +40,7 @@ import static jadx.core.dex.visitors.ProcessInstructionsVisitor.getNextInsnOffse
 public class AttachTryCatchVisitor extends AbstractVisitor {
 	private static final Logger LOG = LoggerFactory.getLogger(AttachTryCatchVisitor.class);
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) throws JadxException {
 		if (mth.isNoCode()) {
 			return;
@@ -64,7 +65,7 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void markTryBounds(@Nullable InsnNode[] insnByOffset, ITry aTry, CatchAttr catchAttr) {
+	@NullUnmarked private static void markTryBounds(@Nullable InsnNode[] insnByOffset, ITry aTry, CatchAttr catchAttr) {
 		int offset = aTry.getStartOffset();
 		int end = aTry.getEndOffset();
 
@@ -126,7 +127,7 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 		return list;
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	private static ExceptionHandler createHandler(MethodNode mth, @Nullable InsnNode[] insnByOffset, int handlerOffset, @Nullable ClassInfo type) {
 		InsnNode insn = insnByOffset[handlerOffset];
 		if (insn != null) {
@@ -188,7 +189,7 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 				.orElseThrow(() -> new JadxRuntimeException("Failed to get max type from catch list: " + catchTypes));
 	}
 
-	private static InsnNode insertNOP(@Nullable InsnNode[] insnByOffset, int offset) {
+	@NullUnmarked private static InsnNode insertNOP(@Nullable InsnNode[] insnByOffset, int offset) {
 		InsnNode nop = new InsnNode(InsnType.NOP, 0);
 		nop.setOffset(offset);
 		nop.add(AFlag.SYNTHETIC);

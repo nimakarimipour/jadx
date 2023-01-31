@@ -26,6 +26,7 @@ import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "Constants Inline",
@@ -46,7 +47,7 @@ public class ConstInlineVisitor extends AbstractVisitor {
 		process(mth);
 	}
 
-	public static void process(MethodNode mth) {
+	@NullUnmarked public static void process(MethodNode mth) {
 		List<InsnNode> toRemove = new ArrayList<>();
 		for (BlockNode block : mth.getBasicBlocks()) {
 			toRemove.clear();
@@ -57,7 +58,7 @@ public class ConstInlineVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void checkInsn(MethodNode mth, InsnNode insn, List<InsnNode> toRemove) {
+	@NullUnmarked private static void checkInsn(MethodNode mth, InsnNode insn, List<InsnNode> toRemove) {
 		if (insn.contains(AFlag.DONT_INLINE)
 				|| insn.contains(AFlag.DONT_GENERATE)
 				|| insn.getResult() == null) {
@@ -118,7 +119,7 @@ public class ConstInlineVisitor extends AbstractVisitor {
 	/**
 	 * Don't inline null object
 	 */
-	private static boolean forbidNullInlines(@Nullable SSAVar sVar) {
+	@NullUnmarked private static boolean forbidNullInlines(@Nullable SSAVar sVar) {
 		List<RegisterArg> useList = sVar.getUseList();
 		if (useList.isEmpty()) {
 			return false;
@@ -158,7 +159,7 @@ public class ConstInlineVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private static boolean replaceConst(MethodNode mth, InsnNode constInsn, InsnArg constArg) {
+	@NullUnmarked private static boolean replaceConst(MethodNode mth, InsnNode constInsn, InsnArg constArg) {
 		SSAVar ssaVar = constInsn.getResult().getSVar();
 		if (ssaVar.getUseCount() == 0) {
 			return true;
@@ -191,7 +192,7 @@ public class ConstInlineVisitor extends AbstractVisitor {
 		return parentInsn.contains(AFlag.DONT_GENERATE);
 	}
 
-	@SuppressWarnings("RedundantIfStatement")
+	@NullUnmarked @SuppressWarnings("RedundantIfStatement")
 	private static boolean canInline(RegisterArg arg) {
 		if (arg.contains(AFlag.DONT_INLINE_CONST)) {
 			return false;
@@ -210,7 +211,7 @@ public class ConstInlineVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private static boolean replaceArg(MethodNode mth, RegisterArg arg, InsnArg constArg, InsnNode constInsn) {
+	@NullUnmarked private static boolean replaceArg(MethodNode mth, RegisterArg arg, InsnArg constArg, InsnNode constInsn) {
 		InsnNode useInsn = arg.getParentInsn();
 		if (useInsn == null) {
 			return false;
@@ -261,7 +262,7 @@ public class ConstInlineVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private static boolean needExplicitCast(InsnNode insn, LiteralArg arg) {
+	@NullUnmarked private static boolean needExplicitCast(InsnNode insn, LiteralArg arg) {
 		if (insn instanceof BaseInvokeNode) {
 			BaseInvokeNode callInsn = (BaseInvokeNode) insn;
 			MethodInfo callMth = callInsn.getCallMth();

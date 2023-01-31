@@ -25,6 +25,7 @@ import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
+import jadx.core.NullUnmarked;
 
 public class InsnUtils {
 
@@ -125,7 +126,7 @@ public class InsnUtils {
 	 * Search instruction of specific type and condition in method.
 	 * This method support inlined instructions.
 	 */
-	@Nullable
+	@NullUnmarked @Nullable
 	public static InsnNode searchInsn(MethodNode mth, InsnType insnType, Predicate<InsnNode> test) {
 		if (mth.isNoCode()) {
 			return null;
@@ -141,7 +142,7 @@ public class InsnUtils {
 		return null;
 	}
 
-	public static void replaceInsns(MethodNode mth, Function<InsnNode, InsnNode> replaceFunction) {
+	@NullUnmarked public static void replaceInsns(MethodNode mth, Function<InsnNode, InsnNode> replaceFunction) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			List<InsnNode> insns = block.getInstructions();
 			int insnsCount = insns.size();
@@ -223,7 +224,7 @@ public class InsnUtils {
 		return null;
 	}
 
-	public static boolean dontGenerateIfNotUsed(InsnNode insn) {
+	@NullUnmarked public static boolean dontGenerateIfNotUsed(InsnNode insn) {
 		RegisterArg resArg = insn.getResult();
 		if (resArg != null) {
 			SSAVar ssaVar = resArg.getSVar();

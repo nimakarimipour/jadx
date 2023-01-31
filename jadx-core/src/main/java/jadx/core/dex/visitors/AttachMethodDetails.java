@@ -9,6 +9,7 @@ import jadx.core.dex.nodes.utils.MethodUtils;
 import jadx.core.dex.visitors.blocks.BlockSplitter;
 import jadx.core.utils.exceptions.JadxException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "Attach Method Details",
@@ -27,7 +28,7 @@ public class AttachMethodDetails extends AbstractVisitor {
 		methodUtils = root.getMethodUtils();
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) throws JadxException {
 		if (mth.isNoCode()) {
 			return;
@@ -39,7 +40,7 @@ public class AttachMethodDetails extends AbstractVisitor {
 		}
 	}
 
-	private void attachMethodDetails(BaseInvokeNode insn) {
+	@NullUnmarked private void attachMethodDetails(BaseInvokeNode insn) {
 		IMethodDetails methodDetails = methodUtils.getMethodDetails(insn.getCallMth());
 		if (methodDetails != null) {
 			insn.addAttr(methodDetails);

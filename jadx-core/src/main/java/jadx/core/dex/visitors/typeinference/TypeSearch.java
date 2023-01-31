@@ -21,6 +21,7 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
+import jadx.core.NullUnmarked;
 
 /**
  * Slow and memory consuming multi-variable type search algorithm.
@@ -50,7 +51,7 @@ public class TypeSearch {
 		this.typeCompare = typeUpdate.getTypeCompare();
 	}
 
-	public boolean run() {
+	@NullUnmarked public boolean run() {
 		if (mth.getSVars().size() > VARS_PROCESS_LIMIT) {
 			mth.addWarnComment("Multi-variable search skipped. Vars limit reached: " + mth.getSVars().size()
 					+ " (expected less than " + VARS_PROCESS_LIMIT + ")");
@@ -79,7 +80,7 @@ public class TypeSearch {
 		return false;
 	}
 
-	private boolean applyResolvedVars() {
+	@NullUnmarked private boolean applyResolvedVars() {
 		List<TypeSearchVarInfo> resolvedVars = state.getResolvedVars();
 		List<TypeSearchVarInfo> updatedVars = new ArrayList<>();
 		for (TypeSearchVarInfo var : resolvedVars) {
@@ -107,7 +108,7 @@ public class TypeSearch {
 		return applySuccess;
 	}
 
-	private boolean search(List<TypeSearchVarInfo> vars) {
+	@NullUnmarked private boolean search(List<TypeSearchVarInfo> vars) {
 		int len = vars.size();
 		if (Consts.DEBUG_TYPE_INFERENCE) {
 			LOG.debug("Run search for {} vars: ", len);
@@ -168,7 +169,7 @@ public class TypeSearch {
 		return true;
 	}
 
-	private boolean resolveIndependentVariables(TypeSearchVarInfo varInfo) {
+	@NullUnmarked private boolean resolveIndependentVariables(TypeSearchVarInfo varInfo) {
 		boolean allRelatedVarsResolved = varInfo.getConstraints().stream()
 				.flatMap(c -> c.getRelatedVars().stream())
 				.allMatch(v -> state.getVarInfo(v).isTypeResolved());
@@ -196,7 +197,7 @@ public class TypeSearch {
 		return true;
 	}
 
-	private boolean singleCheck(TypeSearchVarInfo var) {
+	@NullUnmarked private boolean singleCheck(TypeSearchVarInfo var) {
 		if (var.isTypeResolved()) {
 			return true;
 		}
@@ -263,7 +264,7 @@ public class TypeSearch {
 		}
 	}
 
-	private void addUsageTypeCandidates(SSAVar ssaVar, Set<ITypeBound> bounds, Set<ArgType> candidateTypes) {
+	@NullUnmarked private void addUsageTypeCandidates(SSAVar ssaVar, Set<ITypeBound> bounds, Set<ArgType> candidateTypes) {
 		for (RegisterArg useArg : ssaVar.getUseList()) {
 			InsnNode parentInsn = useArg.getParentInsn();
 			if (parentInsn != null) {
@@ -296,7 +297,7 @@ public class TypeSearch {
 		return false;
 	}
 
-	private List<ArgType> getWiderTypes(ArgType type) {
+	@NullUnmarked private List<ArgType> getWiderTypes(ArgType type) {
 		if (type.isTypeKnown()) {
 			if (type.isObject()) {
 				Set<String> ancestors = mth.root().getClsp().getSuperTypes(type.getObject());
@@ -308,7 +309,7 @@ public class TypeSearch {
 		return Collections.emptyList();
 	}
 
-	private List<ArgType> getNarrowTypes(ArgType type) {
+	@NullUnmarked private List<ArgType> getNarrowTypes(ArgType type) {
 		if (type.isTypeKnown()) {
 			if (type.isObject()) {
 				if (type.equals(ArgType.OBJECT)) {
@@ -345,7 +346,7 @@ public class TypeSearch {
 		}
 	}
 
-	private void addConstraint(TypeSearchVarInfo varInfo, @Nullable ITypeConstraint constraint) {
+	@NullUnmarked private void addConstraint(TypeSearchVarInfo varInfo, @Nullable ITypeConstraint constraint) {
 		if (constraint != null) {
 			varInfo.getConstraints().add(constraint);
 		}
@@ -387,7 +388,7 @@ public class TypeSearch {
 
 	private ITypeConstraint makePhiConstraint(InsnNode insn, RegisterArg arg) {
 		return new AbstractTypeConstraint(insn, arg) {
-			@Override
+			@NullUnmarked @Override
 			public boolean check(TypeSearchState state) {
 				ArgType resType = state.getArgType(insn.getResult());
 				for (InsnArg insnArg : insn.getArguments()) {

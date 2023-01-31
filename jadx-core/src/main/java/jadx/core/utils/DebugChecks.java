@@ -21,6 +21,7 @@ import jadx.core.dex.visitors.IDexTreeVisitor;
 import jadx.core.dex.visitors.PrepareForCodeGen;
 import jadx.core.dex.visitors.rename.RenameVisitor;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 /**
  * Check invariants and information consistency for registers and SSA variables
@@ -41,7 +42,7 @@ public class DebugChecks {
 		}
 	}
 
-	public static void checkMethod(MethodNode mth) {
+	@NullUnmarked public static void checkMethod(MethodNode mth) {
 		List<BlockNode> basicBlocks = mth.getBasicBlocks();
 		if (Utils.isEmpty(basicBlocks)) {
 			return;
@@ -55,7 +56,7 @@ public class DebugChecks {
 		// checkPHI(mth);
 	}
 
-	private static void checkInsn(MethodNode mth, InsnNode insn) {
+	@NullUnmarked private static void checkInsn(MethodNode mth, InsnNode insn) {
 		if (insn.getResult() != null) {
 			checkVar(mth, insn, insn.getResult());
 		}
@@ -96,7 +97,7 @@ public class DebugChecks {
 		}
 	}
 
-	private static void checkSSAVars(MethodNode mth) {
+	@NullUnmarked private static void checkSSAVars(MethodNode mth) {
 		for (SSAVar ssaVar : mth.getSVars()) {
 			RegisterArg assignArg = ssaVar.getAssign();
 			if (assignArg.contains(AFlag.REMOVE)) {
@@ -168,7 +169,7 @@ public class DebugChecks {
 		}
 	}
 
-	private static void checkPHI(MethodNode mth) {
+	@NullUnmarked private static void checkPHI(MethodNode mth) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			List<PhiInsn> phis = new ArrayList<>();
 			for (InsnNode insn : block.getInstructions()) {

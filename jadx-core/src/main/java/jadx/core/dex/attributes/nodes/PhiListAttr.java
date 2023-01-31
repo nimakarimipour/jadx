@@ -7,6 +7,7 @@ import jadx.api.ICodeWriter;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.instructions.PhiInsn;
+import jadx.core.NullUnmarked;
 
 public class PhiListAttr implements IJadxAttribute {
 
@@ -21,7 +22,7 @@ public class PhiListAttr implements IJadxAttribute {
 		return list;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("PHI: ");

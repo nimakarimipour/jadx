@@ -13,6 +13,7 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class LiveVarAnalysis {
 	private static final Logger LOG = LoggerFactory.getLogger(LiveVarAnalysis.class);
@@ -28,7 +29,7 @@ public class LiveVarAnalysis {
 		this.mth = mth;
 	}
 
-	public void runAnalysis() {
+	@NullUnmarked public void runAnalysis() {
 		int bbCount = mth.getBasicBlocks().size();
 		int regsCount = mth.getRegsCount();
 		this.uses = initBitSetArray(bbCount, regsCount);
@@ -38,11 +39,11 @@ public class LiveVarAnalysis {
 		processLiveInfo();
 	}
 
-	public BitSet getAssignBlocks(int regNum) {
+	@NullUnmarked public BitSet getAssignBlocks(int regNum) {
 		return assignBlocks[regNum];
 	}
 
-	public boolean isLive(int blockId, int regNum) {
+	@NullUnmarked public boolean isLive(int blockId, int regNum) {
 		if (blockId >= liveIn.length) {
 			LOG.warn("LiveVarAnalysis: out of bounds block: {}, max: {}", blockId, liveIn.length);
 			return false;
@@ -54,7 +55,7 @@ public class LiveVarAnalysis {
 		return isLive(block.getId(), regNum);
 	}
 
-	private void fillBasicBlockInfo() {
+	@NullUnmarked private void fillBasicBlockInfo() {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			int blockId = block.getId();
 			BitSet gen = uses[blockId];
@@ -78,7 +79,7 @@ public class LiveVarAnalysis {
 		}
 	}
 
-	private void processLiveInfo() {
+	@NullUnmarked private void processLiveInfo() {
 		int bbCount = mth.getBasicBlocks().size();
 		int regsCount = mth.getRegsCount();
 		BitSet[] liveInBlocks = initBitSetArray(bbCount, regsCount);

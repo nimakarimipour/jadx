@@ -61,6 +61,7 @@ import jadx.core.utils.ListUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxOverflowException;
 import jadx.core.Initializer;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "Type Inference",
@@ -119,7 +120,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	/**
 	 * Check if all types resolved
 	 */
-	private static boolean checkTypes(MethodNode mth) {
+	@NullUnmarked private static boolean checkTypes(MethodNode mth) {
 		for (SSAVar var : mth.getSVars()) {
 			ArgType type = var.getTypeInfo().getType();
 			if (!type.isTypeKnown()) {
@@ -132,7 +133,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	/**
 	 * Collect initial type bounds from assign and usages
 	 */
-	private boolean initTypeBounds(MethodNode mth) {
+	@NullUnmarked private boolean initTypeBounds(MethodNode mth) {
 		List<SSAVar> ssaVars = mth.getSVars();
 		ssaVars.forEach(this::attachBounds);
 		ssaVars.forEach(this::mergePhiBounds);
@@ -146,14 +147,14 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	 * Guess type from usage and try to set it to current variable
 	 * and all connected instructions with {@link TypeUpdate#apply(MethodNode, SSAVar, ArgType)}
 	 */
-	private boolean runTypePropagation(MethodNode mth) {
+	@NullUnmarked private boolean runTypePropagation(MethodNode mth) {
 		List<SSAVar> ssaVars = mth.getSVars();
 		ssaVars.forEach(var -> setImmutableType(mth, var));
 		ssaVars.forEach(var -> setBestType(mth, var));
 		return true;
 	}
 
-	private boolean runMultiVariableSearch(MethodNode mth) {
+	@NullUnmarked private boolean runMultiVariableSearch(MethodNode mth) {
 		try {
 			TypeSearch typeSearch = new TypeSearch(mth);
 			if (!typeSearch.run()) {
@@ -244,7 +245,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		}
 	}
 
-	private void mergePhiBounds(SSAVar ssaVar) {
+	@NullUnmarked private void mergePhiBounds(SSAVar ssaVar) {
 		for (PhiInsn usedInPhi : ssaVar.getUsedInPhi()) {
 			Set<ITypeBound> bounds = ssaVar.getTypeInfo().getBounds();
 			bounds.addAll(usedInPhi.getResult().getSVar().getTypeInfo().getBounds());
@@ -334,7 +335,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return ctr.getClassType().getType();
 	}
 
-	private ITypeBound makeAssignFieldGetBound(IndexInsnNode insn) {
+	@NullUnmarked private ITypeBound makeAssignFieldGetBound(IndexInsnNode insn) {
 		ArgType initType = insn.getResult().getInitType();
 		if (initType.containsTypeVariable()) {
 			return new TypeBoundFieldGetAssign(root, insn, initType);
@@ -342,7 +343,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return new TypeBoundConst(BoundEnum.ASSIGN, initType);
 	}
 
-	private ITypeBound makeAssignInvokeBound(InvokeNode invokeNode) {
+	@NullUnmarked private ITypeBound makeAssignInvokeBound(InvokeNode invokeNode) {
 		ArgType boundType = invokeNode.getCallMth().getReturnType();
 		ArgType genericReturnType = root.getMethodUtils().getMethodGenericReturnType(invokeNode);
 		if (genericReturnType != null) {
@@ -420,7 +421,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	private List<ArgType> makePossibleTypesList(@Nullable ArgType type, @Nullable SSAVar var) {
+	@NullUnmarked private List<ArgType> makePossibleTypesList(@Nullable ArgType type, @Nullable SSAVar var) {
 		if (type.isArray()) {
 			List<ArgType> list = new ArrayList<>();
 			for (ArgType arrElemType : makePossibleTypesList(type.getArrayElement(), null)) {
@@ -447,7 +448,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return list;
 	}
 
-	private boolean tryDeduceTypes(MethodNode mth) {
+	@NullUnmarked private boolean tryDeduceTypes(MethodNode mth) {
 		boolean fixed = false;
 		for (SSAVar ssaVar : mth.getSVars()) {
 			if (deduceType(mth, ssaVar)) {
@@ -480,7 +481,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	private boolean tryRemoveGenerics(MethodNode mth) {
+	@NullUnmarked private boolean tryRemoveGenerics(MethodNode mth) {
 		boolean resolved = true;
 		for (SSAVar var : mth.getSVars()) {
 			ArgType type = var.getTypeInfo().getType();
@@ -493,7 +494,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return resolved;
 	}
 
-	private boolean tryRawType(MethodNode mth, SSAVar var) {
+	@NullUnmarked private boolean tryRawType(MethodNode mth, SSAVar var) {
 		Set<ArgType> objTypes = new LinkedHashSet<>();
 		for (ITypeBound bound : var.getTypeInfo().getBounds()) {
 			ArgType boundType = bound.getType();
@@ -528,7 +529,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	 * <br>
 	 * {@code <T extends Comparable> T var = (Comparable) obj; => T var = (T) obj; }
 	 */
-	private boolean tryRestoreTypeVarCasts(MethodNode mth) {
+	@NullUnmarked private boolean tryRestoreTypeVarCasts(MethodNode mth) {
 		int changed = 0;
 		List<SSAVar> mthSVars = mth.getSVars();
 		for (SSAVar var : mthSVars) {
@@ -544,7 +545,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return runTypePropagation(mth);
 	}
 
-	private int restoreTypeVarCasts(SSAVar var) {
+	@NullUnmarked private int restoreTypeVarCasts(SSAVar var) {
 		TypeInfo typeInfo = var.getTypeInfo();
 		Set<ITypeBound> bounds = typeInfo.getBounds();
 		if (!ListUtils.anyMatch(bounds, t -> t.getType().isGenericType())) {
@@ -576,7 +577,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return fixed;
 	}
 
-	@SuppressWarnings({ "ForLoopReplaceableByWhile", "ForLoopReplaceableByForEach" })
+	@NullUnmarked @SuppressWarnings({ "ForLoopReplaceableByWhile", "ForLoopReplaceableByForEach" })
 	private boolean tryInsertCasts(MethodNode mth) {
 		int added = 0;
 		List<SSAVar> mthSVars = mth.getSVars();
@@ -599,7 +600,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	private int tryInsertVarCast(MethodNode mth, SSAVar var) {
+	@NullUnmarked private int tryInsertVarCast(MethodNode mth, SSAVar var) {
 		for (ITypeBound bound : var.getTypeInfo().getBounds()) {
 			ArgType boundType = bound.getType();
 			if (boundType.isTypeKnown()
@@ -690,7 +691,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return runTypePropagation(mth);
 	}
 
-	private boolean checkAndSplitConstInsn(MethodNode mth, SSAVar var) {
+	@NullUnmarked private boolean checkAndSplitConstInsn(MethodNode mth, SSAVar var) {
 		ArgType type = var.getTypeInfo().getType();
 		if (type.isTypeKnown() || var.isTypeImmutable()) {
 			return false;
@@ -724,7 +725,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private boolean tryInsertAdditionalMove(MethodNode mth) {
+	@NullUnmarked private boolean tryInsertAdditionalMove(MethodNode mth) {
 		int insnsAdded = 0;
 		for (BlockNode block : mth.getBasicBlocks()) {
 			PhiListAttr phiListAttr = block.get(AType.PHI_LIST);
@@ -780,7 +781,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return phiArgType;
 	}
 
-	private int insertMovesForPhi(MethodNode mth, PhiInsn phiInsn, boolean apply) {
+	@NullUnmarked private int insertMovesForPhi(MethodNode mth, PhiInsn phiInsn, boolean apply) {
 		int argsCount = phiInsn.getArgsCount();
 		int count = 0;
 		for (int argIndex = 0; argIndex < argsCount; argIndex++) {
@@ -844,7 +845,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return blockNode;
 	}
 
-	private boolean tryWiderObjects(MethodNode mth, SSAVar var) {
+	@NullUnmarked private boolean tryWiderObjects(MethodNode mth, SSAVar var) {
 		Set<ArgType> objTypes = new LinkedHashSet<>();
 		for (ITypeBound bound : var.getTypeInfo().getBounds()) {
 			ArgType boundType = bound.getType();
@@ -868,7 +869,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	@SuppressWarnings("ForLoopReplaceableByForEach")
+	@NullUnmarked @SuppressWarnings("ForLoopReplaceableByForEach")
 	private boolean tryToFixIncompatiblePrimitives(MethodNode mth) {
 		boolean fixed = false;
 		List<SSAVar> ssaVars = mth.getSVars();
@@ -887,7 +888,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return runTypePropagation(mth);
 	}
 
-	private boolean processIncompatiblePrimitives(MethodNode mth, SSAVar var) {
+	@NullUnmarked private boolean processIncompatiblePrimitives(MethodNode mth, SSAVar var) {
 		TypeInfo typeInfo = var.getTypeInfo();
 		if (typeInfo.getType().isTypeKnown()) {
 			return false;
@@ -922,7 +923,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return fixed;
 	}
 
-	private boolean fixBooleanUsage(MethodNode mth, RegisterArg boundArg) {
+	@NullUnmarked private boolean fixBooleanUsage(MethodNode mth, RegisterArg boundArg) {
 		ArgType boundType = boundArg.getInitType();
 		if (boundType == ArgType.BOOLEAN
 				|| (boundType.isTypeKnown() && !boundType.isPrimitive())) {
@@ -982,14 +983,14 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return convertInsn;
 	}
 
-	private TernaryInsn prepareBooleanConvertInsn(@Nullable RegisterArg resultArg, RegisterArg boundArg, @Nullable ArgType useType) {
+	@NullUnmarked private TernaryInsn prepareBooleanConvertInsn(@Nullable RegisterArg resultArg, RegisterArg boundArg, @Nullable ArgType useType) {
 		RegisterArg useArg = boundArg.getSVar().getAssign().duplicate();
 		TernaryInsn convertInsn = ModVisitor.makeBooleanConvertInsn(resultArg, useArg, useType);
 		convertInsn.add(AFlag.SYNTHETIC);
 		return convertInsn;
 	}
 
-	private boolean tryToForceImmutableTypes(MethodNode mth) {
+	@NullUnmarked private boolean tryToForceImmutableTypes(MethodNode mth) {
 		boolean fixed = false;
 		for (SSAVar ssaVar : mth.getSVars()) {
 			ArgType type = ssaVar.getTypeInfo().getType();
@@ -1019,7 +1020,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	private static void assignImmutableTypes(MethodNode mth) {
+	@NullUnmarked private static void assignImmutableTypes(MethodNode mth) {
 		for (SSAVar ssaVar : mth.getSVars()) {
 			ArgType immutableType = getSsaImmutableType(ssaVar);
 			if (immutableType != null) {

@@ -37,6 +37,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.regions.conditions.IfCondition;
 import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class BlockUtils {
 
@@ -112,7 +113,7 @@ public class BlockUtils {
 	/**
 	 * Remove exception handlers from block nodes bitset
 	 */
-	public static void cleanBitSet(MethodNode mth, BitSet bs) {
+	@NullUnmarked public static void cleanBitSet(MethodNode mth, BitSet bs) {
 		for (int i = bs.nextSetBit(0); i >= 0; i = bs.nextSetBit(i + 1)) {
 			BlockNode block = mth.getBasicBlocks().get(i);
 			if (isExceptionHandlerPath(block)) {
@@ -121,7 +122,7 @@ public class BlockUtils {
 		}
 	}
 
-	public static boolean isBackEdge(BlockNode from, @Nullable BlockNode to) {
+	@NullUnmarked public static boolean isBackEdge(BlockNode from, @Nullable BlockNode to) {
 		if (to == null) {
 			return false;
 		}
@@ -223,7 +224,7 @@ public class BlockUtils {
 		return isExitBlock(block);
 	}
 
-	public static boolean isExitBlock(@Nullable BlockNode block) {
+	@NullUnmarked public static boolean isExitBlock(@Nullable BlockNode block) {
 		List<BlockNode> successors = block.getSuccessors();
 		if (successors.isEmpty()) {
 			return true;
@@ -247,7 +248,7 @@ public class BlockUtils {
 				|| type == InsnType.CONTINUE;
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public static BlockNode getBlockByInsn(MethodNode mth, @Nullable InsnNode insn) {
 		if (insn == null) {
 			return null;
@@ -266,7 +267,7 @@ public class BlockUtils {
 		return null;
 	}
 
-	@Nullable public static BlockNode searchBlockWithPhi(MethodNode mth, PhiInsn insn) {
+	@NullUnmarked @Nullable public static BlockNode searchBlockWithPhi(MethodNode mth, PhiInsn insn) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			PhiListAttr phiListAttr = block.get(AType.PHI_LIST);
 			if (phiListAttr != null) {
@@ -280,7 +281,7 @@ public class BlockUtils {
 		return null;
 	}
 
-	@Nullable private static BlockNode getBlockByWrappedInsn(MethodNode mth, InsnNode insn) {
+	@NullUnmarked @Nullable private static BlockNode getBlockByWrappedInsn(MethodNode mth, InsnNode insn) {
 		for (BlockNode bn : mth.getBasicBlocks()) {
 			for (InsnNode bi : bn.getInstructions()) {
 				if (bi == insn || foundWrappedInsn(bi, insn) != null) {
@@ -299,7 +300,7 @@ public class BlockUtils {
 		return insnArg.getParentInsn();
 	}
 
-	@Nullable public static InsnArg searchWrappedInsnParent(MethodNode mth, InsnNode insn) {
+	@NullUnmarked @Nullable public static InsnArg searchWrappedInsnParent(MethodNode mth, InsnNode insn) {
 		if (!insn.contains(AFlag.WRAPPED)) {
 			return null;
 		}
@@ -333,7 +334,7 @@ public class BlockUtils {
 		return null;
 	}
 
-	@Nullable private static InsnArg foundWrappedInsnInCondition(@Nullable IfCondition cond, InsnNode insn) {
+	@NullUnmarked @Nullable private static InsnArg foundWrappedInsnInCondition(@Nullable IfCondition cond, InsnNode insn) {
 		if (cond.isCompare()) {
 			IfNode cmpInsn = cond.getCompare().getInsn();
 			return foundWrappedInsn(cmpInsn, insn);
@@ -347,11 +348,11 @@ public class BlockUtils {
 		return null;
 	}
 
-	public static BitSet newBlocksBitSet(@Nullable MethodNode mth) {
+	@NullUnmarked public static BitSet newBlocksBitSet(@Nullable MethodNode mth) {
 		return new BitSet(mth.getBasicBlocks().size());
 	}
 
-	public static BitSet copyBlocksBitSet(MethodNode mth, @Nullable BitSet bitSet) {
+	@NullUnmarked public static BitSet copyBlocksBitSet(MethodNode mth, @Nullable BitSet bitSet) {
 		BitSet copy = new BitSet(mth.getBasicBlocks().size());
 		if (!bitSet.isEmpty()) {
 			copy.or(bitSet);
@@ -367,7 +368,7 @@ public class BlockUtils {
 		return bs;
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public static BlockNode bitSetToOneBlock(MethodNode mth, BitSet bs) {
 		if (bs == null || bs.cardinality() != 1) {
 			return null;
@@ -375,7 +376,7 @@ public class BlockUtils {
 		return mth.getBasicBlocks().get(bs.nextSetBit(0));
 	}
 
-	public static List<BlockNode> bitSetToBlocks(MethodNode mth, @Nullable BitSet bs) {
+	@NullUnmarked public static List<BlockNode> bitSetToBlocks(MethodNode mth, @Nullable BitSet bs) {
 		if (bs == null || bs == EmptyBitSet.EMPTY) {
 			return Collections.emptyList();
 		}
@@ -391,7 +392,7 @@ public class BlockUtils {
 		return blocks;
 	}
 
-	public static void forEachBlockFromBitSet(MethodNode mth, BitSet bs, Consumer<BlockNode> consumer) {
+	@NullUnmarked public static void forEachBlockFromBitSet(MethodNode mth, BitSet bs, Consumer<BlockNode> consumer) {
 		if (bs == null || bs == EmptyBitSet.EMPTY || bs.isEmpty()) {
 			return;
 		}
@@ -404,7 +405,7 @@ public class BlockUtils {
 	/**
 	 * Return first successor which not exception handler and not follow loop back edge
 	 */
-	@Nullable
+	@NullUnmarked @Nullable
 	public static BlockNode getNextBlock(@Nullable BlockNode block) {
 		List<BlockNode> s = block.getCleanSuccessors();
 		return s.isEmpty() ? null : s.get(0);
@@ -413,7 +414,7 @@ public class BlockUtils {
 	/**
 	 * Return successor on path to 'pathEnd' block
 	 */
-	@Nullable public static BlockNode getNextBlockToPath(BlockNode block, BlockNode pathEnd) {
+	@NullUnmarked @Nullable public static BlockNode getNextBlockToPath(BlockNode block, BlockNode pathEnd) {
 		List<BlockNode> successors = block.getCleanSuccessors();
 		if (successors.contains(pathEnd)) {
 			return pathEnd;
@@ -431,7 +432,7 @@ public class BlockUtils {
 	 * Visit blocks on any path from start to end.
 	 * Only one path will be visited!
 	 */
-	public static boolean visitBlocksOnPath(MethodNode mth, @Nullable BlockNode start, BlockNode end, Consumer<BlockNode> visitor) {
+	@NullUnmarked public static boolean visitBlocksOnPath(MethodNode mth, @Nullable BlockNode start, BlockNode end, Consumer<BlockNode> visitor) {
 		visitor.accept(start);
 		if (start == end) {
 			return true;
@@ -474,7 +475,7 @@ public class BlockUtils {
 		}
 	}
 
-	public static void dfsVisit(MethodNode mth, Consumer<BlockNode> visitor) {
+	@NullUnmarked public static void dfsVisit(MethodNode mth, Consumer<BlockNode> visitor) {
 		BitSet visited = newBlocksBitSet(mth);
 		Deque<BlockNode> queue = new ArrayDeque<>();
 		BlockNode enterBlock = mth.getEnterBlock();
@@ -552,7 +553,7 @@ public class BlockUtils {
 		}
 	}
 
-	private static boolean traverseSuccessorsUntil(BlockNode from, BlockNode until, BitSet visited, boolean clean) {
+	@NullUnmarked private static boolean traverseSuccessorsUntil(BlockNode from, BlockNode until, BitSet visited, boolean clean) {
 		List<BlockNode> nodes = clean ? from.getCleanSuccessors() : from.getSuccessors();
 		for (BlockNode s : nodes) {
 			if (s == until) {
@@ -596,7 +597,7 @@ public class BlockUtils {
 		return true;
 	}
 
-	public static boolean isPathExists(@Nullable BlockNode start, @Nullable BlockNode end) {
+	@NullUnmarked public static boolean isPathExists(@Nullable BlockNode start, @Nullable BlockNode end) {
 		if (start == end
 				|| end.isDominator(start)
 				|| start.getCleanSuccessors().contains(end)) {
@@ -662,7 +663,7 @@ public class BlockUtils {
 		return null;
 	}
 
-	public static boolean isOnlyOnePathExists(BlockNode start, BlockNode end) {
+	@NullUnmarked public static boolean isOnlyOnePathExists(BlockNode start, BlockNode end) {
 		if (start == end) {
 			return true;
 		}
@@ -682,7 +683,7 @@ public class BlockUtils {
 	/**
 	 * Search for first node which not dominated by dom, starting from start
 	 */
-	@Nullable public static BlockNode traverseWhileDominates(BlockNode dom, BlockNode start) {
+	@NullUnmarked @Nullable public static BlockNode traverseWhileDominates(BlockNode dom, BlockNode start) {
 		for (BlockNode node : start.getCleanSuccessors()) {
 			if (!node.isDominator(dom)) {
 				return node;
@@ -699,7 +700,7 @@ public class BlockUtils {
 	/**
 	 * Search the lowest common ancestor in dominator tree for input set.
 	 */
-	@Nullable
+	@NullUnmarked @Nullable
 	public static BlockNode getCommonDominator(MethodNode mth, List<BlockNode> blocks) {
 		BitSet doms = newBlocksBitSet(mth);
 		// collect all dominators from input set
@@ -723,7 +724,7 @@ public class BlockUtils {
 	 *
 	 * @return null if cross is a method exit block.
 	 */
-	@Nullable
+	@NullUnmarked @Nullable
 	public static BlockNode getPathCross(MethodNode mth, Collection<BlockNode> blocks) {
 		BitSet domFrontBS = newBlocksBitSet(mth);
 		boolean first = true;
@@ -829,7 +830,7 @@ public class BlockUtils {
 		return result;
 	}
 
-	private static void collectWhileDominates(@Nullable BlockNode dominator, @Nullable BlockNode child, Collection<BlockNode> result,
+	@NullUnmarked private static void collectWhileDominates(@Nullable BlockNode dominator, @Nullable BlockNode child, Collection<BlockNode> result,
 			BitSet visited, boolean includeExcHandlers) {
 		if (visited.get(child.getId())) {
 			return;
@@ -868,7 +869,7 @@ public class BlockUtils {
 		return successors.size() == 1 ? successors.get(0) : null;
 	}
 
-	public static List<BlockNode> buildSimplePath(BlockNode block) {
+	@NullUnmarked public static List<BlockNode> buildSimplePath(BlockNode block) {
 		if (block == null) {
 			return Collections.emptyList();
 		}
@@ -928,7 +929,7 @@ public class BlockUtils {
 		}
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	private static BlockNode getNextBlockOnEmptyPath(@Nullable BlockNode block) {
 		if (!block.getInstructions().isEmpty() || block.getPredecessors().size() > 1) {
 			return null;
@@ -943,7 +944,7 @@ public class BlockUtils {
 	/**
 	 * Return true if on path from start to end no instructions and no branches.
 	 */
-	public static boolean isEmptySimplePath(BlockNode start, BlockNode end) {
+	@NullUnmarked public static boolean isEmptySimplePath(BlockNode start, BlockNode end) {
 		if (start == end && start.getInstructions().isEmpty()) {
 			return true;
 		}
@@ -973,7 +974,7 @@ public class BlockUtils {
 		return block;
 	}
 
-	public static boolean isAllBlocksEmpty(@Nullable List<BlockNode> blocks) {
+	@NullUnmarked public static boolean isAllBlocksEmpty(@Nullable List<BlockNode> blocks) {
 		for (BlockNode block : blocks) {
 			if (!block.getInstructions().isEmpty()) {
 				return false;
@@ -982,7 +983,7 @@ public class BlockUtils {
 		return true;
 	}
 
-	public static List<InsnNode> collectAllInsns(@Nullable List<BlockNode> blocks) {
+	@NullUnmarked public static List<InsnNode> collectAllInsns(@Nullable List<BlockNode> blocks) {
 		List<InsnNode> insns = new ArrayList<>();
 		blocks.forEach(block -> insns.addAll(block.getInstructions()));
 		return insns;
@@ -992,7 +993,7 @@ public class BlockUtils {
 	 * Return limited number of instructions from method.
 	 * Return empty list if method contains more than limit.
 	 */
-	public static List<InsnNode> collectInsnsWithLimit(@Nullable List<BlockNode> blocks, int limit) {
+	@NullUnmarked public static List<InsnNode> collectInsnsWithLimit(@Nullable List<BlockNode> blocks, int limit) {
 		List<InsnNode> insns = new ArrayList<>(limit);
 		for (BlockNode block : blocks) {
 			List<InsnNode> blockInsns = block.getInstructions();
@@ -1011,7 +1012,7 @@ public class BlockUtils {
 	/**
 	 * Return insn if it is only one instruction in this method. Return null otherwise.
 	 */
-	@Nullable
+	@NullUnmarked @Nullable
 	public static InsnNode getOnlyOneInsnFromMth(MethodNode mth) {
 		if (mth.isNoCode()) {
 			return null;
@@ -1121,7 +1122,7 @@ public class BlockUtils {
 		return -1;
 	}
 
-	public static boolean replaceInsn(MethodNode mth, InsnNode oldInsn, InsnNode newInsn) {
+	@NullUnmarked public static boolean replaceInsn(MethodNode mth, InsnNode oldInsn, InsnNode newInsn) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			if (replaceInsn(mth, block, oldInsn, newInsn)) {
 				return true;
@@ -1134,7 +1135,7 @@ public class BlockUtils {
 		return calcPartialPostDominance(mth, mth.getBasicBlocks(), mth.getPreExitBlocks().get(0));
 	}
 
-	public static Map<BlockNode, BitSet> calcPartialPostDominance(MethodNode mth, @Nullable Collection<BlockNode> blockNodes, BlockNode exitBlock) {
+	@NullUnmarked public static Map<BlockNode, BitSet> calcPartialPostDominance(MethodNode mth, @Nullable Collection<BlockNode> blockNodes, BlockNode exitBlock) {
 		int blocksCount = mth.getBasicBlocks().size();
 		Map<BlockNode, BitSet> map = new HashMap<>(blocksCount);
 
@@ -1209,7 +1210,7 @@ public class BlockUtils {
 		return calcImmediatePostDominator(mth, block, pDomsMap);
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public static BlockNode calcImmediatePostDominator(MethodNode mth, BlockNode block, Map<BlockNode, BitSet> postDomsMap) {
 		BlockNode oneSuccessor = Utils.getOne(block.getSuccessors());
 		if (oneSuccessor != null) {

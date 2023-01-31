@@ -12,6 +12,7 @@ import jadx.core.dex.nodes.IDexNode;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class TypeGen {
 	private static final Logger LOG = LoggerFactory.getLogger(TypeGen.class);
@@ -19,7 +20,7 @@ public class TypeGen {
 	private TypeGen() {
 	}
 
-	public static String signature(@Nullable ArgType type) {
+	@NullUnmarked public static String signature(@Nullable ArgType type) {
 		PrimitiveType stype = type.getPrimitiveType();
 		if (stype == PrimitiveType.OBJECT) {
 			return Utils.makeQualifiedObjectName(type.getObject());
@@ -33,7 +34,7 @@ public class TypeGen {
 	/**
 	 * Convert literal arg to string (preferred method)
 	 */
-	public static String literalToString(LiteralArg arg, @Nullable IDexNode dexNode, boolean fallback) {
+	@NullUnmarked public static String literalToString(LiteralArg arg, @Nullable IDexNode dexNode, boolean fallback) {
 		return literalToString(arg.getLiteral(), arg.getType(),
 				dexNode.root().getStringUtils(),
 				fallback,
@@ -45,11 +46,11 @@ public class TypeGen {
 	 *
 	 * @throws JadxRuntimeException for incorrect type or literal value
 	 */
-	public static String literalToString(long lit, @Nullable ArgType type, @Nullable IDexNode dexNode, boolean fallback) {
+	@NullUnmarked public static String literalToString(long lit, @Nullable ArgType type, @Nullable IDexNode dexNode, boolean fallback) {
 		return literalToString(lit, type, dexNode.root().getStringUtils(), fallback, false);
 	}
 
-	public static String literalToString(long lit, @Nullable ArgType type, StringUtils stringUtils, boolean fallback, boolean cast) {
+	@NullUnmarked public static String literalToString(long lit, @Nullable ArgType type, StringUtils stringUtils, boolean fallback, boolean cast) {
 		if (type == null || !type.isTypeKnown()) {
 			String n = Long.toString(lit);
 			if (fallback && Math.abs(lit) > 100) {
@@ -98,7 +99,7 @@ public class TypeGen {
 		}
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public static String literalToRawString(LiteralArg arg) {
 		ArgType type = arg.getType();
 		if (type == null) {

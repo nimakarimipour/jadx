@@ -10,6 +10,7 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.regions.conditions.IfCondition;
 import jadx.core.utils.InsnUtils;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public final class TernaryInsn extends InsnNode {
 
@@ -54,18 +55,18 @@ public final class TernaryInsn extends InsnNode {
 		setArg(1, tmp);
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public void getRegisterArgs(Collection<RegisterArg> list) {
 		super.getRegisterArgs(list);
 		list.addAll(condition.getRegisterArgs());
 	}
 
-	public void visitInsns(Consumer<InsnNode> visitor) {
+	@NullUnmarked public void visitInsns(Consumer<InsnNode> visitor) {
 		super.visitInsns(visitor);
 		condition.visitInsns(visitor);
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;
@@ -84,7 +85,7 @@ public final class TernaryInsn extends InsnNode {
 		return copyCommonParams(copy);
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public void rebindArgs() {
 		super.rebindArgs();
 		for (RegisterArg reg : condition.getRegisterArgs()) {

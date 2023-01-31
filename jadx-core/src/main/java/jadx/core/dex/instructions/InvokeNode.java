@@ -7,6 +7,7 @@ import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.nodes.InsnNode;
+import jadx.core.NullUnmarked;
 
 public class InvokeNode extends BaseInvokeNode {
 
@@ -76,7 +77,7 @@ public class InvokeNode extends BaseInvokeNode {
 		return copyCommonParams(new InvokeNode(mth, type, getArgsCount()));
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;

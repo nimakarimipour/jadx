@@ -12,6 +12,7 @@ import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.Utils.isEmpty;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "CheckCode",
@@ -33,7 +34,7 @@ public class CheckCode extends AbstractVisitor {
 		checkInstructions(mth);
 	}
 
-	private boolean canRemoveMethod(MethodNode mth) {
+	@NullUnmarked private boolean canRemoveMethod(MethodNode mth) {
 		if (mth.getUseIn().isEmpty()) {
 			return true;
 		}
@@ -54,7 +55,7 @@ public class CheckCode extends AbstractVisitor {
 		return true;
 	}
 
-	public void checkInstructions(MethodNode mth) {
+	@NullUnmarked public void checkInstructions(MethodNode mth) {
 		if (isEmpty(mth.getInstructions())) {
 			return;
 		}

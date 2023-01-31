@@ -3,6 +3,7 @@ package jadx.core.dex.instructions;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.InsnNode;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class NewArrayNode extends InsnNode {
 
@@ -17,7 +18,7 @@ public class NewArrayNode extends InsnNode {
 		return arrType;
 	}
 
-	public int getDimension() {
+	@NullUnmarked public int getDimension() {
 		return arrType.getArrayDimension();
 	}
 

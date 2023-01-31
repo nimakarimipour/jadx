@@ -1,6 +1,7 @@
 package jadx.core.dex.instructions.args;
 
 import org.jetbrains.annotations.NotNull;
+import jadx.core.NullUnmarked;
 
 public final class NamedArg extends InsnArg implements Named {
 
@@ -27,7 +28,7 @@ public final class NamedArg extends InsnArg implements Named {
 		this.name = name;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public InsnArg duplicate() {
 		return copyCommonParams(new NamedArg(name, type));
 	}

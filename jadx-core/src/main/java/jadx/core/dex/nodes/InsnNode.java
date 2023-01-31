@@ -25,6 +25,7 @@ import jadx.core.utils.InsnRemover;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 public class InsnNode extends LineAttrNode {
 	protected final InsnType insnType;
@@ -344,7 +345,7 @@ public class InsnNode extends LineAttrNode {
 	/**
 	 * 'Soft' equals, don't compare arguments, only instruction specific parameters.
 	 */
-	public boolean isSame(@Nullable InsnNode other) {
+	@NullUnmarked public boolean isSame(@Nullable InsnNode other) {
 		if (this == other) {
 			return true;
 		}
@@ -469,7 +470,7 @@ public class InsnNode extends LineAttrNode {
 	 * Fix SSAVar info in register arguments.
 	 * Must be used after altering instructions.
 	 */
-	public void rebindArgs() {
+	@NullUnmarked public void rebindArgs() {
 		RegisterArg resArg = getResult();
 		if (resArg != null) {
 			resArg.getSVar().setAssign(resArg);

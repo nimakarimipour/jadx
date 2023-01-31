@@ -4,6 +4,7 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.visitors.AbstractVisitor;
 import jadx.core.dex.visitors.JadxVisitor;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "Finish Type Inference",
@@ -14,7 +15,7 @@ import jadx.core.dex.visitors.JadxVisitor;
 )
 public final class FinishTypeInference extends AbstractVisitor {
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) {
 		if (mth.isNoCode() || mth.getSVars().isEmpty()) {
 			return;

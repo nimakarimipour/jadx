@@ -32,6 +32,7 @@ import jadx.core.utils.InsnRemover;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "ExtractFieldInit",
@@ -169,7 +170,7 @@ public class ExtractFieldInit extends AbstractVisitor {
 		fixFieldsOrder(cls, common.fieldInits);
 	}
 
-	private static List<FieldInitInfo> collectFieldsInit(ClassNode cls, MethodNode mth, InsnType putType) {
+	@NullUnmarked private static List<FieldInitInfo> collectFieldsInit(ClassNode cls, MethodNode mth, InsnType putType) {
 		List<FieldInitInfo> fieldsInit = new ArrayList<>();
 		Set<BlockNode> singlePathBlocks = new HashSet<>();
 		BlockUtils.visitSinglePath(mth.getEnterBlock(), singlePathBlocks::add);
@@ -288,7 +289,7 @@ public class ExtractFieldInit extends AbstractVisitor {
 		applyFieldsOrder(cls, orderedFields);
 	}
 
-	private static List<FieldNode> processFieldsDependencies(ClassNode cls, List<FieldInitInfo> inits) {
+	@NullUnmarked private static List<FieldNode> processFieldsDependencies(ClassNode cls, List<FieldInitInfo> inits) {
 		List<FieldNode> orderedFields = Utils.collectionMap(inits, v -> v.fieldNode);
 		// collect dependant fields
 		Map<FieldNode, List<FieldNode>> deps = new HashMap<>(inits.size());

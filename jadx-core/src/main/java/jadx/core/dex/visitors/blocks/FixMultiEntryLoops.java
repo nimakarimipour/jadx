@@ -10,6 +10,7 @@ import jadx.core.dex.attributes.nodes.SpecialEdgeAttr.SpecialEdgeType;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.ListUtils;
+import jadx.core.NullUnmarked;
 
 public class FixMultiEntryLoops {
 
@@ -63,7 +64,7 @@ public class FixMultiEntryLoops {
 		return ListUtils.isSingleElement(header.getSuccessors(), subEntry.getEnd());
 	}
 
-	private static boolean isSingleEntryLoop(SpecialEdgeAttr e) {
+	@NullUnmarked private static boolean isSingleEntryLoop(SpecialEdgeAttr e) {
 		BlockNode header = e.getEnd();
 		BlockNode loopEnd = e.getStart();
 		return header == loopEnd
@@ -74,7 +75,7 @@ public class FixMultiEntryLoops {
 		WHITE, GRAY, BLACK
 	}
 
-	private static void detectSpecialEdges(MethodNode mth) {
+	@NullUnmarked private static void detectSpecialEdges(MethodNode mth) {
 		List<BlockNode> blocks = mth.getBasicBlocks();
 		BlockColor[] colors = new BlockColor[blocks.size()];
 		Arrays.fill(colors, BlockColor.WHITE);

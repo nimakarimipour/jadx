@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.RootNode;
+import jadx.core.NullUnmarked;
 
 /*
  * Modifies android:name attributes and xml tags which were changed during deobfuscation
@@ -14,7 +15,7 @@ public class XmlDeobf {
 	private XmlDeobf() {
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public static String deobfClassName(RootNode root, @Nullable String potentialClassName, @Nullable String packageName) {
 		if (potentialClassName.indexOf('.') == -1) {
 			return null;

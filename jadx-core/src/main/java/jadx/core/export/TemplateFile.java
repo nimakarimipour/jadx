@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import jadx.core.NullUnmarked;
 
 /**
  * Simple template engine
@@ -87,7 +88,7 @@ public class TemplateFile {
 		}
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	private String process(ParserState parser, char ch) {
 		State state = parser.state;
 		switch (ch) {

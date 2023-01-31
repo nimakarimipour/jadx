@@ -27,6 +27,7 @@ import jadx.core.utils.Utils;
 
 import static jadx.core.codegen.MethodGen.FallbackOption.BLOCK_DUMP;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class DotGraphVisitor extends AbstractVisitor {
 
@@ -146,7 +147,7 @@ public class DotGraphVisitor extends AbstractVisitor {
 			SaveCode.save(dot.finish(), file);
 		}
 
-		private void processMethodRegion(MethodNode mth) {
+		@NullUnmarked private void processMethodRegion(MethodNode mth) {
 			processRegion(mth, mth.getRegion());
 			for (ExceptionHandler h : mth.getExceptionHandlers()) {
 				if (h.getHandlerRegion() != null) {
@@ -271,7 +272,7 @@ public class DotGraphVisitor extends AbstractVisitor {
 			return attrs.toString();
 		}
 
-		private String makeName(@Nullable IContainer c) {
+		@NullUnmarked private String makeName(@Nullable IContainer c) {
 			String name;
 			if (c instanceof BlockNode) {
 				name = "Node_" + ((BlockNode) c).getCId();

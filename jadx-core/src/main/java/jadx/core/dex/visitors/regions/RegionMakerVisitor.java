@@ -30,6 +30,7 @@ import jadx.core.utils.InsnRemover;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 /**
  * Pack blocks into regions for code generation
@@ -39,7 +40,7 @@ public class RegionMakerVisitor extends AbstractVisitor {
 
 	private static final IRegionVisitor POST_REGION_VISITOR = new PostRegionVisitor();
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) throws JadxException {
 		if (mth.isNoCode() || mth.getBasicBlocks().isEmpty()) {
 			return;
@@ -75,7 +76,7 @@ public class RegionMakerVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void processForceInlineInsns(MethodNode mth) {
+	@NullUnmarked private static void processForceInlineInsns(MethodNode mth) {
 		boolean needShrink = mth.getBasicBlocks().stream()
 				.flatMap(block -> block.getInstructions().stream())
 				.anyMatch(insn -> insn.contains(AFlag.FORCE_ASSIGN_INLINE));
@@ -154,7 +155,7 @@ public class RegionMakerVisitor extends AbstractVisitor {
 			c.add(new InsnContainer(insns));
 		}
 
-		private static void addBreakForBlock(MethodNode mth, IContainer c, Set<IBlock> blocks, BlockNode bn) {
+		@NullUnmarked private static void addBreakForBlock(MethodNode mth, IContainer c, Set<IBlock> blocks, BlockNode bn) {
 			for (BlockNode s : bn.getCleanSuccessors()) {
 				if (!blocks.contains(s)
 						&& !bn.contains(AFlag.ADDED_TO_REGION)
@@ -177,7 +178,7 @@ public class RegionMakerVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void removeSynchronized(MethodNode mth) {
+	@NullUnmarked private static void removeSynchronized(MethodNode mth) {
 		Region startRegion = mth.getRegion();
 		List<IContainer> subBlocks = startRegion.getSubBlocks();
 		if (!subBlocks.isEmpty() && subBlocks.get(0) instanceof SynchronizedRegion) {

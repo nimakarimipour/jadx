@@ -27,6 +27,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.Utils;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class NameGen {
 
@@ -69,7 +70,7 @@ public class NameGen {
 		varNames.addAll(otherNameGen.varNames);
 	}
 
-	private void addNamesUsedInClass() {
+	@NullUnmarked private void addNamesUsedInClass() {
 		ClassNode parentClass = mth.getParentClass();
 		for (FieldNode field : parentClass.getFields()) {
 			if (field.isStatic()) {
@@ -173,7 +174,7 @@ public class NameGen {
 		return makeNameForType(var.getType());
 	}
 
-	private String makeNameForType(@Nullable ArgType type) {
+	@NullUnmarked private String makeNameForType(@Nullable ArgType type) {
 		if (type.isPrimitive()) {
 			return type.getPrimitiveType().getShortName().toLowerCase();
 		}
@@ -183,7 +184,7 @@ public class NameGen {
 		return makeNameForObject(type);
 	}
 
-	private String makeNameForObject(ArgType type) {
+	@NullUnmarked private String makeNameForObject(ArgType type) {
 		if (type.isGenericType()) {
 			return StringUtils.escape(type.getObject().toLowerCase());
 		}
@@ -240,7 +241,7 @@ public class NameGen {
 		return OBJ_ALIAS.get(name);
 	}
 
-	@Nullable private String makeNameFromInsn(InsnNode insn) {
+	@NullUnmarked @Nullable private String makeNameFromInsn(InsnNode insn) {
 		switch (insn.getType()) {
 			case INVOKE:
 				InvokeNode inv = (InvokeNode) insn;
@@ -278,7 +279,7 @@ public class NameGen {
 		return null;
 	}
 
-	@Nullable private String makeNameFromInvoke(@Nullable MethodInfo callMth) {
+	@NullUnmarked @Nullable private String makeNameFromInvoke(@Nullable MethodInfo callMth) {
 		String name = callMth.getAlias();
 		ClassInfo declClass = callMth.getDeclClass();
 		if ("getInstance".equals(name)) {

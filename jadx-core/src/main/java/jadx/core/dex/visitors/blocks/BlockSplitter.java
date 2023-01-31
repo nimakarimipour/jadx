@@ -26,6 +26,7 @@ import jadx.core.dex.visitors.AbstractVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 public class BlockSplitter extends AbstractVisitor {
 
@@ -43,7 +44,7 @@ public class BlockSplitter extends AbstractVisitor {
 		return SEPARATE_INSNS.contains(insnType);
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) {
 		if (mth.isNoCode()) {
 			return;
@@ -64,7 +65,7 @@ public class BlockSplitter extends AbstractVisitor {
 		mth.unloadInsnArr();
 	}
 
-	private static Map<Integer, BlockNode> splitBasicBlocks(MethodNode mth) {
+	@NullUnmarked private static Map<Integer, BlockNode> splitBasicBlocks(MethodNode mth) {
 		BlockNode enterBlock = startNewBlock(mth, -1);
 		enterBlock.add(AFlag.MTH_ENTER_BLOCK);
 		mth.setEnterBlock(enterBlock);
@@ -122,7 +123,7 @@ public class BlockSplitter extends AbstractVisitor {
 	/**
 	 * Init 'then' and 'else' blocks for 'if' instruction.
 	 */
-	private static void initBlocksInTargetNodes(MethodNode mth) {
+	@NullUnmarked private static void initBlocksInTargetNodes(MethodNode mth) {
 		mth.getBasicBlocks().forEach(block -> {
 			InsnNode lastInsn = BlockUtils.getLastInsn(block);
 			if (lastInsn instanceof TargetInsnNode) {
@@ -137,14 +138,14 @@ public class BlockSplitter extends AbstractVisitor {
 		return newBlock;
 	}
 
-	static BlockNode startNewBlock(MethodNode mth, int offset) {
+	@NullUnmarked static BlockNode startNewBlock(MethodNode mth, int offset) {
 		List<BlockNode> blocks = mth.getBasicBlocks();
 		BlockNode block = new BlockNode(mth.getNextBlockCId(), blocks.size(), offset);
 		blocks.add(block);
 		return block;
 	}
 
-	public static void connect(BlockNode from, @Nullable BlockNode to) {
+	@NullUnmarked public static void connect(BlockNode from, @Nullable BlockNode to) {
 		if (!from.getSuccessors().contains(to)) {
 			from.getSuccessors().add(to);
 		}
@@ -153,12 +154,12 @@ public class BlockSplitter extends AbstractVisitor {
 		}
 	}
 
-	public static void removeConnection(@Nullable BlockNode from, @Nullable BlockNode to) {
+	@NullUnmarked public static void removeConnection(@Nullable BlockNode from, @Nullable BlockNode to) {
 		from.getSuccessors().remove(to);
 		to.getPredecessors().remove(from);
 	}
 
-	public static void removePredecessors(@Nullable BlockNode block) {
+	@NullUnmarked public static void removePredecessors(@Nullable BlockNode block) {
 		for (BlockNode pred : block.getPredecessors()) {
 			pred.getSuccessors().remove(block);
 		}
@@ -209,7 +210,7 @@ public class BlockSplitter extends AbstractVisitor {
 		}
 	}
 
-	private static void setupConnectionsFromJumps(MethodNode mth, Map<Integer, BlockNode> blocksMap) {
+	@NullUnmarked private static void setupConnectionsFromJumps(MethodNode mth, Map<Integer, BlockNode> blocksMap) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			for (InsnNode insn : block.getInstructions()) {
 				List<JumpInfo> jumps = insn.getAll(AType.JUMP);
@@ -227,7 +228,7 @@ public class BlockSplitter extends AbstractVisitor {
 	 * This temporary connection needed to build close to final dominators tree.
 	 * Will be used and removed in {@code jadx.core.dex.visitors.blocks.BlockExceptionHandler}
 	 */
-	private static void addTempConnectionsForExcHandlers(MethodNode mth, Map<Integer, BlockNode> blocksMap) {
+	@NullUnmarked private static void addTempConnectionsForExcHandlers(MethodNode mth, Map<Integer, BlockNode> blocksMap) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			for (InsnNode insn : block.getInstructions()) {
 				CatchAttr catchAttr = insn.get(AType.EXC_CATCH);
@@ -252,7 +253,7 @@ public class BlockSplitter extends AbstractVisitor {
 		}
 	}
 
-	private static void setupExitConnections(MethodNode mth) {
+	@NullUnmarked private static void setupExitConnections(MethodNode mth) {
 		BlockNode exitBlock = mth.getExitBlock();
 		for (BlockNode block : mth.getBasicBlocks()) {
 			if (block.getSuccessors().isEmpty() && block != exitBlock) {
@@ -298,7 +299,7 @@ public class BlockSplitter extends AbstractVisitor {
 		return block;
 	}
 
-	private static void expandMoveMulti(MethodNode mth) {
+	@NullUnmarked private static void expandMoveMulti(MethodNode mth) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			List<InsnNode> insnsList = block.getInstructions();
 			int len = insnsList.size();
@@ -326,7 +327,7 @@ public class BlockSplitter extends AbstractVisitor {
 		}
 	}
 
-	private static void removeJumpAttr(MethodNode mth) {
+	@NullUnmarked private static void removeJumpAttr(MethodNode mth) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			for (InsnNode insn : block.getInstructions()) {
 				insn.remove(AType.JUMP);
@@ -334,7 +335,7 @@ public class BlockSplitter extends AbstractVisitor {
 		}
 	}
 
-	private static void removeInsns(MethodNode mth) {
+	@NullUnmarked private static void removeInsns(MethodNode mth) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			block.getInstructions().removeIf(insn -> {
 				if (!insn.isAttrStorageEmpty()) {
@@ -346,7 +347,7 @@ public class BlockSplitter extends AbstractVisitor {
 		}
 	}
 
-	public static void detachMarkedBlocks(MethodNode mth) {
+	@NullUnmarked public static void detachMarkedBlocks(MethodNode mth) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			if (block.contains(AFlag.REMOVE)) {
 				detachBlock(block);
@@ -354,7 +355,7 @@ public class BlockSplitter extends AbstractVisitor {
 		}
 	}
 
-	static boolean removeEmptyDetachedBlocks(MethodNode mth) {
+	@NullUnmarked static boolean removeEmptyDetachedBlocks(MethodNode mth) {
 		return mth.getBasicBlocks().removeIf(block -> block.getInstructions().isEmpty()
 				&& block.getPredecessors().isEmpty()
 				&& block.getSuccessors().isEmpty()

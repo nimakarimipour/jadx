@@ -16,6 +16,7 @@ import jadx.core.dex.attributes.nodes.JadxError;
 import jadx.core.dex.nodes.IDexNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxOverflowException;
+import jadx.core.NullUnmarked;
 
 public class ErrorsCounter {
 	private static final Logger LOG = LoggerFactory.getLogger(ErrorsCounter.class);
@@ -34,7 +35,7 @@ public class ErrorsCounter {
 		node.root().getErrorsCounter().addWarning(node, warnMsg);
 	}
 
-	public static String formatMsg(@Nullable IDexNode node, String msg) {
+	@NullUnmarked public static String formatMsg(@Nullable IDexNode node, String msg) {
 		return msg + " in " + node.typeName() + ": " + node + ", file: " + node.getInputFileName();
 	}
 

@@ -34,6 +34,7 @@ import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.Utils.lockList;
+import jadx.core.NullUnmarked;
 
 public class MethodNode extends NotificationAttrNode implements IMethodDetails, ILoadable, ICodeNode, Comparable<MethodNode> {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodNode.class);
@@ -123,7 +124,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		this.typeParameters = typeParameters;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public void load() throws DecodeException {
 		if (loaded) {
 			// method already loaded
@@ -228,7 +229,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return !Objects.equals(mthInfo.getArgumentsTypes(), getArgTypes());
 	}
 
-	@Override
+	@NullUnmarked @Override
 	@NotNull
 	public ArgType getReturnType() {
 		return retType;
@@ -238,7 +239,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		this.retType = type;
 	}
 
-	public boolean isVoidReturn() {
+	@NullUnmarked public boolean isVoidReturn() {
 		return mthInfo.getReturnType().equals(ArgType.VOID);
 	}
 
@@ -346,11 +347,11 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		this.exitBlock = exitBlock;
 	}
 
-	public List<BlockNode> getPreExitBlocks() {
+	@NullUnmarked public List<BlockNode> getPreExitBlocks() {
 		return exitBlock.getPredecessors();
 	}
 
-	public boolean isPreExitBlocks(BlockNode block) {
+	@NullUnmarked public boolean isPreExitBlocks(BlockNode block) {
 		List<BlockNode> successors = block.getSuccessors();
 		if (successors.size() == 1) {
 			return successors.get(0).equals(exitBlock);
@@ -358,7 +359,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return exitBlock.getPredecessors().contains(block);
 	}
 
-	public void registerLoop(LoopInfo loop) {
+	@NullUnmarked public void registerLoop(LoopInfo loop) {
 		if (loops.isEmpty()) {
 			loops = new ArrayList<>(5);
 		}
@@ -366,7 +367,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		loops.add(loop);
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public LoopInfo getLoopForBlock(BlockNode block) {
 		if (loops.isEmpty()) {
 			return null;
@@ -379,7 +380,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return null;
 	}
 
-	public List<LoopInfo> getAllLoopsForBlock(BlockNode block) {
+	@NullUnmarked public List<LoopInfo> getAllLoopsForBlock(BlockNode block) {
 		if (loops.isEmpty()) {
 			return Collections.emptyList();
 		}
@@ -392,7 +393,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return list;
 	}
 
-	public int getLoopsCount() {
+	@NullUnmarked public int getLoopsCount() {
 		return loops.size();
 	}
 
@@ -400,7 +401,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return loops;
 	}
 
-	public ExceptionHandler addExceptionHandler(ExceptionHandler handler) {
+	@NullUnmarked public ExceptionHandler addExceptionHandler(ExceptionHandler handler) {
 		if (exceptionHandlers.isEmpty()) {
 			exceptionHandlers = new ArrayList<>(2);
 		}
@@ -408,7 +409,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return handler;
 	}
 
-	public boolean clearExceptionHandlers() {
+	@NullUnmarked public boolean clearExceptionHandlers() {
 		return exceptionHandlers.removeIf(ExceptionHandler::isRemoved);
 	}
 
@@ -416,11 +417,11 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return exceptionHandlers;
 	}
 
-	public boolean isNoExceptionHandlers() {
+	@NullUnmarked public boolean isNoExceptionHandlers() {
 		return exceptionHandlers.isEmpty();
 	}
 
-	public int getExceptionHandlersCount() {
+	@NullUnmarked public int getExceptionHandlersCount() {
 		return exceptionHandlers.size();
 	}
 
@@ -454,7 +455,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return accFlags.isConstructor() && mthInfo.isConstructor();
 	}
 
-	public boolean isDefaultConstructor() {
+	@NullUnmarked public boolean isDefaultConstructor() {
 		if (isConstructor()) {
 			int defaultArgCount = 0;
 			// workaround for non-static inner class constructor, that has synthetic argument
@@ -484,7 +485,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return makeNewSVar(regNum, getNextSVarVersion(regNum), assignArg);
 	}
 
-	public SSAVar makeNewSVar(int regNum, int version, @NotNull RegisterArg assignArg) {
+	@NullUnmarked public SSAVar makeNewSVar(int regNum, int version, @NotNull RegisterArg assignArg) {
 		SSAVar var = new SSAVar(regNum, version, assignArg);
 		if (sVars.isEmpty()) {
 			sVars = new ArrayList<>();
@@ -493,7 +494,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return var;
 	}
 
-	private int getNextSVarVersion(int regNum) {
+	@NullUnmarked private int getNextSVarVersion(int regNum) {
 		int v = -1;
 		for (SSAVar sVar : sVars) {
 			if (sVar.getRegNum() == regNum) {
@@ -504,7 +505,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return v;
 	}
 
-	public void removeSVar(SSAVar var) {
+	@NullUnmarked public void removeSVar(SSAVar var) {
 		sVars.remove(var);
 	}
 
@@ -555,11 +556,11 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return mthInfo;
 	}
 
-	public long getMethodCodeOffset() {
+	@NullUnmarked public long getMethodCodeOffset() {
 		return noCode ? 0 : codeReader.getCodeOffset();
 	}
 
-	@Nullable
+	@NullUnmarked @Nullable
 	public IDebugInfo getDebugInfo() {
 		return noCode ? null : codeReader.getDebugInfo();
 	}

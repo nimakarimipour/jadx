@@ -31,6 +31,7 @@ import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "MethodInvokeVisitor",
@@ -51,7 +52,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		this.root = root;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) {
 		if (mth.isNoCode()) {
 			return;
@@ -73,7 +74,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		}
 	}
 
-	private void processInvoke(MethodNode parentMth, BaseInvokeNode invokeInsn) {
+	@NullUnmarked private void processInvoke(MethodNode parentMth, BaseInvokeNode invokeInsn) {
 		MethodInfo callMth = invokeInsn.getCallMth();
 		if (callMth.getArgsCount() == 0) {
 			return;
@@ -95,7 +96,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		}
 	}
 
-	private void processOverloaded(MethodNode parentMth, BaseInvokeNode invokeInsn, IMethodDetails mthDetails) {
+	@NullUnmarked private void processOverloaded(MethodNode parentMth, BaseInvokeNode invokeInsn, IMethodDetails mthDetails) {
 		MethodInfo callMth = invokeInsn.getCallMth();
 		ArgType callCls = getCallClassFromInvoke(parentMth, invokeInsn, callMth);
 		List<IMethodDetails> overloadMethods = root.getMethodUtils().collectOverloadedMethods(callCls, callMth);
@@ -123,7 +124,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 	/**
 	 * Method details not found => add cast for 'null' args
 	 */
-	private void processUnknown(BaseInvokeNode invokeInsn) {
+	@NullUnmarked private void processUnknown(BaseInvokeNode invokeInsn) {
 		int argsOffset = invokeInsn.getFirstArgOffset();
 		List<ArgType> compilerVarTypes = collectCompilerVarTypes(invokeInsn, argsOffset);
 		List<ArgType> castTypes = new ArrayList<>(compilerVarTypes);
@@ -132,7 +133,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		}
 	}
 
-	@Nullable private ArgType getCallClassFromInvoke(MethodNode parentMth, BaseInvokeNode invokeInsn, @Nullable MethodInfo callMth) {
+	@NullUnmarked @Nullable private ArgType getCallClassFromInvoke(MethodNode parentMth, BaseInvokeNode invokeInsn, @Nullable MethodInfo callMth) {
 		if (invokeInsn instanceof ConstructorInsn) {
 			ConstructorInsn constrInsn = (ConstructorInsn) invokeInsn;
 			if (constrInsn.isSuper()) {
@@ -147,7 +148,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		return callMth.getDeclClass().getType();
 	}
 
-	private Map<ArgType, ArgType> getTypeVarsMapping(BaseInvokeNode invokeInsn) {
+	@NullUnmarked private Map<ArgType, ArgType> getTypeVarsMapping(BaseInvokeNode invokeInsn) {
 		MethodInfo callMthInfo = invokeInsn.getCallMth();
 		ArgType declClsType = callMthInfo.getDeclClass().getType();
 		ArgType callClsType = getClsCallType(invokeInsn, declClsType);
@@ -202,7 +203,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		}
 	}
 
-	private IMethodDetails resolveTypeVars(IMethodDetails mthDetails, Map<ArgType, ArgType> typeVarsMapping) {
+	@NullUnmarked private IMethodDetails resolveTypeVars(IMethodDetails mthDetails, Map<ArgType, ArgType> typeVarsMapping) {
 		List<ArgType> argTypes = mthDetails.getArgTypes();
 		int argsCount = argTypes.size();
 		boolean fixed = false;
@@ -336,7 +337,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		return list;
 	}
 
-	private boolean isMethodAcceptable(IMethodDetails methodDetails, List<ArgType> types,
+	@NullUnmarked private boolean isMethodAcceptable(IMethodDetails methodDetails, List<ArgType> types,
 			Function<TypeCompareEnum, Boolean> acceptFunction) {
 		List<ArgType> mthTypes = methodDetails.getArgTypes();
 		int argCount = mthTypes.size();
@@ -368,7 +369,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 	/**
 	 * Return type as seen by compiler
 	 */
-	@Nullable private ArgType getCompilerVarType(InsnArg arg) {
+	@NullUnmarked @Nullable private ArgType getCompilerVarType(InsnArg arg) {
 		if (arg instanceof LiteralArg) {
 			LiteralArg literalArg = (LiteralArg) arg;
 			ArgType type = literalArg.getType();

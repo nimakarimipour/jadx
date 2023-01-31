@@ -42,6 +42,7 @@ import jadx.core.utils.InsnUtils;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.exceptions.JadxOverflowException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "LoopRegionVisitor",
@@ -88,7 +89,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 	/**
 	 * Check for indexed loop.
 	 */
-	private static boolean checkForIndexedLoop(MethodNode mth, LoopRegion loopRegion, IfCondition condition) {
+	@NullUnmarked private static boolean checkForIndexedLoop(MethodNode mth, LoopRegion loopRegion, IfCondition condition) {
 		BlockNode loopEndBlock = loopRegion.getInfo().getEnd();
 		InsnNode incrInsn = BlockUtils.getLastInsn(BlockUtils.skipSyntheticPredecessor(loopEndBlock));
 		if (incrInsn == null) {
@@ -147,7 +148,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 		return true;
 	}
 
-	@Nullable private static LoopType checkArrayForEach(MethodNode mth, LoopRegion loopRegion, InsnNode initInsn, InsnNode incrInsn,
+	@NullUnmarked @Nullable private static LoopType checkArrayForEach(MethodNode mth, LoopRegion loopRegion, InsnNode initInsn, InsnNode incrInsn,
 			IfCondition condition) {
 		if (!(incrInsn instanceof ArithNode)) {
 			return null;
@@ -244,7 +245,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 		return forEachLoop;
 	}
 
-	private static boolean checkIterableForEach(MethodNode mth, LoopRegion loopRegion, IfCondition condition) {
+	@NullUnmarked private static boolean checkIterableForEach(MethodNode mth, LoopRegion loopRegion, IfCondition condition) {
 		List<RegisterArg> condArgs = condition.getRegisterArgs();
 		if (condArgs.size() != 1) {
 			return false;
@@ -339,7 +340,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 		return true;
 	}
 
-	private static boolean fixIterableType(MethodNode mth, InsnArg iterableArg, RegisterArg iterVar) {
+	@NullUnmarked private static boolean fixIterableType(MethodNode mth, InsnArg iterableArg, RegisterArg iterVar) {
 		ArgType iterableType = iterableArg.getType();
 		ArgType varType = iterVar.getType();
 		if (iterableType.isGeneric()) {
@@ -386,7 +387,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 	/**
 	 * Check if instruction is a interface invoke with corresponding parameters.
 	 */
-	private static boolean checkInvoke(@Nullable InsnNode insn, @Nullable String declClsFullName, String mthId) {
+	@NullUnmarked private static boolean checkInvoke(@Nullable InsnNode insn, @Nullable String declClsFullName, String mthId) {
 		if (insn == null) {
 			return false;
 		}
@@ -423,7 +424,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 		return true;
 	}
 
-	private static boolean usedOnlyInLoop(MethodNode mth, LoopRegion loopRegion, RegisterArg arg) {
+	@NullUnmarked private static boolean usedOnlyInLoop(MethodNode mth, LoopRegion loopRegion, RegisterArg arg) {
 		List<RegisterArg> useList = arg.getSVar().getUseList();
 		for (RegisterArg useArg : useList) {
 			if (!argInLoop(mth, loopRegion, useArg)) {
@@ -433,7 +434,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 		return true;
 	}
 
-	private static boolean argInLoop(MethodNode mth, LoopRegion loopRegion, @Nullable RegisterArg arg) {
+	@NullUnmarked private static boolean argInLoop(MethodNode mth, LoopRegion loopRegion, @Nullable RegisterArg arg) {
 		InsnNode parentInsn = arg.getParentInsn();
 		if (parentInsn == null) {
 			return false;

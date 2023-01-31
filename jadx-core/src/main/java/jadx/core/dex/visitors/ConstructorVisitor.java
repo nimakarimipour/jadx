@@ -20,6 +20,7 @@ import jadx.core.dex.visitors.ssa.SSATransform;
 import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnRemover;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "ConstructorVisitor",
@@ -41,7 +42,7 @@ public class ConstructorVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static boolean replaceInvoke(MethodNode mth) {
+	@NullUnmarked private static boolean replaceInvoke(MethodNode mth) {
 		boolean replaced = false;
 		InsnRemover remover = new InsnRemover(mth);
 		for (BlockNode block : mth.getBasicBlocks()) {
@@ -58,7 +59,7 @@ public class ConstructorVisitor extends AbstractVisitor {
 		return replaced;
 	}
 
-	private static boolean processInvoke(MethodNode mth, BlockNode block, int indexInBlock, InsnRemover remover) {
+	@NullUnmarked private static boolean processInvoke(MethodNode mth, BlockNode block, int indexInBlock, InsnRemover remover) {
 		InvokeNode inv = (InvokeNode) block.getInstructions().get(indexInBlock);
 		if (!inv.getCallMth().isConstructor()) {
 			return false;
@@ -116,7 +117,7 @@ public class ConstructorVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	private static boolean canRemoveConstructor(MethodNode mth, ConstructorInsn co) {
+	@NullUnmarked private static boolean canRemoveConstructor(MethodNode mth, ConstructorInsn co) {
 		ClassNode parentClass = mth.getParentClass();
 		if (co.isSuper() && (co.getArgsCount() == 0 || parentClass.isEnum())) {
 			return true;
@@ -138,7 +139,7 @@ public class ConstructorVisitor extends AbstractVisitor {
 	 *
 	 * @return insn for replacement or null if replace not needed or not possible.
 	 */
-	@Nullable
+	@NullUnmarked @Nullable
 	private static ConstructorInsn processConstructor(MethodNode mth, ConstructorInsn co) {
 		MethodNode callMth = mth.root().resolveMethod(co.getCallMth());
 		if (callMth == null

@@ -38,6 +38,7 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxException;
 import javax.annotation.Nullable;
+import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "ClassModifier",
@@ -76,7 +77,7 @@ public class ClassModifier extends AbstractVisitor {
 	/**
 	 * Remove synthetic fields if type is outer class or class will be inlined (anonymous)
 	 */
-	private static void removeSyntheticFields(ClassNode cls) {
+	@NullUnmarked private static void removeSyntheticFields(ClassNode cls) {
 		boolean inline = cls.isAnonymous();
 		if (inline || cls.getClassInfo().isInner()) {
 			for (FieldNode field : cls.getFields()) {
@@ -102,7 +103,7 @@ public class ClassModifier extends AbstractVisitor {
 		}
 	}
 
-	private static boolean removeFieldUsageFromConstructor(MethodNode mth, FieldNode field, ClassNode fieldsCls) {
+	@NullUnmarked private static boolean removeFieldUsageFromConstructor(MethodNode mth, FieldNode field, ClassNode fieldsCls) {
 		if (mth.isNoCode() || !mth.getAccessFlags().isConstructor()) {
 			return false;
 		}
@@ -170,7 +171,7 @@ public class ClassModifier extends AbstractVisitor {
 		}
 	}
 
-	private static boolean isRemovedClassInArgs(ClassNode cls, List<RegisterArg> mthArgs) {
+	@NullUnmarked private static boolean isRemovedClassInArgs(ClassNode cls, List<RegisterArg> mthArgs) {
 		for (RegisterArg arg : mthArgs) {
 			ArgType argType = arg.getType();
 			if (!argType.isObject()) {
@@ -196,7 +197,7 @@ public class ClassModifier extends AbstractVisitor {
 	/**
 	 * Remove synthetic constructor and redirect calls to existing constructor
 	 */
-	private static void modifySyntheticMethod(ClassNode cls, MethodNode mth, InsnNode insn, List<RegisterArg> args) {
+	@NullUnmarked private static void modifySyntheticMethod(ClassNode cls, MethodNode mth, InsnNode insn, List<RegisterArg> args) {
 		if (insn.getType() == InsnType.CONSTRUCTOR) {
 			ConstructorInsn constr = (ConstructorInsn) insn;
 			if (constr.isThis() && !args.isEmpty()) {
@@ -243,7 +244,7 @@ public class ClassModifier extends AbstractVisitor {
 		return false;
 	}
 
-	private static boolean checkSyntheticWrapper(MethodNode mth, InsnNode insn) {
+	@NullUnmarked private static boolean checkSyntheticWrapper(MethodNode mth, InsnNode insn) {
 		InsnType insnType = insn.getType();
 		if (insnType != InsnType.INVOKE) {
 			return false;
@@ -393,7 +394,7 @@ public class ClassModifier extends AbstractVisitor {
 		return map;
 	}
 
-	@Nullable private static InsnNode getParentInsnSkipMove(@Nullable RegisterArg arg) {
+	@NullUnmarked @Nullable private static InsnNode getParentInsnSkipMove(@Nullable RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		if (sVar.getUseCount() != 1) {
 			return null;

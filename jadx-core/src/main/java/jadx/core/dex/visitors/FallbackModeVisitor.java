@@ -7,6 +7,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.dex.trycatch.CatchAttr;
 import jadx.core.utils.exceptions.JadxException;
+import jadx.core.NullUnmarked;
 
 public class FallbackModeVisitor extends AbstractVisitor {
 
@@ -17,7 +18,7 @@ public class FallbackModeVisitor extends AbstractVisitor {
 		}
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public void visit(MethodNode mth) throws JadxException {
 		if (mth.isNoCode()) {
 			return;
