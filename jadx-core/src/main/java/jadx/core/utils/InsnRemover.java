@@ -21,6 +21,7 @@ import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jspecify.annotations.NullUnmarked;
 
 
 /**
@@ -34,7 +35,7 @@ public class InsnRemover {
 	@Nullable
 	private List<InsnNode> instrList;
 
-	 public InsnRemover(MethodNode mth) {
+	 @NullUnmarked public InsnRemover(MethodNode mth) {
 		this(mth, null);
 	}
 

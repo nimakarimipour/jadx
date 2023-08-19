@@ -22,6 +22,7 @@ import jadx.core.dex.regions.conditions.IfRegion;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnRemover;
+import org.jspecify.annotations.NullUnmarked;
 
 
 /**
@@ -65,7 +66,7 @@ public class TernaryMod extends AbstractRegionVisitor implements IRegionIterativ
 		return false;
 	}
 
-	 private static boolean makeTernaryInsn(MethodNode mth, IfRegion ifRegion) {
+	 @NullUnmarked private static boolean makeTernaryInsn(MethodNode mth, IfRegion ifRegion) {
 		if (ifRegion.contains(AFlag.ELSE_IF_CHAIN)) {
 			return false;
 		}
@@ -192,7 +193,7 @@ public class TernaryMod extends AbstractRegionVisitor implements IRegionIterativ
 		}
 	}
 
-	 private static BlockNode getTernaryInsnBlock(IContainer thenRegion) {
+	 @NullUnmarked private static BlockNode getTernaryInsnBlock(IContainer thenRegion) {
 		if (thenRegion instanceof Region) {
 			Region r = (Region) thenRegion;
 			if (r.getSubBlocks().size() == 1) {
@@ -276,7 +277,7 @@ public class TernaryMod extends AbstractRegionVisitor implements IRegionIterativ
 		return false;
 	}
 
-	 @SuppressWarnings("StatementWithEmptyBody")
+	 @NullUnmarked @SuppressWarnings("StatementWithEmptyBody")
 	private static void replaceWithTernary(MethodNode mth, IfRegion ifRegion, BlockNode block, InsnNode insn) {
 		RegisterArg resArg = insn.getResult();
 		if (resArg.getSVar().getUseList().size() != 1) {

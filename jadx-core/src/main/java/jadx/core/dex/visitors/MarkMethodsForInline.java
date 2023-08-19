@@ -21,6 +21,7 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxException;
+import org.jspecify.annotations.NullUnmarked;
 
 
 @JadxVisitor(
@@ -88,7 +89,7 @@ public class MarkMethodsForInline extends AbstractVisitor {
 		return null;
 	}
 
-	 private static MethodInlineAttr addInlineAttr(MethodNode mth, InsnNode insn) {
+	 @NullUnmarked private static MethodInlineAttr addInlineAttr(MethodNode mth, InsnNode insn) {
 		if (!fixVisibilityOfInlineCode(mth, insn)) {
 			return null;
 		}

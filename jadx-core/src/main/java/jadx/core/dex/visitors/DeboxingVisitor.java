@@ -23,6 +23,7 @@ import jadx.core.dex.visitors.regions.variables.ProcessVariables;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxException;
+import org.jspecify.annotations.NullUnmarked;
 
 
 /**
@@ -39,7 +40,7 @@ import jadx.core.utils.exceptions.JadxException;
 )
 public class DeboxingVisitor extends AbstractVisitor {
 
-	 private Set<MethodInfo> valueOfMths;
+	 @SuppressWarnings("NullAway.Init") private Set<MethodInfo> valueOfMths;
 
 	@Override
 	public void init(RootNode root) {
@@ -83,7 +84,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 		}
 	}
 
-	 private InsnNode checkForReplace(InvokeNode insnNode) {
+	 @NullUnmarked private InsnNode checkForReplace(InvokeNode insnNode) {
 		if (insnNode.getInvokeType() != InvokeType.STATIC
 				|| insnNode.getResult() == null) {
 			return null;
@@ -133,7 +134,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	 private boolean canChangeTypeToPrimitive(RegisterArg arg) {
+	 @NullUnmarked private boolean canChangeTypeToPrimitive(RegisterArg arg) {
 		for (SSAVar ssaVar : arg.getSVar().getCodeVar().getSsaVars()) {
 			if (ssaVar.isTypeImmutable()) {
 				return false;

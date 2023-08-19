@@ -19,6 +19,7 @@ import jadx.core.dex.nodes.IMethodDetails;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.Utils;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class MethodUtils {
@@ -81,7 +82,7 @@ public class MethodUtils {
 		return null;
 	}
 
-	 private boolean processMethodArgsOverloaded(ArgType startCls, MethodInfo mthInfo, @Nullable List<IMethodDetails> collectedMths) {
+	 @NullUnmarked private boolean processMethodArgsOverloaded(ArgType startCls, MethodInfo mthInfo, @Nullable List<IMethodDetails> collectedMths) {
 		if (startCls == null || !startCls.isObject()) {
 			return false;
 		}

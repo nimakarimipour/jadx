@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import jadx.api.JadxArgs;
 import jadx.core.deobf.NameMapper;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class StringUtils {
@@ -202,7 +203,7 @@ public class StringUtils {
 		return sb.toString();
 	}
 
-	 private static String escapeXmlChar(char c) {
+	 @NullUnmarked private static String escapeXmlChar(char c) {
 		if (c <= 0x1F) {
 			return "\\" + (int) c;
 		}
@@ -224,7 +225,7 @@ public class StringUtils {
 		}
 	}
 
-	 private static String escapeWhiteSpaceChar(char c) {
+	 @NullUnmarked private static String escapeWhiteSpaceChar(char c) {
 		switch (c) {
 			case '\n':
 				return "\\n";

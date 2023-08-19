@@ -33,6 +33,7 @@ import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class ProcessVariables extends AbstractVisitor {
@@ -113,7 +114,7 @@ public class ProcessVariables extends AbstractVisitor {
 		}
 	}
 
-	 private void declareVar(MethodNode mth, CodeVar codeVar, List<VarUsage> usageList) {
+	 @NullUnmarked private void declareVar(MethodNode mth, CodeVar codeVar, List<VarUsage> usageList) {
 		if (codeVar.isDeclared()) {
 			return;
 		}

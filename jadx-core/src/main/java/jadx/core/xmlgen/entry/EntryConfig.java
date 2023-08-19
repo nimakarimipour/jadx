@@ -19,6 +19,7 @@ package jadx.core.xmlgen.entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.jspecify.annotations.NullUnmarked;
 
 
 /**
@@ -66,7 +67,7 @@ public class EntryConfig {
 
 	private final int size;
 
-	 public EntryConfig(short mcc, short mnc, char[] language,
+	 @NullUnmarked public EntryConfig(short mcc, short mnc, char[] language,
 			char[] region, byte orientation,
 			byte touchscreen, int density, byte keyboard, byte navigation,
 			byte inputFlags, short screenWidth, short screenHeight,

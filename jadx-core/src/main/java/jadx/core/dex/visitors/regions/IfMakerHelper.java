@@ -28,6 +28,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 import static jadx.core.dex.visitors.regions.RegionMaker.isEqualPaths;
 import static jadx.core.dex.visitors.regions.RegionMaker.isEqualReturnBlocks;
 import static jadx.core.utils.BlockUtils.isPathExists;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class IfMakerHelper {
@@ -57,7 +58,7 @@ public class IfMakerHelper {
 		return info;
 	}
 
-	 static IfInfo restructureIf(MethodNode mth, BlockNode block, IfInfo info) {
+	 @NullUnmarked static IfInfo restructureIf(MethodNode mth, BlockNode block, IfInfo info) {
 		BlockNode thenBlock = info.getThenBlock();
 		BlockNode elseBlock = info.getElseBlock();
 
@@ -126,7 +127,7 @@ public class IfMakerHelper {
 		return true;
 	}
 
-	 static IfInfo mergeNestedIfNodes(IfInfo currentIf) {
+	 @NullUnmarked static IfInfo mergeNestedIfNodes(IfInfo currentIf) {
 		BlockNode curThen = currentIf.getThenBlock();
 		BlockNode curElse = currentIf.getElseBlock();
 		if (curThen == curElse) {
@@ -207,7 +208,7 @@ public class IfMakerHelper {
 		return searchNestedIf(result);
 	}
 
-	 private static IfInfo checkForTernaryInCondition(IfInfo currentIf) {
+	 @NullUnmarked private static IfInfo checkForTernaryInCondition(IfInfo currentIf) {
 		IfInfo nextThen = getNextIf(currentIf, currentIf.getThenBlock());
 		IfInfo nextElse = getNextIf(currentIf, currentIf.getElseBlock());
 		if (nextThen == null || nextElse == null) {
@@ -321,7 +322,7 @@ public class IfMakerHelper {
 		}
 	}
 
-	 private static IfInfo getNextIf(IfInfo info, BlockNode block) {
+	 @NullUnmarked private static IfInfo getNextIf(IfInfo info, BlockNode block) {
 		if (!canSelectNext(info, block)) {
 			return null;
 		}
@@ -335,7 +336,7 @@ public class IfMakerHelper {
 		return info.getMergedBlocks().containsAll(block.getPredecessors());
 	}
 
-	 private static IfInfo getNextIfNodeInfo(IfInfo info, BlockNode block) {
+	 @NullUnmarked private static IfInfo getNextIfNodeInfo(IfInfo info, BlockNode block) {
 		if (block == null || block.contains(AType.LOOP) || block.contains(AFlag.ADDED_TO_REGION)) {
 			return null;
 		}

@@ -3,15 +3,15 @@ package jadx.core.codegen.json.mapping;
 import java.util.List;
 
 public class JsonClsMapping {
-	 private String name;
-	 private String alias;
+	 @SuppressWarnings("NullAway.Init") private String name;
+	 @SuppressWarnings("NullAway.Init") private String alias;
 
-	 private String json;
+	 @SuppressWarnings("NullAway.Init") private String json;
 	private boolean inner;
-	 private String topClass;
+	 @SuppressWarnings("NullAway.Init") private String topClass;
 
-	 private List<JsonFieldMapping> fields;
-	 private List<JsonMthMapping> methods;
+	 @SuppressWarnings("NullAway.Init") private List<JsonFieldMapping> fields;
+	 @SuppressWarnings("NullAway.Init") private List<JsonMthMapping> methods;
 
 	public String getName() {
 		return name;

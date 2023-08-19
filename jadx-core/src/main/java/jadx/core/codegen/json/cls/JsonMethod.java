@@ -3,11 +3,11 @@ package jadx.core.codegen.json.cls;
 import java.util.List;
 
 public class JsonMethod extends JsonNode {
-	 private String signature;
-	 private String returnType;
-	 private List<String> arguments;
-	 private List<JsonCodeLine> lines;
-	 private String offset;
+	 @SuppressWarnings("NullAway.Init") private String signature;
+	 @SuppressWarnings("NullAway.Init") private String returnType;
+	 @SuppressWarnings("NullAway.Init") private List<String> arguments;
+	 @SuppressWarnings("NullAway.Init") private List<JsonCodeLine> lines;
+	 @SuppressWarnings("NullAway.Init") private String offset;
 
 	public String getSignature() {
 		return signature;

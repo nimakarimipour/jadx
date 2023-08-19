@@ -19,6 +19,7 @@ import jadx.core.dex.instructions.args.PrimitiveType;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.RootNode;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class ConstStorage {
@@ -31,7 +32,7 @@ public class ConstStorage {
 			return values;
 		}
 
-		 public FieldNode get(Object key) {
+		 @NullUnmarked public FieldNode get(Object key) {
 			return values.get(key);
 		}
 

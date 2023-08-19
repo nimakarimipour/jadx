@@ -62,6 +62,7 @@ import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.android.AndroidResourcesUtils.handleAppResField;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class InsnGen {
@@ -247,7 +248,7 @@ public class InsnGen {
 		mgen.getClassGen().useType(code, type);
 	}
 
-	 public void makeInsn(InsnNode insn, ICodeWriter code) throws CodegenException {
+	 @NullUnmarked public void makeInsn(InsnNode insn, ICodeWriter code) throws CodegenException {
 		makeInsn(insn, code, null);
 	}
 

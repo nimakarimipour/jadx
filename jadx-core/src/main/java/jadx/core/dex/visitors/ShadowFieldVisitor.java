@@ -31,7 +31,7 @@ import jadx.core.utils.exceptions.JadxException;
 		runBefore = CodeShrinkVisitor.class
 )
 public class ShadowFieldVisitor extends AbstractVisitor {
-	 private Map<String, FieldFixInfo> fixInfoMap;
+	 @SuppressWarnings("NullAway.Init") private Map<String, FieldFixInfo> fixInfoMap;
 
 	@Override
 	public void init(RootNode root) {
@@ -56,7 +56,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 	}
 
 	private static class FieldFixInfo {
-		 Map<FieldInfo, FieldFixType> fieldFixMap;
+		 @SuppressWarnings("NullAway.Init") Map<FieldInfo, FieldFixType> fieldFixMap;
 	}
 
 	private enum FieldFixType {

@@ -21,6 +21,7 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
+import org.jspecify.annotations.NullUnmarked;
 
 
 /**
@@ -333,7 +334,7 @@ public class TypeSearch {
 		return list;
 	}
 
-	 private void collectConstraints(SSAVar var) {
+	 @NullUnmarked private void collectConstraints(SSAVar var) {
 		TypeSearchVarInfo varInfo = state.getVarInfo(var);
 		if (varInfo.isTypeResolved()) {
 			varInfo.setConstraints(Collections.emptyList());

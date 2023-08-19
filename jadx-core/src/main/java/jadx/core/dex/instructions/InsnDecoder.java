@@ -28,6 +28,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.input.InsnDataUtils;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class InsnDecoder {
@@ -60,7 +61,7 @@ public class InsnDecoder {
 		return instructions;
 	}
 
-	 @NotNull
+	 @NullUnmarked @NotNull
 	protected InsnNode decode(InsnData insn) throws DecodeException {
 		switch (insn.getOpcode()) {
 			case NOP:

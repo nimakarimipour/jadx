@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class UseSet<K, V> {
@@ -19,7 +20,7 @@ public class UseSet<K, V> {
 		set.add(use);
 	}
 
-	 public Set<V> get(K obj) {
+	 @NullUnmarked public Set<V> get(K obj) {
 		return useMap.get(obj);
 	}
 

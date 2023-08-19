@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.RegisterArg;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public final class TypeBoundConst implements ITypeBound {
@@ -11,7 +12,7 @@ public final class TypeBoundConst implements ITypeBound {
 	private final ArgType type;
 	private final RegisterArg arg;
 
-	 public TypeBoundConst(BoundEnum bound, ArgType type) {
+	 @NullUnmarked public TypeBoundConst(BoundEnum bound, ArgType type) {
 		this(bound, type, null);
 	}
 

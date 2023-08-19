@@ -17,7 +17,7 @@ public class LoopInfo {
 	private final Set<BlockNode> loopBlocks;
 
 	private int id;
-	 private LoopInfo parentLoop;
+	 @SuppressWarnings("NullAway.Init") private LoopInfo parentLoop;
 
 	public LoopInfo(BlockNode start, BlockNode end, Set<BlockNode> loopBlocks) {
 		this.start = start;

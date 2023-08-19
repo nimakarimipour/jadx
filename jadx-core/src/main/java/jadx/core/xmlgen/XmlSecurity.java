@@ -5,7 +5,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class XmlSecurity {
 
-	 private static DocumentBuilderFactory secureDbf = null;
+	 @SuppressWarnings("NullAway") private static DocumentBuilderFactory secureDbf = null;
 
 	private XmlSecurity() {
 	}

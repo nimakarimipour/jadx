@@ -22,6 +22,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.visitors.typeinference.TypeInfo;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class SSAVar {
@@ -32,7 +33,7 @@ public class SSAVar {
 
 	private RegisterArg assign;
 	private final List<RegisterArg> useList = new ArrayList<>(2);
-	 private List<PhiInsn> usedInPhi = null;
+	 @SuppressWarnings("NullAway") private List<PhiInsn> usedInPhi = null;
 
 	private final TypeInfo typeInfo = new TypeInfo();
 
@@ -138,7 +139,7 @@ public class SSAVar {
 		usedInPhi.add(phiInsn);
 	}
 
-	 public void removeUsedInPhi(PhiInsn phiInsn) {
+	 @NullUnmarked public void removeUsedInPhi(PhiInsn phiInsn) {
 		if (usedInPhi != null) {
 			usedInPhi.removeIf(insn -> insn == phiInsn);
 			if (usedInPhi.isEmpty()) {
@@ -147,7 +148,7 @@ public class SSAVar {
 		}
 	}
 
-	 public void updateUsedInPhiList() {
+	 @NullUnmarked public void updateUsedInPhiList() {
 		this.usedInPhi = null;
 		for (RegisterArg reg : useList) {
 			InsnNode parentInsn = reg.getParentInsn();
@@ -211,7 +212,7 @@ public class SSAVar {
 		}
 	}
 
-	 public String getName() {
+	 @NullUnmarked public String getName() {
 		if (codeVar == null) {
 			return null;
 		}

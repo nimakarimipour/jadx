@@ -1,5 +1,5 @@
 package jadx.core.codegen.json.cls;
 
 public class JsonField extends JsonNode {
-	 String type;
+	 @SuppressWarnings("NullAway.Init") String type;
 }

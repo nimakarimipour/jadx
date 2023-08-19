@@ -60,6 +60,8 @@ import jadx.core.utils.InsnUtils;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxOverflowException;
+import com.uber.nullaway.annotations.Initializer;
+import org.jspecify.annotations.NullUnmarked;
 
 @JadxVisitor(
 		name = "Type Inference",
@@ -77,7 +79,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	private TypeUpdate typeUpdate;
 	private List<Function<MethodNode, Boolean>> resolvers;
 
-	 @Override
+	 @Initializer @Override
 	public void init(RootNode root) {
 		this.root = root;
 		this.typeUpdate = root.getTypeUpdate();
@@ -232,7 +234,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 				.max(typeUpdate.getTypeCompare().getComparator());
 	}
 
-	 private void attachBounds(SSAVar var) {
+	 @NullUnmarked private void attachBounds(SSAVar var) {
 		TypeInfo typeInfo = var.getTypeInfo();
 		typeInfo.getBounds().clear();
 		RegisterArg assign = var.getAssign();
@@ -377,7 +379,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return new TypeBoundConst(BoundEnum.USE, regArg.getInitType(), regArg);
 	}
 
-	 private ITypeBound makeInvokeUseBound(RegisterArg regArg, BaseInvokeNode invoke) {
+	 @NullUnmarked private ITypeBound makeInvokeUseBound(RegisterArg regArg, BaseInvokeNode invoke) {
 		InsnArg instanceArg = invoke.getInstanceArg();
 		if (instanceArg == null) {
 			return null;
@@ -689,7 +691,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return runTypePropagation(mth);
 	}
 
-	 private boolean checkAndSplitConstInsn(MethodNode mth, SSAVar var) {
+	 @NullUnmarked private boolean checkAndSplitConstInsn(MethodNode mth, SSAVar var) {
 		ArgType type = var.getTypeInfo().getType();
 		if (type.isTypeKnown() || var.isTypeImmutable()) {
 			return false;
@@ -1004,7 +1006,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return runTypePropagation(mth);
 	}
 
-	 private boolean forceImmutableType(SSAVar ssaVar) {
+	 @NullUnmarked private boolean forceImmutableType(SSAVar ssaVar) {
 		for (RegisterArg useArg : ssaVar.getUseList()) {
 			InsnNode parentInsn = useArg.getParentInsn();
 			if (parentInsn != null) {

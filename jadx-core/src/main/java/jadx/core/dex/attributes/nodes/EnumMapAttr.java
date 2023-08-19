@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.nodes.FieldNode;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class EnumMapAttr implements IJadxAttribute {
@@ -15,7 +16,7 @@ public class EnumMapAttr implements IJadxAttribute {
 	public static class KeyValueMap {
 		private final Map<Object, Object> map = new HashMap<>();
 
-		 public Object get(Object key) {
+		 @NullUnmarked public Object get(Object key) {
 			return map.get(key);
 		}
 

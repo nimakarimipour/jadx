@@ -2,6 +2,7 @@ package jadx.core.utils.exceptions;
 
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.MethodNode;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class CodegenException extends JadxException {
@@ -16,7 +17,7 @@ public class CodegenException extends JadxException {
 		super(message, cause);
 	}
 
-	 public CodegenException(ClassNode mth, String msg) {
+	 @NullUnmarked public CodegenException(ClassNode mth, String msg) {
 		super(mth, msg, null);
 	}
 
@@ -24,7 +25,7 @@ public class CodegenException extends JadxException {
 		super(mth, msg, th);
 	}
 
-	 public CodegenException(MethodNode mth, String msg) {
+	 @NullUnmarked public CodegenException(MethodNode mth, String msg) {
 		super(mth, msg, null);
 	}
 

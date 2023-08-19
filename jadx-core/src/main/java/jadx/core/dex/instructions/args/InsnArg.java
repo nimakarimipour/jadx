@@ -14,6 +14,7 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jspecify.annotations.NullUnmarked;
 
 
 /**
@@ -247,7 +248,7 @@ public abstract class InsnArg extends Typed {
 		return false;
 	}
 
-	 public InsnNode unwrap() {
+	 @NullUnmarked public InsnNode unwrap() {
 		if (isInsnWrap()) {
 			return ((InsnWrapArg) this).getWrapInsn();
 		}

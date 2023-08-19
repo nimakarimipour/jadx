@@ -25,6 +25,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class AnnotationGen {
@@ -133,7 +134,7 @@ public class AnnotationGen {
 		}
 	}
 
-	 public EncodedValue getAnnotationDefaultValue(MethodNode mth) {
+	 @NullUnmarked public EncodedValue getAnnotationDefaultValue(MethodNode mth) {
 		AnnotationDefaultAttr defaultAttr = mth.get(JadxAttrType.ANNOTATION_DEFAULT);
 		if (defaultAttr == null) {
 			return null;

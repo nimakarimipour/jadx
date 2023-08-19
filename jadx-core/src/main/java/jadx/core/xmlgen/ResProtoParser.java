@@ -28,6 +28,7 @@ import jadx.core.xmlgen.entry.EntryConfig;
 import jadx.core.xmlgen.entry.ProtoValue;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import jadx.core.xmlgen.entry.ValuesParser;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class ResProtoParser implements IResParser {
@@ -85,7 +86,7 @@ public class ResProtoParser implements IResParser {
 		}
 	}
 
-	 private ProtoValue parse(Style s) {
+	 @NullUnmarked private ProtoValue parse(Style s) {
 		List<ProtoValue> namedValues = new ArrayList<>(s.getEntryCount());
 		String parent = s.getParent().getName();
 		if (parent.isEmpty()) {
@@ -198,7 +199,7 @@ public class ResProtoParser implements IResParser {
 				colorMode, false, size).getQualifiers();
 	}
 
-	 private String parse(Item i) {
+	 @NullUnmarked private String parse(Item i) {
 		if (i.hasRawStr()) {
 			return i.getRawStr().getValue();
 		}

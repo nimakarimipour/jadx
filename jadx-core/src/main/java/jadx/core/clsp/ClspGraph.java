@@ -20,6 +20,7 @@ import jadx.core.dex.nodes.IMethodDetails;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jspecify.annotations.NullUnmarked;
 
 
 /**
@@ -29,9 +30,9 @@ public class ClspGraph {
 	private static final Logger LOG = LoggerFactory.getLogger(ClspGraph.class);
 
 	private final RootNode root;
-	 private Map<String, ClspClass> nameMap;
-	 private Map<String, Set<String>> superTypesCache;
-	 private Map<String, List<String>> implementsCache;
+	 @SuppressWarnings("NullAway.Init") private Map<String, ClspClass> nameMap;
+	 @SuppressWarnings("NullAway.Init") private Map<String, Set<String>> superTypesCache;
+	 @SuppressWarnings("NullAway.Init") private Map<String, List<String>> implementsCache;
 
 	private final Set<String> missingClasses = new HashSet<>();
 
@@ -72,7 +73,7 @@ public class ClspGraph {
 		return nameMap.containsKey(fullName);
 	}
 
-	 public ClspClass getClsDetails(ArgType type) {
+	 @NullUnmarked public ClspClass getClsDetails(ArgType type) {
 		return nameMap.get(type.getObject());
 	}
 
@@ -100,7 +101,7 @@ public class ClspGraph {
 		return new SimpleMethodDetails(methodInfo);
 	}
 
-	 private ClspMethod getMethodFromClass(ClspClass cls, MethodInfo methodInfo) {
+	 @NullUnmarked private ClspMethod getMethodFromClass(ClspClass cls, MethodInfo methodInfo) {
 		return cls.getMethodsMap().get(methodInfo.getShortId());
 	}
 
@@ -137,7 +138,7 @@ public class ClspGraph {
 		implementsCache = map;
 	}
 
-	 public String getCommonAncestor(String clsName, String implClsName) {
+	 @NullUnmarked public String getCommonAncestor(String clsName, String implClsName) {
 		if (clsName.equals(implClsName)) {
 			return clsName;
 		}
@@ -153,7 +154,7 @@ public class ClspGraph {
 		return searchCommonParent(anc, cls);
 	}
 
-	 private String searchCommonParent(Set<String> anc, ClspClass cls) {
+	 @NullUnmarked private String searchCommonParent(Set<String> anc, ClspClass cls) {
 		for (ArgType p : cls.getParents()) {
 			String name = p.getObject();
 			if (anc.contains(name)) {

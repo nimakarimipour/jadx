@@ -27,6 +27,7 @@ import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.dex.visitors.blocks.BlockSplitter.connect;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class BlockProcessor extends AbstractVisitor {
@@ -189,7 +190,7 @@ public class BlockProcessor extends AbstractVisitor {
 		return false;
 	}
 
-	 private static InsnNode getInsnsFromEnd(BlockNode block, int number) {
+	 @NullUnmarked private static InsnNode getInsnsFromEnd(BlockNode block, int number) {
 		List<InsnNode> instructions = block.getInstructions();
 		int insnCount = instructions.size();
 		if (insnCount <= number) {
@@ -586,7 +587,7 @@ public class BlockProcessor extends AbstractVisitor {
 		}
 	}
 
-	 private static void clearBlocksState(MethodNode mth) {
+	 @NullUnmarked private static void clearBlocksState(MethodNode mth) {
 		mth.getBasicBlocks().forEach(block -> {
 			block.remove(AType.LOOP);
 			block.remove(AFlag.LOOP_START);

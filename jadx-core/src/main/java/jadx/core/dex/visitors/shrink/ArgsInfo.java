@@ -12,6 +12,7 @@ import jadx.core.dex.instructions.mods.TernaryInsn;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.EmptyBitSet;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jspecify.annotations.NullUnmarked;
 
 
 final class ArgsInfo {
@@ -20,7 +21,7 @@ final class ArgsInfo {
 	private final List<RegisterArg> args;
 	private final int pos;
 	private int inlineBorder;
-	 private ArgsInfo inlinedInsn;
+	 @SuppressWarnings("NullAway.Init") private ArgsInfo inlinedInsn;
 
 	public ArgsInfo(InsnNode insn, List<ArgsInfo> argsList, int pos) {
 		this.insn = insn;
@@ -60,7 +61,7 @@ final class ArgsInfo {
 		return args;
 	}
 
-	 public WrapInfo checkInline(int assignPos, RegisterArg arg) {
+	 @NullUnmarked public WrapInfo checkInline(int assignPos, RegisterArg arg) {
 		if (assignPos >= inlineBorder || !canMove(assignPos, inlineBorder)) {
 			return null;
 		}

@@ -22,9 +22,9 @@ public class SwitchInsn extends TargetInsnNode {
 
 	private int def; // next instruction
 
-	 private Object[] modifiedKeys;
-	 private BlockNode[] targetBlocks;
-	 private BlockNode defTargetBlock;
+	 @SuppressWarnings("NullAway.Init") private Object[] modifiedKeys;
+	 @SuppressWarnings("NullAway.Init") private BlockNode[] targetBlocks;
+	 @SuppressWarnings("NullAway.Init") private BlockNode defTargetBlock;
 
 	public SwitchInsn(InsnArg arg, int dataTarget, boolean packed) {
 		super(InsnType.SWITCH, 1);

@@ -23,12 +23,12 @@ public class ExceptionHandler {
 	private final List<ClassInfo> catchTypes = new ArrayList<>(1);
 	private final int handlerOffset;
 
-	 private BlockNode handlerBlock;
+	 @SuppressWarnings("NullAway.Init") private BlockNode handlerBlock;
 	private final List<BlockNode> blocks = new ArrayList<>();
-	 private IContainer handlerRegion;
-	 private InsnArg arg;
+	 @SuppressWarnings("NullAway.Init") private IContainer handlerRegion;
+	 @SuppressWarnings("NullAway.Init") private InsnArg arg;
 
-	 private TryCatchBlockAttr tryBlock;
+	 @SuppressWarnings("NullAway.Init") private TryCatchBlockAttr tryBlock;
 	private boolean isFinally;
 
 	private boolean removed = false;

@@ -16,6 +16,7 @@ import jadx.core.dex.attributes.nodes.JadxError;
 import jadx.core.dex.nodes.IDexNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxOverflowException;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class ErrorsCounter {
@@ -39,7 +40,7 @@ public class ErrorsCounter {
 		return msg + " in " + node.typeName() + ": " + node + ", file: " + node.getInputFileName();
 	}
 
-	 private synchronized <N extends IDexNode & IAttributeNode> String addError(N node, String error, @Nullable Throwable e) {
+	 @NullUnmarked private synchronized <N extends IDexNode & IAttributeNode> String addError(N node, String error, @Nullable Throwable e) {
 		errorNodes.add(node);
 		errorsCount++;
 

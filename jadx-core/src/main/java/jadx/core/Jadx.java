@@ -231,7 +231,7 @@ public class Jadx {
 
 	public static final String VERSION_DEV = "dev";
 
-	 private static String version;
+	 @SuppressWarnings("NullAway.Init") private static String version;
 
 	public static String getVersion() {
 		if (version == null) {

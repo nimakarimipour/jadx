@@ -25,12 +25,13 @@ import jadx.core.utils.InsnRemover;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class InsnNode extends LineAttrNode {
 	protected final InsnType insnType;
 
-	 private RegisterArg result;
+	 @SuppressWarnings("NullAway.Init") private RegisterArg result;
 	private final List<InsnArg> arguments;
 	protected int offset;
 
@@ -53,7 +54,7 @@ public class InsnNode extends LineAttrNode {
 		return insn;
 	}
 
-	 public void setResult(@Nullable RegisterArg res) {
+	 @NullUnmarked public void setResult(@Nullable RegisterArg res) {
 		this.result = res;
 		if (res != null) {
 			res.setParentInsn(this);
