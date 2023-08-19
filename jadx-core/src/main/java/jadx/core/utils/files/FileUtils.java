@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jadx.core.utils.exceptions.JadxRuntimeException;
-import jadx.core.NullUnmarked;
+
 
 public class FileUtils {
 	private static final Logger LOG = LoggerFactory.getLogger(FileUtils.class);
@@ -78,7 +78,7 @@ public class FileUtils {
 		}
 	}
 
-	@NullUnmarked public static void makeDirsForFile(Path path) {
+	 public static void makeDirsForFile(Path path) {
 		if (path != null) {
 			makeDirs(path.toAbsolutePath().getParent().toFile());
 		}
@@ -327,7 +327,7 @@ public class FileUtils {
 		return fileName.substring(0, extEndIndex);
 	}
 
-	@NullUnmarked public static File toFile(String path) {
+	 public static File toFile(String path) {
 		if (path == null) {
 			return null;
 		}

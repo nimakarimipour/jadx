@@ -28,7 +28,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.input.InsnDataUtils;
-import jadx.core.NullUnmarked;
+
 
 public class InsnDecoder {
 	private static final Logger LOG = LoggerFactory.getLogger(InsnDecoder.class);
@@ -60,7 +60,7 @@ public class InsnDecoder {
 		return instructions;
 	}
 
-	@NullUnmarked @NotNull
+	 @NotNull
 	protected InsnNode decode(InsnData insn) throws DecodeException {
 		switch (insn.getOpcode()) {
 			case NOP:

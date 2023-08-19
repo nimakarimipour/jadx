@@ -20,8 +20,8 @@ public final class TryCatchRegion extends AbstractRegion implements IBranchRegio
 
 	private final IContainer tryRegion;
 	private Map<ExceptionHandler, IContainer> catchRegions = Collections.emptyMap();
-	@SuppressWarnings("NullAway.Init") private IContainer finallyRegion;
-	@SuppressWarnings("NullAway.Init") private TryCatchBlockAttr tryCatchBlock;
+	 private IContainer finallyRegion;
+	 private TryCatchBlockAttr tryCatchBlock;
 
 	public TryCatchRegion(IRegion parent, IContainer tryRegion) {
 		super(parent);

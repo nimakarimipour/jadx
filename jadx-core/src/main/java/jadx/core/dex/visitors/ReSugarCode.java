@@ -35,7 +35,7 @@ import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.exceptions.JadxException;
-import jadx.core.NullUnmarked;
+
 
 @JadxVisitor(
 		name = "ReSugarCode",
@@ -100,7 +100,7 @@ public class ReSugarCode extends AbstractVisitor {
 	/**
 	 * Replace new-array and sequence of array-put to new filled-array instruction.
 	 */
-	@NullUnmarked private static boolean processNewArray(MethodNode mth, NewArrayNode newArrayInsn, List<InsnNode> instructions, InsnRemover remover) {
+	 private static boolean processNewArray(MethodNode mth, NewArrayNode newArrayInsn, List<InsnNode> instructions, InsnRemover remover) {
 		Object arrayLenConst = InsnUtils.getConstValueByArg(mth.root(), newArrayInsn.getArg(0));
 		if (!(arrayLenConst instanceof LiteralArg)) {
 			return false;
@@ -300,7 +300,7 @@ public class ReSugarCode extends AbstractVisitor {
 		mapAttr.add(field, literal, fieldNode);
 	}
 
-	@NullUnmarked public static EnumMapInfo checkEnumMapAccess(RootNode root, InsnNode checkInsn) {
+	 public static EnumMapInfo checkEnumMapAccess(RootNode root, InsnNode checkInsn) {
 		InsnArg sgetArg = checkInsn.getArg(0);
 		InsnArg invArg = checkInsn.getArg(1);
 		if (!sgetArg.isInsnWrap() || !invArg.isInsnWrap()) {

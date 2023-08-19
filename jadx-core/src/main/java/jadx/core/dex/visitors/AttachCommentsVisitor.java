@@ -23,7 +23,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-import jadx.core.NullUnmarked;
+
 
 @JadxVisitor(
 		name = "AttachComments",
@@ -36,7 +36,7 @@ public class AttachCommentsVisitor extends AbstractVisitor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AttachCommentsVisitor.class);
 
-	@SuppressWarnings("NullAway.Init") private Map<String, List<ICodeComment>> clsCommentsMap;
+	 private Map<String, List<ICodeComment>> clsCommentsMap;
 
 	@Override
 	public void init(RootNode root) throws JadxException {
@@ -88,7 +88,7 @@ public class AttachCommentsVisitor extends AbstractVisitor {
 		}
 	}
 
-	@NullUnmarked private static InsnNode getInsnByOffset(MethodNode mth, int offset) {
+	 private static InsnNode getInsnByOffset(MethodNode mth, int offset) {
 		try {
 			return mth.getInstructions()[offset];
 		} catch (Exception e) {

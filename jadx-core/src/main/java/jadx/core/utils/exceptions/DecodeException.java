@@ -1,7 +1,7 @@
 package jadx.core.utils.exceptions;
 
 import jadx.core.dex.nodes.MethodNode;
-import jadx.core.NullUnmarked;
+
 
 public class DecodeException extends JadxException {
 
@@ -15,7 +15,7 @@ public class DecodeException extends JadxException {
 		super(message, cause);
 	}
 
-	@NullUnmarked public DecodeException(MethodNode mth, String msg) {
+	 public DecodeException(MethodNode mth, String msg) {
 		super(mth, msg, null);
 	}
 

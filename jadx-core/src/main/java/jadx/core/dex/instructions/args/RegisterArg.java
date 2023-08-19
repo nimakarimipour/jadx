@@ -9,7 +9,7 @@ import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-import jadx.core.NullUnmarked;
+
 
 public class RegisterArg extends InsnArg implements Named {
 	public static final String THIS_ARG_NAME = "this";
@@ -17,7 +17,7 @@ public class RegisterArg extends InsnArg implements Named {
 
 	protected final int regNum;
 	// not null after SSATransform pass
-	@SuppressWarnings("NullAway.Init") private SSAVar sVar;
+	 private SSAVar sVar;
 
 	public RegisterArg(int rn, ArgType type) {
 		this.type = type; // initial type, not changing, can be unknown
@@ -84,11 +84,11 @@ public class RegisterArg extends InsnArg implements Named {
 		this.sVar = sVar;
 	}
 
-	@NullUnmarked public void resetSSAVar() {
+	 public void resetSSAVar() {
 		this.sVar = null;
 	}
 
-	@NullUnmarked @Override
+	 @Override
 	public String getName() {
 		if (isSuper()) {
 			return SUPER_ARG_NAME;

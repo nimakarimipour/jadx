@@ -28,7 +28,7 @@ public class TemplateFile {
 
 	private static class ParserState {
 		private State state = State.NONE;
-		@SuppressWarnings("NullAway.Init") private StringBuilder curVariable;
+		 private StringBuilder curVariable;
 		private boolean skip;
 	}
 

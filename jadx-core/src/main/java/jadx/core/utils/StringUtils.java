@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import jadx.api.JadxArgs;
 import jadx.core.deobf.NameMapper;
-import jadx.core.NullUnmarked;
+
 
 public class StringUtils {
 	private static final StringUtils DEFAULT_INSTANCE = new StringUtils(new JadxArgs());
@@ -202,7 +202,7 @@ public class StringUtils {
 		return sb.toString();
 	}
 
-	@NullUnmarked private static String escapeXmlChar(char c) {
+	 private static String escapeXmlChar(char c) {
 		if (c <= 0x1F) {
 			return "\\" + (int) c;
 		}
@@ -224,7 +224,7 @@ public class StringUtils {
 		}
 	}
 
-	@NullUnmarked private static String escapeWhiteSpaceChar(char c) {
+	 private static String escapeWhiteSpaceChar(char c) {
 		switch (c) {
 			case '\n':
 				return "\\n";

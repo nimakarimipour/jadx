@@ -37,7 +37,7 @@ import jadx.core.dex.visitors.usage.UsageInfoVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxException;
-import jadx.core.NullUnmarked;
+
 
 @JadxVisitor(
 		name = "ClassModifier",
@@ -170,7 +170,7 @@ public class ClassModifier extends AbstractVisitor {
 		}
 	}
 
-	@NullUnmarked private static boolean isRemovedClassInArgs(ClassNode cls, List<RegisterArg> mthArgs) {
+	 private static boolean isRemovedClassInArgs(ClassNode cls, List<RegisterArg> mthArgs) {
 		for (RegisterArg arg : mthArgs) {
 			ArgType argType = arg.getType();
 			if (!argType.isObject()) {
@@ -393,7 +393,7 @@ public class ClassModifier extends AbstractVisitor {
 		return map;
 	}
 
-	@NullUnmarked private static InsnNode getParentInsnSkipMove(RegisterArg arg) {
+	 private static InsnNode getParentInsnSkipMove(RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		if (sVar.getUseCount() != 1) {
 			return null;

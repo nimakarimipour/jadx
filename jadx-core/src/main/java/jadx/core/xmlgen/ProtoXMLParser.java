@@ -16,23 +16,23 @@ import jadx.api.ICodeInfo;
 import jadx.api.ICodeWriter;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
-import jadx.core.NullUnmarked;
+
 
 public class ProtoXMLParser {
-	@SuppressWarnings("NullAway.Init") private Map<String, String> nsMap;
+	 private Map<String, String> nsMap;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
-	@SuppressWarnings("NullAway.Init") private ICodeWriter writer;
+	 private ICodeWriter writer;
 
 	private final RootNode rootNode;
-	@SuppressWarnings("NullAway.Init") private String currentTag;
-	@SuppressWarnings("NullAway.Init") private String appPackageName;
+	 private String currentTag;
+	 private String appPackageName;
 
 	public ProtoXMLParser(RootNode rootNode) {
 		this.rootNode = rootNode;
 	}
 
-	@NullUnmarked public synchronized ICodeInfo parse(InputStream inputStream) throws IOException {
+	 public synchronized ICodeInfo parse(InputStream inputStream) throws IOException {
 		nsMap = new HashMap<>();
 		writer = rootNode.makeCodeWriter();
 		writer.add("<?xml version=\"1.0\" encoding=\"utf-8\"?>");

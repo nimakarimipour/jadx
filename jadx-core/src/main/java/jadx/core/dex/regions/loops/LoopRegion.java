@@ -18,7 +18,7 @@ import jadx.core.dex.regions.conditions.IfCondition;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.exceptions.CodegenException;
-import jadx.core.NullUnmarked;
+
 
 public final class LoopRegion extends ConditionRegion {
 
@@ -28,8 +28,8 @@ public final class LoopRegion extends ConditionRegion {
 	// instruction which must be executed before condition in every loop
 	private @Nullable BlockNode preCondition;
 
-	@SuppressWarnings("NullAway.Init") private IRegion body;
-	@SuppressWarnings("NullAway.Init") private LoopType type;
+	 private IRegion body;
+	 private LoopType type;
 
 	public LoopRegion(IRegion parent, LoopInfo info, @Nullable BlockNode header, boolean reversed) {
 		super(parent);
@@ -76,7 +76,7 @@ public final class LoopRegion extends ConditionRegion {
 	/**
 	 * Check if pre-conditions can be inlined into loop condition
 	 */
-	@NullUnmarked public boolean checkPreCondition() {
+	 public boolean checkPreCondition() {
 		List<InsnNode> insns = preCondition.getInstructions();
 		if (insns.isEmpty()) {
 			return true;

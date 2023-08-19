@@ -50,7 +50,7 @@ import jadx.core.utils.RegionUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-import jadx.core.NullUnmarked;
+
 
 public class RegionGen extends InsnGen {
 	private static final Logger LOG = LoggerFactory.getLogger(RegionGen.class);
@@ -98,7 +98,7 @@ public class RegionGen extends InsnGen {
 		}
 	}
 
-	@NullUnmarked public void makeIf(IfRegion region, ICodeWriter code, boolean newLine) throws CodegenException {
+	 public void makeIf(IfRegion region, ICodeWriter code, boolean newLine) throws CodegenException {
 		if (newLine) {
 			code.startLineWithNum(region.getSourceLine());
 		} else {

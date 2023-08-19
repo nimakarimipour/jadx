@@ -34,7 +34,7 @@ import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-import jadx.core.NullUnmarked;
+
 
 @JadxVisitor(
 		name = "OverrideMethodVisitor",
@@ -79,7 +79,7 @@ public class OverrideMethodVisitor extends AbstractVisitor {
 		}
 	}
 
-	@NullUnmarked private MethodOverrideAttr processOverrideMethods(MethodNode mth, SuperTypesData superData) {
+	 private MethodOverrideAttr processOverrideMethods(MethodNode mth, SuperTypesData superData) {
 		MethodOverrideAttr result = mth.get(AType.METHOD_OVERRIDE);
 		if (result != null) {
 			return result;
@@ -379,7 +379,7 @@ public class OverrideMethodVisitor extends AbstractVisitor {
 		return changed;
 	}
 
-	@NullUnmarked private ArgType updateArgType(MethodNode mth, IMethodDetails baseMth, SuperTypesData superData, int argNum) {
+	 private ArgType updateArgType(MethodNode mth, IMethodDetails baseMth, SuperTypesData superData, int argNum) {
 		ArgType arg = mth.getArgTypes().get(argNum);
 		ArgType baseArg = baseMth.getArgTypes().get(argNum);
 		if (arg.equals(baseArg)) {

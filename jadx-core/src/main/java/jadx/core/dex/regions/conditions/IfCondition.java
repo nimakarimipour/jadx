@@ -23,7 +23,7 @@ import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-import jadx.core.NullUnmarked;
+
 
 public final class IfCondition extends AttrNode {
 
@@ -45,7 +45,7 @@ public final class IfCondition extends AttrNode {
 		this.args = Collections.emptyList();
 	}
 
-	@NullUnmarked private IfCondition(Mode mode, List<IfCondition> args) {
+	 private IfCondition(Mode mode, List<IfCondition> args) {
 		this.mode = mode;
 		this.args = args;
 		this.compare = null;
@@ -61,7 +61,7 @@ public final class IfCondition extends AttrNode {
 		}
 	}
 
-	@NullUnmarked public static IfCondition fromIfBlock(BlockNode header) {
+	 public static IfCondition fromIfBlock(BlockNode header) {
 		InsnNode lastInsn = BlockUtils.getLastInsn(header);
 		if (lastInsn == null) {
 			return null;
@@ -203,7 +203,7 @@ public final class IfCondition extends AttrNode {
 		return cond;
 	}
 
-	@NullUnmarked private static IfCondition simplifyCmpOp(Compare c) {
+	 private static IfCondition simplifyCmpOp(Compare c) {
 		if (!c.getA().isInsnWrap()) {
 			return null;
 		}

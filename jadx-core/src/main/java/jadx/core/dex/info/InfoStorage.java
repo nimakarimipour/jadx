@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jadx.core.dex.instructions.args.ArgType;
-import jadx.core.NullUnmarked;
+
 
 public class InfoStorage {
 
@@ -15,7 +15,7 @@ public class InfoStorage {
 	// can contain same method with different ids (from different files)
 	private final Map<Integer, MethodInfo> methods = new HashMap<>();
 
-	@NullUnmarked public ClassInfo getCls(ArgType type) {
+	 public ClassInfo getCls(ArgType type) {
 		return classes.get(type);
 	}
 
@@ -26,7 +26,7 @@ public class InfoStorage {
 		}
 	}
 
-	@NullUnmarked public MethodInfo getByUniqId(int id) {
+	 public MethodInfo getByUniqId(int id) {
 		synchronized (methods) {
 			return methods.get(id);
 		}

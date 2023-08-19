@@ -13,12 +13,12 @@ import jadx.core.utils.android.TextResMapFile;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.ParserConstants;
 import jadx.core.xmlgen.XmlGenUtils;
-import jadx.core.NullUnmarked;
+
 
 public class ValuesParser extends ParserConstants {
 	private static final Logger LOG = LoggerFactory.getLogger(ValuesParser.class);
 
-	@SuppressWarnings("NullAway.Init") private static Map<Integer, String> androidResMap;
+	 private static Map<Integer, String> androidResMap;
 
 	private final String[] strings;
 	private final Map<Integer, String> resMap;
@@ -166,7 +166,7 @@ public class ValuesParser extends ParserConstants {
 		}
 	}
 
-	@NullUnmarked public String decodeNameRef(int nameRef) {
+	 public String decodeNameRef(int nameRef) {
 		int ref = nameRef;
 		if (isResInternalId(nameRef)) {
 			ref = nameRef & ATTR_TYPE_ANY;

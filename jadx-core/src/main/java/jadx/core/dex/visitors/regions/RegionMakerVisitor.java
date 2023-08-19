@@ -30,7 +30,7 @@ import jadx.core.utils.InsnRemover;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
-import jadx.core.NullUnmarked;
+
 
 /**
  * Pack blocks into regions for code generation
@@ -40,7 +40,7 @@ public class RegionMakerVisitor extends AbstractVisitor {
 
 	private static final IRegionVisitor POST_REGION_VISITOR = new PostRegionVisitor();
 
-	@NullUnmarked @Override
+	 @Override
 	public void visit(MethodNode mth) throws JadxException {
 		if (mth.isNoCode() || mth.getBasicBlocks().isEmpty()) {
 			return;

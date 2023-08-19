@@ -16,11 +16,11 @@ import jadx.core.dex.nodes.utils.TypeUtils;
 import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
-import jadx.core.NullUnmarked;
+
 
 public class SignatureProcessor extends AbstractVisitor {
 
-	@SuppressWarnings("NullAway.Init") private RootNode root;
+	 private RootNode root;
 
 	@Override
 	public void init(RootNode root) {
@@ -39,7 +39,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		return true;
 	}
 
-	@NullUnmarked private void parseClassSignature(ClassNode cls) {
+	 private void parseClassSignature(ClassNode cls) {
 		SignatureParser sp = SignatureParser.fromNode(cls);
 		if (sp == null) {
 			return;
@@ -147,7 +147,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		}
 	}
 
-	@NullUnmarked private List<ArgType> checkArgTypes(MethodNode mth, SignatureParser sp, List<ArgType> parsedArgTypes) {
+	 private List<ArgType> checkArgTypes(MethodNode mth, SignatureParser sp, List<ArgType> parsedArgTypes) {
 		MethodInfo mthInfo = mth.getMethodInfo();
 		List<ArgType> mthArgTypes = mthInfo.getArgumentsTypes();
 		int len = parsedArgTypes.size();

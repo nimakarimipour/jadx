@@ -23,7 +23,7 @@ import jadx.core.dex.visitors.OverrideMethodVisitor;
 import jadx.core.dex.visitors.rename.RenameVisitor;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.input.InsnDataUtils;
-import jadx.core.NullUnmarked;
+
 
 @JadxVisitor(
 		name = "UsageInfoVisitor",
@@ -44,7 +44,7 @@ public class UsageInfoVisitor extends AbstractVisitor {
 		usageInfo.apply();
 	}
 
-	@NullUnmarked private static void processClass(ClassNode cls, UsageInfo usageInfo) {
+	 private static void processClass(ClassNode cls, UsageInfo usageInfo) {
 		usageInfo.clsUse(cls, cls.getSuperClass());
 		for (ArgType interfaceType : cls.getInterfaces()) {
 			usageInfo.clsUse(cls, interfaceType);
@@ -89,7 +89,7 @@ public class UsageInfoVisitor extends AbstractVisitor {
 		});
 	}
 
-	@NullUnmarked private static void processInsn(RootNode root, MethodNode mth, InsnData insnData, UsageInfo usageInfo) {
+	 private static void processInsn(RootNode root, MethodNode mth, InsnData insnData, UsageInfo usageInfo) {
 		if (insnData.getOpcode() == Opcode.UNKNOWN) {
 			return;
 		}

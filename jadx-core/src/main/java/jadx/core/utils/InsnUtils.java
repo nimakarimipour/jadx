@@ -25,7 +25,7 @@ import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
-import jadx.core.NullUnmarked;
+
 
 public class InsnUtils {
 
@@ -60,7 +60,7 @@ public class InsnUtils {
 	 *
 	 * @return LiteralArg, String, ArgType or null
 	 */
-	@NullUnmarked public static Object getConstValueByArg(RootNode root, InsnArg arg) {
+	 public static Object getConstValueByArg(RootNode root, InsnArg arg) {
 		if (arg.isLiteral()) {
 			return arg;
 		}
@@ -184,7 +184,7 @@ public class InsnUtils {
 		return null;
 	}
 
-	@NullUnmarked private static InsnNode recursiveInsnCheck(InsnNode insn, InsnType insnType, Predicate<InsnNode> test) {
+	 private static InsnNode recursiveInsnCheck(InsnNode insn, InsnType insnType, Predicate<InsnNode> test) {
 		if (insn.getType() == insnType && test.test(insn)) {
 			return insn;
 		}

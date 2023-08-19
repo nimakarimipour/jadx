@@ -18,10 +18,10 @@ public class LiveVarAnalysis {
 
 	private final MethodNode mth;
 
-	@SuppressWarnings("NullAway.Init") private BitSet[] uses;
-	@SuppressWarnings("NullAway.Init") private BitSet[] defs;
-	@SuppressWarnings("NullAway.Init") private BitSet[] liveIn;
-	@SuppressWarnings("NullAway.Init") private BitSet[] assignBlocks;
+	 private BitSet[] uses;
+	 private BitSet[] defs;
+	 private BitSet[] liveIn;
+	 private BitSet[] assignBlocks;
 
 	public LiveVarAnalysis(MethodNode mth) {
 		this.mth = mth;

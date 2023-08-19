@@ -30,7 +30,7 @@ import jadx.core.dex.trycatch.TryCatchBlockAttr;
 import jadx.core.dex.visitors.regions.AbstractRegionVisitor;
 import jadx.core.dex.visitors.regions.DepthRegionTraversal;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-import jadx.core.NullUnmarked;
+
 
 public class RegionUtils {
 
@@ -112,7 +112,7 @@ public class RegionUtils {
 		return 0;
 	}
 
-	@NullUnmarked public static InsnNode getLastInsn(IContainer container) {
+	 public static InsnNode getLastInsn(IContainer container) {
 		if (container instanceof IBlock) {
 			IBlock block = (IBlock) container;
 			List<InsnNode> insnList = block.getInstructions();
@@ -134,7 +134,7 @@ public class RegionUtils {
 		}
 	}
 
-	@NullUnmarked public static IBlock getLastBlock(IContainer container) {
+	 public static IBlock getLastBlock(IContainer container) {
 		if (container instanceof IBlock) {
 			return (IBlock) container;
 		} else if (container instanceof IBranchRegion) {
@@ -390,7 +390,7 @@ public class RegionUtils {
 		return true;
 	}
 
-	@NullUnmarked public static IContainer getBlockContainer(IContainer container, BlockNode block) {
+	 public static IContainer getBlockContainer(IContainer container, BlockNode block) {
 		if (container instanceof IBlock) {
 			return container == block ? container : null;
 		} else if (container instanceof IRegion) {

@@ -34,7 +34,7 @@ import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.Utils.lockList;
-import jadx.core.NullUnmarked;
+
 
 public class MethodNode extends NotificationAttrNode implements IMethodDetails, ILoadable, ICodeNode, Comparable<MethodNode> {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodNode.class);
@@ -58,17 +58,17 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	private List<ArgType> typeParameters;
 
 	// decompilation data, reset on unload
-	@SuppressWarnings("NullAway.Init") private RegisterArg thisArg;
-	@SuppressWarnings("NullAway.Init") private List<RegisterArg> argsList;
-	@SuppressWarnings("NullAway.Init") private InsnNode[] instructions;
-	@SuppressWarnings("NullAway.Init") private List<BlockNode> blocks;
+	 private RegisterArg thisArg;
+	 private List<RegisterArg> argsList;
+	 private InsnNode[] instructions;
+	 private List<BlockNode> blocks;
 	private int blocksMaxCId;
-	@SuppressWarnings("NullAway.Init") private BlockNode enterBlock;
-	@SuppressWarnings("NullAway.Init") private BlockNode exitBlock;
-	@SuppressWarnings("NullAway.Init") private List<SSAVar> sVars;
-	@SuppressWarnings("NullAway.Init") private List<ExceptionHandler> exceptionHandlers;
-	@SuppressWarnings("NullAway.Init") private List<LoopInfo> loops;
-	@SuppressWarnings("NullAway.Init") private Region region;
+	 private BlockNode enterBlock;
+	 private BlockNode exitBlock;
+	 private List<SSAVar> sVars;
+	 private List<ExceptionHandler> exceptionHandlers;
+	 private List<LoopInfo> loops;
+	 private Region region;
 
 	private List<MethodNode> useIn = Collections.emptyList();
 
@@ -78,7 +78,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return methodNode;
 	}
 
-	@NullUnmarked private MethodNode(ClassNode classNode, IMethodData mthData) {
+	 private MethodNode(ClassNode classNode, IMethodData mthData) {
 		this.mthInfo = MethodInfo.fromRef(classNode.root(), mthData.getMethodRef());
 		this.parentClass = classNode;
 		this.accFlags = new AccessInfo(mthData.getAccessFlags(), AFType.METHOD);
@@ -98,7 +98,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		unload();
 	}
 
-	@NullUnmarked @Override
+	 @Override
 	public void unload() {
 		loaded = false;
 		// don't unload retType, argTypes, typeParameters
@@ -166,7 +166,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		}
 	}
 
-	@NullUnmarked private void initArguments(List<ArgType> args) {
+	 private void initArguments(List<ArgType> args) {
 		int pos = getArgsStartPos(args);
 		TypeUtils typeUtils = root().getTypeUtils();
 		if (accFlags.isStatic()) {
@@ -300,7 +300,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return instructions;
 	}
 
-	@NullUnmarked public void unloadInsnArr() {
+	 public void unloadInsnArr() {
 		this.instructions = null;
 	}
 

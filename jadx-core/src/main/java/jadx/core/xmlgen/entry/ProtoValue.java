@@ -3,11 +3,11 @@ package jadx.core.xmlgen.entry;
 import java.util.List;
 
 public class ProtoValue {
-	@SuppressWarnings("NullAway.Init") private String parent;
-	@SuppressWarnings("NullAway.Init") private String name;
-	@SuppressWarnings("NullAway.Init") private String value;
+	 private String parent;
+	 private String name;
+	 private String value;
 	private int type;
-	@SuppressWarnings("NullAway.Init") private List<ProtoValue> namedValues;
+	 private List<ProtoValue> namedValues;
 
 	public ProtoValue(String value) {
 		this.value = value;

@@ -19,7 +19,7 @@ package jadx.core.xmlgen.entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import jadx.core.NullUnmarked;
+
 
 /**
  * Original source code can be found
@@ -66,7 +66,7 @@ public class EntryConfig {
 
 	private final int size;
 
-	@NullUnmarked public EntryConfig(short mcc, short mnc, char[] language,
+	 public EntryConfig(short mcc, short mnc, char[] language,
 			char[] region, byte orientation,
 			byte touchscreen, int density, byte keyboard, byte navigation,
 			byte inputFlags, short screenWidth, short screenHeight,

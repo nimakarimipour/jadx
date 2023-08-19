@@ -11,9 +11,9 @@ public final class ResourceEntry {
 	private final String config;
 
 	private int parentRef;
-	@SuppressWarnings("NullAway.Init") private ProtoValue protoValue;
-	@SuppressWarnings("NullAway.Init") private RawValue simpleValue;
-	@SuppressWarnings("NullAway.Init") private List<RawNamedValue> namedValues;
+	 private ProtoValue protoValue;
+	 private RawValue simpleValue;
+	 private List<RawNamedValue> namedValues;
 
 	public ResourceEntry(int id, String pkgName, String typeName, String keyName, String config) {
 		this.id = id;

@@ -60,8 +60,6 @@ import jadx.core.utils.InsnUtils;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxOverflowException;
-import jadx.core.Initializer;
-import jadx.core.NullUnmarked;
 
 @JadxVisitor(
 		name = "Type Inference",
@@ -79,7 +77,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	private TypeUpdate typeUpdate;
 	private List<Function<MethodNode, Boolean>> resolvers;
 
-	@Initializer @Override
+	 @Override
 	public void init(RootNode root) {
 		this.root = root;
 		this.typeUpdate = root.getTypeUpdate();
@@ -234,7 +232,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 				.max(typeUpdate.getTypeCompare().getComparator());
 	}
 
-	@NullUnmarked private void attachBounds(SSAVar var) {
+	 private void attachBounds(SSAVar var) {
 		TypeInfo typeInfo = var.getTypeInfo();
 		typeInfo.getBounds().clear();
 		RegisterArg assign = var.getAssign();
@@ -379,7 +377,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return new TypeBoundConst(BoundEnum.USE, regArg.getInitType(), regArg);
 	}
 
-	@NullUnmarked private ITypeBound makeInvokeUseBound(RegisterArg regArg, BaseInvokeNode invoke) {
+	 private ITypeBound makeInvokeUseBound(RegisterArg regArg, BaseInvokeNode invoke) {
 		InsnArg instanceArg = invoke.getInstanceArg();
 		if (instanceArg == null) {
 			return null;
@@ -691,7 +689,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return runTypePropagation(mth);
 	}
 
-	@NullUnmarked private boolean checkAndSplitConstInsn(MethodNode mth, SSAVar var) {
+	 private boolean checkAndSplitConstInsn(MethodNode mth, SSAVar var) {
 		ArgType type = var.getTypeInfo().getType();
 		if (type.isTypeKnown() || var.isTypeImmutable()) {
 			return false;
@@ -1006,7 +1004,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return runTypePropagation(mth);
 	}
 
-	@NullUnmarked private boolean forceImmutableType(SSAVar ssaVar) {
+	 private boolean forceImmutableType(SSAVar ssaVar) {
 		for (RegisterArg useArg : ssaVar.getUseList()) {
 			InsnNode parentInsn = useArg.getParentInsn();
 			if (parentInsn != null) {

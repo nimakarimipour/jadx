@@ -22,7 +22,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.dex.visitors.usage.UsageInfoVisitor;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.exceptions.JadxException;
-import jadx.core.NullUnmarked;
+
 
 @JadxVisitor(
 		name = "ProcessAnonymous",
@@ -206,7 +206,7 @@ public class ProcessAnonymous extends AbstractVisitor {
 	 *
 	 * @return anonymous constructor method
 	 */
-	@NullUnmarked private static MethodNode checkUsage(ClassNode cls) {
+	 private static MethodNode checkUsage(ClassNode cls) {
 		MethodNode ctr = ListUtils.filterOnlyOne(cls.getMethods(), MethodNode::isConstructor);
 		if (ctr == null) {
 			return null;

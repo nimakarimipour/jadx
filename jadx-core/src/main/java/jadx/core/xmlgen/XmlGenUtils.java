@@ -12,7 +12,7 @@ import jadx.api.ICodeInfo;
 import jadx.api.ICodeWriter;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import jadx.core.xmlgen.entry.ValuesParser;
-import jadx.core.NullUnmarked;
+
 
 public class XmlGenUtils {
 	private XmlGenUtils() {
@@ -108,7 +108,7 @@ public class XmlGenUtils {
 		return doubleToString(value);
 	}
 
-	@NullUnmarked public static String getAttrTypeAsString(int type) {
+	 public static String getAttrTypeAsString(int type) {
 		String s = "";
 		if ((type & ValuesParser.ATTR_TYPE_REFERENCE) != 0) {
 			s += "|reference";

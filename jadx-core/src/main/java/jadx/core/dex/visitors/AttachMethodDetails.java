@@ -19,7 +19,7 @@ import jadx.core.utils.exceptions.JadxException;
 )
 public class AttachMethodDetails extends AbstractVisitor {
 
-	@SuppressWarnings("NullAway.Init") private MethodUtils methodUtils;
+	 private MethodUtils methodUtils;
 
 	@Override
 	public void init(RootNode root) {

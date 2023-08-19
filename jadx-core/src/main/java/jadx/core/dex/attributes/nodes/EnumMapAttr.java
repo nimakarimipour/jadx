@@ -8,14 +8,14 @@ import org.jetbrains.annotations.Nullable;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.nodes.FieldNode;
-import jadx.core.NullUnmarked;
+
 
 public class EnumMapAttr implements IJadxAttribute {
 
 	public static class KeyValueMap {
 		private final Map<Object, Object> map = new HashMap<>();
 
-		@NullUnmarked public Object get(Object key) {
+		 public Object get(Object key) {
 			return map.get(key);
 		}
 

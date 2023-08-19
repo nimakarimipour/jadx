@@ -41,7 +41,7 @@ import jadx.core.utils.InsnRemover;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.exceptions.JadxOverflowException;
-import jadx.core.NullUnmarked;
+
 
 @JadxVisitor(
 		name = "LoopRegionVisitor",
@@ -147,7 +147,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 		return true;
 	}
 
-	@NullUnmarked private static LoopType checkArrayForEach(MethodNode mth, LoopRegion loopRegion, InsnNode initInsn, InsnNode incrInsn,
+	 private static LoopType checkArrayForEach(MethodNode mth, LoopRegion loopRegion, InsnNode initInsn, InsnNode incrInsn,
 			IfCondition condition) {
 		if (!(incrInsn instanceof ArithNode)) {
 			return null;
@@ -244,7 +244,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 		return forEachLoop;
 	}
 
-	@NullUnmarked private static boolean checkIterableForEach(MethodNode mth, LoopRegion loopRegion, IfCondition condition) {
+	 private static boolean checkIterableForEach(MethodNode mth, LoopRegion loopRegion, IfCondition condition) {
 		List<RegisterArg> condArgs = condition.getRegisterArgs();
 		if (condArgs.size() != 1) {
 			return false;

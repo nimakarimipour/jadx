@@ -12,7 +12,7 @@ import jadx.core.utils.InsnUtils;
 
 public final class TernaryInsn extends InsnNode {
 
-	@SuppressWarnings("NullAway.Init") private IfCondition condition;
+	 private IfCondition condition;
 
 	public TernaryInsn(IfCondition condition, RegisterArg result, InsnArg th, InsnArg els) {
 		this();

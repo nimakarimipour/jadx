@@ -247,7 +247,7 @@ public class DebugUtils {
 		return t -> seen.add(keyExtractor.apply(t));
 	}
 
-	@SuppressWarnings("NullAway.Init") private static Map<String, Long> execTimes;
+	 private static Map<String, Long> execTimes;
 
 	public static void initExecTimes() {
 		execTimes = new ConcurrentHashMap<>();

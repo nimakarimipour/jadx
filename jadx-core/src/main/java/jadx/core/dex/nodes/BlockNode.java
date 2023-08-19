@@ -39,7 +39,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 
 	private List<BlockNode> predecessors = new ArrayList<>(1);
 	private List<BlockNode> successors = new ArrayList<>(1);
-	@SuppressWarnings("NullAway.Init") private List<BlockNode> cleanSuccessors;
+	 private List<BlockNode> cleanSuccessors;
 
 	/**
 	 * All dominators, excluding self
@@ -49,12 +49,12 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	/**
 	 * Dominance frontier
 	 */
-	@SuppressWarnings("NullAway.Init") private BitSet domFrontier;
+	 private BitSet domFrontier;
 
 	/**
 	 * Immediate dominator
 	 */
-	@SuppressWarnings("NullAway.Init") private BlockNode idom;
+	 private BlockNode idom;
 
 	/**
 	 * Blocks on which dominates this block

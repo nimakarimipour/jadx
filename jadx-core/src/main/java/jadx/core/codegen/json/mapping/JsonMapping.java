@@ -3,7 +3,7 @@ package jadx.core.codegen.json.mapping;
 import java.util.List;
 
 public class JsonMapping {
-	@SuppressWarnings("NullAway.Init") private List<JsonClsMapping> classes;
+	 private List<JsonClsMapping> classes;
 
 	public List<JsonClsMapping> getClasses() {
 		return classes;

@@ -20,7 +20,7 @@ import jadx.core.xmlgen.entry.ValuesParser;
 
 import static jadx.core.xmlgen.ParserConstants.PLURALS_MAP;
 import static jadx.core.xmlgen.ParserConstants.TYPE_REFERENCE;
-import jadx.core.NullUnmarked;
+
 
 public class ResXmlGen {
 
@@ -80,7 +80,7 @@ public class ResXmlGen {
 		return files;
 	}
 
-	@NullUnmarked private void addValue(ICodeWriter cw, ResourceEntry ri) {
+	 private void addValue(ICodeWriter cw, ResourceEntry ri) {
 		if (ri.getProtoValue() != null) {
 			ProtoValue protoValue = ri.getProtoValue();
 			if (protoValue.getValue() != null && protoValue.getNamedValues() == null) {
@@ -143,7 +143,7 @@ public class ResXmlGen {
 		}
 	}
 
-	@NullUnmarked private void addProtoItem(ICodeWriter cw, String itemTag, String typeName, ProtoValue protoValue) {
+	 private void addProtoItem(ICodeWriter cw, String itemTag, String typeName, ProtoValue protoValue) {
 		String name = protoValue.getName();
 		String value = protoValue.getValue();
 		switch (typeName) {
@@ -166,7 +166,7 @@ public class ResXmlGen {
 		}
 	}
 
-	@NullUnmarked private void addItem(ICodeWriter cw, String itemTag, String typeName, RawNamedValue value) {
+	 private void addItem(ICodeWriter cw, String itemTag, String typeName, RawNamedValue value) {
 		String nameStr = vp.decodeNameRef(value.getNameRef());
 		String valueStr = vp.decodeValue(value.getRawValue());
 		int dataType = value.getRawValue().getDataType();

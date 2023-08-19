@@ -62,7 +62,7 @@ import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.android.AndroidResourcesUtils.handleAppResField;
-import jadx.core.NullUnmarked;
+
 
 public class InsnGen {
 	private static final Logger LOG = LoggerFactory.getLogger(InsnGen.class);
@@ -247,7 +247,7 @@ public class InsnGen {
 		mgen.getClassGen().useType(code, type);
 	}
 
-	@NullUnmarked public void makeInsn(InsnNode insn, ICodeWriter code) throws CodegenException {
+	 public void makeInsn(InsnNode insn, ICodeWriter code) throws CodegenException {
 		makeInsn(insn, code, null);
 	}
 

@@ -23,7 +23,7 @@ import jadx.core.dex.visitors.regions.variables.ProcessVariables;
 import jadx.core.dex.visitors.shrink.CodeShrinkVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxException;
-import jadx.core.NullUnmarked;
+
 
 /**
  * Remove primitives boxing
@@ -39,7 +39,7 @@ import jadx.core.NullUnmarked;
 )
 public class DeboxingVisitor extends AbstractVisitor {
 
-	@SuppressWarnings("NullAway.Init") private Set<MethodInfo> valueOfMths;
+	 private Set<MethodInfo> valueOfMths;
 
 	@Override
 	public void init(RootNode root) {
@@ -83,7 +83,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 		}
 	}
 
-	@NullUnmarked private InsnNode checkForReplace(InvokeNode insnNode) {
+	 private InsnNode checkForReplace(InvokeNode insnNode) {
 		if (insnNode.getInvokeType() != InvokeType.STATIC
 				|| insnNode.getResult() == null) {
 			return null;
@@ -133,7 +133,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	@NullUnmarked private boolean canChangeTypeToPrimitive(RegisterArg arg) {
+	 private boolean canChangeTypeToPrimitive(RegisterArg arg) {
 		for (SSAVar ssaVar : arg.getSVar().getCodeVar().getSsaVars()) {
 			if (ssaVar.isTypeImmutable()) {
 				return false;

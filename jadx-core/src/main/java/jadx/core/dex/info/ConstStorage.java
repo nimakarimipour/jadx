@@ -19,7 +19,7 @@ import jadx.core.dex.instructions.args.PrimitiveType;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.RootNode;
-import jadx.core.NullUnmarked;
+
 
 public class ConstStorage {
 
@@ -31,7 +31,7 @@ public class ConstStorage {
 			return values;
 		}
 
-		@NullUnmarked public FieldNode get(Object key) {
+		 public FieldNode get(Object key) {
 			return values.get(key);
 		}
 

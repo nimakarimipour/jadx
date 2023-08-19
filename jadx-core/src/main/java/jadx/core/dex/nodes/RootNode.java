@@ -47,7 +47,7 @@ import jadx.core.xmlgen.ResDecoder;
 import jadx.core.xmlgen.ResourceStorage;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import jadx.core.xmlgen.entry.ValuesParser;
-import jadx.core.NullUnmarked;
+
 
 public class RootNode {
 	private static final Logger LOG = LoggerFactory.getLogger(RootNode.class);
@@ -69,7 +69,7 @@ public class RootNode {
 	private final Map<ClassInfo, ClassNode> clsMap = new HashMap<>();
 	private List<ClassNode> classes = new ArrayList<>();
 
-	@SuppressWarnings("NullAway.Init") private ClspGraph clsp;
+	 private ClspGraph clsp;
 	@Nullable
 	private String appPackage;
 	@Nullable
@@ -237,7 +237,7 @@ public class RootNode {
 		}
 	}
 
-	@NullUnmarked private void initInnerClasses() {
+	 private void initInnerClasses() {
 		// move inner classes
 		List<ClassNode> inner = new ArrayList<>();
 		for (ClassNode cls : classes) {

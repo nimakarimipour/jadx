@@ -16,7 +16,7 @@ import jadx.core.dex.visitors.AbstractVisitor;
 import jadx.core.utils.RegionUtils;
 
 import static jadx.core.utils.RegionUtils.insnsCount;
-import jadx.core.NullUnmarked;
+
 
 public class IfRegionVisitor extends AbstractVisitor {
 	private static final ProcessIfRegionVisitor PROCESS_IF_REGION_VISITOR = new ProcessIfRegionVisitor();
@@ -156,7 +156,7 @@ public class IfRegionVisitor extends AbstractVisitor {
 		}
 	}
 
-	@NullUnmarked private static boolean removeRedundantElseBlock(MethodNode mth, IfRegion ifRegion) {
+	 private static boolean removeRedundantElseBlock(MethodNode mth, IfRegion ifRegion) {
 		if (ifRegion.getElseRegion() == null
 				|| ifRegion.contains(AFlag.ELSE_IF_CHAIN)
 				|| ifRegion.getElseRegion().contains(AFlag.ELSE_IF_CHAIN)) {

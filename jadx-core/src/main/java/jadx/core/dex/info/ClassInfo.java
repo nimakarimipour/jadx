@@ -10,7 +10,7 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
-import jadx.core.NullUnmarked;
+
 
 public final class ClassInfo implements Comparable<ClassInfo> {
 	private final ArgType type;
@@ -80,13 +80,13 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		}
 	}
 
-	@NullUnmarked private void fillAliasFullName(ClassAliasInfo alias) {
+	 private void fillAliasFullName(ClassAliasInfo alias) {
 		if (parentClass == null) {
 			alias.setFullName(makeFullClsName(alias.getPkg(), alias.getShortName(), null, true, false));
 		}
 	}
 
-	@NullUnmarked public String getAliasPkg() {
+	 public String getAliasPkg() {
 		if (isInner()) {
 			return parentClass.getAliasPkg();
 		}
@@ -173,19 +173,19 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		return pkg.isEmpty() ? shortName : pkg + '.' + shortName;
 	}
 
-	@NullUnmarked private String makeFullName() {
+	 private String makeFullName() {
 		return makeFullClsName(pkg, name, parentClass, false, false);
 	}
 
-	@NullUnmarked public String makeRawFullName() {
+	 public String makeRawFullName() {
 		return makeFullClsName(pkg, name, parentClass, false, true);
 	}
 
-	@NullUnmarked public String makeAliasFullName() {
+	 public String makeAliasFullName() {
 		return makeFullClsName(getAliasPkg(), getAliasShortName(), parentClass, true, false);
 	}
 
-	@NullUnmarked public String makeAliasRawFullName() {
+	 public String makeAliasRawFullName() {
 		return makeFullClsName(getAliasPkg(), getAliasShortName(), parentClass, true, true);
 	}
 
@@ -234,7 +234,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		return parentClass;
 	}
 
-	@NullUnmarked public ClassInfo getTopParentClass() {
+	 public ClassInfo getTopParentClass() {
 		if (parentClass != null) {
 			ClassInfo topCls = parentClass.getTopParentClass();
 			return topCls != null ? topCls : parentClass;
