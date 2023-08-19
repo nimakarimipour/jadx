@@ -7,8 +7,9 @@ import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.nodes.InsnNode;
+import org.jspecify.annotations.NullUnmarked;
 
-public class InvokeNode extends BaseInvokeNode {
+@NullUnmarked public class InvokeNode extends BaseInvokeNode {
 
 	private final InvokeType type;
 	private final MethodInfo mth;
@@ -38,7 +39,7 @@ public class InvokeNode extends BaseInvokeNode {
 		}
 	}
 
-	public InvokeNode(MethodInfo mth, InvokeType invokeType, int argsCount) {
+	public InvokeNode(@Nullable MethodInfo mth, InvokeType invokeType, int argsCount) {
 		super(InsnType.INVOKE, argsCount);
 		this.mth = mth;
 		this.type = invokeType;

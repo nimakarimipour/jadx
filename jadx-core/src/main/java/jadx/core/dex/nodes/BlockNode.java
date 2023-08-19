@@ -16,6 +16,8 @@ import jadx.core.utils.InsnUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.Utils.lockList;
+import javax.annotation.Nullable;
+import org.jspecify.annotations.NullUnmarked;
 
 public final class BlockNode extends AttrNode implements IBlock, Comparable<BlockNode> {
 
@@ -39,7 +41,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 
 	private List<BlockNode> predecessors = new ArrayList<>(1);
 	private List<BlockNode> successors = new ArrayList<>(1);
-	 private List<BlockNode> cleanSuccessors;
+	 @SuppressWarnings("NullAway.Init") private List<BlockNode> cleanSuccessors;
 
 	/**
 	 * All dominators, excluding self
@@ -49,12 +51,12 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	/**
 	 * Dominance frontier
 	 */
-	 private BitSet domFrontier;
+	 @Nullable private BitSet domFrontier;
 
 	/**
 	 * Immediate dominator
 	 */
-	 private BlockNode idom;
+	 @Nullable private BlockNode idom;
 
 	/**
 	 * Blocks on which dominates this block
@@ -161,26 +163,26 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return doms;
 	}
 
-	public void setDoms(BitSet doms) {
+	@NullUnmarked public void setDoms(@Nullable BitSet doms) {
 		this.doms = doms;
 	}
 
-	public BitSet getDomFrontier() {
+	@NullUnmarked public BitSet getDomFrontier() {
 		return domFrontier;
 	}
 
-	public void setDomFrontier(BitSet domFrontier) {
+	public void setDomFrontier(@Nullable BitSet domFrontier) {
 		this.domFrontier = domFrontier;
 	}
 
 	/**
 	 * Immediate dominator
 	 */
-	public BlockNode getIDom() {
+	@NullUnmarked public BlockNode getIDom() {
 		return idom;
 	}
 
-	public void setIDom(BlockNode idom) {
+	public void setIDom(@Nullable BlockNode idom) {
 		this.idom = idom;
 	}
 
@@ -210,7 +212,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

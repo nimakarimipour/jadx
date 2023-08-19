@@ -5,14 +5,15 @@ import java.util.List;
 
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.SSAVar;
+import javax.annotation.Nullable;
 
 public class TypeSearchVarInfo {
 	private final SSAVar var;
 	private boolean typeResolved;
-	 private ArgType currentType;
-	 private List<ArgType> candidateTypes;
+	 @SuppressWarnings("NullAway.Init") private ArgType currentType;
+	 @SuppressWarnings("NullAway.Init") private List<ArgType> candidateTypes;
 	private int currentIndex = -1;
-	 private List<ITypeConstraint> constraints;
+	 @SuppressWarnings("NullAway.Init") private List<ITypeConstraint> constraints;
 
 	public TypeSearchVarInfo(SSAVar var) {
 		this.var = var;

@@ -34,6 +34,7 @@ import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.Utils.lockList;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class MethodNode extends NotificationAttrNode implements IMethodDetails, ILoadable, ICodeNode, Comparable<MethodNode> {
@@ -58,17 +59,17 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	private List<ArgType> typeParameters;
 
 	// decompilation data, reset on unload
-	 private RegisterArg thisArg;
-	 private List<RegisterArg> argsList;
-	 private InsnNode[] instructions;
-	 private List<BlockNode> blocks;
+	 @Nullable private RegisterArg thisArg;
+	 @Nullable private List<RegisterArg> argsList;
+	 @Nullable private InsnNode[] instructions;
+	 @SuppressWarnings("NullAway.Init") private List<BlockNode> blocks;
 	private int blocksMaxCId;
-	 private BlockNode enterBlock;
-	 private BlockNode exitBlock;
-	 private List<SSAVar> sVars;
-	 private List<ExceptionHandler> exceptionHandlers;
-	 private List<LoopInfo> loops;
-	 private Region region;
+	 @Nullable private BlockNode enterBlock;
+	 @SuppressWarnings("NullAway.Init") private BlockNode exitBlock;
+	 @SuppressWarnings("NullAway.Init") private List<SSAVar> sVars;
+	 @SuppressWarnings("NullAway.Init") private List<ExceptionHandler> exceptionHandlers;
+	 @SuppressWarnings("NullAway.Init") private List<LoopInfo> loops;
+	 @Nullable private Region region;
 
 	private List<MethodNode> useIn = Collections.emptyList();
 
@@ -78,7 +79,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return methodNode;
 	}
 
-	 private MethodNode(ClassNode classNode, IMethodData mthData) {
+	 @NullUnmarked private MethodNode(ClassNode classNode, IMethodData mthData) {
 		this.mthInfo = MethodInfo.fromRef(classNode.root(), mthData.getMethodRef());
 		this.parentClass = classNode;
 		this.accFlags = new AccessInfo(mthData.getAccessFlags(), AFType.METHOD);
@@ -98,7 +99,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		unload();
 	}
 
-	 @Override
+	 @NullUnmarked @Override
 	public void unload() {
 		loaded = false;
 		// don't unload retType, argTypes, typeParameters
@@ -296,7 +297,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return noCode;
 	}
 
-	public InsnNode[] getInstructions() {
+	@NullUnmarked public InsnNode[] getInstructions() {
 		return instructions;
 	}
 
@@ -331,7 +332,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return blocksMaxCId++;
 	}
 
-	public BlockNode getEnterBlock() {
+	@NullUnmarked public BlockNode getEnterBlock() {
 		return enterBlock;
 	}
 
@@ -528,7 +529,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		this.accFlags = newAccessFlags;
 	}
 
-	public Region getRegion() {
+	@NullUnmarked public Region getRegion() {
 		return region;
 	}
 

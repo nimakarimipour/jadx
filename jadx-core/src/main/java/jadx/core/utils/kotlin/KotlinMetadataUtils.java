@@ -56,7 +56,7 @@ public class KotlinMetadataUtils {
 	}
 
 	// Don't use ClassInfo facility to not pollute class into cache
-	 private static ClsAliasPair splitAndCheckClsName(ClassNode originCls, String fullClsName) {
+	 @Nullable private static ClsAliasPair splitAndCheckClsName(ClassNode originCls, String fullClsName) {
 		if (!NameMapper.isValidFullIdentifier(fullClsName)) {
 			return null;
 		}
@@ -103,8 +103,8 @@ public class KotlinMetadataUtils {
 		}
 	}
 
-	 @SuppressWarnings("unchecked")
-	private static List<EncodedValue> getParamAsList(IAnnotation annotation, String paramName) {
+	 @Nullable @SuppressWarnings("unchecked")
+	private static List<EncodedValue> getParamAsList(@Nullable IAnnotation annotation, String paramName) {
 		if (annotation == null) {
 			return null;
 		}

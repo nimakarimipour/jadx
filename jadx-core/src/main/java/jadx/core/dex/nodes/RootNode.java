@@ -47,6 +47,7 @@ import jadx.core.xmlgen.ResDecoder;
 import jadx.core.xmlgen.ResourceStorage;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import jadx.core.xmlgen.entry.ValuesParser;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class RootNode {
@@ -69,7 +70,7 @@ public class RootNode {
 	private final Map<ClassInfo, ClassNode> clsMap = new HashMap<>();
 	private List<ClassNode> classes = new ArrayList<>();
 
-	 private ClspGraph clsp;
+	 @Nullable private ClspGraph clsp;
 	@Nullable
 	private String appPackage;
 	@Nullable
@@ -317,12 +318,12 @@ public class RootNode {
 	}
 
 	@Nullable
-	public ClassNode resolveClass(ClassInfo clsInfo) {
+	public ClassNode resolveClass(@Nullable ClassInfo clsInfo) {
 		return clsMap.get(clsInfo);
 	}
 
-	@Nullable
-	public ClassNode resolveClass(ArgType clsType) {
+	@NullUnmarked @Nullable
+	public ClassNode resolveClass(@Nullable ArgType clsType) {
 		if (!clsType.isTypeKnown() || clsType.isGenericType()) {
 			return null;
 		}
@@ -493,7 +494,7 @@ public class RootNode {
 		codeDataUpdateListeners.forEach(l -> l.updated(codeData));
 	}
 
-	public ClspGraph getClsp() {
+	@NullUnmarked public ClspGraph getClsp() {
 		return clsp;
 	}
 

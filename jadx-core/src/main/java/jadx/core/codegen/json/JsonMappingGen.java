@@ -26,6 +26,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.files.FileUtils;
+import org.jspecify.annotations.NullUnmarked;
 
 public class JsonMappingGen {
 	private static final Logger LOG = LoggerFactory.getLogger(JsonMappingGen.class);
@@ -52,7 +53,7 @@ public class JsonMappingGen {
 		}
 	}
 
-	private static void fillMapping(JsonMapping mapping, RootNode root) {
+	@NullUnmarked private static void fillMapping(JsonMapping mapping, RootNode root) {
 		List<ClassNode> classes = root.getClasses(true);
 		mapping.setClasses(new ArrayList<>(classes.size()));
 		for (ClassNode cls : classes) {
@@ -71,7 +72,7 @@ public class JsonMappingGen {
 		}
 	}
 
-	private static void addMethods(ClassNode cls, JsonClsMapping jsonCls) {
+	@NullUnmarked private static void addMethods(ClassNode cls, JsonClsMapping jsonCls) {
 		List<MethodNode> methods = cls.getMethods();
 		if (methods.isEmpty()) {
 			return;
@@ -88,7 +89,7 @@ public class JsonMappingGen {
 		}
 	}
 
-	private static void addFields(ClassNode cls, JsonClsMapping jsonCls) {
+	@NullUnmarked private static void addFields(ClassNode cls, JsonClsMapping jsonCls) {
 		List<FieldNode> fields = cls.getFields();
 		if (fields.isEmpty()) {
 			return;

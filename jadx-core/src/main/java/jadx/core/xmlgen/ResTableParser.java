@@ -27,6 +27,7 @@ import jadx.core.xmlgen.entry.RawNamedValue;
 import jadx.core.xmlgen.entry.RawValue;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import jadx.core.xmlgen.entry.ValuesParser;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class ResTableParser extends CommonBinaryParser implements IResParser {
@@ -37,10 +38,10 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 	private static final class PackageChunk {
 		private final int id;
 		private final String name;
-		private final String[] typeStrings;
-		private final String[] keyStrings;
+		@Nullable private final String[] typeStrings;
+		@Nullable private final String[] keyStrings;
 
-		private PackageChunk(int id, String name, String[] typeStrings, String[] keyStrings) {
+		private PackageChunk(int id, String name, @Nullable String[] typeStrings, @Nullable String[] keyStrings) {
 			this.id = id;
 			this.name = name;
 			this.typeStrings = typeStrings;
@@ -55,11 +56,11 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 			return name;
 		}
 
-		public String[] getTypeStrings() {
+		@NullUnmarked public String[] getTypeStrings() {
 			return typeStrings;
 		}
 
-		public String[] getKeyStrings() {
+		@Nullable public String[] getKeyStrings() {
 			return keyStrings;
 		}
 	}
@@ -70,7 +71,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 	private final boolean useRawResName;
 	private final RootNode root;
 	private final ResourceStorage resStorage = new ResourceStorage();
-	 private String[] strings;
+	 @Nullable private String[] strings;
 
 	public ResTableParser(RootNode root) {
 		this(root, false);
@@ -288,7 +289,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		}
 	}
 
-	private void parseEntry(PackageChunk pkg, int typeId, int entryId, String config) throws IOException {
+	@NullUnmarked private void parseEntry(PackageChunk pkg, int typeId, int entryId, String config) throws IOException {
 		int size = is.readInt16();
 		int flags = is.readInt16();
 		int key = is.readInt32();
@@ -513,7 +514,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		return resStorage;
 	}
 
-	@Override
+	@Nullable @Override
 	public String[] getStrings() {
 		return strings;
 	}

@@ -41,6 +41,7 @@ import jadx.core.dex.visitors.regions.DepthRegionTraversal;
 import jadx.core.dex.visitors.regions.TracedRegionVisitor;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxException;
+import javax.annotation.Nullable;
 
 /**
  * Use these methods only for debug purpose.
@@ -247,7 +248,7 @@ public class DebugUtils {
 		return t -> seen.add(keyExtractor.apply(t));
 	}
 
-	 private static Map<String, Long> execTimes;
+	 @SuppressWarnings("NullAway.Init") private static Map<String, Long> execTimes;
 
 	public static void initExecTimes() {
 		execTimes = new ConcurrentHashMap<>();

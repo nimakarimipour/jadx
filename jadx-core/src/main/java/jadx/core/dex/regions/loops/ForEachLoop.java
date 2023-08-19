@@ -5,6 +5,8 @@ import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.InsnNode;
+import javax.annotation.Nullable;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public final class ForEachLoop extends LoopType {
@@ -26,7 +28,7 @@ public final class ForEachLoop extends LoopType {
 		getVarArg().getSVar().getCodeVar().setDeclared(true);
 	}
 
-	 public void injectFakeInsns(LoopRegion loopRegion) {
+	 @NullUnmarked public void injectFakeInsns(LoopRegion loopRegion) {
 		loopRegion.getInfo().getPreHeader().getInstructions().add(iterableArgInsn);
 		loopRegion.getHeader().getInstructions().add(0, varArgInsn);
 	}

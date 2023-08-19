@@ -33,6 +33,8 @@ import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
+import javax.annotation.Nullable;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class ProcessVariables extends AbstractVisitor {
@@ -246,7 +248,7 @@ public class ProcessVariables extends AbstractVisitor {
 		return false;
 	}
 
-	private static boolean checkDeclareAtAssign(SSAVar var) {
+	@NullUnmarked private static boolean checkDeclareAtAssign(@Nullable SSAVar var) {
 		RegisterArg arg = var.getAssign();
 		InsnNode parentInsn = arg.getParentInsn();
 		if (parentInsn == null

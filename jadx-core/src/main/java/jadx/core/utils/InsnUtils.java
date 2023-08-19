@@ -60,7 +60,7 @@ public class InsnUtils {
 	 *
 	 * @return LiteralArg, String, ArgType or null
 	 */
-	 public static Object getConstValueByArg(RootNode root, InsnArg arg) {
+	 @Nullable public static Object getConstValueByArg(RootNode root, InsnArg arg) {
 		if (arg.isLiteral()) {
 			return arg;
 		}
@@ -184,7 +184,7 @@ public class InsnUtils {
 		return null;
 	}
 
-	 private static InsnNode recursiveInsnCheck(InsnNode insn, InsnType insnType, Predicate<InsnNode> test) {
+	 @Nullable private static InsnNode recursiveInsnCheck(InsnNode insn, InsnType insnType, Predicate<InsnNode> test) {
 		if (insn.getType() == insnType && test.test(insn)) {
 			return insn;
 		}
@@ -201,7 +201,7 @@ public class InsnUtils {
 	}
 
 	@Nullable
-	public static InsnArg getSingleArg(InsnNode insn) {
+	public static InsnArg getSingleArg(@Nullable InsnNode insn) {
 		if (insn != null && insn.getArgsCount() == 1) {
 			return insn.getArg(0);
 		}
@@ -217,7 +217,7 @@ public class InsnUtils {
 	}
 
 	@Nullable
-	public static InsnNode getWrappedInsn(InsnArg arg) {
+	public static InsnNode getWrappedInsn(@Nullable InsnArg arg) {
 		if (arg != null && arg.isInsnWrap()) {
 			return ((InsnWrapArg) arg).getWrapInsn();
 		}

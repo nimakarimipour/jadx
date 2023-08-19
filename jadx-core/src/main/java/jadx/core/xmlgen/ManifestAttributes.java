@@ -17,6 +17,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
+import org.jspecify.annotations.NullUnmarked;
 
 
 public class ManifestAttributes {
@@ -53,9 +55,9 @@ public class ManifestAttributes {
 
 	private final Map<String, MAttr> attrMap = new HashMap<>();
 
-	 private static ManifestAttributes instance;
+	 @Nullable private static ManifestAttributes instance;
 
-	public static ManifestAttributes getInstance() {
+	@NullUnmarked public static ManifestAttributes getInstance() {
 		if (instance == null) {
 			try {
 				instance = new ManifestAttributes();
@@ -166,7 +168,7 @@ public class ManifestAttributes {
 		}
 	}
 
-	 public String decode(String attrName, long value) {
+	 @Nullable public String decode(String attrName, long value) {
 		MAttr attr = attrMap.get(attrName);
 		if (attr == null) {
 			return null;

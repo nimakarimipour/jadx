@@ -66,6 +66,7 @@ import jadx.core.dex.visitors.typeinference.FinishTypeInference;
 import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.dex.visitors.usage.UsageInfoVisitor;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 public class Jadx {
 	private static final Logger LOG = LoggerFactory.getLogger(Jadx.class);
@@ -231,7 +232,7 @@ public class Jadx {
 
 	public static final String VERSION_DEV = "dev";
 
-	 private static String version;
+	 @Nullable private static String version;
 
 	public static String getVersion() {
 		if (version == null) {

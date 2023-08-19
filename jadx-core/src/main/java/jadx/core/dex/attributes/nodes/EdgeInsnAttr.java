@@ -8,6 +8,8 @@ import jadx.core.dex.attributes.AttrList;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.Edge;
 import jadx.core.dex.nodes.InsnNode;
+import javax.annotation.Nullable;
+import org.jspecify.annotations.NullUnmarked;
 
 public class EdgeInsnAttr implements IJadxAttribute {
 
@@ -15,7 +17,7 @@ public class EdgeInsnAttr implements IJadxAttribute {
 	private final BlockNode end;
 	private final InsnNode insn;
 
-	public static void addEdgeInsn(Edge edge, InsnNode insn) {
+	@NullUnmarked public static void addEdgeInsn(@Nullable Edge edge, InsnNode insn) {
 		addEdgeInsn(edge.getSource(), edge.getTarget(), insn);
 	}
 

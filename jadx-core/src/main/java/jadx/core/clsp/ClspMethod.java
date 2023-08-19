@@ -10,6 +10,7 @@ import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.IMethodDetails;
 import jadx.core.utils.Utils;
+import javax.annotation.Nullable;
 
 /**
  * Method node in classpath graph.

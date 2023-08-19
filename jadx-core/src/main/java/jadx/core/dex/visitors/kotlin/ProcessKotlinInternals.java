@@ -36,6 +36,7 @@ import jadx.core.dex.visitors.debuginfo.DebugInfoApplyVisitor;
 import jadx.core.dex.visitors.rename.CodeRenameVisitor;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
+import org.jspecify.annotations.NullUnmarked;
 
 @JadxVisitor(
 		name = "ProcessKotlinInternals",
@@ -57,7 +58,7 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 	private static final String KOTLIN_VARNAME_SOURCE_MTH2 = "(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)V";
 
 	private @Nullable ClassInfo kotlinIntrinsicsCls;
-	 private Set<MethodInfo> kotlinVarNameSourceMethods;
+	 @Nullable private Set<MethodInfo> kotlinVarNameSourceMethods;
 	private boolean hideInsns;
 
 	@Override
@@ -102,7 +103,7 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 		}
 	}
 
-	private void processInvoke(MethodNode mth, InsnNode insn) {
+	@NullUnmarked private void processInvoke(MethodNode mth, InsnNode insn) {
 		int argsCount = insn.getArgsCount();
 		if (argsCount < 2) {
 			return;

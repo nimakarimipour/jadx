@@ -5,6 +5,7 @@ import java.util.Objects;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.Utils;
+import javax.annotation.Nullable;
 
 public class IndexInsnNode extends InsnNode {
 

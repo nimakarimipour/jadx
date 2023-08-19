@@ -32,6 +32,7 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.Utils;
+import org.jspecify.annotations.NullUnmarked;
 
 
 @JadxVisitor(
@@ -333,7 +334,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		toSsaVar.setCodeVar(fromSsaVar.getCodeVar());
 	}
 
-	private static boolean searchDuplicateInsns(BlockNode checkBlock, FinallyExtractInfo extractInfo) {
+	@NullUnmarked private static boolean searchDuplicateInsns(BlockNode checkBlock, FinallyExtractInfo extractInfo) {
 		boolean isNew = extractInfo.getCheckedBlocks().add(checkBlock);
 		if (!isNew) {
 			return false;
@@ -347,7 +348,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	 private static InsnsSlice searchFromFirstBlock(BlockNode dupBlock, BlockNode startBlock, FinallyExtractInfo extractInfo) {
+	 @Nullable private static InsnsSlice searchFromFirstBlock(BlockNode dupBlock, BlockNode startBlock, FinallyExtractInfo extractInfo) {
 		InsnsSlice dupSlice = isStartBlock(dupBlock, startBlock, extractInfo);
 		if (dupSlice == null) {
 			return null;
@@ -378,7 +379,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 	/**
 	 * 'Finally' instructions can start in the middle of the first block.
 	 */
-	 private static InsnsSlice isStartBlock(BlockNode dupBlock, BlockNode finallyBlock, FinallyExtractInfo extractInfo) {
+	 @Nullable private static InsnsSlice isStartBlock(BlockNode dupBlock, BlockNode finallyBlock, FinallyExtractInfo extractInfo) {
 		extractInfo.setCurDupSlice(null);
 		List<InsnNode> dupInsns = dupBlock.getInstructions();
 		List<InsnNode> finallyInsns = finallyBlock.getInstructions();

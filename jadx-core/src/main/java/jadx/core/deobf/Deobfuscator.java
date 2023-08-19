@@ -31,6 +31,7 @@ import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.kotlin.KotlinMetadataUtils;
+import org.jspecify.annotations.NullUnmarked;
 
 public class Deobfuscator {
 	private static final Logger LOG = LoggerFactory.getLogger(Deobfuscator.class);
@@ -278,7 +279,7 @@ public class Deobfuscator {
 	 * @return package node object or {@code null} if no package found and <b>create</b> set to
 	 *         {@code false}
 	 */
-	private PackageNode getPackageNode(String fullPkgName, boolean create) {
+	@NullUnmarked private PackageNode getPackageNode(String fullPkgName, boolean create) {
 		if (fullPkgName.isEmpty() || fullPkgName.equals(CLASS_NAME_SEPARATOR)) {
 			return rootPackage;
 		}

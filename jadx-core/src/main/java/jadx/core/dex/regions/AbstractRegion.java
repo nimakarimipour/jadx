@@ -6,17 +6,19 @@ import org.slf4j.LoggerFactory;
 import jadx.core.dex.attributes.AttrNode;
 import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.IRegion;
+import javax.annotation.Nullable;
+import org.jspecify.annotations.NullUnmarked;
 
 public abstract class AbstractRegion extends AttrNode implements IRegion {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractRegion.class);
 
-	private IRegion parent;
+	@Nullable private IRegion parent;
 
-	public AbstractRegion(IRegion parent) {
+	public AbstractRegion(@Nullable IRegion parent) {
 		this.parent = parent;
 	}
 
-	@Override
+	@NullUnmarked @Override
 	public IRegion getParent() {
 		return parent;
 	}

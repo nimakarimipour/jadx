@@ -30,6 +30,7 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.exceptions.JadxException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import org.jspecify.annotations.NullUnmarked;
 
 @JadxVisitor(
 		name = "InlineMethods",
@@ -77,7 +78,7 @@ public class InlineMethods extends AbstractVisitor {
 		}
 	}
 
-	private void inlineMethod(MethodNode mth, MethodNode callMth, MethodInlineAttr mia, BlockNode block, InvokeNode insn) {
+	@NullUnmarked private void inlineMethod(MethodNode mth, MethodNode callMth, MethodInlineAttr mia, BlockNode block, InvokeNode insn) {
 		InsnNode inlCopy = mia.getInsn().copyWithoutResult();
 		RegisterArg resultArg = insn.getResult();
 		if (resultArg != null) {

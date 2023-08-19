@@ -8,27 +8,29 @@ import java.util.Set;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
+import javax.annotation.Nullable;
+import org.jspecify.annotations.NullUnmarked;
 
 public final class IfInfo {
 	private final MethodNode mth;
 	private final IfCondition condition;
 	private final List<BlockNode> mergedBlocks;
-	private final BlockNode thenBlock;
-	private final BlockNode elseBlock;
+	@Nullable private final BlockNode thenBlock;
+	@Nullable private final BlockNode elseBlock;
 	private final Set<BlockNode> skipBlocks;
 	private final List<InsnNode> forceInlineInsns;
-	 private BlockNode outBlock;
+	 @Nullable private BlockNode outBlock;
 
-	public IfInfo(MethodNode mth, IfCondition condition, BlockNode thenBlock, BlockNode elseBlock) {
+	public IfInfo(MethodNode mth, IfCondition condition, BlockNode thenBlock, @Nullable BlockNode elseBlock) {
 		this(mth, condition, thenBlock, elseBlock, new ArrayList<>(), new HashSet<>(), new ArrayList<>());
 	}
 
-	public IfInfo(IfInfo info, BlockNode thenBlock, BlockNode elseBlock) {
+	public IfInfo(IfInfo info, @Nullable BlockNode thenBlock, @Nullable BlockNode elseBlock) {
 		this(info.getMth(), info.getCondition(), thenBlock, elseBlock,
 				info.getMergedBlocks(), info.getSkipBlocks(), info.getForceInlineInsns());
 	}
 
-	private IfInfo(MethodNode mth, IfCondition condition, BlockNode thenBlock, BlockNode elseBlock,
+	private IfInfo(MethodNode mth, IfCondition condition, @Nullable BlockNode thenBlock, @Nullable BlockNode elseBlock,
 			List<BlockNode> mergedBlocks, Set<BlockNode> skipBlocks, List<InsnNode> forceInlineInsns) {
 		this.mth = mth;
 		this.condition = condition;
@@ -75,19 +77,19 @@ public final class IfInfo {
 		return skipBlocks;
 	}
 
-	public BlockNode getThenBlock() {
+	@NullUnmarked public BlockNode getThenBlock() {
 		return thenBlock;
 	}
 
-	public BlockNode getElseBlock() {
+	@NullUnmarked public BlockNode getElseBlock() {
 		return elseBlock;
 	}
 
-	public BlockNode getOutBlock() {
+	@Nullable public BlockNode getOutBlock() {
 		return outBlock;
 	}
 
-	public void setOutBlock(BlockNode outBlock) {
+	public void setOutBlock(@Nullable BlockNode outBlock) {
 		this.outBlock = outBlock;
 	}
 

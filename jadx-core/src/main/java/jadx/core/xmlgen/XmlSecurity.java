@@ -2,10 +2,11 @@ package jadx.core.xmlgen;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.annotation.Nullable;
 
 public class XmlSecurity {
 
-	 private static DocumentBuilderFactory secureDbf = null;
+	 @Nullable private static DocumentBuilderFactory secureDbf = null;
 
 	private XmlSecurity() {
 	}

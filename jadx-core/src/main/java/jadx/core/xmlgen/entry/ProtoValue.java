@@ -1,15 +1,17 @@
 package jadx.core.xmlgen.entry;
 
 import java.util.List;
+import javax.annotation.Nullable;
+import org.jspecify.annotations.NullUnmarked;
 
 public class ProtoValue {
-	 private String parent;
-	 private String name;
-	 private String value;
+	 @Nullable private String parent;
+	 @Nullable private String name;
+	 @Nullable private String value;
 	private int type;
-	 private List<ProtoValue> namedValues;
+	 @Nullable private List<ProtoValue> namedValues;
 
-	public ProtoValue(String value) {
+	public ProtoValue(@Nullable String value) {
 		this.value = value;
 	}
 
@@ -25,15 +27,15 @@ public class ProtoValue {
 		return this;
 	}
 
-	public String getValue() {
+	@Nullable public String getValue() {
 		return value;
 	}
 
-	public String getParent() {
+	@Nullable public String getParent() {
 		return parent;
 	}
 
-	public ProtoValue setParent(String parent) {
+	public ProtoValue setParent(@Nullable String parent) {
 		this.parent = parent;
 		return this;
 	}
@@ -43,7 +45,7 @@ public class ProtoValue {
 		return this;
 	}
 
-	public String getName() {
+	@Nullable public String getName() {
 		return name;
 	}
 
@@ -52,7 +54,7 @@ public class ProtoValue {
 		return this;
 	}
 
-	public List<ProtoValue> getNamedValues() {
+	@NullUnmarked public List<ProtoValue> getNamedValues() {
 		return namedValues;
 	}
 }

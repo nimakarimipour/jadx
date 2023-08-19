@@ -10,6 +10,8 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.utils.Utils;
+import javax.annotation.Nullable;
+import org.jspecify.annotations.NullUnmarked;
 
 public class FinallyExtractInfo {
 	private final MethodNode mth;
@@ -18,13 +20,13 @@ public class FinallyExtractInfo {
 	private final List<InsnsSlice> duplicateSlices = new ArrayList<>();
 	private final Set<BlockNode> checkedBlocks = new HashSet<>();
 	private final InsnsSlice finallyInsnsSlice = new InsnsSlice();
-	private final BlockNode startBlock;
+	@Nullable private final BlockNode startBlock;
 
-	 private InsnsSlice curDupSlice;
-	 private List<InsnNode> curDupInsns;
+	 @Nullable private InsnsSlice curDupSlice;
+	 @Nullable private List<InsnNode> curDupInsns;
 	private int curDupInsnsOffset;
 
-	public FinallyExtractInfo(MethodNode mth, ExceptionHandler finallyHandler, BlockNode startBlock, List<BlockNode> allHandlerBlocks) {
+	public FinallyExtractInfo(MethodNode mth, ExceptionHandler finallyHandler, @Nullable BlockNode startBlock, List<BlockNode> allHandlerBlocks) {
 		this.mth = mth;
 		this.finallyHandler = finallyHandler;
 		this.startBlock = startBlock;
@@ -55,19 +57,19 @@ public class FinallyExtractInfo {
 		return checkedBlocks;
 	}
 
-	public BlockNode getStartBlock() {
+	@Nullable public BlockNode getStartBlock() {
 		return startBlock;
 	}
 
-	public InsnsSlice getCurDupSlice() {
+	@Nullable public InsnsSlice getCurDupSlice() {
 		return curDupSlice;
 	}
 
-	public void setCurDupSlice(InsnsSlice curDupSlice) {
+	public void setCurDupSlice(@Nullable InsnsSlice curDupSlice) {
 		this.curDupSlice = curDupSlice;
 	}
 
-	public List<InsnNode> getCurDupInsns() {
+	@NullUnmarked public List<InsnNode> getCurDupInsns() {
 		return curDupInsns;
 	}
 
