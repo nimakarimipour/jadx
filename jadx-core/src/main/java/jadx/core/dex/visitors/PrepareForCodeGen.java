@@ -208,7 +208,7 @@ public class PrepareForCodeGen extends AbstractVisitor {
 		}
 	}
 
-	private static void removeParenthesis(IfCondition cond) {
+	private static void removeParenthesis(@Nullable IfCondition cond) {
 		Mode mode = cond.getMode();
 		for (IfCondition c : cond.getArgs()) {
 			if (c.getMode() == mode) {

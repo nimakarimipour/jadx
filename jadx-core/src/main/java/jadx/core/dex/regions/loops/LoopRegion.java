@@ -28,8 +28,8 @@ public final class LoopRegion extends ConditionRegion {
 	// instruction which must be executed before condition in every loop
 	private @Nullable BlockNode preCondition;
 
-	 private IRegion body;
-	 private LoopType type;
+	 @Nullable private IRegion body;
+	 @Nullable private LoopType type;
 
 	public LoopRegion(IRegion parent, LoopInfo info, @Nullable BlockNode header, boolean reversed) {
 		super(parent);
@@ -54,7 +54,7 @@ public final class LoopRegion extends ConditionRegion {
 		return header == null;
 	}
 
-	public IRegion getBody() {
+	@Nullable public IRegion getBody() {
 		return body;
 	}
 
@@ -141,7 +141,7 @@ public final class LoopRegion extends ConditionRegion {
 		return getConditionSourceLine();
 	}
 
-	public LoopType getType() {
+	@Nullable public LoopType getType() {
 		return type;
 	}
 

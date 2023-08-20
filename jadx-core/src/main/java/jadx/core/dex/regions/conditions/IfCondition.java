@@ -37,7 +37,7 @@ public final class IfCondition extends AttrNode {
 
 	private final Mode mode;
 	private final List<IfCondition> args;
-	private final Compare compare;
+	@Nullable private final Compare compare;
 
 	private IfCondition(Compare compare) {
 		this.mode = Mode.COMPARE;
@@ -61,7 +61,7 @@ public final class IfCondition extends AttrNode {
 		}
 	}
 
-	 public static IfCondition fromIfBlock(BlockNode header) {
+	 @Nullable public static IfCondition fromIfBlock(BlockNode header) {
 		InsnNode lastInsn = BlockUtils.getLastInsn(header);
 		if (lastInsn == null) {
 			return null;
@@ -114,11 +114,11 @@ public final class IfCondition extends AttrNode {
 		return mode == Mode.COMPARE;
 	}
 
-	public Compare getCompare() {
+	@Nullable public Compare getCompare() {
 		return compare;
 	}
 
-	public static IfCondition invert(IfCondition cond) {
+	public static IfCondition invert(@Nullable IfCondition cond) {
 		Mode mode = cond.getMode();
 		switch (mode) {
 			case COMPARE:
@@ -149,7 +149,7 @@ public final class IfCondition extends AttrNode {
 		return new IfCondition(Mode.NOT, Collections.singletonList(cond));
 	}
 
-	public static IfCondition simplify(IfCondition cond) {
+	public static IfCondition simplify(@Nullable IfCondition cond) {
 		if (cond.isCompare()) {
 			Compare c = cond.getCompare();
 			IfCondition i = simplifyCmpOp(c);
@@ -203,7 +203,7 @@ public final class IfCondition extends AttrNode {
 		return cond;
 	}
 
-	 private static IfCondition simplifyCmpOp(Compare c) {
+	 @Nullable private static IfCondition simplifyCmpOp(@Nullable Compare c) {
 		if (!c.getA().isInsnWrap()) {
 			return null;
 		}
@@ -325,7 +325,7 @@ public final class IfCondition extends AttrNode {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

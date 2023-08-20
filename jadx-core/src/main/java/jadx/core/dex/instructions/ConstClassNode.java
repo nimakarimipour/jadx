@@ -2,17 +2,18 @@ package jadx.core.dex.instructions;
 
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.InsnNode;
+import javax.annotation.Nullable;
 
 public final class ConstClassNode extends InsnNode {
 
-	private final ArgType clsType;
+	@Nullable private final ArgType clsType;
 
-	public ConstClassNode(ArgType clsType) {
+	public ConstClassNode(@Nullable ArgType clsType) {
 		super(InsnType.CONST_CLASS, 0);
 		this.clsType = clsType;
 	}
 
-	public ArgType getClsType() {
+	@Nullable public ArgType getClsType() {
 		return clsType;
 	}
 
@@ -22,7 +23,7 @@ public final class ConstClassNode extends InsnNode {
 	}
 
 	@Override
-	public boolean isSame(InsnNode obj) {
+	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;
 		}

@@ -69,7 +69,7 @@ public class RootNode {
 	private final Map<ClassInfo, ClassNode> clsMap = new HashMap<>();
 	private List<ClassNode> classes = new ArrayList<>();
 
-	 private ClspGraph clsp;
+	 @Nullable private ClspGraph clsp;
 	@Nullable
 	private String appPackage;
 	@Nullable
@@ -317,12 +317,12 @@ public class RootNode {
 	}
 
 	@Nullable
-	public ClassNode resolveClass(ClassInfo clsInfo) {
+	public ClassNode resolveClass(@Nullable ClassInfo clsInfo) {
 		return clsMap.get(clsInfo);
 	}
 
 	@Nullable
-	public ClassNode resolveClass(ArgType clsType) {
+	public ClassNode resolveClass(@Nullable ArgType clsType) {
 		if (!clsType.isTypeKnown() || clsType.isGenericType()) {
 			return null;
 		}
@@ -427,7 +427,7 @@ public class RootNode {
 	}
 
 	@Nullable
-	public FieldNode resolveField(FieldInfo field) {
+	public FieldNode resolveField(@Nullable FieldInfo field) {
 		ClassNode cls = resolveClass(field.getDeclClass());
 		if (cls == null) {
 			return null;
@@ -493,7 +493,7 @@ public class RootNode {
 		codeDataUpdateListeners.forEach(l -> l.updated(codeData));
 	}
 
-	public ClspGraph getClsp() {
+	@Nullable public ClspGraph getClsp() {
 		return clsp;
 	}
 

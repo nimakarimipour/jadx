@@ -73,7 +73,7 @@ public class RegionMaker {
 		this.regionsLimit = blocksCount * 100;
 	}
 
-	public Region makeRegion(BlockNode startBlock, RegionStack stack) {
+	public Region makeRegion(@Nullable BlockNode startBlock, RegionStack stack) {
 		Region r = new Region(stack.peekRegion());
 		if (startBlock == null) {
 			return r;
@@ -125,7 +125,7 @@ public class RegionMaker {
 	/**
 	 * Recursively traverse all blocks from 'block' until block from 'exits'
 	 */
-	 private BlockNode traverse(IRegion r, BlockNode block, RegionStack stack) {
+	 @Nullable private BlockNode traverse(IRegion r, BlockNode block, RegionStack stack) {
 		if (block.contains(AFlag.MTH_EXIT_BLOCK)) {
 			return null;
 		}
@@ -181,7 +181,7 @@ public class RegionMaker {
 		return null;
 	}
 
-	 private BlockNode processLoop(IRegion curRegion, LoopInfo loop, RegionStack stack) {
+	 @Nullable private BlockNode processLoop(IRegion curRegion, LoopInfo loop, RegionStack stack) {
 		BlockNode loopStart = loop.getStart();
 		Set<BlockNode> exitBlocksSet = loop.getExitNodes();
 
@@ -285,7 +285,7 @@ public class RegionMaker {
 	/**
 	 * Select loop exit and construct LoopRegion
 	 */
-	 private LoopRegion makeLoopRegion(IRegion curRegion, LoopInfo loop, List<BlockNode> exitBlocks) {
+	 @Nullable private LoopRegion makeLoopRegion(IRegion curRegion, LoopInfo loop, List<BlockNode> exitBlocks) {
 		for (BlockNode block : exitBlocks) {
 			if (block.contains(AType.EXC_HANDLER)) {
 				continue;
@@ -367,7 +367,7 @@ public class RegionMaker {
 		return true;
 	}
 
-	 private BlockNode makeEndlessLoop(IRegion curRegion, RegionStack stack, LoopInfo loop, BlockNode loopStart) {
+	 @Nullable private BlockNode makeEndlessLoop(IRegion curRegion, RegionStack stack, LoopInfo loop, BlockNode loopStart) {
 		LoopRegion loopRegion = new LoopRegion(curRegion, loop, null, false);
 		curRegion.getSubBlocks().add(loopRegion);
 
@@ -501,7 +501,7 @@ public class RegionMaker {
 		return true;
 	}
 
-	private void addBreakLabel(Edge exitEdge, BlockNode exit, InsnNode breakInsn) {
+	private void addBreakLabel(Edge exitEdge, @Nullable BlockNode exit, InsnNode breakInsn) {
 		BlockNode outBlock = BlockUtils.getNextBlock(exitEdge.getTarget());
 		if (outBlock == null) {
 			return;
@@ -587,7 +587,7 @@ public class RegionMaker {
 		return true;
 	}
 
-	 private BlockNode processMonitorEnter(IRegion curRegion, BlockNode block, InsnNode insn, RegionStack stack) {
+	 @Nullable private BlockNode processMonitorEnter(IRegion curRegion, BlockNode block, InsnNode insn, RegionStack stack) {
 		SynchronizedRegion synchRegion = new SynchronizedRegion(curRegion, insn);
 		synchRegion.getSubBlocks().add(block);
 		curRegion.getSubBlocks().add(synchRegion);
@@ -663,7 +663,7 @@ public class RegionMaker {
 	/**
 	 * Traverse from monitor-enter thru successors and search for exit paths cross
 	 */
-	 private static BlockNode traverseMonitorExitsCross(BlockNode block, Set<BlockNode> exits, Set<BlockNode> visited) {
+	 @Nullable private static BlockNode traverseMonitorExitsCross(BlockNode block, Set<BlockNode> exits, Set<BlockNode> visited) {
 		visited.add(block);
 		for (BlockNode node : block.getCleanSuccessors()) {
 			boolean cross = true;
@@ -687,7 +687,7 @@ public class RegionMaker {
 		return null;
 	}
 
-	 private BlockNode processIf(IRegion currentRegion, BlockNode block, IfNode ifnode, RegionStack stack) {
+	 @Nullable private BlockNode processIf(IRegion currentRegion, BlockNode block, IfNode ifnode, RegionStack stack) {
 		if (block.contains(AFlag.ADDED_TO_REGION)) {
 			// block already included in other 'if' region
 			return ifnode.getThenBlock();
@@ -770,7 +770,7 @@ public class RegionMaker {
 		region.add(start);
 	}
 
-	 private BlockNode processSwitch(IRegion currentRegion, BlockNode block, SwitchInsn insn, RegionStack stack) {
+	 @Nullable private BlockNode processSwitch(IRegion currentRegion, BlockNode block, SwitchInsn insn, RegionStack stack) {
 		// map case blocks to keys
 		int len = insn.getTargets().length;
 		Map<BlockNode, List<Object>> blocksMap = new LinkedHashMap<>(len);
@@ -930,7 +930,7 @@ public class RegionMaker {
 	 * 1. single 'default' case
 	 * 2. filler cases if switch is 'packed' and 'default' case is empty
 	 */
-	private void removeEmptyCases(SwitchInsn insn, SwitchRegion sw, BlockNode defCase) {
+	private void removeEmptyCases(SwitchInsn insn, SwitchRegion sw, @Nullable BlockNode defCase) {
 		boolean defaultCaseIsEmpty;
 		if (defCase == null) {
 			defaultCaseIsEmpty = true;
@@ -1007,7 +1007,7 @@ public class RegionMaker {
 		}
 	}
 
-	public IRegion processTryCatchBlocks(MethodNode mth) {
+	@Nullable public IRegion processTryCatchBlocks(MethodNode mth) {
 		List<TryCatchBlockAttr> tcs = mth.getAll(AType.TRY_BLOCKS_LIST);
 		for (TryCatchBlockAttr tc : tcs) {
 			List<BlockNode> blocks = new ArrayList<>(tc.getHandlersCount());
@@ -1049,7 +1049,7 @@ public class RegionMaker {
 	/**
 	 * Search handlers successor blocks not included in any region.
 	 */
-	 protected IRegion processHandlersOutBlocks(MethodNode mth, List<TryCatchBlockAttr> tcs) {
+	 @Nullable protected IRegion processHandlersOutBlocks(MethodNode mth, List<TryCatchBlockAttr> tcs) {
 		Set<IBlock> allRegionBlocks = new HashSet<>();
 		RegionUtils.getAllRegionBlocks(mth.getRegion(), allRegionBlocks);
 
@@ -1114,7 +1114,7 @@ public class RegionMaker {
 		}
 	}
 
-	static boolean isEqualPaths(BlockNode b1, BlockNode b2) {
+	static boolean isEqualPaths(@Nullable BlockNode b1, @Nullable BlockNode b2) {
 		if (b1 == b2) {
 			return true;
 		}
@@ -1130,7 +1130,7 @@ public class RegionMaker {
 		return n1 == n2 || isEqualReturnBlocks(n1, n2);
 	}
 
-	public static boolean isEqualReturnBlocks(BlockNode b1, BlockNode b2) {
+	public static boolean isEqualReturnBlocks(@Nullable BlockNode b1, @Nullable BlockNode b2) {
 		if (!b1.isReturnBlock() || !b2.isReturnBlock()) {
 			return false;
 		}

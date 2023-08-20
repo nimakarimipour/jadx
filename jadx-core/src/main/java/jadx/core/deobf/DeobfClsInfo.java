@@ -1,14 +1,15 @@
 package jadx.core.deobf;
 
 import jadx.core.dex.nodes.ClassNode;
+import javax.annotation.Nullable;
 
 class DeobfClsInfo {
 	private final Deobfuscator deobfuscator;
 	private final ClassNode cls;
-	private final PackageNode pkg;
+	@Nullable private final PackageNode pkg;
 	private final String alias;
 
-	public DeobfClsInfo(Deobfuscator deobfuscator, ClassNode cls, PackageNode pkg, String alias) {
+	public DeobfClsInfo(Deobfuscator deobfuscator, ClassNode cls, @Nullable PackageNode pkg, String alias) {
 		this.deobfuscator = deobfuscator;
 		this.cls = cls;
 		this.pkg = pkg;
@@ -40,7 +41,7 @@ class DeobfClsInfo {
 		return cls;
 	}
 
-	public PackageNode getPkg() {
+	@Nullable public PackageNode getPkg() {
 		return pkg;
 	}
 

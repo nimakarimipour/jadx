@@ -49,7 +49,7 @@ public class TypeUtils {
 	}
 
 	@Nullable
-	public ClassTypeVarsAttr getClassTypeVars(ArgType type) {
+	public ClassTypeVarsAttr getClassTypeVars(@Nullable ArgType type) {
 		ClassNode classNode = root.resolveClass(type);
 		if (classNode == null) {
 			return null;
@@ -68,7 +68,7 @@ public class TypeUtils {
 		return type;
 	}
 
-	public ArgType expandTypeVariables(MethodNode mth, ArgType type) {
+	public ArgType expandTypeVariables(MethodNode mth, @Nullable ArgType type) {
 		if (type.containsTypeVariable()) {
 			expandTypeVar(mth, type, getKnownTypeVarsAtMethod(mth));
 		}
@@ -162,12 +162,12 @@ public class TypeUtils {
 	 * </ul>
 	 */
 	@Nullable
-	public ArgType replaceClassGenerics(ArgType instanceType, ArgType typeWithGeneric) {
+	public ArgType replaceClassGenerics(@Nullable ArgType instanceType, ArgType typeWithGeneric) {
 		return replaceClassGenerics(instanceType, instanceType, typeWithGeneric);
 	}
 
 	@Nullable
-	public ArgType replaceClassGenerics(ArgType instanceType, ArgType genericSourceType, ArgType typeWithGeneric) {
+	public ArgType replaceClassGenerics(@Nullable ArgType instanceType, @Nullable ArgType genericSourceType, ArgType typeWithGeneric) {
 		if (typeWithGeneric == null || genericSourceType == null) {
 			return null;
 		}
@@ -206,7 +206,7 @@ public class TypeUtils {
 		return map;
 	}
 
-	public Map<ArgType, ArgType> getTypeVariablesMapping(ArgType clsType) {
+	public Map<ArgType, ArgType> getTypeVariablesMapping(@Nullable ArgType clsType) {
 		if (!clsType.isGeneric()) {
 			return Collections.emptyMap();
 		}
@@ -245,7 +245,7 @@ public class TypeUtils {
 		return map;
 	}
 
-	private static void addTypeVarMapping(Map<ArgType, ArgType> map, ArgType typeVar, InsnArg arg) {
+	private static void addTypeVarMapping(Map<ArgType, ArgType> map, @Nullable ArgType typeVar, @Nullable InsnArg arg) {
 		if (arg == null || typeVar == null || !typeVar.isTypeKnown()) {
 			return;
 		}
@@ -279,7 +279,7 @@ public class TypeUtils {
 	}
 
 	@Nullable
-	public ArgType replaceTypeVariablesUsingMap(ArgType replaceType, Map<ArgType, ArgType> replaceMap) {
+	public ArgType replaceTypeVariablesUsingMap(@Nullable ArgType replaceType, Map<ArgType, ArgType> replaceMap) {
 		if (replaceMap.isEmpty()) {
 			return null;
 		}

@@ -41,7 +41,7 @@ public class CodeGenUtils {
 		}
 	}
 
-	public static void addError(ICodeWriter code, String errMsg, Throwable cause) {
+	public static void addError(ICodeWriter code, String errMsg, @Nullable Throwable cause) {
 		code.startLine("/*  JADX ERROR: ").add(errMsg);
 		if (cause != null) {
 			code.incIndent();
@@ -60,7 +60,7 @@ public class CodeGenUtils {
 		addCodeComments(code, node, node);
 	}
 
-	public static void addCodeComments(ICodeWriter code, NotificationAttrNode parent, @Nullable IAttributeNode node) {
+	public static void addCodeComments(ICodeWriter code, @Nullable NotificationAttrNode parent, @Nullable IAttributeNode node) {
 		if (node == null) {
 			return;
 		}
@@ -156,7 +156,7 @@ public class CodeGenUtils {
 		}
 	}
 
-	 public static CodeVar getCodeVar(RegisterArg arg) {
+	 @Nullable public static CodeVar getCodeVar(RegisterArg arg) {
 		SSAVar svar = arg.getSVar();
 		if (svar != null) {
 			return svar.getCodeVar();

@@ -1,9 +1,10 @@
 package jadx.core.dex.instructions.args;
+import javax.annotation.Nullable;
 
 public class VarName {
-	 private String name;
+	 @Nullable private String name;
 
-	public String getName() {
+	@Nullable public String getName() {
 		return name;
 	}
 
@@ -11,7 +12,7 @@ public class VarName {
 		this.name = name;
 	}
 
-	@Override
+	@Nullable @Override
 	public String toString() {
 		return name;
 	}

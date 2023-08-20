@@ -5,6 +5,7 @@ import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.InsnNode;
+import javax.annotation.Nullable;
 
 
 public final class ForEachLoop extends LoopType {
@@ -31,7 +32,7 @@ public final class ForEachLoop extends LoopType {
 		loopRegion.getHeader().getInstructions().add(0, varArgInsn);
 	}
 
-	public RegisterArg getVarArg() {
+	@Nullable public RegisterArg getVarArg() {
 		return varArgInsn.getResult();
 	}
 

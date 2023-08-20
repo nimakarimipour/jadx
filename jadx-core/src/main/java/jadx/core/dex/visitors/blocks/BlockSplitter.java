@@ -25,6 +25,7 @@ import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.dex.visitors.AbstractVisitor;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 public class BlockSplitter extends AbstractVisitor {
 
@@ -143,7 +144,7 @@ public class BlockSplitter extends AbstractVisitor {
 		return block;
 	}
 
-	public static void connect(BlockNode from, BlockNode to) {
+	public static void connect(BlockNode from, @Nullable BlockNode to) {
 		if (!from.getSuccessors().contains(to)) {
 			from.getSuccessors().add(to);
 		}
@@ -152,12 +153,12 @@ public class BlockSplitter extends AbstractVisitor {
 		}
 	}
 
-	public static void removeConnection(BlockNode from, BlockNode to) {
+	public static void removeConnection(@Nullable BlockNode from, @Nullable BlockNode to) {
 		from.getSuccessors().remove(to);
 		to.getPredecessors().remove(from);
 	}
 
-	public static void removePredecessors(BlockNode block) {
+	public static void removePredecessors(@Nullable BlockNode block) {
 		for (BlockNode pred : block.getPredecessors()) {
 			pred.getSuccessors().remove(block);
 		}
@@ -396,7 +397,7 @@ public class BlockSplitter extends AbstractVisitor {
 				&& !block.getSuccessors().contains(block); // no self loop
 	}
 
-	static void collectSuccessors(BlockNode startBlock, BlockNode methodEnterBlock, Set<BlockNode> toRemove) {
+	static void collectSuccessors(BlockNode startBlock, @Nullable BlockNode methodEnterBlock, Set<BlockNode> toRemove) {
 		Deque<BlockNode> stack = new ArrayDeque<>();
 		stack.add(startBlock);
 		while (!stack.isEmpty()) {

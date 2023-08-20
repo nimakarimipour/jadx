@@ -26,6 +26,7 @@ import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.xmlgen.ResourceStorage;
 import jadx.core.xmlgen.entry.ResourceEntry;
+import javax.annotation.Nullable;
 
 /**
  * Android resources specific handlers
@@ -76,7 +77,7 @@ public class AndroidResourcesUtils {
 	/**
 	 * Force hex format for Android resources ids
 	 */
-	public static boolean handleResourceFieldValue(ClassNode cls, ICodeWriter code, long lit, ArgType type) {
+	public static boolean handleResourceFieldValue(ClassNode cls, ICodeWriter code, long lit, @Nullable ArgType type) {
 		if (type.equals(ArgType.INT) && isResourceClass(cls)) {
 			code.add(String.format("0x%08x", lit));
 			return true;

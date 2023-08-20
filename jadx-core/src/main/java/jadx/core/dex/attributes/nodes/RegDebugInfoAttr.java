@@ -5,13 +5,14 @@ import java.util.Objects;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.instructions.args.ArgType;
+import javax.annotation.Nullable;
 
 public class RegDebugInfoAttr implements IJadxAttribute {
 
-	private final ArgType type;
+	@Nullable private final ArgType type;
 	private final String name;
 
-	public RegDebugInfoAttr(ArgType type, String name) {
+	public RegDebugInfoAttr(@Nullable ArgType type, String name) {
 		this.type = type;
 		this.name = name;
 	}
@@ -20,7 +21,7 @@ public class RegDebugInfoAttr implements IJadxAttribute {
 		return name;
 	}
 
-	public ArgType getRegType() {
+	@Nullable public ArgType getRegType() {
 		return type;
 	}
 

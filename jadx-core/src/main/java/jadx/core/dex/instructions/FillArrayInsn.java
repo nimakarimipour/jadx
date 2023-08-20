@@ -7,10 +7,11 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.LiteralArg;
 import jadx.core.dex.nodes.InsnNode;
+import javax.annotation.Nullable;
 
 public final class FillArrayInsn extends InsnNode {
 	private final int target;
-	 private FillArrayData arrayData;
+	 @Nullable private FillArrayData arrayData;
 
 	public FillArrayInsn(InsnArg arg, int target) {
 		super(InsnType.FILL_ARRAY, 1);
@@ -27,7 +28,7 @@ public final class FillArrayInsn extends InsnNode {
 	}
 
 	@Override
-	public boolean isSame(InsnNode obj) {
+	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -57,7 +58,7 @@ public final class FillArrayInsn extends InsnNode {
 		return arrayData.getElementType();
 	}
 
-	public List<LiteralArg> getLiteralArgs(ArgType elType) {
+	public List<LiteralArg> getLiteralArgs(@Nullable ArgType elType) {
 		return arrayData.getLiteralArgs(elType);
 	}
 

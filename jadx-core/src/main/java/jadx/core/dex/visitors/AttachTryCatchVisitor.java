@@ -48,7 +48,7 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 		initTryCatches(mth, mth.getInstructions(), mth.getCodeReader().getTries());
 	}
 
-	private static void initTryCatches(MethodNode mth, InsnNode[] insnByOffset, List<ITry> tries) {
+	private static void initTryCatches(MethodNode mth, @Nullable InsnNode[] insnByOffset, List<ITry> tries) {
 		if (tries.isEmpty()) {
 			return;
 		}
@@ -65,7 +65,7 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 		}
 	}
 
-	 private static void markTryBounds(InsnNode[] insnByOffset, ITry aTry, CatchAttr catchAttr) {
+	 private static void markTryBounds(@Nullable InsnNode[] insnByOffset, ITry aTry, CatchAttr catchAttr) {
 		int offset = aTry.getStartOffset();
 		int end = aTry.getEndOffset();
 
@@ -108,7 +108,7 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static List<ExceptionHandler> convertToHandlers(MethodNode mth, ICatch catchBlock, InsnNode[] insnByOffset) {
+	private static List<ExceptionHandler> convertToHandlers(MethodNode mth, ICatch catchBlock, @Nullable InsnNode[] insnByOffset) {
 		int[] handlerOffsetArr = catchBlock.getHandlers();
 		String[] handlerTypes = catchBlock.getTypes();
 
@@ -128,7 +128,7 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 	}
 
 	@Nullable
-	private static ExceptionHandler createHandler(MethodNode mth, InsnNode[] insnByOffset, int handlerOffset, @Nullable ClassInfo type) {
+	private static ExceptionHandler createHandler(MethodNode mth, @Nullable InsnNode[] insnByOffset, int handlerOffset, @Nullable ClassInfo type) {
 		InsnNode insn = insnByOffset[handlerOffset];
 		if (insn != null) {
 			ExcHandlerAttr excHandlerAttr = insn.get(AType.EXC_HANDLER);
@@ -189,7 +189,7 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 				.orElseThrow(() -> new JadxRuntimeException("Failed to get max type from catch list: " + catchTypes));
 	}
 
-	private static InsnNode insertNOP(InsnNode[] insnByOffset, int offset) {
+	private static InsnNode insertNOP(@Nullable InsnNode[] insnByOffset, int offset) {
 		InsnNode nop = new InsnNode(InsnType.NOP, 0);
 		nop.setOffset(offset);
 		nop.add(AFlag.SYNTHETIC);

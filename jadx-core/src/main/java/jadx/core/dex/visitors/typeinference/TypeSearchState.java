@@ -14,6 +14,7 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 public class TypeSearchState {
 
@@ -28,7 +29,7 @@ public class TypeSearchState {
 	}
 
 	@NotNull
-	public TypeSearchVarInfo getVarInfo(SSAVar var) {
+	public TypeSearchVarInfo getVarInfo(@Nullable SSAVar var) {
 		TypeSearchVarInfo varInfo = this.varInfoMap.get(var);
 		if (varInfo == null) {
 			throw new JadxRuntimeException("TypeSearchVarInfo not found in map for var: " + var);
@@ -36,7 +37,7 @@ public class TypeSearchState {
 		return varInfo;
 	}
 
-	public ArgType getArgType(InsnArg arg) {
+	@Nullable public ArgType getArgType(@Nullable InsnArg arg) {
 		if (arg.isRegister()) {
 			RegisterArg reg = (RegisterArg) arg;
 			return getVarInfo(reg.getSVar()).getCurrentType();

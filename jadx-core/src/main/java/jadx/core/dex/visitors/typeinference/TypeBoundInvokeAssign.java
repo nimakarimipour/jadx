@@ -30,17 +30,17 @@ public final class TypeBoundInvokeAssign implements ITypeBoundDynamic {
 		return BoundEnum.ASSIGN;
 	}
 
-	@Override
+	@Nullable @Override
 	public ArgType getType(TypeUpdateInfo updateInfo) {
 		return getReturnType(updateInfo.getType(getInstanceArg()));
 	}
 
-	@Override
+	@Nullable @Override
 	public ArgType getType() {
 		return getReturnType(getInstanceArg().getType());
 	}
 
-	private ArgType getReturnType(ArgType instanceType) {
+	@Nullable private ArgType getReturnType(@Nullable ArgType instanceType) {
 		ArgType mthDeclType;
 		IMethodDetails methodDetails = root.getMethodUtils().getMethodDetails(invokeNode);
 		if (methodDetails != null) {
@@ -72,7 +72,7 @@ public final class TypeBoundInvokeAssign implements ITypeBoundDynamic {
 		return invokeNode.getArg(0);
 	}
 
-	@Override
+	@Nullable @Override
 	public RegisterArg getArg() {
 		return invokeNode.getResult();
 	}

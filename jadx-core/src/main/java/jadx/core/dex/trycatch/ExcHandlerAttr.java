@@ -2,6 +2,7 @@ package jadx.core.dex.trycatch;
 
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
 import jadx.core.dex.attributes.AType;
+import javax.annotation.Nullable;
 
 public class ExcHandlerAttr implements IJadxAttribute {
 
@@ -16,7 +17,7 @@ public class ExcHandlerAttr implements IJadxAttribute {
 		return AType.EXC_HANDLER;
 	}
 
-	public TryCatchBlockAttr getTryBlock() {
+	@Nullable public TryCatchBlockAttr getTryBlock() {
 		return handler.getTryBlock();
 	}
 

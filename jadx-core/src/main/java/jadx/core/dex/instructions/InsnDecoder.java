@@ -28,6 +28,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.input.InsnDataUtils;
+import javax.annotation.Nullable;
 
 
 public class InsnDecoder {
@@ -529,7 +530,7 @@ public class InsnDecoder {
 		return newArr;
 	}
 
-	private ArgType tryResolveFieldType(FieldInfo igetFld) {
+	@Nullable private ArgType tryResolveFieldType(FieldInfo igetFld) {
 		FieldNode fieldNode = root.resolveField(igetFld);
 		if (fieldNode != null) {
 			return fieldNode.getType();
@@ -659,7 +660,7 @@ public class InsnDecoder {
 		return node;
 	}
 
-	private InsnNode insn(InsnType type, RegisterArg res, InsnArg arg) {
+	private InsnNode insn(InsnType type, @Nullable RegisterArg res, InsnArg arg) {
 		InsnNode node = new InsnNode(type, 1);
 		node.setResult(res);
 		node.addArg(arg);

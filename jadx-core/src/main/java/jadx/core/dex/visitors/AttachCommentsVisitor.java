@@ -36,7 +36,7 @@ public class AttachCommentsVisitor extends AbstractVisitor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AttachCommentsVisitor.class);
 
-	 private Map<String, List<ICodeComment>> clsCommentsMap;
+	 @Nullable private Map<String, List<ICodeComment>> clsCommentsMap;
 
 	@Override
 	public void init(RootNode root) throws JadxException {
@@ -88,7 +88,7 @@ public class AttachCommentsVisitor extends AbstractVisitor {
 		}
 	}
 
-	 private static InsnNode getInsnByOffset(MethodNode mth, int offset) {
+	 @Nullable private static InsnNode getInsnByOffset(MethodNode mth, int offset) {
 		try {
 			return mth.getInstructions()[offset];
 		} catch (Exception e) {

@@ -60,6 +60,7 @@ import jadx.core.utils.InsnUtils;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxOverflowException;
+import com.uber.nullaway.annotations.Initializer;
 
 @JadxVisitor(
 		name = "Type Inference",
@@ -77,7 +78,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	private TypeUpdate typeUpdate;
 	private List<Function<MethodNode, Boolean>> resolvers;
 
-	 @Override
+	 @Initializer @Override
 	public void init(RootNode root) {
 		this.root = root;
 		this.typeUpdate = root.getTypeUpdate();
@@ -253,7 +254,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		}
 	}
 
-	private void addBound(TypeInfo typeInfo, ITypeBound bound) {
+	private void addBound(TypeInfo typeInfo, @Nullable ITypeBound bound) {
 		if (bound == null) {
 			return;
 		}
@@ -377,7 +378,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return new TypeBoundConst(BoundEnum.USE, regArg.getInitType(), regArg);
 	}
 
-	 private ITypeBound makeInvokeUseBound(RegisterArg regArg, BaseInvokeNode invoke) {
+	 @Nullable private ITypeBound makeInvokeUseBound(RegisterArg regArg, BaseInvokeNode invoke) {
 		InsnArg instanceArg = invoke.getInstanceArg();
 		if (instanceArg == null) {
 			return null;
@@ -419,7 +420,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	private List<ArgType> makePossibleTypesList(ArgType type, @Nullable SSAVar var) {
+	private List<ArgType> makePossibleTypesList(@Nullable ArgType type, @Nullable SSAVar var) {
 		if (type.isArray()) {
 			List<ArgType> list = new ArrayList<>();
 			for (ArgType arrElemType : makePossibleTypesList(type.getArrayElement(), null)) {
@@ -665,7 +666,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	}
 
 	@NotNull
-	private IndexInsnNode makeSoftCastInsn(RegisterArg result, RegisterArg arg, ArgType castType) {
+	private IndexInsnNode makeSoftCastInsn(RegisterArg result, RegisterArg arg, @Nullable ArgType castType) {
 		IndexInsnNode castInsn = new IndexInsnNode(InsnType.CHECK_CAST, castType, 1);
 		castInsn.setResult(result.duplicate());
 		castInsn.addArg(arg.duplicate());
@@ -981,7 +982,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return convertInsn;
 	}
 
-	private TernaryInsn prepareBooleanConvertInsn(RegisterArg resultArg, RegisterArg boundArg, ArgType useType) {
+	private TernaryInsn prepareBooleanConvertInsn(@Nullable RegisterArg resultArg, RegisterArg boundArg, @Nullable ArgType useType) {
 		RegisterArg useArg = boundArg.getSVar().getAssign().duplicate();
 		TernaryInsn convertInsn = ModVisitor.makeBooleanConvertInsn(resultArg, useArg, useType);
 		convertInsn.add(AFlag.SYNTHETIC);

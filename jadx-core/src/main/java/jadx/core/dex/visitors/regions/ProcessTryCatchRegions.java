@@ -18,6 +18,7 @@ import jadx.core.dex.regions.loops.LoopRegion;
 import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.dex.trycatch.TryCatchBlockAttr;
 import jadx.core.utils.RegionUtils;
+import javax.annotation.Nullable;
 
 /**
  * Extract blocks to separate try/catch region
@@ -66,7 +67,7 @@ public class ProcessTryCatchRegions extends AbstractRegionVisitor {
 	/**
 	 * Extract all block dominated by 'dominator' to separate region and mark as try/catch block
 	 */
-	private static boolean wrapBlocks(IRegion replaceRegion, TryCatchBlockAttr tb, BlockNode dominator) {
+	private static boolean wrapBlocks(@Nullable IRegion replaceRegion, TryCatchBlockAttr tb, @Nullable BlockNode dominator) {
 		if (replaceRegion == null) {
 			return false;
 		}

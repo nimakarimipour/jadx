@@ -9,12 +9,13 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.regions.conditions.IfCondition;
 import jadx.core.utils.InsnUtils;
+import javax.annotation.Nullable;
 
 public final class TernaryInsn extends InsnNode {
 
-	 private IfCondition condition;
+	 @Nullable private IfCondition condition;
 
-	public TernaryInsn(IfCondition condition, RegisterArg result, InsnArg th, InsnArg els) {
+	public TernaryInsn(@Nullable IfCondition condition, @Nullable RegisterArg result, InsnArg th, InsnArg els) {
 		this();
 		setResult(result);
 
@@ -35,7 +36,7 @@ public final class TernaryInsn extends InsnNode {
 		super(InsnType.TERNARY, 2);
 	}
 
-	public IfCondition getCondition() {
+	@Nullable public IfCondition getCondition() {
 		return condition;
 	}
 
@@ -65,7 +66,7 @@ public final class TernaryInsn extends InsnNode {
 	}
 
 	@Override
-	public boolean isSame(InsnNode obj) {
+	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;
 		}

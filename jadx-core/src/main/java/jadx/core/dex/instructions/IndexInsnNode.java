@@ -5,17 +5,18 @@ import java.util.Objects;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.InsnUtils;
 import jadx.core.utils.Utils;
+import javax.annotation.Nullable;
 
 public class IndexInsnNode extends InsnNode {
 
-	private Object index;
+	@Nullable private Object index;
 
-	public IndexInsnNode(InsnType type, Object index, int argCount) {
+	public IndexInsnNode(InsnType type, @Nullable Object index, int argCount) {
 		super(type, argCount);
 		this.index = index;
 	}
 
-	public Object getIndex() {
+	@Nullable public Object getIndex() {
 		return index;
 	}
 
@@ -29,7 +30,7 @@ public class IndexInsnNode extends InsnNode {
 	}
 
 	@Override
-	public boolean isSame(InsnNode obj) {
+	public boolean isSame(@Nullable InsnNode obj) {
 		if (this == obj) {
 			return true;
 		}

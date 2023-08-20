@@ -19,7 +19,7 @@ public class TypeGen {
 	private TypeGen() {
 	}
 
-	public static String signature(ArgType type) {
+	public static String signature(@Nullable ArgType type) {
 		PrimitiveType stype = type.getPrimitiveType();
 		if (stype == PrimitiveType.OBJECT) {
 			return Utils.makeQualifiedObjectName(type.getObject());
@@ -33,7 +33,7 @@ public class TypeGen {
 	/**
 	 * Convert literal arg to string (preferred method)
 	 */
-	public static String literalToString(LiteralArg arg, IDexNode dexNode, boolean fallback) {
+	public static String literalToString(LiteralArg arg, @Nullable IDexNode dexNode, boolean fallback) {
 		return literalToString(arg.getLiteral(), arg.getType(),
 				dexNode.root().getStringUtils(),
 				fallback,
@@ -45,11 +45,11 @@ public class TypeGen {
 	 *
 	 * @throws JadxRuntimeException for incorrect type or literal value
 	 */
-	public static String literalToString(long lit, ArgType type, IDexNode dexNode, boolean fallback) {
+	public static String literalToString(long lit, @Nullable ArgType type, @Nullable IDexNode dexNode, boolean fallback) {
 		return literalToString(lit, type, dexNode.root().getStringUtils(), fallback, false);
 	}
 
-	public static String literalToString(long lit, ArgType type, StringUtils stringUtils, boolean fallback, boolean cast) {
+	public static String literalToString(long lit, @Nullable ArgType type, StringUtils stringUtils, boolean fallback, boolean cast) {
 		if (type == null || !type.isTypeKnown()) {
 			String n = Long.toString(lit);
 			if (fallback && Math.abs(lit) > 100) {

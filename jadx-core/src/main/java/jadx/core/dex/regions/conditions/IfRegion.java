@@ -11,16 +11,17 @@ import jadx.core.dex.nodes.IBranchRegion;
 import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.IRegion;
 import jadx.core.utils.exceptions.CodegenException;
+import javax.annotation.Nullable;
 
 public final class IfRegion extends ConditionRegion implements IBranchRegion {
-	 private IContainer thenRegion;
-	 private IContainer elseRegion;
+	 @Nullable private IContainer thenRegion;
+	 @Nullable private IContainer elseRegion;
 
 	public IfRegion(IRegion parent) {
 		super(parent);
 	}
 
-	public IContainer getThenRegion() {
+	@Nullable public IContainer getThenRegion() {
 		return thenRegion;
 	}
 
@@ -28,11 +29,11 @@ public final class IfRegion extends ConditionRegion implements IBranchRegion {
 		this.thenRegion = thenRegion;
 	}
 
-	public IContainer getElseRegion() {
+	@Nullable public IContainer getElseRegion() {
 		return elseRegion;
 	}
 
-	public void setElseRegion(IContainer elseRegion) {
+	public void setElseRegion(@Nullable IContainer elseRegion) {
 		this.elseRegion = elseRegion;
 	}
 

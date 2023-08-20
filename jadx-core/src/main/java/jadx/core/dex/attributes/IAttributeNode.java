@@ -5,6 +5,7 @@ import java.util.List;
 import jadx.api.plugins.input.data.annotations.IAnnotation;
 import jadx.api.plugins.input.data.attributes.IJadxAttrType;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
+import javax.annotation.Nullable;
 
 public interface IAttributeNode {
 
@@ -26,9 +27,9 @@ public interface IAttributeNode {
 
 	<T extends IJadxAttribute> boolean contains(IJadxAttrType<T> type);
 
-	<T extends IJadxAttribute> T get(IJadxAttrType<T> type);
+	@Nullable <T extends IJadxAttribute> T get(IJadxAttrType<T> type);
 
-	IAnnotation getAnnotation(String cls);
+	@Nullable IAnnotation getAnnotation(String cls);
 
 	<T> List<T> getAll(IJadxAttrType<AttrList<T>> type);
 

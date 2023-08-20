@@ -12,16 +12,17 @@ import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 public class LiveVarAnalysis {
 	private static final Logger LOG = LoggerFactory.getLogger(LiveVarAnalysis.class);
 
 	private final MethodNode mth;
 
-	 private BitSet[] uses;
-	 private BitSet[] defs;
-	 private BitSet[] liveIn;
-	 private BitSet[] assignBlocks;
+	 @Nullable private BitSet[] uses;
+	 @Nullable private BitSet[] defs;
+	 @Nullable private BitSet[] liveIn;
+	 @Nullable private BitSet[] assignBlocks;
 
 	public LiveVarAnalysis(MethodNode mth) {
 		this.mth = mth;

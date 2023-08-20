@@ -7,6 +7,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.utils.exceptions.JadxOverflowException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 public class DepthRegionTraversal {
 
@@ -59,7 +60,7 @@ public class DepthRegionTraversal {
 		} while (repeat);
 	}
 
-	private static void traverseInternal(MethodNode mth, IRegionVisitor visitor, IContainer container) {
+	private static void traverseInternal(MethodNode mth, IRegionVisitor visitor, @Nullable IContainer container) {
 		if (container instanceof IBlock) {
 			visitor.processBlock(mth, (IBlock) container);
 		} else if (container instanceof IRegion) {
@@ -71,7 +72,7 @@ public class DepthRegionTraversal {
 		}
 	}
 
-	private static boolean traverseIterativeStepInternal(MethodNode mth, IRegionIterativeVisitor visitor, IContainer container) {
+	private static boolean traverseIterativeStepInternal(MethodNode mth, IRegionIterativeVisitor visitor, @Nullable IContainer container) {
 		if (container instanceof IRegion) {
 			IRegion region = (IRegion) container;
 			if (visitor.visitRegion(mth, region)) {

@@ -36,6 +36,7 @@ import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.dex.visitors.typeinference.TypeUpdateResult;
 import jadx.core.utils.BlockUtils;
 import jadx.core.utils.exceptions.JadxException;
+import javax.annotation.Nullable;
 
 @JadxVisitor(
 		name = "Debug Info Apply",
@@ -133,7 +134,7 @@ public class DebugInfoApplyVisitor extends AbstractVisitor {
 		return applyDebugInfo(mth, ssaVar, debugInfoAttr.getRegType(), debugInfoAttr.getName());
 	}
 
-	public static boolean applyDebugInfo(MethodNode mth, SSAVar ssaVar, ArgType type, String varName) {
+	public static boolean applyDebugInfo(MethodNode mth, @Nullable SSAVar ssaVar, @Nullable ArgType type, @Nullable String varName) {
 		TypeUpdateResult result = mth.root().getTypeUpdate().applyWithWiderIgnoreUnknown(mth, ssaVar, type);
 		if (result == TypeUpdateResult.REJECT) {
 			if (Consts.DEBUG_TYPE_INFERENCE) {
@@ -196,7 +197,7 @@ public class DebugInfoApplyVisitor extends AbstractVisitor {
 		});
 	}
 
-	private static void addArgName(InsnArg arg, Set<String> names) {
+	private static void addArgName(@Nullable InsnArg arg, Set<String> names) {
 		if (arg instanceof Named) {
 			String name = ((Named) arg).getName();
 			if (name != null) {

@@ -22,12 +22,12 @@ import jadx.core.utils.BlockUtils;
 
 public class SimpleModeHelper {
 
-	private final MethodNode mth;
+	@Nullable private final MethodNode mth;
 
 	private final BitSet startLabel;
 	private final BitSet endGoto;
 
-	public SimpleModeHelper(MethodNode mth) {
+	public SimpleModeHelper(@Nullable MethodNode mth) {
 		this.mth = mth;
 		this.startLabel = BlockUtils.newBlocksBitSet(mth);
 		this.endGoto = BlockUtils.newBlocksBitSet(mth);

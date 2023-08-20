@@ -115,7 +115,7 @@ public abstract class ArgType {
 		return new WildcardType(OBJECT, WildcardBound.UNBOUND);
 	}
 
-	public static ArgType wildcard(ArgType obj, WildcardBound bound) {
+	public static ArgType wildcard(@Nullable ArgType obj, @Nullable WildcardBound bound) {
 		return new WildcardType(obj, bound);
 	}
 
@@ -134,7 +134,7 @@ public abstract class ArgType {
 		return new GenericObject(Utils.cleanObjectName(obj), generics);
 	}
 
-	public static ArgType generic(String obj, ArgType generic) {
+	public static ArgType generic(String obj, @Nullable ArgType generic) {
 		return generic(obj, Collections.singletonList(generic));
 	}
 
@@ -143,7 +143,7 @@ public abstract class ArgType {
 		return generic(obj, Arrays.asList(generics));
 	}
 
-	public static ArgType outerGeneric(ArgType genericOuterType, ArgType innerType) {
+	public static ArgType outerGeneric(@Nullable ArgType genericOuterType, @Nullable ArgType innerType) {
 		return new OuterGenericObject((ObjectType) genericOuterType, (ObjectType) innerType);
 	}
 
@@ -176,11 +176,11 @@ public abstract class ArgType {
 		}
 
 		@Override
-		public boolean contains(PrimitiveType type) {
+		public boolean contains(@Nullable PrimitiveType type) {
 			return getPrimitiveType() == type;
 		}
 
-		 @Override
+		 @Nullable @Override
 		public ArgType selectFirst() {
 			return null;
 		}
@@ -331,7 +331,7 @@ public abstract class ArgType {
 		private final ArgType type;
 		private final WildcardBound bound;
 
-		public WildcardType(ArgType obj, WildcardBound bound) {
+		public WildcardType(@Nullable ArgType obj, @Nullable WildcardBound bound) {
 			super(OBJECT.getObject());
 			this.type = Objects.requireNonNull(obj);
 			this.bound = Objects.requireNonNull(bound);
@@ -412,7 +412,7 @@ public abstract class ArgType {
 		private final ObjectType outerType;
 		private final ObjectType innerType;
 
-		public OuterGenericObject(ObjectType outerType, ObjectType innerType) {
+		public OuterGenericObject(@Nullable ObjectType outerType, @Nullable ObjectType innerType) {
 			super(outerType.getObject() + '$' + innerType.getObject());
 			this.outerType = outerType;
 			this.innerType = innerType;
@@ -428,7 +428,7 @@ public abstract class ArgType {
 			return true;
 		}
 
-		@Override
+		@Nullable @Override
 		public List<ArgType> getGenericTypes() {
 			return innerType.getGenericTypes();
 		}
@@ -536,7 +536,7 @@ public abstract class ArgType {
 		}
 
 		@Override
-		public boolean contains(PrimitiveType type) {
+		public boolean contains(@Nullable PrimitiveType type) {
 			for (PrimitiveType t : possibleTypes) {
 				if (t == type) {
 					return true;
@@ -575,7 +575,7 @@ public abstract class ArgType {
 		return false;
 	}
 
-	 public PrimitiveType getPrimitiveType() {
+	 @Nullable public PrimitiveType getPrimitiveType() {
 		return null;
 	}
 
@@ -599,7 +599,7 @@ public abstract class ArgType {
 		return false;
 	}
 
-	 public List<ArgType> getGenericTypes() {
+	 @Nullable public List<ArgType> getGenericTypes() {
 		return null;
 	}
 
@@ -610,11 +610,11 @@ public abstract class ArgType {
 	public void setExtendTypes(List<ArgType> extendTypes) {
 	}
 
-	 public ArgType getWildcardType() {
+	 @Nullable public ArgType getWildcardType() {
 		return null;
 	}
 
-	 public WildcardBound getWildcardBound() {
+	 @Nullable public WildcardBound getWildcardBound() {
 		return null;
 	}
 
@@ -622,11 +622,11 @@ public abstract class ArgType {
 		return false;
 	}
 
-	 public ArgType getOuterType() {
+	 @Nullable public ArgType getOuterType() {
 		return null;
 	}
 
-	 public ArgType getInnerType() {
+	 @Nullable public ArgType getInnerType() {
 		return null;
 	}
 
@@ -638,7 +638,7 @@ public abstract class ArgType {
 		return 0;
 	}
 
-	 public ArgType getArrayElement() {
+	 @Nullable public ArgType getArrayElement() {
 		return null;
 	}
 
@@ -646,13 +646,13 @@ public abstract class ArgType {
 		return this;
 	}
 
-	public abstract boolean contains(PrimitiveType type);
+	public abstract boolean contains(@Nullable PrimitiveType type);
 
-	public abstract ArgType selectFirst();
+	@Nullable public abstract ArgType selectFirst();
 
 	public abstract PrimitiveType[] getPossibleTypes();
 
-	public static boolean isCastNeeded(RootNode root, ArgType from, ArgType to) {
+	public static boolean isCastNeeded(RootNode root, @Nullable ArgType from, @Nullable ArgType to) {
 		if (from.equals(to)) {
 			return false;
 		}
@@ -685,7 +685,7 @@ public abstract class ArgType {
 		return isArray() || (!isTypeKnown() && contains(PrimitiveType.ARRAY));
 	}
 
-	public boolean canBePrimitive(PrimitiveType primitiveType) {
+	public boolean canBePrimitive(@Nullable PrimitiveType primitiveType) {
 		return (isPrimitive() && getPrimitiveType() == primitiveType)
 				|| (!isTypeKnown() && contains(primitiveType));
 	}
@@ -730,7 +730,7 @@ public abstract class ArgType {
 		return OBJECT;
 	}
 
-	public static ArgType parse(String type) {
+	@Nullable public static ArgType parse(String type) {
 		if (type == null || type.isEmpty()) {
 			throw new JadxRuntimeException("Failed to parse type string: " + type);
 		}
@@ -747,7 +747,7 @@ public abstract class ArgType {
 		}
 	}
 
-	 public static ArgType parse(char f) {
+	 @Nullable public static ArgType parse(char f) {
 		switch (f) {
 			case 'Z':
 				return BOOLEAN;
@@ -921,7 +921,7 @@ public abstract class ArgType {
 	abstract boolean internalEquals(Object obj);
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

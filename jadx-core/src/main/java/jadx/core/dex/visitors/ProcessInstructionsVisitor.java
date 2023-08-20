@@ -40,7 +40,7 @@ public class ProcessInstructionsVisitor extends AbstractVisitor {
 		initJumps(mth, mth.getInstructions());
 	}
 
-	private static void initJumps(MethodNode mth, InsnNode[] insnByOffset) {
+	private static void initJumps(MethodNode mth, @Nullable InsnNode[] insnByOffset) {
 		for (int offset = 0; offset < insnByOffset.length; offset++) {
 			InsnNode insn = insnByOffset[offset];
 			if (insn == null) {
@@ -124,7 +124,7 @@ public class ProcessInstructionsVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void mergeMoveResult(InsnNode[] insnByOffset, int offset, InsnNode insn, ArgType resType) {
+	private static void mergeMoveResult(InsnNode[] insnByOffset, int offset, InsnNode insn, @Nullable ArgType resType) {
 		int nextInsnOffset = getNextInsnOffset(insnByOffset, offset);
 		if (nextInsnOffset == -1) {
 			return;

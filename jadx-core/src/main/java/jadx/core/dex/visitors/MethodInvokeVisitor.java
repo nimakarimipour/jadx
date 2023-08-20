@@ -30,6 +30,7 @@ import jadx.core.dex.visitors.typeinference.TypeCompare;
 import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 
 @JadxVisitor(
@@ -44,7 +45,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 		}
 )
 public class MethodInvokeVisitor extends AbstractVisitor {
-	 private RootNode root;
+	 @Nullable private RootNode root;
 
 	@Override
 	public void init(RootNode root) {
@@ -132,7 +133,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		}
 	}
 
-	 private ArgType getCallClassFromInvoke(MethodNode parentMth, BaseInvokeNode invokeInsn, MethodInfo callMth) {
+	 @Nullable private ArgType getCallClassFromInvoke(MethodNode parentMth, BaseInvokeNode invokeInsn, @Nullable MethodInfo callMth) {
 		if (invokeInsn instanceof ConstructorInsn) {
 			ConstructorInsn constrInsn = (ConstructorInsn) invokeInsn;
 			if (constrInsn.isSuper()) {
@@ -158,7 +159,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		return Utils.mergeMaps(clsTypeVars, mthTypeVars);
 	}
 
-	private ArgType getClsCallType(BaseInvokeNode invokeInsn, ArgType declClsType) {
+	@Nullable private ArgType getClsCallType(BaseInvokeNode invokeInsn, ArgType declClsType) {
 		InsnArg instanceArg = invokeInsn.getInstanceArg();
 		if (instanceArg != null) {
 			return instanceArg.getType();
@@ -368,7 +369,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 	/**
 	 * Return type as seen by compiler
 	 */
-	private ArgType getCompilerVarType(InsnArg arg) {
+	@Nullable private ArgType getCompilerVarType(InsnArg arg) {
 		if (arg instanceof LiteralArg) {
 			LiteralArg literalArg = (LiteralArg) arg;
 			ArgType type = literalArg.getType();

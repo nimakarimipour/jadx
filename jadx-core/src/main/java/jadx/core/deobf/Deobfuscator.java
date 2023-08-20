@@ -278,7 +278,7 @@ public class Deobfuscator {
 	 * @return package node object or {@code null} if no package found and <b>create</b> set to
 	 *         {@code false}
 	 */
-	private PackageNode getPackageNode(String fullPkgName, boolean create) {
+	@Nullable private PackageNode getPackageNode(@Nullable String fullPkgName, boolean create) {
 		if (fullPkgName.isEmpty() || fullPkgName.equals(CLASS_NAME_SEPARATOR)) {
 			return rootPackage;
 		}
@@ -569,7 +569,7 @@ public class Deobfuscator {
 		return String.format("%s%d%s", prefix, mthIndex++, prepareNamePart(mth.getName()));
 	}
 
-	private void processPackageFull(PackageNode pkg, String fullName) {
+	private void processPackageFull(@Nullable PackageNode pkg, String fullName) {
 		if (pkgSet.contains(fullName)) {
 			return;
 		}
@@ -671,7 +671,7 @@ public class Deobfuscator {
 		return rootPackage;
 	}
 
-	private static boolean isR(ClassNode cls) {
+	private static boolean isR(@Nullable ClassNode cls) {
 		if (!cls.getClassInfo().getShortName().equals("R")) {
 			return false;
 		}

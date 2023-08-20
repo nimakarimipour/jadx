@@ -20,6 +20,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.entry.ValuesParser;
+import javax.annotation.Nullable;
 
 
 /*
@@ -40,24 +41,24 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	private static final boolean ATTR_NEW_LINE = false;
 
 	private final Map<Integer, String> resNames;
-	 private Map<String, String> nsMap;
-	 private Set<String> nsMapGenerated;
+	 @Nullable private Map<String, String> nsMap;
+	 @Nullable private Set<String> nsMapGenerated;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
-	 private ICodeWriter writer;
-	 private String[] strings;
-	private String currentTag = "ERROR";
+	 @Nullable private ICodeWriter writer;
+	 @Nullable private String[] strings;
+	@Nullable private String currentTag = "ERROR";
 	private boolean firstElement;
-	 private ValuesParser valuesParser;
+	 @Nullable private ValuesParser valuesParser;
 	private boolean isLastEnd = true;
 	private boolean isOneLine = true;
 	private int namespaceDepth = 0;
-	 private int[] resourceIds;
+	 @Nullable private int[] resourceIds;
 
 	private final RootNode rootNode;
-	 private String appPackageName;
+	 @Nullable private String appPackageName;
 
-	 private Map<String, ClassNode> classNameCache;
+	 @Nullable private Map<String, ClassNode> classNameCache;
 
 	public BinaryXMLParser(RootNode rootNode) {
 		this.rootNode = rootNode;
@@ -319,7 +320,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		writer.add('"');
 	}
 
-	 private String getAttributeNS(int attributeNS) {
+	 @Nullable private String getAttributeNS(int attributeNS) {
 		String attrUrl = getString(attributeNS);
 		if (attrUrl == null || attrUrl.isEmpty()) {
 			if (isResInternalId(attributeNS)) {
@@ -387,7 +388,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	 private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
-			String shortNsName, String attrName) {
+			@Nullable String shortNsName, @Nullable String attrName) {
 		if (attrValDataType == TYPE_REFERENCE) {
 			// reference custom processing
 			String resName = resNames.get(attrValData);
@@ -447,7 +448,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	private String getValidTagAttributeName(String originalName) {
+	@Nullable private String getValidTagAttributeName(@Nullable String originalName) {
 		if (XMLChar.isValidName(originalName)) {
 			return originalName;
 		}
@@ -472,7 +473,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return sb.toString();
 	}
 
-	private void attachClassNode(ICodeWriter writer, String attrName, String clsName) {
+	private void attachClassNode(@Nullable ICodeWriter writer, @Nullable String attrName, @Nullable String clsName) {
 		if (!writer.isMetadataSupported()) {
 			return;
 		}
@@ -494,7 +495,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	private String deobfClassName(String className) {
+	@Nullable private String deobfClassName(@Nullable String className) {
 		String newName = XmlDeobf.deobfClassName(rootNode, className, appPackageName);
 		if (newName != null) {
 			return newName;
@@ -502,7 +503,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return className;
 	}
 
-	private boolean isDeobfCandidateAttr(String shortNsName, String attrName) {
+	private boolean isDeobfCandidateAttr(@Nullable String shortNsName, @Nullable String attrName) {
 		String fullName;
 		if (shortNsName != null) {
 			fullName = shortNsName + ':' + attrName;
@@ -512,7 +513,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return "android:name".equals(fullName);
 	}
 
-	private void memorizePackageName(String attrName, String attrValue) {
+	private void memorizePackageName(@Nullable String attrName, @Nullable String attrValue) {
 		if ("manifest".equals(currentTag) && "package".equals(attrName)) {
 			appPackageName = attrValue;
 		}

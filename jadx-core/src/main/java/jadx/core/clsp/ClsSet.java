@@ -73,7 +73,7 @@ public class ClsSet {
 		PRIMITIVE
 	}
 
-	 private ClspClass[] classes;
+	 @Nullable private ClspClass[] classes;
 
 	public void loadFromClstFile() throws IOException, DecodeException {
 		long startTime = System.currentTimeMillis();
@@ -155,15 +155,15 @@ public class ClsSet {
 		return parents;
 	}
 
-	private static ClspClass getCls(ClassNode cls, Map<String, ClspClass> names) {
+	@Nullable private static ClspClass getCls(ClassNode cls, Map<String, ClspClass> names) {
 		return getCls(cls.getRawName(), names);
 	}
 
-	private static ClspClass getCls(ArgType clsType, Map<String, ClspClass> names) {
+	@Nullable private static ClspClass getCls(ArgType clsType, Map<String, ClspClass> names) {
 		return getCls(clsType.getObject(), names);
 	}
 
-	 private static ClspClass getCls(String fullName, Map<String, ClspClass> names) {
+	 @Nullable private static ClspClass getCls(String fullName, Map<String, ClspClass> names) {
 		ClspClass cls = names.get(fullName);
 		if (cls == null) {
 			LOG.debug("Class not found: {}", fullName);
@@ -248,7 +248,7 @@ public class ClsSet {
 		writeArgTypesList(out, method.getThrows(), names);
 	}
 
-	private static void writeArgTypesList(DataOutputStream out, List<ArgType> list, Map<String, ClspClass> names) throws IOException {
+	private static void writeArgTypesList(DataOutputStream out, @Nullable List<ArgType> list, Map<String, ClspClass> names) throws IOException {
 		int size = list.size();
 		writeUnsignedByte(out, size);
 		if (size != 0) {
@@ -272,7 +272,7 @@ public class ClsSet {
 		}
 	}
 
-	private static void writeArgType(DataOutputStream out, ArgType argType, Map<String, ClspClass> names) throws IOException {
+	private static void writeArgType(DataOutputStream out, @Nullable ArgType argType, Map<String, ClspClass> names) throws IOException {
 		if (argType == null) {
 			out.writeByte(-1);
 			return;
@@ -415,7 +415,7 @@ public class ClsSet {
 		return arr;
 	}
 
-	 private ArgType readArgType(DataInputStream in) throws IOException {
+	 @Nullable private ArgType readArgType(DataInputStream in) throws IOException {
 		int ordinal = in.readByte();
 		if (ordinal == -1) {
 			return null;

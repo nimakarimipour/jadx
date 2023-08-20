@@ -10,6 +10,7 @@ import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.IMethodDetails;
 import jadx.core.utils.Utils;
+import javax.annotation.Nullable;
 
 /**
  * Method node in classpath graph.
@@ -18,13 +19,13 @@ public class ClspMethod implements IMethodDetails, Comparable<ClspMethod> {
 
 	private final MethodInfo methodInfo;
 	private final List<ArgType> argTypes;
-	private final ArgType returnType;
+	@Nullable private final ArgType returnType;
 	private final List<ArgType> typeParameters;
 	private final List<ArgType> throwList;
 	private final int accFlags;
 
 	public ClspMethod(MethodInfo methodInfo,
-			List<ArgType> argTypes, ArgType returnType,
+			List<ArgType> argTypes, @Nullable ArgType returnType,
 			List<ArgType> typeParameters, List<ArgType> throwList, int accFlags) {
 		this.methodInfo = methodInfo;
 		this.argTypes = argTypes;
@@ -39,7 +40,7 @@ public class ClspMethod implements IMethodDetails, Comparable<ClspMethod> {
 		return methodInfo;
 	}
 
-	@Override
+	@Nullable @Override
 	public ArgType getReturnType() {
 		return returnType;
 	}

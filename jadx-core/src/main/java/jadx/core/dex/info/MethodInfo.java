@@ -15,7 +15,7 @@ import jadx.core.utils.Utils;
 public final class MethodInfo implements Comparable<MethodInfo> {
 
 	private final String name;
-	private final ArgType retType;
+	@Nullable private final ArgType retType;
 	private final List<ArgType> argTypes;
 	private final ClassInfo declClass;
 	private final String shortId;
@@ -24,7 +24,7 @@ public final class MethodInfo implements Comparable<MethodInfo> {
 
 	private String alias;
 
-	private MethodInfo(ClassInfo declClass, String name, List<ArgType> args, ArgType retType) {
+	private MethodInfo(ClassInfo declClass, String name, List<ArgType> args, @Nullable ArgType retType) {
 		this.name = name;
 		this.alias = name;
 		this.declClass = declClass;
@@ -57,7 +57,7 @@ public final class MethodInfo implements Comparable<MethodInfo> {
 		return uniqMth;
 	}
 
-	public static MethodInfo fromDetails(RootNode root, ClassInfo declClass, String name, List<ArgType> args, ArgType retType) {
+	public static MethodInfo fromDetails(RootNode root, ClassInfo declClass, String name, List<ArgType> args, @Nullable ArgType retType) {
 		MethodInfo newMth = new MethodInfo(declClass, name, args, retType);
 		return root.getInfoStorage().putMethod(newMth);
 	}
@@ -125,7 +125,7 @@ public final class MethodInfo implements Comparable<MethodInfo> {
 		return declClass;
 	}
 
-	public ArgType getReturnType() {
+	@Nullable public ArgType getReturnType() {
 		return retType;
 	}
 
@@ -171,7 +171,7 @@ public final class MethodInfo implements Comparable<MethodInfo> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

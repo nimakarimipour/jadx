@@ -18,12 +18,12 @@ import jadx.core.xmlgen.XmlGenUtils;
 public class ValuesParser extends ParserConstants {
 	private static final Logger LOG = LoggerFactory.getLogger(ValuesParser.class);
 
-	 private static Map<Integer, String> androidResMap;
+	 @Nullable private static Map<Integer, String> androidResMap;
 
-	private final String[] strings;
+	@Nullable private final String[] strings;
 	private final Map<Integer, String> resMap;
 
-	public ValuesParser(String[] strings, Map<Integer, String> resMap) {
+	public ValuesParser(@Nullable String[] strings, Map<Integer, String> resMap) {
 		this.strings = strings;
 		this.resMap = resMap;
 		getAndroidResMap();
@@ -166,7 +166,7 @@ public class ValuesParser extends ParserConstants {
 		}
 	}
 
-	 public String decodeNameRef(int nameRef) {
+	 @Nullable public String decodeNameRef(int nameRef) {
 		int ref = nameRef;
 		if (isResInternalId(nameRef)) {
 			ref = nameRef & ATTR_TYPE_ANY;

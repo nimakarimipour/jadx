@@ -30,7 +30,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 public class InsnNode extends LineAttrNode {
 	protected final InsnType insnType;
 
-	 private RegisterArg result;
+	 @Nullable private RegisterArg result;
 	private final List<InsnArg> arguments;
 	protected int offset;
 
@@ -89,7 +89,7 @@ public class InsnNode extends LineAttrNode {
 		return insnType;
 	}
 
-	public RegisterArg getResult() {
+	@Nullable public RegisterArg getResult() {
 		return result;
 	}
 
@@ -345,7 +345,7 @@ public class InsnNode extends LineAttrNode {
 	/**
 	 * 'Soft' equals, don't compare arguments, only instruction specific parameters.
 	 */
-	public boolean isSame(InsnNode other) {
+	public boolean isSame(@Nullable InsnNode other) {
 		if (this == other) {
 			return true;
 		}

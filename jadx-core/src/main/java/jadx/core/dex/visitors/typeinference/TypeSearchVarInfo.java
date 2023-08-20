@@ -5,14 +5,15 @@ import java.util.List;
 
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.SSAVar;
+import javax.annotation.Nullable;
 
 public class TypeSearchVarInfo {
 	private final SSAVar var;
 	private boolean typeResolved;
-	 private ArgType currentType;
-	 private List<ArgType> candidateTypes;
+	 @Nullable private ArgType currentType;
+	 @Nullable private List<ArgType> candidateTypes;
 	private int currentIndex = -1;
-	 private List<ITypeConstraint> constraints;
+	 @Nullable private List<ITypeConstraint> constraints;
 
 	public TypeSearchVarInfo(SSAVar var) {
 		this.var = var;
@@ -59,7 +60,7 @@ public class TypeSearchVarInfo {
 		this.typeResolved = typeResolved;
 	}
 
-	public ArgType getCurrentType() {
+	@Nullable public ArgType getCurrentType() {
 		return currentType;
 	}
 
@@ -67,7 +68,7 @@ public class TypeSearchVarInfo {
 		this.currentType = currentType;
 	}
 
-	public List<ArgType> getCandidateTypes() {
+	@Nullable public List<ArgType> getCandidateTypes() {
 		return candidateTypes;
 	}
 
@@ -75,7 +76,7 @@ public class TypeSearchVarInfo {
 		this.candidateTypes = candidateTypes;
 	}
 
-	public List<ITypeConstraint> getConstraints() {
+	@Nullable public List<ITypeConstraint> getConstraints() {
 		return constraints;
 	}
 

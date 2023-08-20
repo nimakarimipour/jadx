@@ -25,6 +25,7 @@ import jadx.core.dex.visitors.ssa.SSATransform;
 import jadx.core.dex.visitors.typeinference.TypeInferenceVisitor;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.exceptions.JadxException;
+import javax.annotation.Nullable;
 
 @JadxVisitor(
 		name = "Constants Inline",
@@ -117,7 +118,7 @@ public class ConstInlineVisitor extends AbstractVisitor {
 	/**
 	 * Don't inline null object
 	 */
-	private static boolean forbidNullInlines(SSAVar sVar) {
+	private static boolean forbidNullInlines(@Nullable SSAVar sVar) {
 		List<RegisterArg> useList = sVar.getUseList();
 		if (useList.isEmpty()) {
 			return false;

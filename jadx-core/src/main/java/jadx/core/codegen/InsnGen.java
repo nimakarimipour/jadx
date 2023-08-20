@@ -68,7 +68,7 @@ public class InsnGen {
 	private static final Logger LOG = LoggerFactory.getLogger(InsnGen.class);
 
 	protected final MethodGen mgen;
-	protected final MethodNode mth;
+	@Nullable protected final MethodNode mth;
 	protected final RootNode root;
 	protected final boolean fallback;
 
@@ -101,11 +101,11 @@ public class InsnGen {
 		addArg(code, arg, true);
 	}
 
-	public void addArg(ICodeWriter code, InsnArg arg, boolean wrap) throws CodegenException {
+	public void addArg(ICodeWriter code, @Nullable InsnArg arg, boolean wrap) throws CodegenException {
 		addArg(code, arg, wrap ? BODY_ONLY_FLAG : BODY_ONLY_NOWRAP_FLAGS);
 	}
 
-	public void addArg(ICodeWriter code, InsnArg arg, Set<Flags> flags) throws CodegenException {
+	public void addArg(ICodeWriter code, @Nullable InsnArg arg, Set<Flags> flags) throws CodegenException {
 		if (arg.isRegister()) {
 			RegisterArg reg = (RegisterArg) arg;
 			if (code.isMetadataSupported()) {
@@ -152,7 +152,7 @@ public class InsnGen {
 		}
 	}
 
-	public void declareVar(ICodeWriter code, RegisterArg arg) {
+	public void declareVar(ICodeWriter code, @Nullable RegisterArg arg) {
 		declareVar(code, arg.getSVar().getCodeVar());
 	}
 
@@ -180,7 +180,7 @@ public class InsnGen {
 		return TypeGen.literalToString(arg, mth, fallback);
 	}
 
-	private void instanceField(ICodeWriter code, FieldInfo field, InsnArg arg) throws CodegenException {
+	private void instanceField(ICodeWriter code, @Nullable FieldInfo field, InsnArg arg) throws CodegenException {
 		ClassNode pCls = mth.getParentClass();
 		FieldNode fieldNode = pCls.root().resolveField(field);
 		if (fieldNode != null) {
@@ -209,7 +209,7 @@ public class InsnGen {
 		}
 	}
 
-	public static void makeStaticFieldAccess(ICodeWriter code, FieldInfo field, ClassGen clsGen) {
+	public static void makeStaticFieldAccess(ICodeWriter code, @Nullable FieldInfo field, ClassGen clsGen) {
 		ClassInfo declClass = field.getDeclClass();
 		// TODO
 		boolean fieldFromThisClass = clsGen.getClassNode().getClassInfo().equals(declClass);
@@ -231,7 +231,7 @@ public class InsnGen {
 		}
 	}
 
-	protected void staticField(ICodeWriter code, FieldInfo field) {
+	protected void staticField(ICodeWriter code, @Nullable FieldInfo field) {
 		makeStaticFieldAccess(code, field, mgen.getClassGen());
 	}
 
@@ -243,7 +243,7 @@ public class InsnGen {
 		mgen.getClassGen().useClass(code, cls);
 	}
 
-	protected void useType(ICodeWriter code, ArgType type) {
+	protected void useType(ICodeWriter code, @Nullable ArgType type) {
 		mgen.getClassGen().useType(code, type);
 	}
 
@@ -255,7 +255,7 @@ public class InsnGen {
 	private static final Set<Flags> BODY_ONLY_FLAG = EnumSet.of(Flags.BODY_ONLY);
 	private static final Set<Flags> BODY_ONLY_NOWRAP_FLAGS = EnumSet.of(Flags.BODY_ONLY_NOWRAP);
 
-	protected void makeInsn(InsnNode insn, ICodeWriter code, Flags flag) throws CodegenException {
+	protected void makeInsn(@Nullable InsnNode insn, ICodeWriter code, @Nullable Flags flag) throws CodegenException {
 		if (insn.getType() == InsnType.REGION_ARG) {
 			return;
 		}
@@ -932,7 +932,7 @@ public class InsnGen {
 		}
 	}
 
-	private void makeInlinedLambdaMethod(ICodeWriter code, InvokeCustomNode customNode, MethodNode callMth) throws CodegenException {
+	private void makeInlinedLambdaMethod(ICodeWriter code, InvokeCustomNode customNode, @Nullable MethodNode callMth) throws CodegenException {
 		MethodGen callMthGen = new MethodGen(mgen.getClassGen(), callMth);
 		NameGen nameGen = callMthGen.getNameGen();
 		nameGen.inheritUsedNames(this.mgen.getNameGen());
@@ -968,7 +968,7 @@ public class InsnGen {
 		code.startLine('}');
 	}
 
-	private void callSuper(ICodeWriter code, MethodInfo callMth) {
+	private void callSuper(ICodeWriter code, @Nullable MethodInfo callMth) {
 		ClassInfo superCallCls = getClassForSuperCall(callMth);
 		if (superCallCls == null) {
 			// unknown class, add comment to keep that info
@@ -990,7 +990,7 @@ public class InsnGen {
 	 * and all parent classes (needed for inlined synthetic calls)
 	 */
 	@Nullable
-	private ClassInfo getClassForSuperCall(MethodInfo callMth) {
+	private ClassInfo getClassForSuperCall(@Nullable MethodInfo callMth) {
 		ArgType declClsType = callMth.getDeclClass().getType();
 		ClassNode parentNode = mth.getParentClass();
 		while (true) {

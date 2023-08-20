@@ -16,6 +16,7 @@ import jadx.core.utils.InsnUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 import static jadx.core.utils.Utils.lockList;
+import javax.annotation.Nullable;
 
 public final class BlockNode extends AttrNode implements IBlock, Comparable<BlockNode> {
 
@@ -39,22 +40,22 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 
 	private List<BlockNode> predecessors = new ArrayList<>(1);
 	private List<BlockNode> successors = new ArrayList<>(1);
-	 private List<BlockNode> cleanSuccessors;
+	 @Nullable private List<BlockNode> cleanSuccessors;
 
 	/**
 	 * All dominators, excluding self
 	 */
-	private BitSet doms = EmptyBitSet.EMPTY;
+	@Nullable private BitSet doms = EmptyBitSet.EMPTY;
 
 	/**
 	 * Dominance frontier
 	 */
-	 private BitSet domFrontier;
+	 @Nullable private BitSet domFrontier;
 
 	/**
 	 * Immediate dominator
 	 */
-	 private BlockNode idom;
+	 @Nullable private BlockNode idom;
 
 	/**
 	 * Blocks on which dominates this block
@@ -87,7 +88,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return successors;
 	}
 
-	public List<BlockNode> getCleanSuccessors() {
+	@Nullable public List<BlockNode> getCleanSuccessors() {
 		return this.cleanSuccessors;
 	}
 
@@ -150,37 +151,37 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	/**
 	 * Check if 'block' dominated on this node
 	 */
-	public boolean isDominator(BlockNode block) {
+	public boolean isDominator(@Nullable BlockNode block) {
 		return doms.get(block.getId());
 	}
 
 	/**
 	 * Dominators of this node (exclude itself)
 	 */
-	public BitSet getDoms() {
+	@Nullable public BitSet getDoms() {
 		return doms;
 	}
 
-	public void setDoms(BitSet doms) {
+	public void setDoms(@Nullable BitSet doms) {
 		this.doms = doms;
 	}
 
-	public BitSet getDomFrontier() {
+	@Nullable public BitSet getDomFrontier() {
 		return domFrontier;
 	}
 
-	public void setDomFrontier(BitSet domFrontier) {
+	public void setDomFrontier(@Nullable BitSet domFrontier) {
 		this.domFrontier = domFrontier;
 	}
 
 	/**
 	 * Immediate dominator
 	 */
-	public BlockNode getIDom() {
+	@Nullable public BlockNode getIDom() {
 		return idom;
 	}
 
-	public void setIDom(BlockNode idom) {
+	public void setIDom(@Nullable BlockNode idom) {
 		this.idom = idom;
 	}
 
@@ -210,7 +211,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}
