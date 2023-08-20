@@ -38,7 +38,7 @@ public class InvokeNode extends BaseInvokeNode {
 		}
 	}
 
-	public InvokeNode(MethodInfo mth, InvokeType invokeType, int argsCount) {
+	public InvokeNode(@Nullable MethodInfo mth, InvokeType invokeType, int argsCount) {
 		super(InsnType.INVOKE, argsCount);
 		this.mth = mth;
 		this.type = invokeType;

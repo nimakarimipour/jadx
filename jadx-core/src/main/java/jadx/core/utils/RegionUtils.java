@@ -112,7 +112,7 @@ public class RegionUtils {
 		return 0;
 	}
 
-	 public static InsnNode getLastInsn(IContainer container) {
+	 @Nullable public static InsnNode getLastInsn(IContainer container) {
 		if (container instanceof IBlock) {
 			IBlock block = (IBlock) container;
 			List<InsnNode> insnList = block.getInstructions();
@@ -134,7 +134,7 @@ public class RegionUtils {
 		}
 	}
 
-	 public static IBlock getLastBlock(IContainer container) {
+	 @Nullable public static IBlock getLastBlock(IContainer container) {
 		if (container instanceof IBlock) {
 			return (IBlock) container;
 		} else if (container instanceof IBranchRegion) {
@@ -309,7 +309,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static boolean isRegionContainsBlock(IContainer container, BlockNode block) {
+	public static boolean isRegionContainsBlock(IContainer container, @Nullable BlockNode block) {
 		if (container instanceof IBlock) {
 			return container == block;
 		} else if (container instanceof IRegion) {
@@ -390,7 +390,7 @@ public class RegionUtils {
 		return true;
 	}
 
-	 public static IContainer getBlockContainer(IContainer container, BlockNode block) {
+	 @Nullable public static IContainer getBlockContainer(IContainer container, BlockNode block) {
 		if (container instanceof IBlock) {
 			return container == block ? container : null;
 		} else if (container instanceof IRegion) {

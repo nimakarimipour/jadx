@@ -8,6 +8,7 @@ import jadx.core.dex.instructions.mods.ConstructorInsn;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.MethodNode;
+import javax.annotation.Nullable;
 
 
 public class EnumClassAttr implements IJadxAttribute {
@@ -15,7 +16,7 @@ public class EnumClassAttr implements IJadxAttribute {
 	public static class EnumField {
 		private final FieldNode field;
 		private final ConstructorInsn constrInsn;
-		 private ClassNode cls;
+		 @Nullable private ClassNode cls;
 
 		 public EnumField(FieldNode field, ConstructorInsn co) {
 			this.field = field;
@@ -30,7 +31,7 @@ public class EnumClassAttr implements IJadxAttribute {
 			return constrInsn;
 		}
 
-		public ClassNode getCls() {
+		@Nullable public ClassNode getCls() {
 			return cls;
 		}
 
@@ -45,7 +46,7 @@ public class EnumClassAttr implements IJadxAttribute {
 	}
 
 	private final List<EnumField> fields;
-	 private MethodNode staticMethod;
+	 @Nullable private MethodNode staticMethod;
 
 	public EnumClassAttr(List<EnumField> fields) {
 		this.fields = fields;
@@ -55,7 +56,7 @@ public class EnumClassAttr implements IJadxAttribute {
 		return fields;
 	}
 
-	public MethodNode getStaticMethod() {
+	@Nullable public MethodNode getStaticMethod() {
 		return staticMethod;
 	}
 

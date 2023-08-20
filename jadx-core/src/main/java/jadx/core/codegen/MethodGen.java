@@ -60,7 +60,7 @@ public class MethodGen {
 	private final AnnotationGen annotationGen;
 	private final NameGen nameGen;
 
-	public MethodGen(ClassGen classGen, MethodNode mth) {
+	public MethodGen(ClassGen classGen, @Nullable MethodNode mth) {
 		this.mth = mth;
 		this.classGen = classGen;
 		this.annotationGen = classGen.getAnnotationGen();
@@ -524,7 +524,7 @@ public class MethodGen {
 		return false;
 	}
 
-	private static boolean needLabel(InsnNode insn, InsnNode prevInsn) {
+	private static boolean needLabel(InsnNode insn, @Nullable InsnNode prevInsn) {
 		if (insn.contains(AType.EXC_HANDLER)) {
 			return true;
 		}

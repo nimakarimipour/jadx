@@ -247,7 +247,7 @@ public abstract class InsnArg extends Typed {
 		return false;
 	}
 
-	 public InsnNode unwrap() {
+	 @Nullable public InsnNode unwrap() {
 		if (isInsnWrap()) {
 			return ((InsnWrapArg) this).getWrapInsn();
 		}

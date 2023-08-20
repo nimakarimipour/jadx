@@ -17,7 +17,7 @@ public class RegisterArg extends InsnArg implements Named {
 
 	protected final int regNum;
 	// not null after SSATransform pass
-	 private SSAVar sVar;
+	 @Nullable private SSAVar sVar;
 
 	public RegisterArg(int rn, ArgType type) {
 		this.type = type; // initial type, not changing, can be unknown
@@ -88,7 +88,7 @@ public class RegisterArg extends InsnArg implements Named {
 		this.sVar = null;
 	}
 
-	 @Override
+	 @Nullable @Override
 	public String getName() {
 		if (isSuper()) {
 			return SUPER_ARG_NAME;
@@ -200,7 +200,7 @@ public class RegisterArg extends InsnArg implements Named {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

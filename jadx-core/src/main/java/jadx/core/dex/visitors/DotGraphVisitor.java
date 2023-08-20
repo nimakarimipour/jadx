@@ -26,6 +26,7 @@ import jadx.core.utils.StringUtils;
 import jadx.core.utils.Utils;
 
 import static jadx.core.codegen.MethodGen.FallbackOption.BLOCK_DUMP;
+import javax.annotation.Nullable;
 
 public class DotGraphVisitor extends AbstractVisitor {
 

@@ -16,6 +16,7 @@ import jadx.core.dex.visitors.AbstractVisitor;
 import jadx.core.utils.RegionUtils;
 
 import static jadx.core.utils.RegionUtils.insnsCount;
+import javax.annotation.Nullable;
 
 
 public class IfRegionVisitor extends AbstractVisitor {

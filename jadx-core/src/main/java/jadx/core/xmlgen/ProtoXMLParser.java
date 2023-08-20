@@ -16,6 +16,7 @@ import jadx.api.ICodeInfo;
 import jadx.api.ICodeWriter;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
+import javax.annotation.Nullable;
 
 
 public class ProtoXMLParser {
@@ -25,8 +26,8 @@ public class ProtoXMLParser {
 	 private ICodeWriter writer;
 
 	private final RootNode rootNode;
-	 private String currentTag;
-	 private String appPackageName;
+	 @Nullable private String currentTag;
+	 @Nullable private String appPackageName;
 
 	public ProtoXMLParser(RootNode rootNode) {
 		this.rootNode = rootNode;

@@ -133,7 +133,7 @@ public class AnnotationGen {
 		}
 	}
 
-	 public EncodedValue getAnnotationDefaultValue(MethodNode mth) {
+	 @Nullable public EncodedValue getAnnotationDefaultValue(MethodNode mth) {
 		AnnotationDefaultAttr defaultAttr = mth.get(JadxAttrType.ANNOTATION_DEFAULT);
 		if (defaultAttr == null) {
 			return null;

@@ -8,6 +8,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.dex.nodes.utils.MethodUtils;
 import jadx.core.dex.visitors.blocks.BlockSplitter;
 import jadx.core.utils.exceptions.JadxException;
+import javax.annotation.Nullable;
 
 @JadxVisitor(
 		name = "Attach Method Details",
@@ -19,7 +20,7 @@ import jadx.core.utils.exceptions.JadxException;
 )
 public class AttachMethodDetails extends AbstractVisitor {
 
-	 private MethodUtils methodUtils;
+	 @Nullable private MethodUtils methodUtils;
 
 	@Override
 	public void init(RootNode root) {

@@ -12,6 +12,7 @@ import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import javax.annotation.Nullable;
 
 public class LiveVarAnalysis {
 	private static final Logger LOG = LoggerFactory.getLogger(LiveVarAnalysis.class);

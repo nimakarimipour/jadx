@@ -18,6 +18,7 @@ import jadx.core.dex.regions.loops.LoopRegion;
 import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.dex.trycatch.TryCatchBlockAttr;
 import jadx.core.utils.RegionUtils;
+import javax.annotation.Nullable;
 
 /**
  * Extract blocks to separate try/catch region

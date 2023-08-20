@@ -5,6 +5,7 @@ import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.InsnNode;
+import javax.annotation.Nullable;
 
 
 public final class ForEachLoop extends LoopType {

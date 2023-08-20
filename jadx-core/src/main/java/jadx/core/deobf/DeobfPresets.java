@@ -24,6 +24,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.files.FileUtils;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import javax.annotation.Nullable;
 
 
 public class DeobfPresets {
@@ -141,21 +142,21 @@ public class DeobfPresets {
 		LOG.info("Deobfuscation map file saved as: {}", deobfMapFile);
 	}
 
-	 public String getForCls(ClassInfo cls) {
+	 @Nullable public String getForCls(ClassInfo cls) {
 		if (clsPresetMap.isEmpty()) {
 			return null;
 		}
 		return clsPresetMap.get(cls.makeRawFullName());
 	}
 
-	 public String getForFld(FieldInfo fld) {
+	 @Nullable public String getForFld(FieldInfo fld) {
 		if (fldPresetMap.isEmpty()) {
 			return null;
 		}
 		return fldPresetMap.get(fld.getRawFullId());
 	}
 
-	 public String getForMth(MethodInfo mth) {
+	 @Nullable public String getForMth(MethodInfo mth) {
 		if (mthPresetMap.isEmpty()) {
 			return null;
 		}
