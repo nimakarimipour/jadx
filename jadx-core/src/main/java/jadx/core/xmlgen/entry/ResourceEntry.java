@@ -1,6 +1,7 @@
 package jadx.core.xmlgen.entry;
 
 import java.util.List;
+import javax.annotation.Nullable;
 
 public final class ResourceEntry {
 

@@ -58,17 +58,17 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	private List<ArgType> typeParameters;
 
 	// decompilation data, reset on unload
-	 private RegisterArg thisArg;
-	 private List<RegisterArg> argsList;
-	 private InsnNode[] instructions;
+	 @Nullable private RegisterArg thisArg;
+	 @Nullable private List<RegisterArg> argsList;
+	 @Nullable private InsnNode[] instructions;
 	 private List<BlockNode> blocks;
 	private int blocksMaxCId;
-	 private BlockNode enterBlock;
+	 @Nullable private BlockNode enterBlock;
 	 private BlockNode exitBlock;
 	 private List<SSAVar> sVars;
 	 private List<ExceptionHandler> exceptionHandlers;
 	 private List<LoopInfo> loops;
-	 private Region region;
+	 @Nullable private Region region;
 
 	private List<MethodNode> useIn = Collections.emptyList();
 

@@ -59,11 +59,11 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	private static final Logger LOG = LoggerFactory.getLogger(ClassNode.class);
 
 	private final RootNode root;
-	private final IClassData clsData;
+	@Nullable private final IClassData clsData;
 
 	private final ClassInfo clsInfo;
 	private AccessInfo accessFlags;
-	 private ArgType superClass;
+	 @Nullable private ArgType superClass;
 	private List<ArgType> interfaces;
 	private List<ArgType> generics = Collections.emptyList();
 
@@ -74,7 +74,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	private List<ClassNode> inlinedClasses = Collections.emptyList();
 
 	// store smali
-	 private String smali;
+	 @Nullable private String smali;
 	// store parent for inner classes or 'this' otherwise
 	 private ClassNode parentClass;
 
@@ -156,7 +156,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		}
 	}
 
-	 private ArgType checkSuperType(IClassData cls) {
+	 @Nullable private ArgType checkSuperType(IClassData cls) {
 		String superType = cls.getSuperType();
 		if (superType == null) {
 			if (clsInfo.getType().getObject().equals(Consts.CLASS_OBJECT)) {
@@ -476,7 +476,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		fields.add(fld);
 	}
 
-	 public FieldNode getConstField(Object obj) {
+	 @Nullable public FieldNode getConstField(Object obj) {
 		return getConstField(obj, true);
 	}
 
@@ -490,7 +490,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return root().getConstValues().getConstFieldByLiteralArg(this, arg);
 	}
 
-	 public FieldNode searchField(FieldInfo field) {
+	 @Nullable public FieldNode searchField(FieldInfo field) {
 		for (FieldNode f : fields) {
 			if (f.getFieldInfo().equals(field)) {
 				return f;
@@ -499,7 +499,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
-	 public FieldNode searchFieldByNameAndType(FieldInfo field) {
+	 @Nullable public FieldNode searchFieldByNameAndType(FieldInfo field) {
 		for (FieldNode f : fields) {
 			if (f.getFieldInfo().equalsNameAndType(field)) {
 				return f;
@@ -508,7 +508,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
-	 public FieldNode searchFieldByName(String name) {
+	 @Nullable public FieldNode searchFieldByName(String name) {
 		for (FieldNode f : fields) {
 			if (f.getName().equals(name)) {
 				return f;
@@ -517,7 +517,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
-	 public FieldNode searchFieldByShortId(String shortId) {
+	 @Nullable public FieldNode searchFieldByShortId(String shortId) {
 		for (FieldNode f : fields) {
 			if (f.getFieldInfo().getShortId().equals(shortId)) {
 				return f;
@@ -526,11 +526,11 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		return null;
 	}
 
-	 public MethodNode searchMethod(MethodInfo mth) {
+	 @Nullable public MethodNode searchMethod(MethodInfo mth) {
 		return mthInfoMap.get(mth);
 	}
 
-	 public MethodNode searchMethodByShortId(String shortId) {
+	 @Nullable public MethodNode searchMethodByShortId(String shortId) {
 		for (MethodNode m : methods) {
 			if (m.getMethodInfo().getShortId().equals(shortId)) {
 				return m;
@@ -757,7 +757,7 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 		sb.append(clsData.getDisassembledCode());
 	}
 
-	public IClassData getClsData() {
+	@Nullable public IClassData getClsData() {
 		return clsData;
 	}
 

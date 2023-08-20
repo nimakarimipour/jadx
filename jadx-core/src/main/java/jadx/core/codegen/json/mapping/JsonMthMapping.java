@@ -1,12 +1,13 @@
 package jadx.core.codegen.json.mapping;
+import javax.annotation.Nullable;
 
 public class JsonMthMapping {
-	 private String signature;
-	 private String name;
-	 private String alias;
-	 private String offset;
+	 @Nullable private String signature;
+	 @Nullable private String name;
+	 @Nullable private String alias;
+	 @Nullable private String offset;
 
-	public String getSignature() {
+	@Nullable public String getSignature() {
 		return signature;
 	}
 
@@ -14,7 +15,7 @@ public class JsonMthMapping {
 		this.signature = signature;
 	}
 
-	public String getName() {
+	@Nullable public String getName() {
 		return name;
 	}
 
@@ -22,7 +23,7 @@ public class JsonMthMapping {
 		this.name = name;
 	}
 
-	public String getAlias() {
+	@Nullable public String getAlias() {
 		return alias;
 	}
 
@@ -30,7 +31,7 @@ public class JsonMthMapping {
 		this.alias = alias;
 	}
 
-	public String getOffset() {
+	@Nullable public String getOffset() {
 		return offset;
 	}
 

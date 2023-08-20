@@ -206,7 +206,7 @@ public class JsonCodeGen {
 		return codeLines;
 	}
 
-	private String getTypeAlias(ArgType clsType) {
+	private String getTypeAlias(@Nullable ArgType clsType) {
 		if (Objects.equals(clsType, ArgType.OBJECT)) {
 			return ArgType.OBJECT.getObject();
 		}

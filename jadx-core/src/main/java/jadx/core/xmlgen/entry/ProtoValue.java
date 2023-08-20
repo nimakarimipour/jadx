@@ -1,15 +1,16 @@
 package jadx.core.xmlgen.entry;
 
 import java.util.List;
+import javax.annotation.Nullable;
 
 public class ProtoValue {
-	 private String parent;
+	 @Nullable private String parent;
 	 private String name;
-	 private String value;
+	 @Nullable private String value;
 	private int type;
 	 private List<ProtoValue> namedValues;
 
-	public ProtoValue(String value) {
+	public ProtoValue(@Nullable String value) {
 		this.value = value;
 	}
 
@@ -33,7 +34,7 @@ public class ProtoValue {
 		return parent;
 	}
 
-	public ProtoValue setParent(String parent) {
+	public ProtoValue setParent(@Nullable String parent) {
 		this.parent = parent;
 		return this;
 	}

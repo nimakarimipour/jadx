@@ -1,4 +1,5 @@
 package jadx.core.dex.instructions.args;
+import javax.annotation.Nullable;
 
 public class VarName {
 	 private String name;

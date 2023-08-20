@@ -31,7 +31,7 @@ import jadx.core.utils.exceptions.JadxException;
 		runBefore = CodeShrinkVisitor.class
 )
 public class ShadowFieldVisitor extends AbstractVisitor {
-	 private Map<String, FieldFixInfo> fixInfoMap;
+	 @Nullable private Map<String, FieldFixInfo> fixInfoMap;
 
 	@Override
 	public void init(RootNode root) {
@@ -56,7 +56,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 	}
 
 	private static class FieldFixInfo {
-		 Map<FieldInfo, FieldFixType> fieldFixMap;
+		 @Nullable Map<FieldInfo, FieldFixType> fieldFixMap;
 	}
 
 	private enum FieldFixType {
@@ -123,7 +123,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 		return fieldsList;
 	}
 
-	private static void fixShadowFieldAccess(MethodNode mth, Map<String, FieldFixInfo> fixInfoMap) {
+	private static void fixShadowFieldAccess(MethodNode mth, @Nullable Map<String, FieldFixInfo> fixInfoMap) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			for (InsnNode insn : block.getInstructions()) {
 				processInsn(mth, insn, fixInfoMap);
@@ -131,7 +131,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void processInsn(MethodNode mth, InsnNode insn, Map<String, FieldFixInfo> fixInfoMap) {
+	private static void processInsn(MethodNode mth, InsnNode insn, @Nullable Map<String, FieldFixInfo> fixInfoMap) {
 		FieldInfo fieldInfo = getFieldInfo(insn);
 		if (fieldInfo == null) {
 			return;

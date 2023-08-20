@@ -28,6 +28,7 @@ import jadx.core.xmlgen.entry.EntryConfig;
 import jadx.core.xmlgen.entry.ProtoValue;
 import jadx.core.xmlgen.entry.ResourceEntry;
 import jadx.core.xmlgen.entry.ValuesParser;
+import javax.annotation.Nullable;
 
 
 public class ResProtoParser implements IResParser {
@@ -198,7 +199,7 @@ public class ResProtoParser implements IResParser {
 				colorMode, false, size).getQualifiers();
 	}
 
-	 private String parse(Item i) {
+	 @Nullable private String parse(Item i) {
 		if (i.hasRawStr()) {
 			return i.getRawStr().getValue();
 		}

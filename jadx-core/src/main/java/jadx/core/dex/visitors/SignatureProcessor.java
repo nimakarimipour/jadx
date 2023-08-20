@@ -16,6 +16,7 @@ import jadx.core.dex.nodes.utils.TypeUtils;
 import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
+import javax.annotation.Nullable;
 
 
 public class SignatureProcessor extends AbstractVisitor {
@@ -147,7 +148,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		}
 	}
 
-	 private List<ArgType> checkArgTypes(MethodNode mth, SignatureParser sp, List<ArgType> parsedArgTypes) {
+	 @Nullable private List<ArgType> checkArgTypes(MethodNode mth, SignatureParser sp, List<ArgType> parsedArgTypes) {
 		MethodInfo mthInfo = mth.getMethodInfo();
 		List<ArgType> mthArgTypes = mthInfo.getArgumentsTypes();
 		int len = parsedArgTypes.size();

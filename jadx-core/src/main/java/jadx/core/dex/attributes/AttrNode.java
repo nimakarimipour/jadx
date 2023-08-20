@@ -5,6 +5,7 @@ import java.util.List;
 import jadx.api.plugins.input.data.annotations.IAnnotation;
 import jadx.api.plugins.input.data.attributes.IJadxAttrType;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
+import javax.annotation.Nullable;
 
 public abstract class AttrNode implements IAttributeNode {
 

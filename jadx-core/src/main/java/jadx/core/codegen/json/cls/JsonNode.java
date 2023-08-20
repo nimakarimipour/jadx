@@ -1,12 +1,13 @@
 package jadx.core.codegen.json.cls;
+import javax.annotation.Nullable;
 
 public class JsonNode {
-	 private String name;
-	 private String alias;
-	 private String declaration;
+	 @Nullable private String name;
+	 @Nullable private String alias;
+	 @Nullable private String declaration;
 	private int accessFlags;
 
-	public String getName() {
+	@Nullable public String getName() {
 		return name;
 	}
 
@@ -14,7 +15,7 @@ public class JsonNode {
 		this.name = name;
 	}
 
-	public String getAlias() {
+	@Nullable public String getAlias() {
 		return alias;
 	}
 
@@ -22,7 +23,7 @@ public class JsonNode {
 		this.alias = alias;
 	}
 
-	public String getDeclaration() {
+	@Nullable public String getDeclaration() {
 		return declaration;
 	}
 
