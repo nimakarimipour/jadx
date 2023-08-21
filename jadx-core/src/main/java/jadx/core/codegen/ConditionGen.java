@@ -56,24 +56,37 @@ public class ConditionGen extends InsnGen {
 		stack.push(condition);
 		switch (condition.getMode()) {
 			case COMPARE:
-				addCompare(code, stack, condition.getCompare());
+				addCompare(
+					code, 
+					stack, 
+					condition.getCompare()
+					);
 				break;
 
 			case TERNARY:
-				addTernary(code, stack, condition);
+				addTernary(
+					code, 
+					stack, 
+					condition
+					);
 				break;
 
 			case NOT:
-				addNot(code, stack, condition);
+				addNot(
+					code, 
+					stack, 
+					condition
+					);
 				break;
 
 			case AND:
 			case OR:
-				addAndOr(code, stack, condition);
+				addAndOr(code, stack, 
+					condition);
 				break;
 
 			default:
-				throw new JadxRuntimeException("Unknown condition mode: " + condition.getMode());
+				throw new JadxRuntimeException("Unknown condition mode: "  + condition.getMode());
 		}
 		stack.pop();
 	}
