@@ -37,3 +37,6 @@ quark.json
 
 cliff.toml
 jadx-gui/src/main/resources/logback.xml
+
+annotator-out/
+*.log
