@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Run the command, capture the error output, and display it on stdout
-./gradlew compileJava 2>&1 >/dev/null | tee error_temp.txt
+./gradlew clean jadx-core:compileJava 2>&1 >/dev/null | tee error_temp.txt
 
 # Check for the --skip flag
 skip_flag=false
