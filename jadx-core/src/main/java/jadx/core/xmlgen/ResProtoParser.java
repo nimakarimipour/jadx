@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.android.aapt.ConfigurationOuterClass.Configuration;
 import com.android.aapt.Resources.Array;
 import com.android.aapt.Resources.Attribute;
@@ -197,6 +199,7 @@ public class ResProtoParser implements IResParser {
 				colorMode, false, size).getQualifiers();
 	}
 
+	@Nullable
 	private String parse(Item i) {
 		if (i.hasRawStr()) {
 			return i.getRawStr().getValue();

@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,8 +56,10 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	private int[] resourceIds;
 
 	private final RootNode rootNode;
+	@Nullable
 	private String appPackageName;
 
+	@Nullable
 	private Map<String, ClassNode> classNameCache;
 
 	public BinaryXMLParser(RootNode rootNode) {
@@ -318,6 +322,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		writer.add('"');
 	}
 
+	@Nullable
 	private String getAttributeNS(int attributeNS) {
 		String attrUrl = getString(attributeNS);
 		if (attrUrl == null || attrUrl.isEmpty()) {
@@ -386,7 +391,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
-			String shortNsName, String attrName) {
+			@Nullable String shortNsName, String attrName) {
 		if (attrValDataType == TYPE_REFERENCE) {
 			// reference custom processing
 			String resName = resNames.get(attrValData);
@@ -471,7 +476,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return sb.toString();
 	}
 
-	private void attachClassNode(ICodeWriter writer, String attrName, String clsName) {
+	private void attachClassNode(ICodeWriter writer, String attrName, @Nullable String clsName) {
 		if (!writer.isMetadataSupported()) {
 			return;
 		}
@@ -501,7 +506,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return className;
 	}
 
-	private boolean isDeobfCandidateAttr(String shortNsName, String attrName) {
+	private boolean isDeobfCandidateAttr(@Nullable String shortNsName, String attrName) {
 		String fullName;
 		if (shortNsName != null) {
 			fullName = shortNsName + ':' + attrName;
@@ -511,7 +516,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return "android:name".equals(fullName);
 	}
 
-	private void memorizePackageName(String attrName, String attrValue) {
+	private void memorizePackageName(String attrName, @Nullable String attrValue) {
 		if ("manifest".equals(currentTag) && "package".equals(attrName)) {
 			appPackageName = attrValue;
 		}

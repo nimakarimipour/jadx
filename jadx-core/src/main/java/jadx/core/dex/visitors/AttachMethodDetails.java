@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.instructions.BaseInvokeNode;
 import jadx.core.dex.nodes.IMethodDetails;
 import jadx.core.dex.nodes.InsnNode;
@@ -19,6 +21,7 @@ import jadx.core.utils.exceptions.JadxException;
 )
 public class AttachMethodDetails extends AbstractVisitor {
 
+	@Nullable
 	private MethodUtils methodUtils;
 
 	@Override

@@ -40,7 +40,7 @@ public class CodeGenUtils {
 		}
 	}
 
-	public static void addError(ICodeWriter code, String errMsg, Throwable cause) {
+	public static void addError(ICodeWriter code, String errMsg, @Nullable Throwable cause) {
 		code.startLine("/*  JADX ERROR: ").add(errMsg);
 		if (cause != null) {
 			code.incIndent();
@@ -155,6 +155,7 @@ public class CodeGenUtils {
 		}
 	}
 
+	@Nullable
 	public static CodeVar getCodeVar(RegisterArg arg) {
 		SSAVar svar = arg.getSVar();
 		if (svar != null) {

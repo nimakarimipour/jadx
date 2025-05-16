@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import com.android.aapt.Resources.XmlAttribute;
 import com.android.aapt.Resources.XmlElement;
 import com.android.aapt.Resources.XmlNamespace;
@@ -24,7 +26,9 @@ public class ProtoXMLParser {
 	private ICodeWriter writer;
 
 	private final RootNode rootNode;
+	@Nullable
 	private String currentTag;
+	@Nullable
 	private String appPackageName;
 
 	public ProtoXMLParser(RootNode rootNode) {

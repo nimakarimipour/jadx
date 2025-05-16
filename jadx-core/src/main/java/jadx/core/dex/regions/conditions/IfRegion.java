@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
+import com.uber.nullaway.annotations.Initializer;
+
 import jadx.api.ICodeWriter;
 import jadx.core.codegen.RegionGen;
 import jadx.core.dex.nodes.BlockNode;
@@ -13,7 +17,9 @@ import jadx.core.dex.nodes.IRegion;
 import jadx.core.utils.exceptions.CodegenException;
 
 public final class IfRegion extends ConditionRegion implements IBranchRegion {
+	@Nullable
 	private IContainer thenRegion;
+	@Nullable
 	private IContainer elseRegion;
 
 	public IfRegion(IRegion parent) {
@@ -32,10 +38,11 @@ public final class IfRegion extends ConditionRegion implements IBranchRegion {
 		return elseRegion;
 	}
 
-	public void setElseRegion(IContainer elseRegion) {
+	public void setElseRegion(@Nullable IContainer elseRegion) {
 		this.elseRegion = elseRegion;
 	}
 
+	@Initializer
 	public void invert() {
 		invertCondition();
 		// swap regions

@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.Edge;
@@ -17,6 +19,7 @@ public class LoopInfo {
 	private final Set<BlockNode> loopBlocks;
 
 	private int id;
+	@Nullable
 	private LoopInfo parentLoop;
 
 	public LoopInfo(BlockNode start, BlockNode end, Set<BlockNode> loopBlocks) {
@@ -83,6 +86,7 @@ public class LoopInfo {
 		this.id = id;
 	}
 
+	@Nullable
 	public LoopInfo getParentLoop() {
 		return parentLoop;
 	}

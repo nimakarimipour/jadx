@@ -3,11 +3,14 @@ package jadx.core.dex.visitors.typeinference;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.NotNull;
 
 import jadx.core.dex.instructions.args.ArgType;
 
 public class TypeInfo {
+	@Nullable
 	private ArgType type = ArgType.UNKNOWN;
 
 	private final Set<ITypeBound> bounds = new LinkedHashSet<>();
@@ -17,7 +20,7 @@ public class TypeInfo {
 		return type;
 	}
 
-	public void setType(ArgType type) {
+	public void setType(@Nullable ArgType type) {
 		this.type = type;
 	}
 

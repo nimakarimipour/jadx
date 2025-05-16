@@ -6,6 +6,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.uber.nullaway.annotations.Initializer;
+
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.nodes.BlockNode;
@@ -27,6 +29,7 @@ public class LiveVarAnalysis {
 		this.mth = mth;
 	}
 
+	@Initializer
 	public void runAnalysis() {
 		int bbCount = mth.getBasicBlocks().size();
 		int regsCount = mth.getRegsCount();

@@ -36,6 +36,7 @@ public class CodeRenameVisitor extends AbstractVisitor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CodeRenameVisitor.class);
 
+	@Nullable
 	private Map<String, List<ICodeRename>> clsRenamesMap;
 
 	@Override

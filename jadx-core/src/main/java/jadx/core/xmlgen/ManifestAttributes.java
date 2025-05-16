@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
 import javax.xml.parsers.DocumentBuilder;
 
 import org.slf4j.Logger;
@@ -52,6 +53,7 @@ public class ManifestAttributes {
 
 	private final Map<String, MAttr> attrMap = new HashMap<>();
 
+	@Nullable
 	private static ManifestAttributes instance;
 
 	public static ManifestAttributes getInstance() {
@@ -165,6 +167,7 @@ public class ManifestAttributes {
 		}
 	}
 
+	@Nullable
 	public String decode(String attrName, long value) {
 		MAttr attr = attrMap.get(attrName);
 		if (attr == null) {

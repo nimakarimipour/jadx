@@ -2,24 +2,36 @@ package jadx.core.codegen.json.cls;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 public class JsonClass extends JsonNode {
+	@Nullable
 	@SerializedName("package")
 	private String pkg;
+	@Nullable
 	private String type; // class, interface, enum
+	@Nullable
 	@SerializedName("extends")
 	private String superClass;
+	@Nullable
 	@SerializedName("implements")
 	private List<String> interfaces;
+	@Nullable
 	private String dex;
 
+	@Nullable
 	private List<JsonField> fields;
+	@Nullable
 	private List<JsonMethod> methods;
+	@Nullable
 	private List<JsonClass> innerClasses;
 
+	@Nullable
 	private List<String> imports;
 
+	@Nullable
 	public String getType() {
 		return type;
 	}
@@ -28,6 +40,7 @@ public class JsonClass extends JsonNode {
 		this.type = type;
 	}
 
+	@Nullable
 	public String getSuperClass() {
 		return superClass;
 	}
@@ -36,6 +49,7 @@ public class JsonClass extends JsonNode {
 		this.superClass = superClass;
 	}
 
+	@Nullable
 	public List<String> getInterfaces() {
 		return interfaces;
 	}
@@ -44,6 +58,7 @@ public class JsonClass extends JsonNode {
 		this.interfaces = interfaces;
 	}
 
+	@Nullable
 	public List<JsonField> getFields() {
 		return fields;
 	}
@@ -52,6 +67,7 @@ public class JsonClass extends JsonNode {
 		this.fields = fields;
 	}
 
+	@Nullable
 	public List<JsonMethod> getMethods() {
 		return methods;
 	}
@@ -60,6 +76,7 @@ public class JsonClass extends JsonNode {
 		this.methods = methods;
 	}
 
+	@Nullable
 	public List<JsonClass> getInnerClasses() {
 		return innerClasses;
 	}
@@ -68,6 +85,7 @@ public class JsonClass extends JsonNode {
 		this.innerClasses = innerClasses;
 	}
 
+	@Nullable
 	public String getPkg() {
 		return pkg;
 	}
@@ -76,6 +94,7 @@ public class JsonClass extends JsonNode {
 		this.pkg = pkg;
 	}
 
+	@Nullable
 	public String getDex() {
 		return dex;
 	}
@@ -84,6 +103,7 @@ public class JsonClass extends JsonNode {
 		this.dex = dex;
 	}
 
+	@Nullable
 	public List<String> getImports() {
 		return imports;
 	}

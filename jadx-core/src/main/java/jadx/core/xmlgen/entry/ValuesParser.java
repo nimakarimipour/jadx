@@ -19,10 +19,11 @@ public class ValuesParser extends ParserConstants {
 
 	private static Map<Integer, String> androidResMap;
 
+	@Nullable
 	private final String[] strings;
 	private final Map<Integer, String> resMap;
 
-	public ValuesParser(String[] strings, Map<Integer, String> resMap) {
+	public ValuesParser(@Nullable String[] strings, Map<Integer, String> resMap) {
 		this.strings = strings;
 		this.resMap = resMap;
 		getAndroidResMap();
@@ -165,6 +166,7 @@ public class ValuesParser extends ParserConstants {
 		}
 	}
 
+	@Nullable
 	public String decodeNameRef(int nameRef) {
 		int ref = nameRef;
 		if (isResInternalId(nameRef)) {

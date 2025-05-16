@@ -62,7 +62,7 @@ public class MethodUtils {
 		return processMethodArgsOverloaded(startCls, mthInfo, null);
 	}
 
-	public List<IMethodDetails> collectOverloadedMethods(ArgType startCls, MethodInfo mthInfo) {
+	public List<IMethodDetails> collectOverloadedMethods(@Nullable ArgType startCls, MethodInfo mthInfo) {
 		List<IMethodDetails> list = new ArrayList<>();
 		processMethodArgsOverloaded(startCls, mthInfo, list);
 		return list;
@@ -80,7 +80,8 @@ public class MethodUtils {
 		return null;
 	}
 
-	private boolean processMethodArgsOverloaded(ArgType startCls, MethodInfo mthInfo, @Nullable List<IMethodDetails> collectedMths) {
+	private boolean processMethodArgsOverloaded(@Nullable ArgType startCls, MethodInfo mthInfo,
+			@Nullable List<IMethodDetails> collectedMths) {
 		if (startCls == null || !startCls.isObject()) {
 			return false;
 		}

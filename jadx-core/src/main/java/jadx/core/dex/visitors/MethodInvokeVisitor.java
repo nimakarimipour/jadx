@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import javax.annotation.Nullable;
+
 import jadx.api.ICodeWriter;
 import jadx.core.Consts;
 import jadx.core.dex.attributes.AFlag;
@@ -131,6 +133,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private ArgType getCallClassFromInvoke(MethodNode parentMth, BaseInvokeNode invokeInsn, MethodInfo callMth) {
 		if (invokeInsn instanceof ConstructorInsn) {
 			ConstructorInsn constrInsn = (ConstructorInsn) invokeInsn;

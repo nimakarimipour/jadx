@@ -3,17 +3,21 @@ package jadx.core.dex.visitors.regions.variables;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.instructions.args.SSAVar;
 
 class VarUsage {
+	@Nullable
 	private final SSAVar var;
 	private final List<UsePlace> assigns = new ArrayList<>(3);
 	private final List<UsePlace> uses = new ArrayList<>(3);
 
-	VarUsage(SSAVar var) {
+	VarUsage(@Nullable SSAVar var) {
 		this.var = var;
 	}
 
+	@Nullable
 	public SSAVar getVar() {
 		return var;
 	}

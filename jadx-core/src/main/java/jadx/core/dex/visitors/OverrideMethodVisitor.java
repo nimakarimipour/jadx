@@ -78,6 +78,7 @@ public class OverrideMethodVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private MethodOverrideAttr processOverrideMethods(MethodNode mth, SuperTypesData superData) {
 		MethodOverrideAttr result = mth.get(AType.METHOD_OVERRIDE);
 		if (result != null) {
@@ -378,6 +379,7 @@ public class OverrideMethodVisitor extends AbstractVisitor {
 		return changed;
 	}
 
+	@Nullable
 	private ArgType updateArgType(MethodNode mth, IMethodDetails baseMth, SuperTypesData superData, int argNum) {
 		ArgType arg = mth.getArgTypes().get(argNum);
 		ArgType baseArg = baseMth.getArgTypes().get(argNum);

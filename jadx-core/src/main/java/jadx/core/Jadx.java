@@ -7,6 +7,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.Manifest;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -231,6 +233,7 @@ public class Jadx {
 
 	public static final String VERSION_DEV = "dev";
 
+	@Nullable
 	private static String version;
 
 	public static String getVersion() {

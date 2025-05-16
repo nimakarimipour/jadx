@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.NotNull;
 
 import jadx.core.dex.attributes.AFlag;
@@ -49,11 +51,13 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	/**
 	 * Dominance frontier
 	 */
+	@Nullable
 	private BitSet domFrontier;
 
 	/**
 	 * Immediate dominator
 	 */
+	@Nullable
 	private BlockNode idom;
 
 	/**
@@ -161,7 +165,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return doms;
 	}
 
-	public void setDoms(BitSet doms) {
+	public void setDoms(@Nullable BitSet doms) {
 		this.doms = doms;
 	}
 
@@ -169,7 +173,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return domFrontier;
 	}
 
-	public void setDomFrontier(BitSet domFrontier) {
+	public void setDomFrontier(@Nullable BitSet domFrontier) {
 		this.domFrontier = domFrontier;
 	}
 
@@ -180,7 +184,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return idom;
 	}
 
-	public void setIDom(BlockNode idom) {
+	public void setIDom(@Nullable BlockNode idom) {
 		this.idom = idom;
 	}
 
@@ -210,7 +214,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(@Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}

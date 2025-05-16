@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import jadx.api.metadata.annotations.VarNode;
 
 public class CodeVar {
+	@Nullable
 	private String name;
+	@Nullable
 	private ArgType type; // before type inference can be null and set only for immutable types
 	private List<SSAVar> ssaVars = Collections.emptyList();
 
@@ -15,6 +19,7 @@ public class CodeVar {
 	private boolean isThis;
 	private boolean isDeclared;
 
+	@Nullable
 	private VarNode cachedVarNode; // set and used at codegen stage
 
 	public static CodeVar fromMthArg(RegisterArg mthArg, boolean linkRegister) {
@@ -30,11 +35,12 @@ public class CodeVar {
 		return var;
 	}
 
+	@Nullable
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(@Nullable String name) {
 		this.name = name;
 	}
 
@@ -42,7 +48,7 @@ public class CodeVar {
 		return type;
 	}
 
-	public void setType(ArgType type) {
+	public void setType(@Nullable ArgType type) {
 		this.type = type;
 	}
 
@@ -94,6 +100,7 @@ public class CodeVar {
 		isDeclared = declared;
 	}
 
+	@Nullable
 	public VarNode getCachedVarNode() {
 		return cachedVarNode;
 	}

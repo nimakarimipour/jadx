@@ -30,6 +30,7 @@ public class ConstStorage {
 			return values;
 		}
 
+		@Nullable
 		public FieldNode get(Object key) {
 			return values.get(key);
 		}

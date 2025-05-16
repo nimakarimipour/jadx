@@ -10,6 +10,8 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.uber.nullaway.annotations.Initializer;
+
 import jadx.api.plugins.input.data.ICodeReader;
 import jadx.api.plugins.input.data.IDebugInfo;
 import jadx.api.plugins.input.data.IMethodData;
@@ -57,16 +59,21 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	private List<ArgType> typeParameters;
 
 	// decompilation data, reset on unload
+	@Nullable
 	private RegisterArg thisArg;
+	@Nullable
 	private List<RegisterArg> argsList;
+	@Nullable
 	private InsnNode[] instructions;
 	private List<BlockNode> blocks;
 	private int blocksMaxCId;
+	@Nullable
 	private BlockNode enterBlock;
 	private BlockNode exitBlock;
 	private List<SSAVar> sVars;
 	private List<ExceptionHandler> exceptionHandlers;
 	private List<LoopInfo> loops;
+	@Nullable
 	private Region region;
 
 	private List<MethodNode> useIn = Collections.emptyList();
@@ -97,6 +104,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		unload();
 	}
 
+	@Initializer
 	@Override
 	public void unload() {
 		loaded = false;

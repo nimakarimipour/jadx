@@ -3,6 +3,8 @@ package jadx.core.dex.visitors.regions;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -146,6 +148,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 		return true;
 	}
 
+	@Nullable
 	private static LoopType checkArrayForEach(MethodNode mth, LoopRegion loopRegion, InsnNode initInsn, InsnNode incrInsn,
 			IfCondition condition) {
 		if (!(incrInsn instanceof ArithNode)) {
@@ -385,7 +388,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 	/**
 	 * Check if instruction is a interface invoke with corresponding parameters.
 	 */
-	private static boolean checkInvoke(InsnNode insn, String declClsFullName, String mthId) {
+	private static boolean checkInvoke(@Nullable InsnNode insn, @Nullable String declClsFullName, String mthId) {
 		if (insn == null) {
 			return false;
 		}

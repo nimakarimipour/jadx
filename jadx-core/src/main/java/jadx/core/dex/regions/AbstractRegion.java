@@ -1,5 +1,7 @@
 package jadx.core.dex.regions;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,9 +12,10 @@ import jadx.core.dex.nodes.IRegion;
 public abstract class AbstractRegion extends AttrNode implements IRegion {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractRegion.class);
 
+	@Nullable
 	private IRegion parent;
 
-	public AbstractRegion(IRegion parent) {
+	public AbstractRegion(@Nullable IRegion parent) {
 		this.parent = parent;
 	}
 

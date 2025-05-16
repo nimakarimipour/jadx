@@ -17,6 +17,8 @@
 
 package jadx.core.xmlgen.entry;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +55,9 @@ public class EntryConfig {
 	public final short screenWidthDp;
 	public final short screenHeightDp;
 
+	@Nullable
 	private final char[] localeScript;
+	@Nullable
 	private final char[] localeVariant;
 
 	private final byte screenLayout2;
@@ -71,7 +75,7 @@ public class EntryConfig {
 			byte inputFlags, short screenWidth, short screenHeight,
 			short sdkVersion, byte screenLayout, byte uiMode,
 			short smallestScreenWidthDp, short screenWidthDp,
-			short screenHeightDp, char[] localeScript, char[] localeVariant,
+			short screenHeightDp, @Nullable char[] localeScript, @Nullable char[] localeVariant,
 			byte screenLayout2, byte colorMode, boolean isInvalid, int size) {
 		if (orientation < 0 || orientation > 3) {
 			LOG.warn("Invalid orientation value: {}", orientation);

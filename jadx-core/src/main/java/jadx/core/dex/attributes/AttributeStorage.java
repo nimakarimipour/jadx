@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import jadx.api.plugins.input.data.annotations.IAnnotation;
 import jadx.api.plugins.input.data.attributes.IJadxAttrType;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
@@ -80,11 +82,13 @@ public class AttributeStorage {
 		return attributes.containsKey(type);
 	}
 
+	@Nullable
 	@SuppressWarnings("unchecked")
 	public <T extends IJadxAttribute> T get(IJadxAttrType<T> type) {
 		return (T) attributes.get(type);
 	}
 
+	@Nullable
 	public IAnnotation getAnnotation(String cls) {
 		AnnotationsAttr aList = get(JadxAttrType.ANNOTATION_LIST);
 		return aList == null ? null : aList.get(cls);

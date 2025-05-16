@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.info.MethodInfo;
@@ -38,6 +40,7 @@ import jadx.core.utils.exceptions.JadxException;
 )
 public class DeboxingVisitor extends AbstractVisitor {
 
+	@Nullable
 	private Set<MethodInfo> valueOfMths;
 
 	@Override
@@ -82,6 +85,7 @@ public class DeboxingVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private InsnNode checkForReplace(InvokeNode insnNode) {
 		if (insnNode.getInvokeType() != InvokeType.STATIC
 				|| insnNode.getResult() == null) {

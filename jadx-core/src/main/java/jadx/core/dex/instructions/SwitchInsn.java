@@ -5,6 +5,8 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.uber.nullaway.annotations.Initializer;
+
 import jadx.api.ICodeWriter;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.nodes.BlockNode;
@@ -22,6 +24,7 @@ public class SwitchInsn extends TargetInsnNode {
 
 	private int def; // next instruction
 
+	@Nullable
 	private Object[] modifiedKeys;
 	private BlockNode[] targetBlocks;
 	private BlockNode defTargetBlock;
@@ -42,6 +45,7 @@ public class SwitchInsn extends TargetInsnNode {
 		this.def = def;
 	}
 
+	@Initializer
 	@Override
 	public void initBlocks(BlockNode curBlock) {
 		if (switchData == null) {
@@ -167,7 +171,7 @@ public class SwitchInsn extends TargetInsnNode {
 		return getSwitchData().getKeys()[i];
 	}
 
-	public void modifyKey(int i, Object newKey) {
+	public void modifyKey(int i, @Nullable Object newKey) {
 		if (modifiedKeys == null) {
 			int[] keys = getKeys();
 			int caseCount = keys.length;

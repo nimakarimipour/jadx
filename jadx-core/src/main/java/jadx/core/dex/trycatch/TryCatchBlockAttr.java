@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import jadx.api.plugins.input.data.attributes.IJadxAttrType;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
 import jadx.core.dex.attributes.AType;
@@ -17,10 +19,12 @@ public class TryCatchBlockAttr implements IJadxAttribute {
 	private final List<ExceptionHandler> handlers;
 	private List<BlockNode> blocks;
 
+	@Nullable
 	private TryCatchBlockAttr outerTryBlock;
 	private List<TryCatchBlockAttr> innerTryBlocks = Collections.emptyList();
 	private boolean merged = false;
 
+	@Nullable
 	private BlockNode topSplitter;
 
 	public TryCatchBlockAttr(int id, List<ExceptionHandler> handlers, List<BlockNode> blocks) {
@@ -106,6 +110,7 @@ public class TryCatchBlockAttr implements IJadxAttribute {
 		this.innerTryBlocks.add(inner);
 	}
 
+	@Nullable
 	public TryCatchBlockAttr getOuterTryBlock() {
 		return outerTryBlock;
 	}

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import jadx.api.plugins.input.data.AccessFlags;
 import jadx.core.Consts;
 import jadx.core.dex.attributes.AFlag;
@@ -392,6 +394,7 @@ public class ClassModifier extends AbstractVisitor {
 		return map;
 	}
 
+	@Nullable
 	private static InsnNode getParentInsnSkipMove(RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		if (sVar.getUseCount() != 1) {

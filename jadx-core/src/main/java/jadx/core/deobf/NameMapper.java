@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nullable;
+
 import jadx.core.utils.StringUtils;
 
 import static jadx.core.utils.StringUtils.notEmpty;
@@ -73,11 +75,11 @@ public class NameMapper {
 					"volatile",
 					"while"));
 
-	public static boolean isReserved(String str) {
+	public static boolean isReserved(@Nullable String str) {
 		return RESERVED_NAMES.contains(str);
 	}
 
-	public static boolean isValidIdentifier(String str) {
+	public static boolean isValidIdentifier(@Nullable String str) {
 		return notEmpty(str)
 				&& !isReserved(str)
 				&& VALID_JAVA_IDENTIFIER.matcher(str).matches();
@@ -89,7 +91,7 @@ public class NameMapper {
 				&& VALID_JAVA_FULL_IDENTIFIER.matcher(str).matches();
 	}
 
-	public static boolean isValidAndPrintable(String str) {
+	public static boolean isValidAndPrintable(@Nullable String str) {
 		return isValidIdentifier(str) && isAllCharsPrintable(str);
 	}
 
@@ -128,7 +130,7 @@ public class NameMapper {
 		return true;
 	}
 
-	public static boolean isAllCharsPrintable(String str) {
+	public static boolean isAllCharsPrintable(@Nullable String str) {
 		int len = str.length();
 		int offset = 0;
 		while (offset < len) {

@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.uber.nullaway.annotations.Initializer;
+
 import jadx.api.plugins.input.data.AccessFlags;
 import jadx.core.codegen.TypeGen;
 import jadx.core.deobf.NameMapper;
@@ -76,6 +78,7 @@ public class EnumVisitor extends AbstractVisitor {
 	private MethodInfo enumValueOfMth;
 	private MethodInfo cloneMth;
 
+	@Initializer
 	@Override
 	public void init(RootNode root) {
 		enumValueOfMth = MethodInfo.fromDetails(
@@ -274,6 +277,7 @@ public class EnumVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private List<EnumField> extractEnumFieldsFromInvoke(EnumData enumData, InvokeNode invokeNode) {
 		MethodInfo callMth = invokeNode.getCallMth();
 		MethodNode valuesMth = enumData.cls.root().resolveMethod(callMth);
@@ -293,6 +297,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return enumFields;
 	}
 
+	@Nullable
 	private BlockInsnPair getValuesInitInsn(EnumData data) {
 		FieldInfo searchField = data.valuesField.getFieldInfo();
 		for (BlockNode blockNode : data.staticBlocks) {
@@ -309,6 +314,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return null;
 	}
 
+	@Nullable
 	private List<EnumField> extractEnumFieldsFromFilledArray(EnumData enumData, InsnNode arrFillInsn) {
 		List<EnumField> enumFields = new ArrayList<>();
 		for (InsnArg arg : arrFillInsn.getArguments()) {
@@ -328,6 +334,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return enumFields;
 	}
 
+	@Nullable
 	private EnumField processEnumFieldByWrappedInsn(EnumData data, InsnNode wrappedInsn) {
 		if (wrappedInsn.getType() == InsnType.SGET) {
 			return processEnumFieldByField(data, wrappedInsn);
@@ -415,6 +422,7 @@ public class EnumVisitor extends AbstractVisitor {
 		return enumFieldNode;
 	}
 
+	@Nullable
 	@SuppressWarnings("StatementWithEmptyBody")
 	private EnumField createEnumFieldByConstructor(ClassNode cls, FieldNode enumFieldNode, ConstructorInsn co) {
 		// usually constructor signature is '<init>(Ljava/lang/String;I)V'.
@@ -610,6 +618,7 @@ public class EnumVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private ConstructorInsn getConstructorInsn(InsnNode insn) {
 		if (insn.getArgsCount() != 1) {
 			return null;
@@ -625,13 +634,14 @@ public class EnumVisitor extends AbstractVisitor {
 	}
 
 	@Nullable
-	private ConstructorInsn castConstructorInsn(InsnNode coCandidate) {
+	private ConstructorInsn castConstructorInsn(@Nullable InsnNode coCandidate) {
 		if (coCandidate != null && coCandidate.getType() == InsnType.CONSTRUCTOR) {
 			return (ConstructorInsn) coCandidate;
 		}
 		return null;
 	}
 
+	@Nullable
 	private String getConstString(RootNode root, InsnArg arg) {
 		if (arg.isInsnWrap()) {
 			InsnNode constInsn = ((InsnWrapArg) arg).getWrapInsn();

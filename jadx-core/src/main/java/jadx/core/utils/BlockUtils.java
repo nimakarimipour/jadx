@@ -70,6 +70,7 @@ public class BlockUtils {
 		}
 	}
 
+	@Nullable
 	public static BlockNode selectOtherSafe(BlockNode node, List<BlockNode> blocks) {
 		int size = blocks.size();
 		if (size == 1) {
@@ -121,7 +122,7 @@ public class BlockUtils {
 		}
 	}
 
-	public static boolean isBackEdge(BlockNode from, BlockNode to) {
+	public static boolean isBackEdge(BlockNode from, @Nullable BlockNode to) {
 		if (to == null) {
 			return false;
 		}
@@ -155,7 +156,7 @@ public class BlockUtils {
 	/**
 	 * Check if instruction contains in block (use == for comparison, not equals)
 	 */
-	public static boolean blockContains(BlockNode block, InsnNode insn) {
+	public static boolean blockContains(BlockNode block, @Nullable InsnNode insn) {
 		for (InsnNode bi : block.getInstructions()) {
 			if (bi == insn) {
 				return true;
@@ -174,6 +175,7 @@ public class BlockUtils {
 		return insn != null && insn.getType() == expectedType;
 	}
 
+	@Nullable
 	public static InsnNode getLastInsnWithType(IBlock block, InsnType expectedType) {
 		InsnNode insn = getLastInsn(block);
 		if (insn != null && insn.getType() == expectedType) {
@@ -216,14 +218,14 @@ public class BlockUtils {
 		return insns.get(insns.size() - 1);
 	}
 
-	public static boolean isExitBlock(MethodNode mth, BlockNode block) {
+	public static boolean isExitBlock(MethodNode mth, @Nullable BlockNode block) {
 		if (block == mth.getExitBlock()) {
 			return true;
 		}
 		return isExitBlock(block);
 	}
 
-	public static boolean isExitBlock(BlockNode block) {
+	public static boolean isExitBlock(@Nullable BlockNode block) {
 		List<BlockNode> successors = block.getSuccessors();
 		if (successors.isEmpty()) {
 			return true;
@@ -266,6 +268,7 @@ public class BlockUtils {
 		return null;
 	}
 
+	@Nullable
 	public static BlockNode searchBlockWithPhi(MethodNode mth, PhiInsn insn) {
 		for (BlockNode block : mth.getBasicBlocks()) {
 			PhiListAttr phiListAttr = block.get(AType.PHI_LIST);
@@ -280,6 +283,7 @@ public class BlockUtils {
 		return null;
 	}
 
+	@Nullable
 	private static BlockNode getBlockByWrappedInsn(MethodNode mth, InsnNode insn) {
 		for (BlockNode bn : mth.getBasicBlocks()) {
 			for (InsnNode bi : bn.getInstructions()) {
@@ -291,6 +295,7 @@ public class BlockUtils {
 		return null;
 	}
 
+	@Nullable
 	public static InsnNode searchInsnParent(MethodNode mth, InsnNode insn) {
 		InsnArg insnArg = searchWrappedInsnParent(mth, insn);
 		if (insnArg == null) {
@@ -299,6 +304,7 @@ public class BlockUtils {
 		return insnArg.getParentInsn();
 	}
 
+	@Nullable
 	public static InsnArg searchWrappedInsnParent(MethodNode mth, InsnNode insn) {
 		if (!insn.contains(AFlag.WRAPPED)) {
 			return null;
@@ -314,6 +320,7 @@ public class BlockUtils {
 		return null;
 	}
 
+	@Nullable
 	private static InsnArg foundWrappedInsn(InsnNode container, InsnNode insn) {
 		for (InsnArg arg : container.getArguments()) {
 			if (arg.isInsnWrap()) {
@@ -333,6 +340,7 @@ public class BlockUtils {
 		return null;
 	}
 
+	@Nullable
 	private static InsnArg foundWrappedInsnInCondition(IfCondition cond, InsnNode insn) {
 		if (cond.isCompare()) {
 			IfNode cmpInsn = cond.getCompare().getInsn();
@@ -351,7 +359,7 @@ public class BlockUtils {
 		return new BitSet(mth.getBasicBlocks().size());
 	}
 
-	public static BitSet copyBlocksBitSet(MethodNode mth, BitSet bitSet) {
+	public static BitSet copyBlocksBitSet(MethodNode mth, @Nullable BitSet bitSet) {
 		BitSet copy = new BitSet(mth.getBasicBlocks().size());
 		if (!bitSet.isEmpty()) {
 			copy.or(bitSet);
@@ -413,6 +421,7 @@ public class BlockUtils {
 	/**
 	 * Return successor on path to 'pathEnd' block
 	 */
+	@Nullable
 	public static BlockNode getNextBlockToPath(BlockNode block, BlockNode pathEnd) {
 		List<BlockNode> successors = block.getCleanSuccessors();
 		if (successors.contains(pathEnd)) {
@@ -620,6 +629,7 @@ public class BlockUtils {
 		return traverseSuccessorsUntil(start, end, new BitSet(), false);
 	}
 
+	@Nullable
 	public static BlockNode getTopBlock(List<BlockNode> blocks) {
 		if (blocks.size() == 1) {
 			return blocks.get(0);
@@ -682,6 +692,7 @@ public class BlockUtils {
 	/**
 	 * Search for first node which not dominated by dom, starting from start
 	 */
+	@Nullable
 	public static BlockNode traverseWhileDominates(BlockNode dom, BlockNode start) {
 		for (BlockNode node : start.getCleanSuccessors()) {
 			if (!node.isDominator(dom)) {
@@ -801,6 +812,7 @@ public class BlockUtils {
 		set.or(domFrontier);
 	}
 
+	@Nullable
 	public static BlockNode getPathCross(MethodNode mth, BlockNode b1, BlockNode b2) {
 		if (b1 == b2) {
 			return b1;

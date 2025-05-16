@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.FieldReplaceAttr;
@@ -115,6 +117,7 @@ public class AnonymousClassVisitor extends AbstractVisitor {
 		return map;
 	}
 
+	@Nullable
 	private static InsnNode getParentInsnSkipMove(RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		if (sVar.getUseCount() != 1) {

@@ -2,6 +2,8 @@ package jadx.core.dex.attributes;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import jadx.api.plugins.input.data.annotations.IAnnotation;
 import jadx.api.plugins.input.data.attributes.IJadxAttrType;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
@@ -28,6 +30,7 @@ public interface IAttributeNode {
 
 	<T extends IJadxAttribute> T get(IJadxAttrType<T> type);
 
+	@Nullable
 	IAnnotation getAnnotation(String cls);
 
 	<T> List<T> getAll(IJadxAttrType<AttrList<T>> type);

@@ -3,6 +3,8 @@ package jadx.core.dex.attributes;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import jadx.api.plugins.input.data.annotations.IAnnotation;
 import jadx.api.plugins.input.data.attributes.IJadxAttrType;
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
@@ -19,11 +21,13 @@ public final class EmptyAttrStorage extends AttributeStorage {
 		return false;
 	}
 
+	@Nullable
 	@Override
 	public <T extends IJadxAttribute> T get(IJadxAttrType<T> type) {
 		return null;
 	}
 
+	@Nullable
 	@Override
 	public IAnnotation getAnnotation(String cls) {
 		return null;

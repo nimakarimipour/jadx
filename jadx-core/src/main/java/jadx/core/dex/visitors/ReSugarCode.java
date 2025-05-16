@@ -299,6 +299,7 @@ public class ReSugarCode extends AbstractVisitor {
 		mapAttr.add(field, literal, fieldNode);
 	}
 
+	@Nullable
 	public static EnumMapInfo checkEnumMapAccess(RootNode root, InsnNode checkInsn) {
 		InsnArg sgetArg = checkInsn.getArg(0);
 		InsnArg invArg = checkInsn.getArg(1);

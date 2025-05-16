@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.Queue;
 
+import javax.annotation.Nullable;
+
 import jadx.api.ICodeWriter;
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.instructions.ArithNode;
@@ -29,7 +31,7 @@ public class ConditionGen extends InsnGen {
 			return stack;
 		}
 
-		public void push(IfCondition cond) {
+		public void push(@Nullable IfCondition cond) {
 			stack.add(cond);
 		}
 
@@ -42,7 +44,7 @@ public class ConditionGen extends InsnGen {
 		super(insnGen.mgen, insnGen.fallback);
 	}
 
-	public void add(ICodeWriter code, IfCondition condition) throws CodegenException {
+	public void add(ICodeWriter code, @Nullable IfCondition condition) throws CodegenException {
 		add(code, new CondStack(), condition);
 	}
 
@@ -50,7 +52,7 @@ public class ConditionGen extends InsnGen {
 		wrap(code, new CondStack(), condition);
 	}
 
-	private void add(ICodeWriter code, CondStack stack, IfCondition condition) throws CodegenException {
+	private void add(ICodeWriter code, CondStack stack, @Nullable IfCondition condition) throws CodegenException {
 		stack.push(condition);
 		switch (condition.getMode()) {
 			case COMPARE:

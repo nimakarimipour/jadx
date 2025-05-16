@@ -15,6 +15,8 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.uber.nullaway.annotations.Initializer;
+
 import jadx.core.Consts;
 import jadx.core.clsp.ClspGraph;
 import jadx.core.dex.attributes.AFlag;
@@ -77,6 +79,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	private TypeUpdate typeUpdate;
 	private List<Function<MethodNode, Boolean>> resolvers;
 
+	@Initializer
 	@Override
 	public void init(RootNode root) {
 		this.root = root;
@@ -253,7 +256,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		}
 	}
 
-	private void addBound(TypeInfo typeInfo, ITypeBound bound) {
+	private void addBound(TypeInfo typeInfo, @Nullable ITypeBound bound) {
 		if (bound == null) {
 			return;
 		}
@@ -377,6 +380,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return new TypeBoundConst(BoundEnum.USE, regArg.getInitType(), regArg);
 	}
 
+	@Nullable
 	private ITypeBound makeInvokeUseBound(RegisterArg regArg, BaseInvokeNode invoke) {
 		InsnArg instanceArg = invoke.getInstanceArg();
 		if (instanceArg == null) {

@@ -205,6 +205,7 @@ public class ProcessAnonymous extends AbstractVisitor {
 	 *
 	 * @return anonymous constructor method
 	 */
+	@Nullable
 	private static MethodNode checkUsage(ClassNode cls) {
 		MethodNode ctr = ListUtils.filterOnlyOne(cls.getMethods(), MethodNode::isConstructor);
 		if (ctr == null) {

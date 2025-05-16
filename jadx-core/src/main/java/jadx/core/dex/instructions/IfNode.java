@@ -2,6 +2,8 @@ package jadx.core.dex.instructions;
 
 import java.util.List;
 
+import com.uber.nullaway.annotations.Initializer;
+
 import jadx.api.plugins.input.insns.InsnData;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
@@ -86,6 +88,7 @@ public class IfNode extends GotoNode {
 		setArg(1, arg2);
 	}
 
+	@Initializer
 	@Override
 	public void initBlocks(BlockNode curBlock) {
 		List<BlockNode> successors = curBlock.getSuccessors();

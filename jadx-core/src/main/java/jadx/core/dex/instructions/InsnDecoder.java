@@ -2,6 +2,8 @@ package jadx.core.dex.instructions;
 
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -658,7 +660,7 @@ public class InsnDecoder {
 		return node;
 	}
 
-	private InsnNode insn(InsnType type, RegisterArg res, InsnArg arg) {
+	private InsnNode insn(InsnType type, @Nullable RegisterArg res, InsnArg arg) {
 		InsnNode node = new InsnNode(type, 1);
 		node.setResult(res);
 		node.addArg(arg);

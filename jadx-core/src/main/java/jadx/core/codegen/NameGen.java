@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import jadx.core.Consts;
 import jadx.core.deobf.NameMapper;
 import jadx.core.dex.attributes.AFlag;
@@ -217,6 +219,7 @@ public class NameGen {
 		return makeNameForCheckedClass(classInfo);
 	}
 
+	@Nullable
 	private static String fromName(String name) {
 		if (name == null || name.isEmpty()) {
 			return null;
@@ -235,10 +238,12 @@ public class NameGen {
 		return null;
 	}
 
+	@Nullable
 	private static String getAliasForObject(String name) {
 		return OBJ_ALIAS.get(name);
 	}
 
+	@Nullable
 	private String makeNameFromInsn(InsnNode insn) {
 		switch (insn.getType()) {
 			case INVOKE:
@@ -277,6 +282,7 @@ public class NameGen {
 		return null;
 	}
 
+	@Nullable
 	private String makeNameFromInvoke(MethodInfo callMth) {
 		String name = callMth.getAlias();
 		ClassInfo declClass = callMth.getDeclClass();

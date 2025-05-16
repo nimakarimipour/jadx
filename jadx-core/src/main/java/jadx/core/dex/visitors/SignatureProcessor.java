@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.ClassNode;
@@ -61,7 +63,8 @@ public class SignatureProcessor extends AbstractVisitor {
 		}
 	}
 
-	private ArgType validateClsType(ClassNode cls, ArgType candidateType, ArgType currentType) {
+	@Nullable
+	private ArgType validateClsType(ClassNode cls, ArgType candidateType, @Nullable ArgType currentType) {
 		if (!candidateType.isObject()) {
 			cls.addWarnComment("Incorrect class signature, class is not object: " + SignatureParser.getSignature(cls));
 			return currentType;
@@ -146,6 +149,7 @@ public class SignatureProcessor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private List<ArgType> checkArgTypes(MethodNode mth, SignatureParser sp, List<ArgType> parsedArgTypes) {
 		MethodInfo mthInfo = mth.getMethodInfo();
 		List<ArgType> mthArgTypes = mthInfo.getArgumentsTypes();

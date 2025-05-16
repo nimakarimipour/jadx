@@ -57,6 +57,7 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 	private static final String KOTLIN_VARNAME_SOURCE_MTH2 = "(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)V";
 
 	private @Nullable ClassInfo kotlinIntrinsicsCls;
+	@Nullable
 	private Set<MethodInfo> kotlinVarNameSourceMethods;
 	private boolean hideInsns;
 

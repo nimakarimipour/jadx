@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import jadx.api.ICodeInfo;
 import jadx.api.ICodeWriter;
 import jadx.core.xmlgen.entry.ResourceEntry;
@@ -107,6 +109,7 @@ public class XmlGenUtils {
 		return doubleToString(value);
 	}
 
+	@Nullable
 	public static String getAttrTypeAsString(int type) {
 		String s = "";
 		if ((type & ValuesParser.ATTR_TYPE_REFERENCE) != 0) {

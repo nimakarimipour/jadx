@@ -3,6 +3,8 @@ package jadx.core.utils;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
 
@@ -28,11 +30,11 @@ public final class InsnList implements Iterable<InsnNode> {
 		remove(block.getInstructions(), insn);
 	}
 
-	public static int getIndex(List<InsnNode> list, InsnNode insn) {
+	public static int getIndex(List<InsnNode> list, @Nullable InsnNode insn) {
 		return getIndex(list, insn, 0);
 	}
 
-	public static int getIndex(List<InsnNode> list, InsnNode insn, int startOffset) {
+	public static int getIndex(List<InsnNode> list, @Nullable InsnNode insn, int startOffset) {
 		int size = list.size();
 		for (int i = startOffset; i < size; i++) {
 			if (list.get(i) == insn) {
@@ -42,11 +44,11 @@ public final class InsnList implements Iterable<InsnNode> {
 		return -1;
 	}
 
-	public static boolean contains(List<InsnNode> list, InsnNode insn) {
+	public static boolean contains(List<InsnNode> list, @Nullable InsnNode insn) {
 		return getIndex(list, insn, 0) != -1;
 	}
 
-	public static boolean contains(List<InsnNode> list, InsnNode insn, int startOffset) {
+	public static boolean contains(List<InsnNode> list, @Nullable InsnNode insn, int startOffset) {
 		return getIndex(list, insn, startOffset) != -1;
 	}
 

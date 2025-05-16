@@ -3,6 +3,10 @@ package jadx.core.dex.visitors.typeinference;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
+import com.uber.nullaway.annotations.Initializer;
+
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.SSAVar;
 
@@ -12,12 +16,14 @@ public class TypeSearchVarInfo {
 	private ArgType currentType;
 	private List<ArgType> candidateTypes;
 	private int currentIndex = -1;
+	@Nullable
 	private List<ITypeConstraint> constraints;
 
 	public TypeSearchVarInfo(SSAVar var) {
 		this.var = var;
 	}
 
+	@Initializer
 	public void markResolved(ArgType type) {
 		this.currentType = type;
 		this.typeResolved = true;

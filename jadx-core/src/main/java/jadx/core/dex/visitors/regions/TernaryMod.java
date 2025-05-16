@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.instructions.PhiInsn;
@@ -191,6 +193,7 @@ public class TernaryMod extends AbstractRegionVisitor implements IRegionIterativ
 		}
 	}
 
+	@Nullable
 	private static BlockNode getTernaryInsnBlock(IContainer thenRegion) {
 		if (thenRegion instanceof Region) {
 			Region r = (Region) thenRegion;

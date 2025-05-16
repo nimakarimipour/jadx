@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.OptionalInt;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,7 +135,7 @@ public class DebugInfoApplyVisitor extends AbstractVisitor {
 		return applyDebugInfo(mth, ssaVar, debugInfoAttr.getRegType(), debugInfoAttr.getName());
 	}
 
-	public static boolean applyDebugInfo(MethodNode mth, SSAVar ssaVar, ArgType type, String varName) {
+	public static boolean applyDebugInfo(MethodNode mth, SSAVar ssaVar, ArgType type, @Nullable String varName) {
 		TypeUpdateResult result = mth.root().getTypeUpdate().applyWithWiderIgnoreUnknown(mth, ssaVar, type);
 		if (result == TypeUpdateResult.REJECT) {
 			if (Consts.DEBUG_TYPE_INFERENCE) {

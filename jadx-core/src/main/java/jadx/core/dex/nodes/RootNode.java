@@ -68,6 +68,7 @@ public class RootNode {
 	private final Map<ClassInfo, ClassNode> clsMap = new HashMap<>();
 	private List<ClassNode> classes = new ArrayList<>();
 
+	@Nullable
 	private ClspGraph clsp;
 	@Nullable
 	private String appPackage;
@@ -316,12 +317,12 @@ public class RootNode {
 	}
 
 	@Nullable
-	public ClassNode resolveClass(ClassInfo clsInfo) {
+	public ClassNode resolveClass(@Nullable ClassInfo clsInfo) {
 		return clsMap.get(clsInfo);
 	}
 
 	@Nullable
-	public ClassNode resolveClass(ArgType clsType) {
+	public ClassNode resolveClass(@Nullable ArgType clsType) {
 		if (!clsType.isTypeKnown() || clsType.isGenericType()) {
 			return null;
 		}

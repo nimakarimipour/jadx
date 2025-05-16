@@ -3,6 +3,8 @@ package jadx.core.dex.attributes.nodes;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import jadx.api.plugins.input.data.attributes.PinnedAttribute;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.instructions.args.RegisterArg;
@@ -33,14 +35,16 @@ public class MethodInlineAttr extends PinnedAttribute {
 		return INLINE_NOT_NEEDED;
 	}
 
+	@Nullable
 	private final InsnNode insn;
 
 	/**
 	 * Store method arguments register numbers to allow remap registers
 	 */
+	@Nullable
 	private final int[] argsRegNums;
 
-	private MethodInlineAttr(InsnNode insn, int[] argsRegNums) {
+	private MethodInlineAttr(@Nullable InsnNode insn, @Nullable int[] argsRegNums) {
 		this.insn = insn;
 		this.argsRegNums = argsRegNums;
 	}
@@ -49,10 +53,12 @@ public class MethodInlineAttr extends PinnedAttribute {
 		return insn == null;
 	}
 
+	@Nullable
 	public InsnNode getInsn() {
 		return insn;
 	}
 
+	@Nullable
 	public int[] getArgsRegNums() {
 		return argsRegNums;
 	}

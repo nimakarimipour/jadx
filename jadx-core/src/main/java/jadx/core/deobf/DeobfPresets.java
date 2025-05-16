@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -140,6 +142,7 @@ public class DeobfPresets {
 		LOG.info("Deobfuscation map file saved as: {}", deobfMapFile);
 	}
 
+	@Nullable
 	public String getForCls(ClassInfo cls) {
 		if (clsPresetMap.isEmpty()) {
 			return null;
@@ -147,6 +150,7 @@ public class DeobfPresets {
 		return clsPresetMap.get(cls.makeRawFullName());
 	}
 
+	@Nullable
 	public String getForFld(FieldInfo fld) {
 		if (fldPresetMap.isEmpty()) {
 			return null;
@@ -154,6 +158,7 @@ public class DeobfPresets {
 		return fldPresetMap.get(fld.getRawFullId());
 	}
 
+	@Nullable
 	public String getForMth(MethodInfo mth) {
 		if (mthPresetMap.isEmpty()) {
 			return null;

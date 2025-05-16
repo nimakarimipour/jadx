@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import jadx.api.ICodeInfo;
 import jadx.api.ICodeWriter;
 import jadx.api.impl.SimpleCodeWriter;
@@ -207,7 +209,8 @@ public class ResXmlGen {
 		}
 	}
 
-	private void addSimpleValue(ICodeWriter cw, String typeName, String itemTag, String attrName, String attrValue, String valueStr) {
+	private void addSimpleValue(ICodeWriter cw, String typeName, String itemTag, @Nullable String attrName, @Nullable String attrValue,
+			@Nullable String valueStr) {
 		if (valueStr == null) {
 			return;
 		}

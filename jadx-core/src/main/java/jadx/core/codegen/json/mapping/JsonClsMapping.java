@@ -2,17 +2,26 @@ package jadx.core.codegen.json.mapping;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 public class JsonClsMapping {
+	@Nullable
 	private String name;
+	@Nullable
 	private String alias;
 
+	@Nullable
 	private String json;
 	private boolean inner;
+	@Nullable
 	private String topClass;
 
+	@Nullable
 	private List<JsonFieldMapping> fields;
+	@Nullable
 	private List<JsonMthMapping> methods;
 
+	@Nullable
 	public String getName() {
 		return name;
 	}
@@ -21,6 +30,7 @@ public class JsonClsMapping {
 		this.name = name;
 	}
 
+	@Nullable
 	public String getAlias() {
 		return alias;
 	}
@@ -29,6 +39,7 @@ public class JsonClsMapping {
 		this.alias = alias;
 	}
 
+	@Nullable
 	public String getJson() {
 		return json;
 	}
@@ -45,6 +56,7 @@ public class JsonClsMapping {
 		this.inner = inner;
 	}
 
+	@Nullable
 	public String getTopClass() {
 		return topClass;
 	}
@@ -53,6 +65,7 @@ public class JsonClsMapping {
 		this.topClass = topClass;
 	}
 
+	@Nullable
 	public List<JsonFieldMapping> getFields() {
 		return fields;
 	}
@@ -61,6 +74,7 @@ public class JsonClsMapping {
 		this.fields = fields;
 	}
 
+	@Nullable
 	public List<JsonMthMapping> getMethods() {
 		return methods;
 	}

@@ -35,6 +35,7 @@ public class AttachCommentsVisitor extends AbstractVisitor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AttachCommentsVisitor.class);
 
+	@Nullable
 	private Map<String, List<ICodeComment>> clsCommentsMap;
 
 	@Override
@@ -87,6 +88,7 @@ public class AttachCommentsVisitor extends AbstractVisitor {
 		}
 	}
 
+	@Nullable
 	private static InsnNode getInsnByOffset(MethodNode mth, int offset) {
 		try {
 			return mth.getInstructions()[offset];
