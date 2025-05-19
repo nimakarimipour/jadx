@@ -536,9 +536,6 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	}
 
 	public Region getRegion() {
-		if (region == null) {
-			region = new Region(); // Or however Region should be instantiated
-		}
 		return region;
 	}
 
