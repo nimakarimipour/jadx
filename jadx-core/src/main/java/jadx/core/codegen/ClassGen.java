@@ -713,8 +713,8 @@ public class ClassGen {
 		return useCls.equals(b);
 	}
 
-	private static boolean isClassInnerFor(ClassInfo inner, ClassInfo parent) {
-		if (inner != null && inner.isInner()) {
+	private static boolean isClassInnerFor(@Nullable ClassInfo inner, ClassInfo parent) {
+		if (inner.isInner()) {
 			ClassInfo p = inner.getParentClass();
 			return Objects.equals(p, parent) || isClassInnerFor(p, parent);
 		}
