@@ -106,13 +106,17 @@ public class JsonCodeGen {
 		if (innerClasses.isEmpty()) {
 			return;
 		}
-		jsonCls.setInnerClasses(new ArrayList<>(innerClasses.size()));
+		List<JsonClass> innerJsonClasses = jsonCls.getInnerClasses();
+		if (innerJsonClasses == null) {
+			innerJsonClasses = new ArrayList<>(innerClasses.size());
+			jsonCls.setInnerClasses(innerJsonClasses);
+		}
 		for (ClassNode innerCls : innerClasses) {
 			if (innerCls.contains(AFlag.DONT_GENERATE)) {
 				continue;
 			}
 			JsonClass innerJsonCls = processCls(innerCls, classGen);
-			jsonCls.getInnerClasses().add(innerJsonCls);
+			innerJsonClasses.add(innerJsonCls);
 		}
 	}
 
