@@ -52,10 +52,7 @@ public class ConditionGen extends InsnGen {
 		wrap(code, new CondStack(), condition);
 	}
 
-	private void add(ICodeWriter code, CondStack stack, IfCondition condition) throws CodegenException {
-		if (condition == null) {
-			throw new IllegalArgumentException("Condition cannot be null");
-		}
+	private void add(ICodeWriter code, CondStack stack, @Nullable IfCondition condition) throws CodegenException {
 		stack.push(condition);
 		switch (condition.getMode()) {
 			case COMPARE:
