@@ -1161,10 +1161,6 @@ public class BlockUtils {
 			map.put(block, postDoms);
 		}
 		BitSet exitBitSet = map.get(exitBlock);
-		if (exitBitSet == null) {
-			exitBitSet = new BitSet(blocksCount);
-			map.put(exitBlock, exitBitSet);
-		}
 		exitBitSet.clear();
 		exitBitSet.set(exitBlock.getId());
 
