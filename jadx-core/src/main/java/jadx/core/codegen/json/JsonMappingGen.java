@@ -76,9 +76,7 @@ public class JsonMappingGen {
 		if (methods.isEmpty()) {
 			return;
 		}
-		if (jsonCls.getMethods() == null) {
-			jsonCls.setMethods(new ArrayList<>(methods.size()));
-		}
+		jsonCls.setMethods(new ArrayList<>(methods.size()));
 		for (MethodNode method : methods) {
 			JsonMthMapping jsonMethod = new JsonMthMapping();
 			MethodInfo methodInfo = method.getMethodInfo();
