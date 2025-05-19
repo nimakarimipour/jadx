@@ -165,10 +165,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return doms;
 	}
 
-	public void setDoms(BitSet doms) {
-		if (doms == null) {
-			throw new IllegalArgumentException("doms cannot be null");
-		}
+	public void setDoms(@Nullable BitSet doms) {
 		this.doms = doms;
 	}
 
