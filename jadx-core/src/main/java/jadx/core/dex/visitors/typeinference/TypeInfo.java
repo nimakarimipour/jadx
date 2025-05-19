@@ -17,6 +17,9 @@ public class TypeInfo {
 
 	@NotNull
 	public ArgType getType() {
+		if (type == ArgType.UNKNOWN) {
+			throw new IllegalStateException("Type cannot be UNKNOWN");
+		}
 		return type;
 	}
 
