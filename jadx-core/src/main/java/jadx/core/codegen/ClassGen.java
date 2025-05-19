@@ -496,10 +496,7 @@ public class ClassGen {
 		return 0;
 	}
 
-	private InsnGen makeInsnGen(jadx.core.dex.nodes.MethodNode mth) {
-		if (mth == null) {
-			throw new IllegalArgumentException("MethodNode parameter 'mth' cannot be null");
-		}
+	private InsnGen makeInsnGen(@Nullable MethodNode mth) {
 		MethodGen mthGen = new MethodGen(this, mth);
 		return new InsnGen(mthGen, false);
 	}
