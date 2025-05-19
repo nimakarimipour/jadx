@@ -3,6 +3,8 @@ package jadx.core.dex.visitors.typeinference;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.nodes.MethodNode;
@@ -43,10 +45,7 @@ public class TypeUpdateInfo {
 		return false;
 	}
 
-	public ArgType getType(InsnArg arg) {
-		if (arg == null) {
-			return null; // or throw an exception based on what makes sense for your use case
-		}
+	public ArgType getType(@Nullable InsnArg arg) {
 		for (TypeUpdateEntry update : updates) {
 			if (update.getArg() == arg) {
 				return update.getType();
