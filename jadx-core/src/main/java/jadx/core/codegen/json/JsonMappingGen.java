@@ -54,8 +54,7 @@ public class JsonMappingGen {
 
 	private static void fillMapping(JsonMapping mapping, RootNode root) {
 		List<ClassNode> classes = root.getClasses(true);
-		List<JsonClsMapping> jsonClsMappings = new ArrayList<>(classes.size());
-		mapping.setClasses(jsonClsMappings);
+		mapping.setClasses(new ArrayList<>(classes.size()));
 		for (ClassNode cls : classes) {
 			ClassInfo classInfo = cls.getClassInfo();
 			JsonClsMapping jsonCls = new JsonClsMapping();
@@ -68,7 +67,7 @@ public class JsonMappingGen {
 			}
 			addFields(cls, jsonCls);
 			addMethods(cls, jsonCls);
-			jsonClsMappings.add(jsonCls);
+			mapping.getClasses().add(jsonCls);
 		}
 	}
 
