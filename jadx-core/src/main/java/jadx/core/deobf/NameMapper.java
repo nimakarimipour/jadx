@@ -130,15 +130,12 @@ public class NameMapper {
 		return true;
 	}
 
-	public static boolean isAllCharsPrintable(String str) {
-		if (str == null) {
-			return false;
-		}
+	public static boolean isAllCharsPrintable(@Nullable String str) {
 		int len = str.length();
 		int offset = 0;
 		while (offset < len) {
 			int codePoint = str.codePointAt(offset);
-			if (!isPrintableCodePoint(codePoint)) {
+			if (!isPrintableAsciiCodePoint(codePoint)) {
 				return false;
 			}
 			offset += Character.charCount(codePoint);
