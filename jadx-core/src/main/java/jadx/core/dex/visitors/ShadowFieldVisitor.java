@@ -133,10 +133,7 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void processInsn(MethodNode mth, InsnNode insn, Map<String, FieldFixInfo> fixInfoMap) {
-		if (fixInfoMap == null) {
-			return;
-		}
+	private static void processInsn(MethodNode mth, InsnNode insn, @Nullable Map<String, FieldFixInfo> fixInfoMap) {
 		FieldInfo fieldInfo = getFieldInfo(insn);
 		if (fieldInfo == null) {
 			return;
