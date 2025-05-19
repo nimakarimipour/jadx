@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -245,11 +247,8 @@ public class ProcessVariables extends AbstractVisitor {
 		return false;
 	}
 
-	private static boolean checkDeclareAtAssign(SSAVar var) {
+	private static boolean checkDeclareAtAssign(@Nullable SSAVar var) {
 		RegisterArg arg = var.getAssign();
-		if (arg == null) {
-			return false;
-		}
 		InsnNode parentInsn = arg.getParentInsn();
 		if (parentInsn == null
 				|| parentInsn.contains(AFlag.WRAPPED)
