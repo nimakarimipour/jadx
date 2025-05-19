@@ -156,7 +156,7 @@ public class SignatureParser {
 				return ArgType.array(consumeType());
 
 			case STOP_CHAR:
-				return null;
+				throw new JadxRuntimeException("Unexpected STOP_CHAR reached in type parsing.");
 
 			default:
 				// primitive type (one char)
