@@ -15,6 +15,7 @@ public final class FillArrayInsn extends InsnNode {
 	public FillArrayInsn(InsnArg arg, int target) {
 		super(InsnType.FILL_ARRAY, 1);
 		this.target = target;
+		this.arrayData = new FillArrayData(); // or set to a non-null default value
 		addArg(arg);
 	}
 
