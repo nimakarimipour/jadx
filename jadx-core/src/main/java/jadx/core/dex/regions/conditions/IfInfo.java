@@ -85,9 +85,6 @@ public final class IfInfo {
 	}
 
 	public BlockNode getElseBlock() {
-		if (elseBlock == null) {
-			throw new IllegalStateException("Else block is null");
-		}
 		return elseBlock;
 	}
 
