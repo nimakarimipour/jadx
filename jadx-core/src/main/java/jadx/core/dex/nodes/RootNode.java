@@ -494,9 +494,6 @@ public class RootNode {
 	}
 
 	public ClspGraph getClsp() {
-		if (clsp == null) {
-			throw new IllegalStateException("ClspGraph has not been initialized");
-		}
 		return clsp;
 	}
 
