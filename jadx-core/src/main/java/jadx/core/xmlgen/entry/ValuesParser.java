@@ -100,13 +100,16 @@ public class ValuesParser extends ParserConstants {
 		return decodeValue(dataType, data);
 	}
 
-	@Nullable
 	public String decodeValue(int dataType, int data) {
 		switch (dataType) {
 			case TYPE_NULL:
 				return null;
 			case TYPE_STRING:
-				return strings[data];
+				if (strings != null && data < strings.length) {
+					return strings[data];
+				} else {
+					return "?unknown_string";
+				}
 			case TYPE_INT_DEC:
 				return Integer.toString(data);
 			case TYPE_INT_HEX:
