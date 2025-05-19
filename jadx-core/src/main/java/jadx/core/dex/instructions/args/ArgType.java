@@ -611,7 +611,7 @@ public abstract class ArgType {
 	}
 
 	public ArgType getWildcardType() {
-		return ArgType.defaultInstance();
+		return null;
 	}
 
 	public WildcardBound getWildcardBound() {
