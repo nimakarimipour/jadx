@@ -166,6 +166,7 @@ public class ClsSet {
 		ClspClass cls = names.get(fullName);
 		if (cls == null) {
 			LOG.debug("Class not found: {}", fullName);
+			throw new NullPointerException("Class not found for the given name: " + fullName);
 		}
 		return cls;
 	}
