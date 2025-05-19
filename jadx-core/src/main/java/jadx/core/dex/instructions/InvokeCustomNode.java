@@ -19,8 +19,6 @@ public class InvokeCustomNode extends InvokeNode {
 
 	public InvokeCustomNode(MethodInfo lambdaInfo, InsnData insn, boolean instanceCall, boolean isRange) {
 		super(lambdaInfo, insn, InvokeType.CUSTOM, instanceCall, isRange);
-		this.implMthInfo = lambdaInfo; // Assuming you want to use lambdaInfo as implMthInfo
-		this.callInsn = InsnUtils.createInsnNode(insn); // Assuming InsnUtils.createInsnNode can create an InsnNode from InsnData
 	}
 
 	private InvokeCustomNode(MethodInfo mth, InvokeType invokeType, int argsCount) {
