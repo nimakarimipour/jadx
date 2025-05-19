@@ -2,6 +2,8 @@ package jadx.core.dex.attributes.nodes;
 
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import jadx.api.plugins.input.data.attributes.IJadxAttribute;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.AttrList;
@@ -15,14 +17,8 @@ public class EdgeInsnAttr implements IJadxAttribute {
 	private final BlockNode end;
 	private final InsnNode insn;
 
-	public static void addEdgeInsn(Edge edge, InsnNode insn) {
-		if (edge != null) {
-			BlockNode source = edge.getSource();
-			BlockNode target = edge.getTarget();
-			if (source != null && target != null) {
-				addEdgeInsn(source, target, insn);
-			}
-		}
+	public static void addEdgeInsn(@Nullable Edge edge, InsnNode insn) {
+		addEdgeInsn(edge.getSource(), edge.getTarget(), insn);
 	}
 
 	public static void addEdgeInsn(BlockNode start, BlockNode end, InsnNode insn) {
