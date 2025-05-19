@@ -391,8 +391,9 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
-			String shortNsName, String attrName) {
+			@Nullable String shortNsName, String attrName) {
 		if (attrValDataType == TYPE_REFERENCE) {
+			// reference custom processing
 			String resName = resNames.get(attrValData);
 			if (resName != null) {
 				writer.add('@');
@@ -413,7 +414,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		} else {
 			String str = valuesParser.decodeValue(attrValDataType, attrValData);
 			memorizePackageName(attrName, str);
-			if (str != null && isDeobfCandidateAttr(shortNsName, attrName)) {
+			if (isDeobfCandidateAttr(shortNsName, attrName)) {
 				str = deobfClassName(str);
 			}
 			attachClassNode(writer, attrName, str);
