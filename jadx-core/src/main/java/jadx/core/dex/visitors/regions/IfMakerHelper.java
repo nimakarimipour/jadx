@@ -48,13 +48,10 @@ public class IfMakerHelper {
 		return info;
 	}
 
-	static IfInfo searchNestedIf(IfInfo info) {
+	static IfInfo searchNestedIf(@Nullable IfInfo info) {
 		IfInfo next = mergeNestedIfNodes(info);
 		if (next != null) {
 			return next;
-		}
-		if (info == null) {
-			return new IfInfo(); // or throw an exception, or handle as needed
 		}
 		return info;
 	}
