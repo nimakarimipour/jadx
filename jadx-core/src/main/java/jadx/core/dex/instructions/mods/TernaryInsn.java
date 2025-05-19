@@ -3,8 +3,6 @@ package jadx.core.dex.instructions.mods;
 import java.util.Collection;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
 import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.RegisterArg;
@@ -16,7 +14,7 @@ public final class TernaryInsn extends InsnNode {
 
 	private IfCondition condition;
 
-	public TernaryInsn(@Nullable IfCondition condition, @Nullable RegisterArg result, InsnArg th, InsnArg els) {
+	public TernaryInsn(IfCondition condition, RegisterArg result, InsnArg th, InsnArg els) {
 		this();
 		setResult(result);
 
@@ -26,7 +24,7 @@ public final class TernaryInsn extends InsnNode {
 			addArg(els);
 			addArg(th);
 		} else {
-			this.condition = condition;
+			this.condition = condition != null ? condition : IfCondition.alwaysTrue(); // Provide a default non-null value
 			addArg(th);
 			addArg(els);
 		}
