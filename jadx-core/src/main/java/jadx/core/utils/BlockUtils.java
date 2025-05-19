@@ -225,17 +225,14 @@ public class BlockUtils {
 		return isExitBlock(block);
 	}
 
-	public static boolean isExitBlock(BlockNode block) {
-		if (block == null) {
-			return false;
-		}
+	public static boolean isExitBlock(@Nullable BlockNode block) {
 		List<BlockNode> successors = block.getSuccessors();
-		if (successors == null || successors.isEmpty()) {
+		if (successors.isEmpty()) {
 			return true;
 		}
 		if (successors.size() == 1) {
 			BlockNode next = successors.get(0);
-			return next == null || next.getSuccessors() == null || next.getSuccessors().isEmpty();
+			return next.getSuccessors().isEmpty();
 		}
 		return false;
 	}
