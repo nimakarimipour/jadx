@@ -118,10 +118,7 @@ public final class IfCondition extends AttrNode {
 		return compare;
 	}
 
-	public static IfCondition invert(IfCondition cond) {
-		if (cond == null) {
-			throw new NullPointerException("IfCondition 'cond' cannot be null");
-		}
+	public static IfCondition invert(@Nullable IfCondition cond) {
 		Mode mode = cond.getMode();
 		switch (mode) {
 			case COMPARE:
