@@ -89,11 +89,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		if (isInner()) {
 			return parentClass.getAliasPkg();
 		}
-		String pkg = alias == null ? getPackage() : alias.getPkg();
-		if (pkg == null) {
-			throw new JadxRuntimeException("Package cannot be null");
-		}
-		return pkg;
+		return alias == null ? getPackage() : alias.getPkg();
 	}
 
 	public String getAliasShortName() {
