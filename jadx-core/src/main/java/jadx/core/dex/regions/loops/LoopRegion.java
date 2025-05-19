@@ -78,6 +78,9 @@ public final class LoopRegion extends ConditionRegion {
 	 * Check if pre-conditions can be inlined into loop condition
 	 */
 	public boolean checkPreCondition() {
+		if (preCondition == null) {
+			return true;
+		}
 		List<InsnNode> insns = preCondition.getInstructions();
 		if (insns.isEmpty()) {
 			return true;
@@ -101,13 +104,11 @@ public final class LoopRegion extends ConditionRegion {
 				return false;
 			}
 			boolean found = false;
-			// search result arg in other insns
 			for (int j = i + 1; j < size; j++) {
 				if (insns.get(i).containsVar(res)) {
 					found = true;
 				}
 			}
-			// or in if insn
 			if (!found && InsnUtils.containsVar(conditionArgs, res)) {
 				found = true;
 			}
