@@ -83,15 +83,18 @@ public class InlineMethods extends AbstractVisitor {
 		if (resultArg != null) {
 			inlCopy.setResult(resultArg.duplicate());
 		} else if (isAssignNeeded(mia.getInsn(), insn, callMth)) {
+			// add fake result to make correct java expression (see test TestGetterInlineNegative)
 			inlCopy.setResult(makeFakeArg(mth, callMth.getReturnType(), "unused"));
 		}
-		int[] regNums = mia.getArgsRegNums();
-		if (regNums != null && regNums.length > 0 && !callMth.getMethodInfo().getArgumentsTypes().isEmpty()) {
+		if (!callMth.getMethodInfo().getArgumentsTypes().isEmpty()) {
+			// remap args
 			InsnArg[] regs = new InsnArg[callMth.getRegsCount()];
+			int[] regNums = mia.getArgsRegNums();
 			for (int i = 0; i < regNums.length; i++) {
 				InsnArg arg = insn.getArg(i);
 				regs[regNums[i]] = arg;
 			}
+			// replace args
 			List<RegisterArg> inlArgs = new ArrayList<>();
 			inlCopy.getRegisterArgs(inlArgs);
 			for (RegisterArg r : inlArgs) {
@@ -112,6 +115,7 @@ public class InlineMethods extends AbstractVisitor {
 		if (!BlockUtils.replaceInsn(mth, block, insn, inlCopy)) {
 			mth.addWarnComment("Failed to inline method: " + callMth);
 		}
+		// replaceInsn replaces the attributes as well, make sure to preserve METHOD_DETAILS
 		if (methodDetailsAttr != null) {
 			inlCopy.addAttr(methodDetailsAttr);
 		}
