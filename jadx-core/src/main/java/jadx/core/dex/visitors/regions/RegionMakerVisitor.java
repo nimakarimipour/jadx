@@ -155,12 +155,15 @@ public class RegionMakerVisitor extends AbstractVisitor {
 		}
 
 		private static void addBreakForBlock(MethodNode mth, IContainer c, Set<IBlock> blocks, BlockNode bn) {
-			for (BlockNode s : bn.getCleanSuccessors()) {
-				if (!blocks.contains(s)
-						&& !bn.contains(AFlag.ADDED_TO_REGION)
-						&& !s.contains(AFlag.FALL_THROUGH)) {
-					addBreak(mth, c, bn);
-					return;
+			List<BlockNode> successors = bn.getCleanSuccessors();
+			if (successors != null) {
+				for (BlockNode s : successors) {
+					if (!blocks.contains(s)
+							&& !bn.contains(AFlag.ADDED_TO_REGION)
+							&& !s.contains(AFlag.FALL_THROUGH)) {
+						addBreak(mth, c, bn);
+						return;
+					}
 				}
 			}
 		}

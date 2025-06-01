@@ -255,7 +255,11 @@ public class IfMakerHelper {
 	}
 
 	private static boolean checkConditionBranches(BlockNode from, BlockNode to) {
-		return from.getCleanSuccessors().size() == 1 && from.getCleanSuccessors().contains(to);
+		List<BlockNode> successors = from.getCleanSuccessors();
+		if (successors == null || successors.size() != 1) {
+			return false;
+		}
+		return successors.contains(to);
 	}
 
 	private static IfInfo mergeIfInfo(IfInfo first, IfInfo second, boolean followThenBranch) {
