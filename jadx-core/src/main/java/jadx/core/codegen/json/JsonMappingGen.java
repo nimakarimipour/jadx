@@ -98,7 +98,7 @@ public class JsonMappingGen {
 			JsonFieldMapping jsonField = new JsonFieldMapping();
 			jsonField.setName(field.getName());
 			jsonField.setAlias(field.getAlias());
-			NullabilityUtil.castToNonnull(jsonCls.getFields(), "initialized before use").add(jsonField);
+			jsonCls.getFields().add(jsonField);
 		}
 	}
 
