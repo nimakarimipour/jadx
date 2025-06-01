@@ -69,6 +69,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	private int blocksMaxCId;
 	@Nullable
 	private BlockNode enterBlock;
+	@Nullable
 	private BlockNode exitBlock;
 	private List<SSAVar> sVars;
 	private List<ExceptionHandler> exceptionHandlers;
@@ -346,6 +347,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		this.enterBlock = enterBlock;
 	}
 
+	@Nullable
 	public BlockNode getExitBlock() {
 		return exitBlock;
 	}
@@ -355,10 +357,16 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	}
 
 	public List<BlockNode> getPreExitBlocks() {
+		if (exitBlock == null) {
+			throw new NullPointerException("exitBlock is null");
+		}
 		return exitBlock.getPredecessors();
 	}
 
 	public boolean isPreExitBlocks(BlockNode block) {
+		if (exitBlock == null) {
+			return false; // or throw an exception if this is an unexpected state
+		}
 		List<BlockNode> successors = block.getSuccessors();
 		if (successors.size() == 1) {
 			return successors.get(0).equals(exitBlock);
