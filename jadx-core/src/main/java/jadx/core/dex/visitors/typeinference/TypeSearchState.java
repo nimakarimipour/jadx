@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
-
 import org.jetbrains.annotations.NotNull;
 
 import jadx.core.dex.instructions.args.ArgType;
@@ -30,7 +28,7 @@ public class TypeSearchState {
 	}
 
 	@NotNull
-	public TypeSearchVarInfo getVarInfo(@Nullable SSAVar var) {
+	public TypeSearchVarInfo getVarInfo(SSAVar var) {
 		TypeSearchVarInfo varInfo = this.varInfoMap.get(var);
 		if (varInfo == null) {
 			throw new JadxRuntimeException("TypeSearchVarInfo not found in map for var: " + var);

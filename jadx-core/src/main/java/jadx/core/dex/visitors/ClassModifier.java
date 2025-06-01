@@ -397,7 +397,7 @@ public class ClassModifier extends AbstractVisitor {
 	@Nullable
 	private static InsnNode getParentInsnSkipMove(RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
-		if (sVar == null || sVar.getUseCount() != 1) {
+		if (sVar.getUseCount() != 1) {
 			return null;
 		}
 		RegisterArg useArg = sVar.getUseList().get(0);

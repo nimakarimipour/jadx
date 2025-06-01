@@ -151,7 +151,7 @@ public final class TypeUpdate {
 		return requestUpdate(updateInfo, arg, candidateType);
 	}
 
-	private TypeUpdateResult updateTypeForSsaVar(TypeUpdateInfo updateInfo, @Nullable SSAVar ssaVar, ArgType candidateType) {
+	private TypeUpdateResult updateTypeForSsaVar(TypeUpdateInfo updateInfo, SSAVar ssaVar, ArgType candidateType) {
 		TypeInfo typeInfo = ssaVar.getTypeInfo();
 		ArgType immutableType = ssaVar.getImmutableType();
 		if (immutableType != null && !Objects.equals(immutableType, candidateType)) {

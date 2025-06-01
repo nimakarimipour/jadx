@@ -493,9 +493,6 @@ public class ModVisitor extends AbstractVisitor {
 	@Nullable
 	private static InsnNode getFirstUseSkipMove(RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
-		if (sVar == null) {
-			return null;
-		}
 		int useCount = sVar.getUseCount();
 		if (useCount == 0) {
 			return null;
