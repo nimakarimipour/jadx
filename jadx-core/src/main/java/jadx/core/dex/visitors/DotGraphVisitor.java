@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import jadx.api.ICodeWriter;
 import jadx.api.impl.SimpleCodeWriter;
 import jadx.core.codegen.MethodGen;
@@ -305,7 +307,7 @@ public class DotGraphVisitor extends AbstractVisitor {
 			}
 		}
 
-		private String escape(Object obj) {
+		private String escape(@Nullable Object obj) {
 			if (obj == null) {
 				return "null";
 			}
