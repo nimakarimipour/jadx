@@ -186,8 +186,6 @@ public class RegionMaker {
 		BlockNode loopStart = loop.getStart();
 		Set<BlockNode> exitBlocksSet = loop.getExitNodes();
 
-		// set exit blocks scan order priority
-		// this can help if loop have several exits (after using 'break' or 'return' in loop)
 		List<BlockNode> exitBlocks = new ArrayList<>(exitBlocksSet.size());
 		BlockNode nextStart = getNextBlock(loopStart);
 		if (nextStart != null && exitBlocksSet.remove(nextStart)) {
@@ -215,7 +213,6 @@ public class RegionMaker {
 		condInfo = searchNestedIf(condInfo);
 		confirmMerge(condInfo);
 		if (!loop.getLoopBlocks().contains(condInfo.getThenBlock())) {
-			// invert loop condition if 'then' points to exit
 			condInfo = IfInfo.invert(condInfo);
 		}
 		loopRegion.updateCondition(condInfo);
@@ -224,7 +221,6 @@ public class RegionMaker {
 		if (!exitBlocks.isEmpty()) {
 			BlockNode loopExit = condInfo.getElseBlock();
 			if (loopExit != null) {
-				// add 'break' instruction before path cross between main loop exit and sub-exit
 				for (Edge exitEdge : loop.getExitEdges()) {
 					if (exitBlocks.contains(exitEdge.getSource())) {
 						insertLoopBreak(stack, loop, loopExit, exitEdge);
@@ -247,23 +243,20 @@ public class RegionMaker {
 			loop.getEnd().remove(AFlag.ADDED_TO_REGION);
 		} else {
 			out = condInfo.getElseBlock();
-			if (outerRegion != null
+			if (out != null && outerRegion != null
 					&& out.contains(AFlag.LOOP_START)
 					&& !out.getAll(AType.LOOP).contains(loop)
 					&& RegionUtils.isRegionContainsBlock(outerRegion, out)) {
-				// exit to already processed outer loop
 				out = null;
 			}
 			stack.addExit(out);
 			BlockNode loopBody = condInfo.getThenBlock();
 			Region body;
 			if (Objects.equals(loopBody, loopStart)) {
-				// empty loop body
 				body = new Region(loopRegion);
 			} else {
 				body = makeRegion(loopBody, stack);
 			}
-			// add blocks from loop start to first condition block
 			BlockNode conditionBlock = condInfo.getFirstIfBlock();
 			if (loopStart != conditionBlock) {
 				Set<BlockNode> blocks = BlockUtils.getAllPathsBlocks(loopStart, conditionBlock);
@@ -1123,7 +1116,7 @@ public class RegionMaker {
 		}
 	}
 
-	static boolean isEqualPaths(BlockNode b1, BlockNode b2) {
+	static boolean isEqualPaths(@Nullable BlockNode b1, @Nullable BlockNode b2) {
 		if (b1 == b2) {
 			return true;
 		}

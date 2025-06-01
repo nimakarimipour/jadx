@@ -132,7 +132,7 @@ public class BlockUtils {
 		return from.getSuccessors().contains(to);
 	}
 
-	public static boolean isFollowBackEdge(BlockNode block) {
+	public static boolean isFollowBackEdge(@Nullable BlockNode block) {
 		if (block == null) {
 			return false;
 		}
@@ -813,7 +813,7 @@ public class BlockUtils {
 	}
 
 	@Nullable
-	public static BlockNode getPathCross(MethodNode mth, BlockNode b1, BlockNode b2) {
+	public static BlockNode getPathCross(MethodNode mth, BlockNode b1, @Nullable BlockNode b2) {
 		if (b1 == b2) {
 			return b1;
 		}
@@ -919,7 +919,7 @@ public class BlockUtils {
 	 * Follow empty blocks and return end of path block (first not empty).
 	 * Return start block if no such path.
 	 */
-	public static BlockNode followEmptyPath(BlockNode start) {
+	public static BlockNode followEmptyPath(@Nullable BlockNode start) {
 		while (true) {
 			BlockNode next = getNextBlockOnEmptyPath(start);
 			if (next == null) {
