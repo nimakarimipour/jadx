@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,7 +77,7 @@ public class RegionGen extends InsnGen {
 		}
 	}
 
-	private void makeRegionIndent(ICodeWriter code, IContainer region) throws CodegenException {
+	private void makeRegionIndent(ICodeWriter code, @Nullable IContainer region) throws CodegenException {
 		code.incIndent();
 		makeRegion(code, region);
 		code.decIndent();

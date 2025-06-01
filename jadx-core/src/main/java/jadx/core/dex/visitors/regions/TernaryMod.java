@@ -194,7 +194,7 @@ public class TernaryMod extends AbstractRegionVisitor implements IRegionIterativ
 	}
 
 	@Nullable
-	private static BlockNode getTernaryInsnBlock(IContainer thenRegion) {
+	private static BlockNode getTernaryInsnBlock(@Nullable IContainer thenRegion) {
 		if (thenRegion instanceof Region) {
 			Region r = (Region) thenRegion;
 			if (r.getSubBlocks().size() == 1) {

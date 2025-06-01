@@ -2,6 +2,8 @@ package jadx.core.dex.visitors.regions;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.nodes.IContainer;
@@ -117,7 +119,7 @@ public class IfRegionVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static boolean isIfRegion(IContainer container) {
+	private static boolean isIfRegion(@Nullable IContainer container) {
 		if (container instanceof IfRegion) {
 			return true;
 		}
@@ -190,7 +192,7 @@ public class IfRegionVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static boolean isSimpleExitBlock(MethodNode mth, IContainer container) {
+	private static boolean isSimpleExitBlock(MethodNode mth, @Nullable IContainer container) {
 		if (container == null) {
 			return false;
 		}
