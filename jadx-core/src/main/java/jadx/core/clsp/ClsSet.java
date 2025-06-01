@@ -414,7 +414,6 @@ public class ClsSet {
 		return arr;
 	}
 
-	@Nullable
 	private ArgType readArgType(DataInputStream in) throws IOException {
 		int ordinal = in.readByte();
 		if (ordinal == -1) {
