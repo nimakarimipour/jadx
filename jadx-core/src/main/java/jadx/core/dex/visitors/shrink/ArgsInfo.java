@@ -40,7 +40,11 @@ final class ArgsInfo {
 
 	private static void addArgs(InsnNode insn, List<RegisterArg> args) {
 		if (insn.getType() == InsnType.TERNARY) {
-			args.addAll(((TernaryInsn) insn).getCondition().getRegisterArgs());
+			TernaryInsn ternaryInsn = (TernaryInsn) insn;
+			IfCondition condition = ternaryInsn.getCondition();
+			if (condition != null) {
+				args.addAll(condition.getRegisterArgs());
+			}
 		}
 		for (InsnArg arg : insn.getArguments()) {
 			if (arg.isRegister()) {

@@ -48,7 +48,7 @@ public class ConditionGen extends InsnGen {
 		add(code, new CondStack(), condition);
 	}
 
-	void wrap(ICodeWriter code, IfCondition condition) throws CodegenException {
+	void wrap(ICodeWriter code, @Nullable IfCondition condition) throws CodegenException {
 		wrap(code, new CondStack(), condition);
 	}
 
