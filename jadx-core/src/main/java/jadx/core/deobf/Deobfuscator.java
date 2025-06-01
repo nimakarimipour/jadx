@@ -265,7 +265,7 @@ public class Deobfuscator {
 
 	public void addPackagePreset(String origPkgName, String pkgAlias) {
 		PackageNode pkg = getPackageNode(origPkgName, true);
-		NullabilityUtil.castToNonnull(pkg, "create triggers creation").setAlias(pkgAlias);
+		pkg.setAlias(pkgAlias);
 	}
 
 	/**
@@ -278,7 +278,6 @@ public class Deobfuscator {
 	 * @return package node object or {@code null} if no package found and <b>create</b> set to
 	 *         {@code false}
 	 */
-	@Nullable
 	private PackageNode getPackageNode(String fullPkgName, boolean create) {
 		if (fullPkgName.isEmpty() || fullPkgName.equals(CLASS_NAME_SEPARATOR)) {
 			return rootPackage;
@@ -357,7 +356,9 @@ public class Deobfuscator {
 	public String getPkgAlias(ClassNode cls) {
 		ClassInfo classInfo = cls.getClassInfo();
 		if (classInfo.hasAliasPkg()) {
+			// already renamed
 			PackageNode pkg = getPackageNode(classInfo.getPackage(), true);
+			// update all parts of package
 			String[] aliasParts = classInfo.getAliasPkg().split("\\.");
 			PackageNode subPkg = pkg;
 			for (int i = aliasParts.length - 1; i >= 0; i--) {
@@ -367,7 +368,7 @@ public class Deobfuscator {
 				}
 				subPkg = subPkg.getParentPackage();
 			}
-			return NullabilityUtil.castToNonnull(pkg.getFullAlias(), "expected non-null value");
+			return pkg.getFullAlias();
 		}
 		PackageNode pkg;
 		DeobfClsInfo deobfClsInfo = clsMap.get(classInfo);
@@ -568,7 +569,7 @@ public class Deobfuscator {
 		return String.format("%s%d%s", prefix, mthIndex++, prepareNamePart(mth.getName()));
 	}
 
-	private void processPackageFull(@Nullable PackageNode pkg, String fullName) {
+	private void processPackageFull(PackageNode pkg, String fullName) {
 		if (pkgSet.contains(fullName)) {
 			return;
 		}
