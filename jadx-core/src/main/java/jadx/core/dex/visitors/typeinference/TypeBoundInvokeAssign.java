@@ -40,7 +40,7 @@ public final class TypeBoundInvokeAssign implements ITypeBoundDynamic {
 		return getReturnType(getInstanceArg().getType());
 	}
 
-	private ArgType getReturnType(ArgType instanceType) {
+	private ArgType getReturnType(@Nullable ArgType instanceType) {
 		ArgType mthDeclType;
 		IMethodDetails methodDetails = root.getMethodUtils().getMethodDetails(invokeNode);
 		if (methodDetails != null) {

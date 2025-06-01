@@ -45,6 +45,7 @@ public class TypeUpdateInfo {
 		return false;
 	}
 
+	@Nullable
 	public ArgType getType(@Nullable InsnArg arg) {
 		for (TypeUpdateEntry update : updates) {
 			if (update.getArg() == arg) {

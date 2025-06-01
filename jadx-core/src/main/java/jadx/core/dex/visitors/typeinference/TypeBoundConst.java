@@ -13,11 +13,11 @@ public final class TypeBoundConst implements ITypeBound {
 	@Nullable
 	private final RegisterArg arg;
 
-	public TypeBoundConst(BoundEnum bound, ArgType type) {
+	public TypeBoundConst(BoundEnum bound, @Nullable ArgType type) {
 		this(bound, type, null);
 	}
 
-	public TypeBoundConst(BoundEnum bound, ArgType type, @Nullable RegisterArg arg) {
+	public TypeBoundConst(BoundEnum bound, @Nullable ArgType type, @Nullable RegisterArg arg) {
 		this.bound = bound;
 		this.type = type;
 		this.arg = arg;

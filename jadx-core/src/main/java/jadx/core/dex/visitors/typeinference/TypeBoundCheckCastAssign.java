@@ -35,7 +35,7 @@ public final class TypeBoundCheckCastAssign implements ITypeBoundDynamic {
 		return getReturnType(insn.getArg(0).getType());
 	}
 
-	private ArgType getReturnType(ArgType argType) {
+	private ArgType getReturnType(@Nullable ArgType argType) {
 		ArgType castType = (ArgType) insn.getIndex();
 		TypeCompareEnum result = root.getTypeCompare().compareTypes(argType, castType);
 		return result.isNarrow() ? argType : castType;

@@ -160,6 +160,7 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 		return Utils.mergeMaps(clsTypeVars, mthTypeVars);
 	}
 
+	@Nullable
 	private ArgType getClsCallType(BaseInvokeNode invokeInsn, ArgType declClsType) {
 		InsnArg instanceArg = invokeInsn.getInstanceArg();
 		if (instanceArg != null) {
@@ -370,17 +371,18 @@ public class MethodInvokeVisitor extends AbstractVisitor {
 	/**
 	 * Return type as seen by compiler
 	 */
+	@Nullable
 	private ArgType getCompilerVarType(InsnArg arg) {
 		if (arg instanceof LiteralArg) {
 			LiteralArg literalArg = (LiteralArg) arg;
 			ArgType type = literalArg.getType();
 			if (literalArg.getLiteral() == 0) {
-				if (type.isObject() || type.isArray()) {
+				if (type != null && (type.isObject() || type.isArray())) {
 					// null
 					return ArgType.UNKNOWN_OBJECT;
 				}
 			}
-			if (type.isPrimitive() && !arg.contains(AFlag.EXPLICIT_PRIMITIVE_TYPE)) {
+			if (type != null && type.isPrimitive() && !arg.contains(AFlag.EXPLICIT_PRIMITIVE_TYPE)) {
 				return ArgType.INT;
 			}
 			return arg.getType();
