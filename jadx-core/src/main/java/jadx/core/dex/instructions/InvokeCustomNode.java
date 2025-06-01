@@ -10,9 +10,11 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.InsnUtils;
 
 public class InvokeCustomNode extends InvokeNode {
+	@Nullable
 	private MethodInfo implMthInfo;
 	@Nullable
 	private MethodHandleType handleType;
+	@Nullable
 	private InsnNode callInsn;
 	private boolean inlineInsn;
 	private boolean useRef;
@@ -31,7 +33,9 @@ public class InvokeCustomNode extends InvokeNode {
 		copyCommonParams(copy);
 		copy.setImplMthInfo(implMthInfo);
 		copy.setHandleType(handleType);
-		copy.setCallInsn(callInsn);
+		if (callInsn != null) {
+			copy.setCallInsn(callInsn);
+		}
 		copy.setInlineInsn(inlineInsn);
 		copy.setUseRef(useRef);
 		return copy;
@@ -47,12 +51,13 @@ public class InvokeCustomNode extends InvokeNode {
 		}
 		InvokeCustomNode other = (InvokeCustomNode) obj;
 		return handleType == other.handleType
-				&& implMthInfo.equals(other.implMthInfo)
+				&& implMthInfo != null && implMthInfo.equals(other.implMthInfo)
 				&& callInsn.isSame(other.callInsn)
 				&& inlineInsn == other.inlineInsn
 				&& useRef == other.useRef;
 	}
 
+	@Nullable
 	public MethodInfo getImplMthInfo() {
 		return implMthInfo;
 	}
@@ -70,6 +75,7 @@ public class InvokeCustomNode extends InvokeNode {
 		this.handleType = handleType;
 	}
 
+	@Nullable
 	public InsnNode getCallInsn() {
 		return callInsn;
 	}
@@ -94,10 +100,10 @@ public class InvokeCustomNode extends InvokeNode {
 		this.useRef = useRef;
 	}
 
-	@Nullable
 	public BaseInvokeNode getInvokeCall() {
-		if (callInsn.getType() == InsnType.INVOKE) {
-			return (BaseInvokeNode) callInsn;
+		InsnNode localCallInsn = this.callInsn;
+		if (localCallInsn != null && localCallInsn.getType() == InsnType.INVOKE) {
+			return (BaseInvokeNode) localCallInsn;
 		}
 		return null;
 	}
