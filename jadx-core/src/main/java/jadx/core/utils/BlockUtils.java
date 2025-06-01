@@ -383,7 +383,7 @@ public class BlockUtils {
 		return mth.getBasicBlocks().get(bs.nextSetBit(0));
 	}
 
-	public static List<BlockNode> bitSetToBlocks(MethodNode mth, @Nullable BitSet bs) {
+	public static List<BlockNode> bitSetToBlocks(MethodNode mth, BitSet bs) {
 		if (bs == null || bs == EmptyBitSet.EMPTY) {
 			return Collections.emptyList();
 		}
@@ -734,6 +734,7 @@ public class BlockUtils {
 	 *
 	 * @return null if cross is a method exit block.
 	 */
+	@Nullable
 	public static BlockNode getPathCross(MethodNode mth, Collection<BlockNode> blocks) {
 		BitSet domFrontBS = newBlocksBitSet(mth);
 		boolean first = true;
@@ -754,9 +755,12 @@ public class BlockUtils {
 			return oneBlock;
 		}
 		BitSet excluded = newBlocksBitSet(mth);
+		// exclude method exit and loop start blocks
 		excluded.set(mth.getExitBlock().getId());
+		// exclude loop start blocks
 		mth.getLoops().forEach(l -> excluded.set(l.getStart().getId()));
 		if (!mth.isNoExceptionHandlers()) {
+			// exclude exception handlers paths
 			mth.getExceptionHandlers().forEach(h -> mergeExcHandlerDomFrontier(mth, h, excluded));
 		}
 		domFrontBS.andNot(excluded);
@@ -767,8 +771,9 @@ public class BlockUtils {
 		BitSet combinedDF = newBlocksBitSet(mth);
 		int k = mth.getBasicBlocks().size();
 		while (true) {
+			// collect dom frontier blocks from current set until only one block left
 			forEachBlockFromBitSet(mth, domFrontBS, block -> {
-				BitSet domFrontier = NullabilityUtil.castToNonnull(block.getDomFrontier(), "expected non-null");
+				BitSet domFrontier = block.getDomFrontier();
 				if (!domFrontier.isEmpty()) {
 					combinedDF.or(domFrontier);
 					combinedDF.clear(block.getId());
@@ -786,6 +791,7 @@ public class BlockUtils {
 				mth.addWarnComment("Path cross not found for " + blocks + ", limit reached: " + mth.getBasicBlocks().size());
 				return null;
 			}
+			// replace domFrontBS with combinedDF
 			domFrontBS.clear();
 			domFrontBS.or(combinedDF);
 			combinedDF.clear();
