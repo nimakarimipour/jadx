@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import jadx.api.ICodeWriter;
 import jadx.api.impl.SimpleCodeWriter;
 import jadx.core.codegen.MethodGen;
@@ -270,7 +272,7 @@ public class DotGraphVisitor extends AbstractVisitor {
 			return attrs.toString();
 		}
 
-		private String makeName(IContainer c) {
+		private String makeName(@Nullable IContainer c) {
 			String name;
 			if (c instanceof BlockNode) {
 				name = "Node_" + ((BlockNode) c).getCId();
