@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
 import jadx.api.ICodeWriter;
 import jadx.api.impl.SimpleCodeWriter;
 import jadx.core.codegen.MethodGen;
@@ -169,7 +167,7 @@ public class DotGraphVisitor extends AbstractVisitor {
 			}
 		}
 
-		private void processRegion(MethodNode mth, @Nullable IContainer region) {
+		private void processRegion(MethodNode mth, IContainer region) {
 			if (region instanceof IRegion) {
 				IRegion r = (IRegion) region;
 				dot.startLine("subgraph " + makeName(region) + " {");
