@@ -100,7 +100,7 @@ public class ResXmlGen {
 				cw.add(">");
 
 				cw.incIndent();
-				for (ProtoValue value : protoValue.getNamedValues()) {
+				for (ProtoValue value : NullabilityUtil.castToNonnull(protoValue.getNamedValues(), "explicit null check")) {
 					addProtoItem(cw, itemTag, ri.getTypeName(), value);
 				}
 				cw.decIndent();
