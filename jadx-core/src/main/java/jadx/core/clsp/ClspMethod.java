@@ -3,6 +3,8 @@ package jadx.core.clsp;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.NotNull;
 
 import jadx.api.plugins.input.data.AccessFlags;
@@ -24,7 +26,7 @@ public class ClspMethod implements IMethodDetails, Comparable<ClspMethod> {
 	private final int accFlags;
 
 	public ClspMethod(MethodInfo methodInfo,
-			List<ArgType> argTypes, ArgType returnType,
+			List<ArgType> argTypes, @Nullable ArgType returnType,
 			List<ArgType> typeParameters, List<ArgType> throwList, int accFlags) {
 		this.methodInfo = methodInfo;
 		this.argTypes = argTypes;

@@ -114,7 +114,7 @@ public abstract class ArgType {
 		return new WildcardType(OBJECT, WildcardBound.UNBOUND);
 	}
 
-	public static ArgType wildcard(ArgType obj, WildcardBound bound) {
+	public static ArgType wildcard(@Nullable ArgType obj, WildcardBound bound) {
 		return new WildcardType(obj, bound);
 	}
 
@@ -142,7 +142,7 @@ public abstract class ArgType {
 		return generic(obj, Arrays.asList(generics));
 	}
 
-	public static ArgType outerGeneric(ArgType genericOuterType, ArgType innerType) {
+	public static ArgType outerGeneric(@Nullable ArgType genericOuterType, @Nullable ArgType innerType) {
 		return new OuterGenericObject((ObjectType) genericOuterType, (ObjectType) innerType);
 	}
 

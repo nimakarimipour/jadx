@@ -57,7 +57,7 @@ public final class MethodInfo implements Comparable<MethodInfo> {
 		return uniqMth;
 	}
 
-	public static MethodInfo fromDetails(RootNode root, ClassInfo declClass, String name, List<ArgType> args, ArgType retType) {
+	public static MethodInfo fromDetails(RootNode root, ClassInfo declClass, String name, List<ArgType> args, @Nullable ArgType retType) {
 		MethodInfo newMth = new MethodInfo(declClass, name, args, retType);
 		return root.getInfoStorage().putMethod(newMth);
 	}
