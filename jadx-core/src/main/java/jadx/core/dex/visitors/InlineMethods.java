@@ -86,10 +86,10 @@ public class InlineMethods extends AbstractVisitor {
 			// add fake result to make correct java expression (see test TestGetterInlineNegative)
 			inlCopy.setResult(makeFakeArg(mth, callMth.getReturnType(), "unused"));
 		}
-		if (!callMth.getMethodInfo().getArgumentsTypes().isEmpty()) {
+		int[] regNums = mia.getArgsRegNums();
+		if (regNums != null && !callMth.getMethodInfo().getArgumentsTypes().isEmpty()) {
 			// remap args
 			InsnArg[] regs = new InsnArg[callMth.getRegsCount()];
-			int[] regNums = mia.getArgsRegNums();
 			for (int i = 0; i < regNums.length; i++) {
 				InsnArg arg = insn.getArg(i);
 				regs[regNums[i]] = arg;
