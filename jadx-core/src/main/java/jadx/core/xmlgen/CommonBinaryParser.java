@@ -3,15 +3,24 @@ package jadx.core.xmlgen;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.annotation.Nullable;
+
 public class CommonBinaryParser extends ParserConstants {
+	@Nullable
 	protected ParserStream is;
 
 	protected String[] parseStringPool() throws IOException {
+		if (is == null) {
+			throw new IOException("ParserStream is not initialized.");
+		}
 		is.checkInt16(RES_STRING_POOL_TYPE, "String pool expected");
 		return parseStringPoolNoType();
 	}
 
 	protected String[] parseStringPoolNoType() throws IOException {
+		if (is == null) {
+			throw new IllegalStateException("ParserStream must be initialized before calling parseStringPoolNoType");
+		}
 		long start = is.getPos() - 2;
 		is.checkInt16(0x001c, "String pool header size not 0x001c");
 		long size = is.readUInt32();
@@ -88,7 +97,9 @@ public class CommonBinaryParser extends ParserConstants {
 	}
 
 	protected void die(String message) throws IOException {
-		throw new IOException("Decode error: " + message
-				+ ", position: 0x" + Long.toHexString(is.getPos()));
+		if (is == null) {
+			throw new IOException("Decode error: " + message + ", position: unknown (stream not initialized)");
+		}
+		throw new IOException("Decode error: " + message + ", position: 0x" + Long.toHexString(is.getPos()));
 	}
 }

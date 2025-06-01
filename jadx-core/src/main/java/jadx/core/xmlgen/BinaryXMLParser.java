@@ -89,7 +89,11 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return codeInfo;
 	}
 
-	private boolean isBinaryXml() throws IOException {
+	private boolean isBinaryXml(InputStream inputStream) throws IOException {
+		if (inputStream == null) {
+			throw new IllegalArgumentException("Input stream cannot be null");
+		}
+		is = new ParserStream(inputStream);
 		is.mark(4);
 		int v = is.readInt16(); // version
 		int h = is.readInt16(); // header size
@@ -101,7 +105,8 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		return false;
 	}
 
-	void decode() throws IOException {
+	void decode(InputStream inputStream) throws IOException {
+		is = new ParserStream(inputStream);
 		int size = is.readInt32();
 		while (is.getPos() < size) {
 			int type = is.readInt16();
@@ -131,7 +136,6 @@ public class BinaryXMLParser extends CommonBinaryParser {
 				case RES_XML_END_ELEMENT_TYPE:
 					parseElementEnd();
 					break;
-
 				default:
 					if (namespaceDepth == 0) {
 						// skip padding on file end
@@ -143,7 +147,8 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 	}
 
-	private void parseResourceMap() throws IOException {
+	private void parseResourceMap(InputStream inputStream) throws IOException {
+		is = new ParserStream(inputStream);
 		if (is.readInt16() != 0x8) {
 			die("Header size of resmap is not 8!");
 		}
@@ -156,6 +161,9 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void parseNameSpace() throws IOException {
+		if (is == null) {
+			throw new NullPointerException("ParserStream 'is' is not initialized.");
+		}
 		int headerSize = is.readInt16();
 		if (headerSize > 0x10) {
 			LOG.warn("Invalid namespace header");
@@ -184,6 +192,10 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void parseNameSpaceEnd() throws IOException {
+		if (is == null) {
+			throw new IOException("ParserStream is not initialized");
+		}
+
 		int headerSize = is.readInt16();
 		if (headerSize > 0x10) {
 			LOG.warn("Invalid namespace end");
@@ -211,6 +223,9 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void parseCData() throws IOException {
+		if (is == null) {
+			throw new IllegalStateException("ParserStream is not initialized");
+		}
 		if (is.readInt16() != 0x10) {
 			die("CDATA header is not 0x10");
 		}
@@ -234,7 +249,8 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		is.skip(size - 2);
 	}
 
-	private void parseElement() throws IOException {
+	private void parseElement(InputStream inputStream) throws IOException {
+		is = new ParserStream(inputStream);
 		if (firstElement) {
 			firstElement = false;
 		} else {
@@ -288,6 +304,9 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void parseAttribute(int i, boolean newLine) throws IOException {
+		if (is == null) {
+			throw new IllegalStateException("InputStream 'is' has not been initialized.");
+		}
 		int attributeNS = is.readInt32();
 		int attributeName = is.readInt32();
 		int attributeRawValue = is.readInt32();
@@ -423,6 +442,9 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void parseElementEnd() throws IOException {
+		if (is == null) {
+			throw new NullPointerException("ParserStream is not initialized.");
+		}
 		if (is.readInt16() != 0x10) {
 			die("ELEMENT END header is not 0x10");
 		}
@@ -440,9 +462,6 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		} else {
 			writer.startLine("</");
 			writer.attachSourceLine(endLineNumber);
-			// if (elementNS != -1) {
-			// writer.add(getString(elementNS)).add(':');
-			// }
 			writer.add(elemName).add('>');
 		}
 		isLastEnd = true;

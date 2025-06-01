@@ -102,7 +102,10 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		return ResContainer.resourceTable("res", xmlFiles, content);
 	}
 
-	void decodeTableChunk() throws IOException {
+	void decodeTableChunk(InputStream inputStream) throws IOException {
+		if (is == null) {
+			is = new ParserStream(inputStream);
+		}
 		is.checkInt16(RES_TABLE_TYPE, "Not a table chunk");
 		is.checkInt16(0x000c, "Unexpected table header size");
 		/* int size = */
@@ -115,7 +118,9 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		}
 	}
 
-	private PackageChunk parsePackage() throws IOException {
+	private PackageChunk parsePackage(InputStream inputStream) throws IOException {
+		is = new ParserStream(inputStream); // Ensure 'is' is initialized here
+
 		long start = is.getPos();
 		is.checkInt16(RES_TABLE_PACKAGE_TYPE, "Not a table chunk");
 		int headerSize = is.readInt16();
@@ -211,7 +216,8 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 	}
 
 	@SuppressWarnings("unused")
-	private void parseTypeSpecChunk(long chunkStart) throws IOException {
+	private void parseTypeSpecChunk(long chunkStart, InputStream inputStream) throws IOException {
+		is = new ParserStream(inputStream);
 		is.checkInt16(0x0010, "Unexpected type spec header size");
 		int chunkSize = is.readInt32();
 		long expectedEndPos = chunkStart + chunkSize;
@@ -229,6 +235,9 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 
 	private void parseLibraryTypeChunk(long chunkStart) throws IOException {
 		LOG.trace("parsing library type chunk starting at offset {}", chunkStart);
+		if (is == null) {
+			throw new IOException("ParserStream 'is' has not been initialized");
+		}
 		is.checkInt16(12, "Unexpected header size");
 		int chunkSize = is.readInt32();
 		long expectedEndPos = chunkStart + chunkSize;
@@ -247,6 +256,9 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 	}
 
 	private void parseTypeChunk(long start, PackageChunk pkg) throws IOException {
+		if (is == null) {
+			throw new IOException("ParserStream is not initialized");
+		}
 		/* int headerSize = */
 		is.readInt16();
 		/* int size = */
@@ -292,6 +304,10 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 	}
 
 	private void parseEntry(PackageChunk pkg, int typeId, int entryId, String config) throws IOException {
+		if (is == null) {
+			throw new IllegalStateException("ParserStream 'is' is not initialized.");
+		}
+
 		int size = is.readInt16();
 		int flags = is.readInt16();
 		int key = is.readInt32();
@@ -402,11 +418,15 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 	}
 
 	private RawNamedValue parseValueMap() throws IOException {
+		if (is == null) {
+			throw new IOException("ParserStream is not initialized");
+		}
 		int nameRef = is.readInt32();
 		return new RawNamedValue(nameRef, parseValue());
 	}
 
-	private RawValue parseValue() throws IOException {
+	private RawValue parseValue(InputStream inputStream) throws IOException {
+		is = new ParserStream(inputStream);
 		is.checkInt16(8, "value size");
 		is.checkInt8(0, "value res0 not 0");
 		int dataType = is.readInt8();
@@ -414,7 +434,8 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		return new RawValue(dataType, data);
 	}
 
-	private EntryConfig parseConfig() throws IOException {
+	private EntryConfig parseConfig(InputStream inputStream) throws IOException {
+		is = new ParserStream(inputStream);
 		long start = is.getPos();
 		int size = is.readInt32();
 		if (size < 28) {
@@ -497,7 +518,8 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		return new char[] { (char) in0, (char) in1 };
 	}
 
-	private String readScriptOrVariantChar(int length) throws IOException {
+	private String readScriptOrVariantChar(int length, InputStream inputStream) throws IOException {
+		is = new ParserStream(inputStream);
 		long start = is.getPos();
 		StringBuilder sb = new StringBuilder(16);
 		for (int i = 0; i < length; i++) {
