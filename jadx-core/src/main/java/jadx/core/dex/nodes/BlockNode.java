@@ -46,6 +46,7 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	/**
 	 * All dominators, excluding self
 	 */
+	@Nullable
 	private BitSet doms = EmptyBitSet.EMPTY;
 
 	/**
@@ -155,12 +156,16 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	 * Check if 'block' dominated on this node
 	 */
 	public boolean isDominator(BlockNode block) {
+		if (doms == null) {
+			throw new IllegalStateException("doms has not been initialized");
+		}
 		return doms.get(block.getId());
 	}
 
 	/**
 	 * Dominators of this node (exclude itself)
 	 */
+	@Nullable
 	public BitSet getDoms() {
 		return doms;
 	}
