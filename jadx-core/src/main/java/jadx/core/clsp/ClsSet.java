@@ -278,7 +278,7 @@ public class ClsSet {
 		}
 		if (argType.isPrimitive()) {
 			out.writeByte(TypeEnum.PRIMITIVE.ordinal());
-			out.writeByte(NullabilityUtil.castToNonnull(argType.getPrimitiveType(), "is.primitive.true").getShortName().charAt(0));
+			out.writeByte(argType.getPrimitiveType().getShortName().charAt(0));
 		} else if (argType.getOuterType() != null) {
 			out.writeByte(TypeEnum.OUTER_GENERIC.ordinal());
 			writeArgType(out, argType.getOuterType(), names);

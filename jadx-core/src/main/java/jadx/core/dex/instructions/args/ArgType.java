@@ -575,7 +575,6 @@ public abstract class ArgType {
 		return false;
 	}
 
-	@Nullable
 	public PrimitiveType getPrimitiveType() {
 		return null;
 	}
@@ -648,7 +647,7 @@ public abstract class ArgType {
 		return this;
 	}
 
-	public abstract boolean contains(@Nullable PrimitiveType type);
+	public abstract boolean contains(PrimitiveType type);
 
 	public abstract ArgType selectFirst();
 
@@ -687,15 +686,14 @@ public abstract class ArgType {
 		return isArray() || (!isTypeKnown() && contains(PrimitiveType.ARRAY));
 	}
 
-	public boolean canBePrimitive(@Nullable PrimitiveType primitiveType) {
+	public boolean canBePrimitive(PrimitiveType primitiveType) {
 		return (isPrimitive() && getPrimitiveType() == primitiveType)
 				|| (!isTypeKnown() && contains(primitiveType));
 	}
 
 	public boolean canBeAnyNumber() {
 		if (isPrimitive()) {
-			PrimitiveType primitiveType = getPrimitiveType();
-			return primitiveType != null && !primitiveType.isObjectOrArray();
+			return !getPrimitiveType().isObjectOrArray();
 		}
 		for (PrimitiveType primitiveType : getPossibleTypes()) {
 			if (!primitiveType.isObjectOrArray()) {
