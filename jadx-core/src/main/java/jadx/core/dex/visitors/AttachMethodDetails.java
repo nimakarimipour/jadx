@@ -34,7 +34,12 @@ public class AttachMethodDetails extends AbstractVisitor {
 		if (mth.isNoCode()) {
 			return;
 		}
-		for (InsnNode insn : mth.getInstructions()) {
+		InsnNode[] insnArr = mth.getInstructions();
+		if (insnArr == null) {
+			// Optionally, handle the case where instructions are null, such as logging a warning or error
+			return;
+		}
+		for (InsnNode insn : insnArr) {
 			if (insn instanceof BaseInvokeNode) {
 				attachMethodDetails((BaseInvokeNode) insn);
 			}
