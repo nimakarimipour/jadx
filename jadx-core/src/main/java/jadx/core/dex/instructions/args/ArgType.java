@@ -731,7 +731,6 @@ public abstract class ArgType {
 		return OBJECT;
 	}
 
-	@Nullable
 	public static ArgType parse(String type) {
 		if (type == null || type.isEmpty()) {
 			throw new JadxRuntimeException("Failed to parse type string: " + type);
@@ -749,7 +748,6 @@ public abstract class ArgType {
 		}
 	}
 
-	@Nullable
 	public static ArgType parse(char f) {
 		switch (f) {
 			case 'Z':
