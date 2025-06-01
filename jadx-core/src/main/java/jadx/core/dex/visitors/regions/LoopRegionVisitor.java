@@ -264,7 +264,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 		if (!checkInvoke(assignInsn, null, "iterator()Ljava/util/Iterator;")) {
 			return false;
 		}
-		InsnArg iterableArg = assignInsn.getArg(0);
+		InsnArg iterableArg = NullabilityUtil.castToNonnull(assignInsn, "not null context").getArg(0);
 		InsnNode hasNextCall = itUseList.get(0).getParentInsn();
 		InsnNode nextCall = itUseList.get(1).getParentInsn();
 		if (!checkInvoke(hasNextCall, "java.util.Iterator", "hasNext()Z")
@@ -293,7 +293,6 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 					if (castArg != null && castArg.getParentInsn() != null) {
 						castArg.getParentInsn().replaceArg(castArg, iterVar);
 					} else {
-						// cast not inlined
 						toSkip.add(parentInsn);
 					}
 				} else {
@@ -301,7 +300,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 					if (iterVar == null) {
 						return false;
 					}
-					iterVar.remove(AFlag.REMOVE); // restore variable from inlined insn
+					iterVar.remove(AFlag.REMOVE);
 					nextCall.add(AFlag.DONT_GENERATE);
 					if (!fixIterableType(mth, iterableArg, iterVar)) {
 						return false;
