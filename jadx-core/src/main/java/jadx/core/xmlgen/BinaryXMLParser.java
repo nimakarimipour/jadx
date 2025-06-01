@@ -41,18 +41,24 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	private static final boolean ATTR_NEW_LINE = false;
 
 	private final Map<Integer, String> resNames;
+	@Nullable
 	private Map<String, String> nsMap;
+	@Nullable
 	private Set<String> nsMapGenerated;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
+	@Nullable
 	private ICodeWriter writer;
+	@Nullable
 	private String[] strings;
 	private String currentTag = "ERROR";
 	private boolean firstElement;
+	@Nullable
 	private ValuesParser valuesParser;
 	private boolean isLastEnd = true;
 	private boolean isOneLine = true;
 	private int namespaceDepth = 0;
+	@Nullable
 	private int[] resourceIds;
 
 	private final RootNode rootNode;
@@ -156,6 +162,10 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void parseNameSpace() throws IOException {
+		if (nsMap == null) {
+			nsMap = new HashMap<>();
+		}
+
 		int headerSize = is.readInt16();
 		if (headerSize > 0x10) {
 			LOG.warn("Invalid namespace header");
@@ -203,10 +213,12 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		is.skip(headerSize - 0x10);
 		namespaceDepth--;
 
-		String nsKey = getString(endURI);
-		String nsValue = getString(endPrefix);
-		if (StringUtils.notBlank(nsKey) && !nsMap.containsValue(nsValue)) {
-			nsMap.putIfAbsent(nsKey, nsValue);
+		if (nsMap != null) {
+			String nsKey = getString(endURI);
+			String nsValue = getString(endPrefix);
+			if (StringUtils.notBlank(nsKey) && !nsMap.containsValue(nsValue)) {
+				nsMap.putIfAbsent(nsKey, nsValue);
+			}
 		}
 	}
 
@@ -224,17 +236,24 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		String str = getString(strIndex);
 		if (!isLastEnd) {
 			isLastEnd = true;
-			writer.add('>');
+			if (writer != null) {
+				writer.add('>');
+			}
 		}
-		writer.attachSourceLine(lineNumber);
-		String escapedStr = StringUtils.escapeXML(str);
-		writer.add(escapedStr);
+		if (writer != null) {
+			writer.attachSourceLine(lineNumber);
+			String escapedStr = StringUtils.escapeXML(str);
+			writer.add(escapedStr);
+		}
 
 		long size = is.readInt16();
 		is.skip(size - 2);
 	}
 
 	private void parseElement() throws IOException {
+		if (writer == null) {
+			throw new IllegalStateException("Writer is not initialized");
+		}
 		if (firstElement) {
 			firstElement = false;
 		} else {
@@ -295,34 +314,37 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		int attrValDataType = is.readInt8();
 		int attrValData = is.readInt32();
 
-		if (newLine) {
-			writer.startLine().addIndent();
-		} else {
-			writer.add(' ');
-		}
-		String shortNsName = null;
-		if (attributeNS != -1) {
-			shortNsName = getAttributeNS(attributeNS);
-			writer.add(shortNsName).add(':');
-		}
-		String attrName = getValidTagAttributeName(getAttributeName(attributeName));
-		writer.add(attrName).add("=\"");
-		String decodedAttr = ManifestAttributes.getInstance().decode(attrName, attrValData);
-		if (decodedAttr != null) {
-			memorizePackageName(attrName, decodedAttr);
-			if (isDeobfCandidateAttr(shortNsName, attrName)) {
-				decodedAttr = deobfClassName(decodedAttr);
+		if (writer != null) { // Add null check for writer
+			if (newLine) {
+				writer.startLine().addIndent();
+			} else {
+				writer.add(' ');
 			}
-			attachClassNode(writer, attrName, decodedAttr);
-			writer.add(StringUtils.escapeXML(decodedAttr));
+			String shortNsName = null;
+			if (attributeNS != -1) {
+				shortNsName = getAttributeNS(attributeNS);
+				writer.add(shortNsName).add(':');
+			}
+			String attrName = getValidTagAttributeName(getAttributeName(attributeName));
+			writer.add(attrName).add("=\"");
+			String decodedAttr = ManifestAttributes.getInstance().decode(attrName, attrValData);
+			if (decodedAttr != null) {
+				memorizePackageName(attrName, decodedAttr);
+				if (isDeobfCandidateAttr(shortNsName, attrName)) {
+					decodedAttr = deobfClassName(decodedAttr);
+				}
+				attachClassNode(writer, attrName, decodedAttr);
+				writer.add(StringUtils.escapeXML(decodedAttr));
+			} else {
+				decodeAttribute(attributeNS, attrValDataType, attrValData,
+						shortNsName, attrName);
+			}
+			writer.add('"');
 		} else {
-			decodeAttribute(attributeNS, attrValDataType, attrValData,
-					shortNsName, attrName);
+			throw new NullPointerException("Writer is not initialized.");
 		}
-		writer.add('"');
 	}
 
-	@Nullable
 	private String getAttributeNS(int attributeNS) {
 		String attrUrl = getString(attributeNS);
 		if (attrUrl == null || attrUrl.isEmpty()) {
@@ -331,6 +353,10 @@ public class BinaryXMLParser extends CommonBinaryParser {
 			} else {
 				attrUrl = ANDROID_NS_URL;
 			}
+		}
+		// Initialize nsMap if it's null
+		if (nsMap == null) {
+			nsMap = new HashMap<>();
 		}
 		String attrName = nsMap.get(attrUrl);
 		if (attrName == null) {
@@ -355,15 +381,14 @@ public class BinaryXMLParser extends CommonBinaryParser {
 				}
 			}
 		}
-		writer.add("xmlns:").add(attrName).add("=\"").add(attrUrl).add("\" ");
+		if (writer != null) {
+			writer.add("xmlns:").add(attrName).add("=\"").add(attrUrl).add("\" ");
+		}
 		return attrName;
 	}
 
 	private String getAttributeName(int id) {
-		// As the outcome of https://github.com/skylot/jadx/issues/1208
-		// Android seems to favor entries from AndroidResMap and only if
-		// there is no entry uses the values form the XML string pool
-		if (0 <= id && id < resourceIds.length) {
+		if (resourceIds != null && 0 <= id && id < resourceIds.length) {
 			int resId = resourceIds[id];
 			String str = ValuesParser.getAndroidResMap().get(resId);
 			if (str != null) {
@@ -384,14 +409,18 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private String getString(int strId) {
-		if (0 <= strId && strId < strings.length) {
+		if (strings != null && 0 <= strId && strId < strings.length) {
 			return strings[strId];
 		}
 		return "NOT_FOUND_STR_0x" + Integer.toHexString(strId);
 	}
 
 	private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
-			@Nullable String shortNsName, String attrName) {
+			String shortNsName, String attrName) {
+		if (writer == null) {
+			throw new IllegalStateException("Writer not initialized");
+		}
+
 		if (attrValDataType == TYPE_REFERENCE) {
 			// reference custom processing
 			String resName = resNames.get(attrValData);
@@ -435,19 +464,21 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		int elementNameId = is.readInt32();
 		String elemName = deobfClassName(getString(elementNameId));
 		elemName = getValidTagAttributeName(elemName);
-		if (currentTag.equals(elemName) && isOneLine && !isLastEnd) {
-			writer.add("/>");
-		} else {
-			writer.startLine("</");
-			writer.attachSourceLine(endLineNumber);
-			// if (elementNS != -1) {
-			// writer.add(getString(elementNS)).add(':');
-			// }
-			writer.add(elemName).add('>');
-		}
-		isLastEnd = true;
-		if (writer.getIndent() != 0) {
-			writer.decIndent();
+		if (writer != null) { // Check if writer is not null
+			if (currentTag.equals(elemName) && isOneLine && !isLastEnd) {
+				writer.add("/>");
+			} else {
+				writer.startLine("</");
+				writer.attachSourceLine(endLineNumber);
+				// if (elementNS != -1) {
+				// writer.add(getString(elementNS)).add(':');
+				// }
+				writer.add(elemName).add('>');
+			}
+			isLastEnd = true;
+			if (writer.getIndent() != 0) {
+				writer.decIndent();
+			}
 		}
 	}
 
