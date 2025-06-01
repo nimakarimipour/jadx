@@ -28,6 +28,7 @@ public class TemplateFile {
 
 	private static class ParserState {
 		private State state = State.NONE;
+		@Nullable
 		private StringBuilder curVariable;
 		private boolean skip;
 	}
@@ -87,7 +88,6 @@ public class TemplateFile {
 		}
 	}
 
-	@Nullable
 	private String process(ParserState parser, char ch) {
 		State state = parser.state;
 		switch (ch) {
@@ -114,7 +114,7 @@ public class TemplateFile {
 
 					case END:
 						parser.state = State.NONE;
-						String varName = parser.curVariable.toString();
+						String varName = NullabilityUtil.castToNonnull(parser.curVariable, "state guarantees non-null").toString();
 						parser.curVariable = new StringBuilder();
 						return processVar(varName);
 				}
