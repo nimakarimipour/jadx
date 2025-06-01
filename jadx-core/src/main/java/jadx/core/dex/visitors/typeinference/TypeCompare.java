@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,6 +108,9 @@ public class TypeCompare {
 		if (firstPrimitive && secondPrimitive) {
 			PrimitiveType firstPrimitiveType = first.getPrimitiveType();
 			PrimitiveType secondPrimitiveType = second.getPrimitiveType();
+			if (firstPrimitiveType == null || secondPrimitiveType == null) {
+				return CONFLICT;
+			}
 			if (firstPrimitiveType == PrimitiveType.BOOLEAN
 					|| secondPrimitiveType == PrimitiveType.BOOLEAN) {
 				return CONFLICT;
@@ -121,7 +126,7 @@ public class TypeCompare {
 		return TypeCompareEnum.CONFLICT;
 	}
 
-	private boolean swapEquals(PrimitiveType first, PrimitiveType second, PrimitiveType a, PrimitiveType b) {
+	private boolean swapEquals(@Nullable PrimitiveType first, @Nullable PrimitiveType second, PrimitiveType a, PrimitiveType b) {
 		return (first == a && second == b) || (first == b && second == a);
 	}
 

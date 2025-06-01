@@ -21,6 +21,9 @@ public class TypeGen {
 
 	public static String signature(ArgType type) {
 		PrimitiveType stype = type.getPrimitiveType();
+		if (stype == null) {
+			throw new IllegalArgumentException("PrimitiveType cannot be null");
+		}
 		if (stype == PrimitiveType.OBJECT) {
 			return Utils.makeQualifiedObjectName(type.getObject());
 		}
