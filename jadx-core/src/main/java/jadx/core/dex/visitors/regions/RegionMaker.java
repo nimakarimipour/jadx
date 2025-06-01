@@ -1123,7 +1123,7 @@ public class RegionMaker {
 		}
 	}
 
-	static boolean isEqualPaths(BlockNode b1, BlockNode b2) {
+	static boolean isEqualPaths(@Nullable BlockNode b1, @Nullable BlockNode b2) {
 		if (b1 == b2) {
 			return true;
 		}
