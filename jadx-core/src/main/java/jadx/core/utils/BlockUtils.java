@@ -250,7 +250,7 @@ public class BlockUtils {
 	}
 
 	@Nullable
-	public static BlockNode getBlockByInsn(MethodNode mth, @Nullable InsnNode insn) {
+	public static BlockNode getBlockByInsn(MethodNode mth, InsnNode insn) {
 		if (insn == null) {
 			return null;
 		}
@@ -260,7 +260,11 @@ public class BlockUtils {
 		if (insn.contains(AFlag.WRAPPED)) {
 			return getBlockByWrappedInsn(mth, insn);
 		}
-		for (BlockNode bn : mth.getBasicBlocks()) {
+		Collection<BlockNode> basicBlocks = mth.getBasicBlocks();
+		if (basicBlocks == null) {
+			return null;
+		}
+		for (BlockNode bn : basicBlocks) {
 			if (blockContains(bn, insn)) {
 				return bn;
 			}
@@ -270,7 +274,11 @@ public class BlockUtils {
 
 	@Nullable
 	public static BlockNode searchBlockWithPhi(MethodNode mth, PhiInsn insn) {
-		for (BlockNode block : mth.getBasicBlocks()) {
+		List<BlockNode> basicBlocks = mth.getBasicBlocks();
+		if (basicBlocks == null) {
+			return null;
+		}
+		for (BlockNode block : basicBlocks) {
 			PhiListAttr phiListAttr = block.get(AType.PHI_LIST);
 			if (phiListAttr != null) {
 				for (PhiInsn phiInsn : phiListAttr.getList()) {
@@ -380,7 +388,11 @@ public class BlockUtils {
 		if (bs == null || bs.cardinality() != 1) {
 			return null;
 		}
-		return mth.getBasicBlocks().get(bs.nextSetBit(0));
+		List<BlockNode> blocks = mth.getBasicBlocks();
+		if (blocks == null) {
+			return null;
+		}
+		return blocks.get(bs.nextSetBit(0));
 	}
 
 	public static List<BlockNode> bitSetToBlocks(MethodNode mth, BitSet bs) {
@@ -712,9 +724,13 @@ public class BlockUtils {
 	 */
 	@Nullable
 	public static BlockNode getCommonDominator(MethodNode mth, List<BlockNode> blocks) {
+		List<BlockNode> basicBlocks = mth.getBasicBlocks();
+		if (basicBlocks == null) {
+			return null;
+		}
 		BitSet doms = newBlocksBitSet(mth);
 		// collect all dominators from input set
-		doms.set(0, mth.getBasicBlocks().size());
+		doms.set(0, basicBlocks.size());
 		blocks.forEach(b -> doms.and(b.getDoms()));
 		// exclude all dominators of immediate dominator (including self)
 		BitSet combine = newBlocksBitSet(mth);
@@ -755,12 +771,9 @@ public class BlockUtils {
 			return oneBlock;
 		}
 		BitSet excluded = newBlocksBitSet(mth);
-		// exclude method exit and loop start blocks
 		excluded.set(mth.getExitBlock().getId());
-		// exclude loop start blocks
 		mth.getLoops().forEach(l -> excluded.set(l.getStart().getId()));
 		if (!mth.isNoExceptionHandlers()) {
-			// exclude exception handlers paths
 			mth.getExceptionHandlers().forEach(h -> mergeExcHandlerDomFrontier(mth, h, excluded));
 		}
 		domFrontBS.andNot(excluded);
@@ -769,9 +782,12 @@ public class BlockUtils {
 			return oneBlock;
 		}
 		BitSet combinedDF = newBlocksBitSet(mth);
-		int k = mth.getBasicBlocks().size();
+		Collection<BlockNode> basicBlocks = mth.getBasicBlocks();
+		if (basicBlocks == null) {
+			return null;
+		}
+		int k = basicBlocks.size();
 		while (true) {
-			// collect dom frontier blocks from current set until only one block left
 			forEachBlockFromBitSet(mth, domFrontBS, block -> {
 				BitSet domFrontier = block.getDomFrontier();
 				if (!domFrontier.isEmpty()) {
@@ -788,10 +804,9 @@ public class BlockUtils {
 				return null;
 			}
 			if (k-- < 0) {
-				mth.addWarnComment("Path cross not found for " + blocks + ", limit reached: " + mth.getBasicBlocks().size());
+				mth.addWarnComment("Path cross not found for " + blocks + ", limit reached: " + basicBlocks.size());
 				return null;
 			}
-			// replace domFrontBS with combinedDF
 			domFrontBS.clear();
 			domFrontBS.or(combinedDF);
 			combinedDF.clear();
@@ -985,7 +1000,7 @@ public class BlockUtils {
 		return block;
 	}
 
-	public static boolean isAllBlocksEmpty(List<BlockNode> blocks) {
+	public static boolean isAllBlocksEmpty(@Nullable List<BlockNode> blocks) {
 		for (BlockNode block : blocks) {
 			if (!block.getInstructions().isEmpty()) {
 				return false;
@@ -994,7 +1009,7 @@ public class BlockUtils {
 		return true;
 	}
 
-	public static List<InsnNode> collectAllInsns(List<BlockNode> blocks) {
+	public static List<InsnNode> collectAllInsns(@Nullable List<BlockNode> blocks) {
 		List<InsnNode> insns = new ArrayList<>();
 		blocks.forEach(block -> insns.addAll(block.getInstructions()));
 		return insns;
@@ -1004,7 +1019,7 @@ public class BlockUtils {
 	 * Return limited number of instructions from method.
 	 * Return empty list if method contains more than limit.
 	 */
-	public static List<InsnNode> collectInsnsWithLimit(List<BlockNode> blocks, int limit) {
+	public static List<InsnNode> collectInsnsWithLimit(@Nullable List<BlockNode> blocks, int limit) {
 		List<InsnNode> insns = new ArrayList<>(limit);
 		for (BlockNode block : blocks) {
 			List<InsnNode> blockInsns = block.getInstructions();
@@ -1025,7 +1040,7 @@ public class BlockUtils {
 	 */
 	@Nullable
 	public static InsnNode getOnlyOneInsnFromMth(MethodNode mth) {
-		if (mth.isNoCode()) {
+		if (mth.isNoCode() || mth.getBasicBlocks() == null) {
 			return null;
 		}
 		InsnNode insn = null;
@@ -1146,7 +1161,8 @@ public class BlockUtils {
 		return calcPartialPostDominance(mth, mth.getBasicBlocks(), mth.getPreExitBlocks().get(0));
 	}
 
-	public static Map<BlockNode, BitSet> calcPartialPostDominance(MethodNode mth, Collection<BlockNode> blockNodes, BlockNode exitBlock) {
+	public static Map<BlockNode, BitSet> calcPartialPostDominance(MethodNode mth, @Nullable Collection<BlockNode> blockNodes,
+			BlockNode exitBlock) {
 		int blocksCount = mth.getBasicBlocks().size();
 		Map<BlockNode, BitSet> map = new HashMap<>(blocksCount);
 

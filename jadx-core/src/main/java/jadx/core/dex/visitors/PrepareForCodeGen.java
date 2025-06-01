@@ -290,7 +290,11 @@ public class PrepareForCodeGen extends AbstractVisitor {
 
 	@Nullable
 	private ConstructorInsn searchConstructorCall(MethodNode mth) {
-		for (BlockNode block : mth.getBasicBlocks()) {
+		List<BlockNode> basicBlocks = mth.getBasicBlocks();
+		if (basicBlocks == null) {
+			return null;
+		}
+		for (BlockNode block : basicBlocks) {
 			for (InsnNode insn : block.getInstructions()) {
 				InsnType insnType = insn.getType();
 				if (insnType == InsnType.CONSTRUCTOR) {
