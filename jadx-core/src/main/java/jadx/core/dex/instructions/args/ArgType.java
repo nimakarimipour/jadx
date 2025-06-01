@@ -114,7 +114,7 @@ public abstract class ArgType {
 		return new WildcardType(OBJECT, WildcardBound.UNBOUND);
 	}
 
-	public static ArgType wildcard(ArgType obj, @Nullable WildcardBound bound) {
+	public static ArgType wildcard(ArgType obj, WildcardBound bound) {
 		return new WildcardType(obj, bound);
 	}
 
@@ -331,7 +331,7 @@ public abstract class ArgType {
 		private final ArgType type;
 		private final WildcardBound bound;
 
-		public WildcardType(ArgType obj, @Nullable WildcardBound bound) {
+		public WildcardType(ArgType obj, WildcardBound bound) {
 			super(OBJECT.getObject());
 			this.type = Objects.requireNonNull(obj);
 			this.bound = Objects.requireNonNull(bound);
@@ -614,7 +614,6 @@ public abstract class ArgType {
 		return null;
 	}
 
-	@Nullable
 	public WildcardBound getWildcardBound() {
 		return null;
 	}

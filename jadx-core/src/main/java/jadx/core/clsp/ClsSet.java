@@ -286,7 +286,7 @@ public class ClsSet {
 		} else if (argType.getWildcardType() != null) {
 			out.writeByte(TypeEnum.WILDCARD.ordinal());
 			ArgType.WildcardBound bound = argType.getWildcardBound();
-			out.writeByte(NullabilityUtil.castToNonnull(bound, "ensures bound is nonnull").getNum());
+			out.writeByte(bound.getNum());
 			if (bound != ArgType.WildcardBound.UNBOUND) {
 				writeArgType(out, argType.getWildcardType(), names);
 			}
