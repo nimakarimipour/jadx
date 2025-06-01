@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.NotNull;
 
 import jadx.core.dex.instructions.args.ArgType;
@@ -36,7 +38,7 @@ public class TypeSearchState {
 		return varInfo;
 	}
 
-	public ArgType getArgType(InsnArg arg) {
+	public ArgType getArgType(@Nullable InsnArg arg) {
 		if (arg.isRegister()) {
 			RegisterArg reg = (RegisterArg) arg;
 			return getVarInfo(reg.getSVar()).getCurrentType();

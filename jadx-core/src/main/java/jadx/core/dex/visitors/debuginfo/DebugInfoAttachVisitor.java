@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import jadx.api.plugins.input.data.IDebugInfo;
 import jadx.api.plugins.input.data.ILocalVar;
 import jadx.core.dex.attributes.AFlag;
@@ -124,7 +126,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		mth.addAttr(new LocalVarsDebugInfoAttr(localVars));
 	}
 
-	private int attachDebugInfo(InsnArg arg, RegDebugInfoAttr debugInfoAttr, int regNum) {
+	private int attachDebugInfo(@Nullable InsnArg arg, RegDebugInfoAttr debugInfoAttr, int regNum) {
 		if (arg instanceof RegisterArg) {
 			RegisterArg reg = (RegisterArg) arg;
 			if (regNum == reg.getRegNum()) {

@@ -322,7 +322,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		}
 	}
 
-	private static void copyCodeVars(InsnArg fromArg, InsnArg toArg) {
+	private static void copyCodeVars(@Nullable InsnArg fromArg, @Nullable InsnArg toArg) {
 		if (fromArg == null || toArg == null
 				|| !fromArg.isRegister() || !toArg.isRegister()) {
 			return;

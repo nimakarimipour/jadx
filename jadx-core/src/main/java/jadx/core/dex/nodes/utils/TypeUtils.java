@@ -245,7 +245,7 @@ public class TypeUtils {
 		return map;
 	}
 
-	private static void addTypeVarMapping(Map<ArgType, ArgType> map, ArgType typeVar, InsnArg arg) {
+	private static void addTypeVarMapping(Map<ArgType, ArgType> map, ArgType typeVar, @Nullable InsnArg arg) {
 		if (arg == null || typeVar == null || !typeVar.isTypeKnown()) {
 			return;
 		}

@@ -72,6 +72,7 @@ public final class TypeBoundInvokeAssign implements ITypeBoundDynamic {
 		return invokeNode.getArg(0);
 	}
 
+	@Nullable
 	@Override
 	public RegisterArg getArg() {
 		return invokeNode.getResult();

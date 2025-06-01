@@ -118,7 +118,7 @@ public class AnonymousClassVisitor extends AbstractVisitor {
 	}
 
 	@Nullable
-	private static InsnNode getParentInsnSkipMove(RegisterArg arg) {
+	private static InsnNode getParentInsnSkipMove(@Nullable RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		if (sVar.getUseCount() != 1) {
 			return null;
