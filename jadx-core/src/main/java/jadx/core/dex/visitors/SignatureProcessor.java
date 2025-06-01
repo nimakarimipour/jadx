@@ -7,8 +7,6 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
-import com.uber.nullaway.annotations.Initializer;
-
 import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.ClassNode;
@@ -25,7 +23,6 @@ public class SignatureProcessor extends AbstractVisitor {
 
 	private RootNode root;
 
-	@Initializer
 	@Override
 	public void init(RootNode root) {
 		this.root = root;
