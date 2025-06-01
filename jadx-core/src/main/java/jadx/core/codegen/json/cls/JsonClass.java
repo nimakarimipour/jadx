@@ -90,7 +90,7 @@ public class JsonClass extends JsonNode {
 		return pkg;
 	}
 
-	public void setPkg(@Nullable String pkg) {
+	public void setPkg(String pkg) {
 		this.pkg = pkg;
 	}
 

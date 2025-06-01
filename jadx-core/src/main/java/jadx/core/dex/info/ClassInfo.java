@@ -85,7 +85,6 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		}
 	}
 
-	@SuppressWarnings("NullAway")
 	public String getAliasPkg() {
 		if (isInner()) {
 			return parentClass.getAliasPkg();
