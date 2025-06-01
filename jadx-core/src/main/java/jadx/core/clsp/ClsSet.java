@@ -72,6 +72,7 @@ public class ClsSet {
 		PRIMITIVE
 	}
 
+	@Nullable
 	private ClspClass[] classes;
 
 	public void loadFromClstFile() throws IOException, DecodeException {
@@ -82,7 +83,7 @@ public class ClsSet {
 			}
 			load(input);
 		}
-		if (LOG.isDebugEnabled()) {
+		if (classes != null && LOG.isDebugEnabled()) {
 			long time = System.currentTimeMillis() - startTime;
 			int methodsCount = Stream.of(classes).mapToInt(clspClass -> clspClass.getMethodsMap().size()).sum();
 			LOG.debug("Clst file loaded in {}ms, classes: {}, methods: {}", time, classes.length, methodsCount);
@@ -210,6 +211,9 @@ public class ClsSet {
 	}
 
 	private void save(OutputStream output) throws IOException {
+		if (classes == null) {
+			throw new IllegalStateException("Classes array is not initialized");
+		}
 		DataOutputStream out = new DataOutputStream(output);
 		out.writeBytes(JADX_CLS_SET_HEADER);
 		out.writeByte(VERSION);
@@ -422,6 +426,9 @@ public class ClsSet {
 		if (ordinal >= TypeEnum.values().length) {
 			throw new JadxRuntimeException("Incorrect ordinal for type enum: " + ordinal);
 		}
+		if (classes == null) {
+			throw new JadxRuntimeException("Classes array is not initialized");
+		}
 		switch (TypeEnum.values()[ordinal]) {
 			case WILDCARD:
 				ArgType.WildcardBound bound = ArgType.WildcardBound.getByNum(in.readByte());
@@ -501,10 +508,16 @@ public class ClsSet {
 	}
 
 	public int getClassesCount() {
+		if (classes == null) {
+			throw new IllegalStateException("Classes array is not initialized");
+		}
 		return classes.length;
 	}
 
 	public void addToMap(Map<String, ClspClass> nameMap) {
+		if (classes == null) {
+			throw new IllegalStateException("Classes not loaded");
+		}
 		for (ClspClass cls : classes) {
 			nameMap.put(cls.getName(), cls);
 		}
