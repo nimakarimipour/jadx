@@ -57,7 +57,7 @@ public class IfMakerHelper {
 	}
 
 	@Nullable
-	static IfInfo restructureIf(MethodNode mth, BlockNode block, IfInfo info) {
+	static IfInfo restructureIf(MethodNode mth, BlockNode block, @Nullable IfInfo info) {
 		BlockNode thenBlock = info.getThenBlock();
 		BlockNode elseBlock = info.getElseBlock();
 
@@ -67,11 +67,11 @@ public class IfMakerHelper {
 			return ifInfo;
 		}
 
-		if (elseBlock == null || thenBlock.contains(AFlag.RETURN) && elseBlock.contains(AFlag.RETURN)) {
+		// select 'then', 'else' and 'exit' blocks
+		if (thenBlock.contains(AFlag.RETURN) && elseBlock.contains(AFlag.RETURN)) {
 			info.setOutBlock(null);
 			return info;
 		}
-
 		boolean badThen = isBadBranchBlock(info, thenBlock);
 		boolean badElse = isBadBranchBlock(info, elseBlock);
 		if (badThen && badElse) {
@@ -94,7 +94,7 @@ public class IfMakerHelper {
 		return info;
 	}
 
-	private static boolean isBadBranchBlock(IfInfo info, @Nullable BlockNode block) {
+	private static boolean isBadBranchBlock(IfInfo info, BlockNode block) {
 		// check if block at end of loop edge
 		if (block.contains(AFlag.LOOP_START) && block.getPredecessors().size() == 1) {
 			BlockNode pred = block.getPredecessors().get(0);
@@ -254,7 +254,7 @@ public class IfMakerHelper {
 		}
 	}
 
-	private static boolean checkConditionBranches(@Nullable BlockNode from, @Nullable BlockNode to) {
+	private static boolean checkConditionBranches(BlockNode from, BlockNode to) {
 		return from.getCleanSuccessors().size() == 1 && from.getCleanSuccessors().contains(to);
 	}
 
@@ -277,8 +277,7 @@ public class IfMakerHelper {
 		return result;
 	}
 
-	private static BlockNode getBranchBlock(@Nullable BlockNode first, @Nullable BlockNode second, Set<BlockNode> skipBlocks,
-			MethodNode mth) {
+	private static BlockNode getBranchBlock(BlockNode first, BlockNode second, Set<BlockNode> skipBlocks, MethodNode mth) {
 		if (first == second) {
 			return second;
 		}
@@ -325,7 +324,7 @@ public class IfMakerHelper {
 	}
 
 	@Nullable
-	private static IfInfo getNextIf(IfInfo info, @Nullable BlockNode block) {
+	private static IfInfo getNextIf(IfInfo info, BlockNode block) {
 		if (!canSelectNext(info, block)) {
 			return null;
 		}
