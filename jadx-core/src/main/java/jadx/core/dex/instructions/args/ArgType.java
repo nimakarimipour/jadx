@@ -142,7 +142,7 @@ public abstract class ArgType {
 		return generic(obj, Arrays.asList(generics));
 	}
 
-	public static ArgType outerGeneric(ArgType genericOuterType, ArgType innerType) {
+	public static ArgType outerGeneric(ArgType genericOuterType, @Nullable ArgType innerType) {
 		return new OuterGenericObject((ObjectType) genericOuterType, (ObjectType) innerType);
 	}
 
@@ -627,6 +627,7 @@ public abstract class ArgType {
 		return null;
 	}
 
+	@Nullable
 	public ArgType getInnerType() {
 		return null;
 	}
