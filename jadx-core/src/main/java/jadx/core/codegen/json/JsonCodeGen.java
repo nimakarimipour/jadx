@@ -112,7 +112,7 @@ public class JsonCodeGen {
 				continue;
 			}
 			JsonClass innerJsonCls = processCls(innerCls, classGen);
-			jsonCls.getInnerClasses().add(innerJsonCls);
+			NullabilityUtil.castToNonnull(jsonCls.getInnerClasses(), "set before access").add(innerJsonCls);
 		}
 	}
 
