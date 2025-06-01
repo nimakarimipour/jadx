@@ -90,10 +90,9 @@ public class CustomLambdaCall {
 
 		MethodNode callMth = root.resolveMethod(callMthInfo);
 		if (callMth != null) {
-			invokeCustomNode.getCallInsn().addAttr(callMth);
+			NullabilityUtil.castToNonnull(invokeCustomNode.getCallInsn(), "explicitly set before use").addAttr(callMth);
 			if (callMth.getAccessFlags().isSynthetic()
 					&& callMth.getParentClass().equals(mth.getParentClass())) {
-				// inline only synthetic methods from same class
 				callMth.add(AFlag.DONT_GENERATE);
 				invokeCustomNode.setInlineInsn(true);
 			}
@@ -105,7 +104,6 @@ public class CustomLambdaCall {
 			invokeCustomNode.setUseRef(sameArgs);
 		}
 
-		// prevent args inlining into not generated invoke custom node
 		for (InsnArg arg : invokeCustomNode.getArguments()) {
 			arg.add(AFlag.DONT_INLINE);
 		}
