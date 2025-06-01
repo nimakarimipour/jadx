@@ -1183,7 +1183,7 @@ public class BlockUtils {
 						d.and(scPDoms);
 					}
 				}
-				d.set(block.getId());
+				NullabilityUtil.castToNonnull(d, "Always in map").set(block.getId());
 				if (!changed && !d.equals(domSet)) {
 					changed = true;
 					map.put(block, d);
