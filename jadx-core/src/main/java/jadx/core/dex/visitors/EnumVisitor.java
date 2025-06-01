@@ -383,7 +383,7 @@ public class EnumVisitor extends AbstractVisitor {
 		}
 
 		SSAVar ssaVar = arg.getSVar();
-		if (ssaVar.getUseCount() == 0) {
+		if (ssaVar == null || ssaVar.getUseCount() == 0) {
 			return null;
 		}
 		InsnNode constrInsn = ssaVar.getAssign().getParentInsn();

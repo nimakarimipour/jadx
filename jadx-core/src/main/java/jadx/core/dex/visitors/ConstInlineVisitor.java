@@ -3,6 +3,8 @@ package jadx.core.dex.visitors;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.info.MethodInfo;
 import jadx.core.dex.instructions.BaseInvokeNode;
@@ -117,7 +119,7 @@ public class ConstInlineVisitor extends AbstractVisitor {
 	/**
 	 * Don't inline null object
 	 */
-	private static boolean forbidNullInlines(SSAVar sVar) {
+	private static boolean forbidNullInlines(@Nullable SSAVar sVar) {
 		List<RegisterArg> useList = sVar.getUseList();
 		if (useList.isEmpty()) {
 			return false;
