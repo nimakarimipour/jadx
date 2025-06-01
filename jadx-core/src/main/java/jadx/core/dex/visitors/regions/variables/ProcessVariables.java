@@ -262,7 +262,7 @@ public class ProcessVariables extends AbstractVisitor {
 		return true;
 	}
 
-	private static void declareVarInRegion(IContainer region, CodeVar var) {
+	private static void declareVarInRegion(@Nullable IContainer region, CodeVar var) {
 		if (var.isDeclared()) {
 			LOG.warn("Try to declare already declared variable: {}", var);
 			return;

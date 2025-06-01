@@ -265,7 +265,7 @@ public class RegionUtils {
 		throw new JadxRuntimeException(unknownContainerType(container));
 	}
 
-	public static boolean isEmpty(IContainer container) {
+	public static boolean isEmpty(@Nullable IContainer container) {
 		return !notEmpty(container);
 	}
 
@@ -297,7 +297,7 @@ public class RegionUtils {
 		throw new JadxRuntimeException(unknownContainerType(container));
 	}
 
-	public static void getAllRegionBlocks(IContainer container, Set<IBlock> blocks) {
+	public static void getAllRegionBlocks(@Nullable IContainer container, Set<IBlock> blocks) {
 		if (container instanceof IBlock) {
 			blocks.add((IBlock) container);
 		} else if (container instanceof IRegion) {
@@ -310,7 +310,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static boolean isRegionContainsBlock(IContainer container, @Nullable BlockNode block) {
+	public static boolean isRegionContainsBlock(@Nullable IContainer container, @Nullable BlockNode block) {
 		if (container instanceof IBlock) {
 			return container == block;
 		} else if (container instanceof IRegion) {

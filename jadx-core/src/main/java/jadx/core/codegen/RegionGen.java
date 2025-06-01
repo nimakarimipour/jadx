@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +60,7 @@ public class RegionGen extends InsnGen {
 		super(mgen, false);
 	}
 
-	public void makeRegion(ICodeWriter code, IContainer cont) throws CodegenException {
+	public void makeRegion(ICodeWriter code, @Nullable IContainer cont) throws CodegenException {
 		declareVars(code, cont);
 		cont.generate(this, code);
 	}
