@@ -132,7 +132,7 @@ public class JsonCodeGen {
 			classGen.addField(cw, field);
 			jsonField.setDeclaration(cw.getCodeStr());
 			jsonField.setAccessFlags(field.getAccessFlags().rawValue());
-			NullabilityUtil.castToNonnull(jsonCls.getFields(), "fields initialized").add(jsonField);
+			jsonCls.getFields().add(jsonField);
 		}
 	}
 
