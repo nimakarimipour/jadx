@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.annotation.Nullable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +75,7 @@ public class RegionGen extends InsnGen {
 		}
 	}
 
-	private void makeRegionIndent(ICodeWriter code, @Nullable IContainer region) throws CodegenException {
+	private void makeRegionIndent(ICodeWriter code, IContainer region) throws CodegenException {
 		code.incIndent();
 		makeRegion(code, region);
 		code.decIndent();
@@ -148,7 +146,7 @@ public class RegionGen extends InsnGen {
 	/**
 	 * Connect if-else-if block
 	 */
-	private boolean connectElseIf(ICodeWriter code, @Nullable IContainer els) throws CodegenException {
+	private boolean connectElseIf(ICodeWriter code, IContainer els) throws CodegenException {
 		if (els.contains(AFlag.ELSE_IF_CHAIN) && els instanceof Region) {
 			List<IContainer> subBlocks = ((Region) els).getSubBlocks();
 			if (subBlocks.size() == 1) {
