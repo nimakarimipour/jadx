@@ -1180,7 +1180,7 @@ public class BlockUtils {
 				for (BlockNode scc : block.getSuccessors()) {
 					BitSet scPDoms = map.get(scc);
 					if (scPDoms != null) {
-						NullabilityUtil.castToNonnull(d, "Not written as null").and(scPDoms);
+						d.and(scPDoms);
 					}
 				}
 				d.set(block.getId());
