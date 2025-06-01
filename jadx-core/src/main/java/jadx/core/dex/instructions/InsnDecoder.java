@@ -541,11 +541,6 @@ public class InsnDecoder {
 	private InsnNode filledNewArray(InsnData insn, boolean isRange) {
 		ArgType arrType = ArgType.parse(insn.getIndexAsType());
 		ArgType elType = arrType.getArrayElement();
-		if (elType == null) {
-			// Handle the case where getArrayElement returns null, this could be logging or throwing an
-			// exception
-			throw new IllegalStateException("Array element type must not be null");
-		}
 		boolean typeImmutable = elType.isPrimitive();
 		int regsCount = insn.getRegsCount();
 		InsnArg[] regs = new InsnArg[regsCount];
@@ -562,6 +557,7 @@ public class InsnDecoder {
 			}
 		}
 		InsnNode node = new FilledNewArrayNode(elType, regs.length);
+		// node.setResult(resReg == -1 ? null : InsnArg.reg(resReg, arrType));
 		for (InsnArg arg : regs) {
 			node.addArg(arg);
 		}

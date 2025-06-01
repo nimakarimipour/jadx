@@ -271,7 +271,7 @@ public class ClsSet {
 		}
 	}
 
-	private static void writeArgType(DataOutputStream out, @Nullable ArgType argType, Map<String, ClspClass> names) throws IOException {
+	private static void writeArgType(DataOutputStream out, ArgType argType, Map<String, ClspClass> names) throws IOException {
 		if (argType == null) {
 			out.writeByte(-1);
 			return;

@@ -57,7 +57,7 @@ public abstract class InsnArg extends Typed {
 		return reg;
 	}
 
-	public static LiteralArg lit(long literal, @Nullable ArgType type) {
+	public static LiteralArg lit(long literal, ArgType type) {
 		return LiteralArg.makeWithFixedType(literal, type);
 	}
 

@@ -6,8 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import javax.annotation.Nullable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +57,7 @@ public class TypeCompare {
 	/**
 	 * Compare two type and return result for first argument (narrow, wider or conflict)
 	 */
-	public TypeCompareEnum compareTypes(@Nullable ArgType first, @Nullable ArgType second) {
+	public TypeCompareEnum compareTypes(ArgType first, ArgType second) {
 		if (first == second || Objects.equals(first, second)) {
 			return TypeCompareEnum.EQUAL;
 		}
