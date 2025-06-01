@@ -130,6 +130,7 @@ public class SignatureParser {
 		return skipUntil(lastChar) ? inclusiveSlice() : null;
 	}
 
+	@SuppressWarnings("NullAway")
 	public ArgType consumeType() {
 		char ch = next();
 		switch (ch) {
