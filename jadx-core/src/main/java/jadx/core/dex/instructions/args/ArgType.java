@@ -653,7 +653,7 @@ public abstract class ArgType {
 
 	public abstract PrimitiveType[] getPossibleTypes();
 
-	public static boolean isCastNeeded(RootNode root, @Nullable ArgType from, ArgType to) {
+	public static boolean isCastNeeded(RootNode root, ArgType from, ArgType to) {
 		if (from.equals(to)) {
 			return false;
 		}

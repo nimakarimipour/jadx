@@ -669,7 +669,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 	}
 
 	@NotNull
-	private IndexInsnNode makeSoftCastInsn(RegisterArg result, RegisterArg arg, @Nullable ArgType castType) {
+	private IndexInsnNode makeSoftCastInsn(RegisterArg result, RegisterArg arg, ArgType castType) {
 		IndexInsnNode castInsn = new IndexInsnNode(InsnType.CHECK_CAST, castType, 1);
 		castInsn.setResult(result.duplicate());
 		castInsn.addArg(arg.duplicate());

@@ -26,11 +26,11 @@ public abstract class InsnArg extends Typed {
 	@Nullable("Null for method arguments")
 	protected InsnNode parentInsn;
 
-	public static RegisterArg reg(int regNum, @Nullable ArgType type) {
+	public static RegisterArg reg(int regNum, ArgType type) {
 		return new RegisterArg(regNum, type);
 	}
 
-	public static RegisterArg reg(InsnData insn, int argNum, @Nullable ArgType type) {
+	public static RegisterArg reg(InsnData insn, int argNum, ArgType type) {
 		return reg(insn.getReg(argNum), type);
 	}
 

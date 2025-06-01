@@ -33,7 +33,6 @@ public class RegisterArg extends InsnArg implements Named {
 		return true;
 	}
 
-	@Nullable
 	public ArgType getInitType() {
 		return type;
 	}
@@ -47,7 +46,7 @@ public class RegisterArg extends InsnArg implements Named {
 	}
 
 	@Override
-	public void setType(@Nullable ArgType newType) {
+	public void setType(ArgType newType) {
 		if (sVar == null) {
 			throw new JadxRuntimeException("Can't change type for register without SSA variable: " + this);
 		}
@@ -134,7 +133,7 @@ public class RegisterArg extends InsnArg implements Named {
 		return duplicate(getRegNum(), getInitType(), sVar);
 	}
 
-	public RegisterArg duplicate(@Nullable ArgType initType) {
+	public RegisterArg duplicate(ArgType initType) {
 		return duplicate(getRegNum(), initType, sVar);
 	}
 
@@ -148,7 +147,7 @@ public class RegisterArg extends InsnArg implements Named {
 		return duplicate(regNum, getInitType(), sVar);
 	}
 
-	public RegisterArg duplicate(int regNum, @Nullable ArgType initType, @Nullable SSAVar sVar) {
+	public RegisterArg duplicate(int regNum, ArgType initType, @Nullable SSAVar sVar) {
 		RegisterArg dup = new RegisterArg(regNum, initType);
 		if (sVar != null) {
 			// only 'set' here, 'assign' or 'use' will binds later

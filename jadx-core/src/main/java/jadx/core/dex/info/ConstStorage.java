@@ -180,11 +180,7 @@ public class ConstStorage {
 		if (!replaceEnabled) {
 			return null;
 		}
-		Type argType = arg.getType();
-		if (argType == null) {
-			return null;
-		}
-		PrimitiveType type = argType.getPrimitiveType();
+		PrimitiveType type = arg.getType().getPrimitiveType();
 		if (type == null) {
 			return null;
 		}
@@ -208,6 +204,7 @@ public class ConstStorage {
 			case DOUBLE:
 				double d = Double.longBitsToDouble(literal);
 				return getConstField(cls, d, Double.compare(d, 0) == 0);
+
 			default:
 				return null;
 		}
