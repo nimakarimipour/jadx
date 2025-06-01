@@ -318,11 +318,7 @@ public class RegionMaker {
 				if (list.size() >= 2) {
 					// bad condition if successors going out of all loops
 					boolean allOuter = true;
-					List<BlockNode> cleanSuccessors = block.getCleanSuccessors();
-					if (cleanSuccessors == null) {
-						return null;
-					}
-					for (BlockNode outerBlock : cleanSuccessors) {
+					for (BlockNode outerBlock : block.getCleanSuccessors()) {
 						List<LoopInfo> outLoopList = mth.getAllLoopsForBlock(outerBlock);
 						outLoopList.remove(loop);
 						if (!outLoopList.isEmpty()) {
@@ -493,7 +489,7 @@ public class RegionMaker {
 				}
 				insertBlock = exit;
 				List<BlockNode> cs = exit.getCleanSuccessors();
-				exit = (cs != null && cs.size() == 1) ? cs.get(0) : null;
+				exit = cs.size() == 1 ? cs.get(0) : null;
 			}
 		}
 		if (!confirm) {
@@ -674,11 +670,7 @@ public class RegionMaker {
 	@Nullable
 	private static BlockNode traverseMonitorExitsCross(BlockNode block, Set<BlockNode> exits, Set<BlockNode> visited) {
 		visited.add(block);
-		Set<BlockNode> successors = block.getCleanSuccessors();
-		if (successors == null) {
-			return null;
-		}
-		for (BlockNode node : successors) {
+		for (BlockNode node : block.getCleanSuccessors()) {
 			boolean cross = true;
 			for (BlockNode exitBlock : exits) {
 				boolean p = isPathExists(exitBlock, node);
@@ -786,6 +778,7 @@ public class RegionMaker {
 
 	@Nullable
 	private BlockNode processSwitch(IRegion currentRegion, BlockNode block, SwitchInsn insn, RegionStack stack) {
+		// map case blocks to keys
 		int len = insn.getTargets().length;
 		Map<BlockNode, List<Object>> blocksMap = new LinkedHashMap<>(len);
 		BlockNode[] targetBlocksArr = insn.getTargetBlocks();
@@ -799,6 +792,7 @@ public class RegionMaker {
 			keys.add(SwitchRegion.DEFAULT_CASE_KEY);
 		}
 
+		// search 'out' block - 'next' block after whole switch statement
 		BlockNode out;
 		LoopInfo loop = mth.getLoopForBlock(block);
 		if (loop == null) {
@@ -809,20 +803,25 @@ public class RegionMaker {
 			if (stack.containsExit(block)
 					|| block == loopEnd
 					|| loopEnd.getPredecessors().contains(block)) {
+				// in exits or last insn in loop => no 'out' block
 				out = null;
 			} else {
+				// treat 'continue' as exit
 				out = calcPostDomOut(mth, block, loopEnd.getPredecessors());
 				if (out != null) {
 					insertContinueInSwitch(block, out, loopEnd);
 				} else {
+					// no 'continue'
 					out = calcPostDomOut(mth, block, Collections.singletonList(loopEnd));
 				}
 			}
 			if (out == loop.getStart()) {
+				// no other outs instead back edge to loop start
 				out = null;
 			}
 		}
 		if (out != null && processedBlocks.get(out.getId())) {
+			// out block already processed, prevent endless loop
 			throw new JadxRuntimeException("Failed to find switch 'out' block");
 		}
 
@@ -831,20 +830,18 @@ public class RegionMaker {
 		stack.push(sw);
 		stack.addExit(out);
 
+		// detect fallthrough cases
 		Map<BlockNode, BlockNode> fallThroughCases = new LinkedHashMap<>();
 		if (out != null) {
 			BitSet caseBlocks = BlockUtils.blocksToBitSet(mth, blocksMap.keySet());
 			caseBlocks.clear(out.getId());
-			Set<BlockNode> cleanSuccessors = block.getCleanSuccessors();
-			if (cleanSuccessors == null) {
-				return null;
-			}
-			for (BlockNode successor : cleanSuccessors) {
+			for (BlockNode successor : block.getCleanSuccessors()) {
 				BlockNode fallThroughBlock = searchFallThroughCase(successor, out, caseBlocks);
 				if (fallThroughBlock != null) {
 					fallThroughCases.put(successor, fallThroughBlock);
 				}
 			}
+			// check fallthrough cases order
 			if (!fallThroughCases.isEmpty() && isBadCasesOrder(blocksMap, fallThroughCases)) {
 				Map<BlockNode, List<Object>> newBlocksMap = reOrderSwitchCases(blocksMap, fallThroughCases);
 				if (isBadCasesOrder(newBlocksMap, fallThroughCases)) {
@@ -871,6 +868,7 @@ public class RegionMaker {
 					caseRegion.add(AFlag.FALL_THROUGH);
 				}
 				sw.addCase(keysList, caseRegion);
+				// 'break' instruction will be inserted in RegionMakerVisitor.PostRegionVisitor
 			}
 		}
 
@@ -906,20 +904,19 @@ public class RegionMaker {
 	@Nullable
 	private static BlockNode calcPostDomOut(MethodNode mth, BlockNode block, List<BlockNode> exits) {
 		if (exits.size() == 1 && mth.getExitBlock().equals(exits.get(0))) {
+			// simple case: for only one exit which is equal to method exit block
 			return BlockUtils.calcImmediatePostDominator(mth, block);
 		}
+		// fast search: union of blocks dominance frontier
+		// work if no fallthrough cases and no returns inside switch
 		BitSet outs = BlockUtils.copyBlocksBitSet(mth, block.getDomFrontier());
-
-		Set<BlockNode> cleanSuccessors = block.getCleanSuccessors();
-		if (cleanSuccessors == null) {
-			return null;
-		}
-		for (BlockNode s : cleanSuccessors) {
+		for (BlockNode s : block.getCleanSuccessors()) {
 			outs.or(s.getDomFrontier());
 		}
 		outs.clear(block.getId());
 
 		if (outs.cardinality() != 1) {
+			// slow search: calculate partial post-dominance for every exit node
 			BitSet ipdoms = BlockUtils.newBlocksBitSet(mth);
 			for (BlockNode exitBlock : exits) {
 				if (BlockUtils.isAnyPathExists(block, exitBlock)) {

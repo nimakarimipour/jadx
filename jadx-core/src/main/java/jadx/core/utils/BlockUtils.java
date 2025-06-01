@@ -122,13 +122,12 @@ public class BlockUtils {
 		}
 	}
 
-	public static boolean isBackEdge(BlockNode from, BlockNode to) {
+	public static boolean isBackEdge(BlockNode from, @Nullable BlockNode to) {
 		if (to == null) {
 			return false;
 		}
-		List<BlockNode> cleanSuccessors = from.getCleanSuccessors();
-		if (cleanSuccessors == null || cleanSuccessors.contains(to)) {
-			return false; // already checked or cleanSuccessors is null
+		if (from.getCleanSuccessors().contains(to)) {
+			return false; // already checked
 		}
 		return from.getSuccessors().contains(to);
 	}
@@ -416,10 +415,7 @@ public class BlockUtils {
 	@Nullable
 	public static BlockNode getNextBlock(BlockNode block) {
 		List<BlockNode> s = block.getCleanSuccessors();
-		if (s == null || s.isEmpty()) {
-			return null;
-		}
-		return s.get(0);
+		return s.isEmpty() ? null : s.get(0);
 	}
 
 	/**
@@ -428,8 +424,8 @@ public class BlockUtils {
 	@Nullable
 	public static BlockNode getNextBlockToPath(BlockNode block, BlockNode pathEnd) {
 		List<BlockNode> successors = block.getCleanSuccessors();
-		if (successors == null || !successors.contains(pathEnd)) {
-			return null;
+		if (successors.contains(pathEnd)) {
+			return pathEnd;
 		}
 		Set<BlockNode> path = getAllPathsBlocks(block, pathEnd);
 		for (BlockNode s : successors) {
@@ -449,8 +445,7 @@ public class BlockUtils {
 		if (start == end) {
 			return true;
 		}
-		List<BlockNode> cleanSuccessors = start.getCleanSuccessors();
-		if (cleanSuccessors != null && cleanSuccessors.contains(end)) {
+		if (start.getCleanSuccessors().contains(end)) {
 			visitor.accept(end);
 			return true;
 		}
@@ -464,22 +459,19 @@ public class BlockUtils {
 				return false;
 			}
 			boolean added = false;
-			List<BlockNode> currentSuccessors = current.getCleanSuccessors();
-			if (currentSuccessors != null) {
-				for (BlockNode next : currentSuccessors) {
-					if (next == end) {
-						queue.removeFirst(); // start already visited
-						queue.addLast(next);
-						queue.forEach(visitor);
-						return true;
-					}
-					int id = next.getId();
-					if (!visited.get(id)) {
-						visited.set(id);
-						queue.addLast(next);
-						added = true;
-						break;
-					}
+			for (BlockNode next : current.getCleanSuccessors()) {
+				if (next == end) {
+					queue.removeFirst(); // start already visited
+					queue.addLast(next);
+					queue.forEach(visitor);
+					return true;
+				}
+				int id = next.getId();
+				if (!visited.get(id)) {
+					visited.set(id);
+					queue.addLast(next);
+					added = true;
+					break;
 				}
 			}
 			if (!added) {
@@ -571,9 +563,6 @@ public class BlockUtils {
 
 	private static boolean traverseSuccessorsUntil(BlockNode from, BlockNode until, BitSet visited, boolean clean) {
 		List<BlockNode> nodes = clean ? from.getCleanSuccessors() : from.getSuccessors();
-		if (nodes == null) {
-			return false;
-		}
 		for (BlockNode s : nodes) {
 			if (s == until) {
 				return true;
@@ -617,13 +606,9 @@ public class BlockUtils {
 	}
 
 	public static boolean isPathExists(BlockNode start, BlockNode end) {
-		List<BlockNode> cleanSuccessors = start.getCleanSuccessors();
-		if (cleanSuccessors == null) {
-			return false;
-		}
 		if (start == end
 				|| end.isDominator(start)
-				|| cleanSuccessors.contains(end)) {
+				|| start.getCleanSuccessors().contains(end)) {
 			return true;
 		}
 		if (start.getPredecessors().contains(end)) {
@@ -695,13 +680,11 @@ public class BlockUtils {
 			return false;
 		}
 		BlockNode currentNode = start;
-		List<BlockNode> successors = currentNode.getCleanSuccessors();
-		while (successors != null && successors.size() == 1) {
-			currentNode = successors.get(0);
+		while (currentNode.getCleanSuccessors().size() == 1) {
+			currentNode = currentNode.getCleanSuccessors().get(0);
 			if (currentNode == end) {
 				return true;
 			}
-			successors = currentNode.getCleanSuccessors();
 		}
 		return false;
 	}
@@ -711,11 +694,7 @@ public class BlockUtils {
 	 */
 	@Nullable
 	public static BlockNode traverseWhileDominates(BlockNode dom, BlockNode start) {
-		Set<BlockNode> successors = start.getCleanSuccessors();
-		if (successors == null) {
-			return null;
-		}
-		for (BlockNode node : successors) {
+		for (BlockNode node : start.getCleanSuccessors()) {
 			if (!node.isDominator(dom)) {
 				return node;
 			} else {
@@ -869,9 +848,6 @@ public class BlockUtils {
 		}
 		visited.set(child.getId());
 		List<BlockNode> successors = includeExcHandlers ? child.getSuccessors() : child.getCleanSuccessors();
-		if (successors == null) {
-			return; // Add null check for successors
-		}
 		for (BlockNode node : successors) {
 			if (node.isDominator(dominator)) {
 				result.add(node);
@@ -909,18 +885,15 @@ public class BlockUtils {
 			return Collections.emptyList();
 		}
 		List<BlockNode> list = new ArrayList<>();
-		List<BlockNode> cleanSuccessors = block.getCleanSuccessors();
-		if (cleanSuccessors == null || cleanSuccessors.size() >= 2) {
+		if (block.getCleanSuccessors().size() >= 2) {
 			return Collections.emptyList();
 		}
 		list.add(block);
 
 		BlockNode currentBlock = getNextBlock(block);
-		while (currentBlock != null) {
-			cleanSuccessors = currentBlock.getCleanSuccessors();
-			if (cleanSuccessors == null || cleanSuccessors.size() >= 2 || currentBlock.getPredecessors().size() != 1) {
-				break;
-			}
+		while (currentBlock != null
+				&& currentBlock.getCleanSuccessors().size() < 2
+				&& currentBlock.getPredecessors().size() == 1) {
 			list.add(currentBlock);
 			currentBlock = getNextBlock(currentBlock);
 		}
@@ -973,7 +946,7 @@ public class BlockUtils {
 			return null;
 		}
 		List<BlockNode> successors = block.getCleanSuccessors();
-		if (successors == null || successors.size() != 1) {
+		if (successors.size() != 1) {
 			return null;
 		}
 		return successors.get(0);
@@ -986,13 +959,12 @@ public class BlockUtils {
 		if (start == end && start.getInstructions().isEmpty()) {
 			return true;
 		}
-		if (!start.getInstructions().isEmpty() || start.getCleanSuccessors() == null || start.getCleanSuccessors().size() != 1) {
+		if (!start.getInstructions().isEmpty() || start.getCleanSuccessors().size() != 1) {
 			return false;
 		}
 		BlockNode block = getNextBlock(start);
 		while (block != null
 				&& block != end
-				&& block.getCleanSuccessors() != null
 				&& block.getCleanSuccessors().size() < 2
 				&& block.getPredecessors().size() == 1
 				&& block.getInstructions().isEmpty()) {

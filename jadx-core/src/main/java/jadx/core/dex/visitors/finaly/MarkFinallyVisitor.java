@@ -498,7 +498,6 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		return true;
 	}
 
-	@Nullable
 	private static List<BlockNode> getSuccessorsWithoutLoop(BlockNode block) {
 		if (block.contains(AFlag.LOOP_END)) {
 			return block.getCleanSuccessors();

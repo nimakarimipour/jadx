@@ -41,7 +41,6 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 
 	private List<BlockNode> predecessors = new ArrayList<>(1);
 	private List<BlockNode> successors = new ArrayList<>(1);
-	@Nullable
 	private List<BlockNode> cleanSuccessors;
 
 	/**
@@ -92,7 +91,6 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 		return successors;
 	}
 
-	@Nullable
 	public List<BlockNode> getCleanSuccessors() {
 		return this.cleanSuccessors;
 	}

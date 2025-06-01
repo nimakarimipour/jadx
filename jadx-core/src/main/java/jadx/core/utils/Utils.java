@@ -362,7 +362,7 @@ public class Utils {
 	}
 
 	@Nullable
-	public static <T> T first(@Nullable List<T> list) {
+	public static <T> T first(List<T> list) {
 		if (list.isEmpty()) {
 			return null;
 		}

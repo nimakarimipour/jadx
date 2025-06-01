@@ -381,10 +381,9 @@ public class BlockExceptionHandler {
 		if (existPredTopSplitter != null) {
 			return existPredTopSplitter;
 		}
-		// try to reuse existing splitter on empty simple path below top block
-		List<BlockNode> cleanSuccessors = top.getCleanSuccessors();
-		if (cleanSuccessors != null && cleanSuccessors.size() == 1 && top.getInstructions().isEmpty()) {
-			BlockNode otherTopSplitter = BlockUtils.getBlockWithFlag(cleanSuccessors, AFlag.EXC_TOP_SPLITTER);
+		// try to reuse exists splitter on empty simple path below top block
+		if (top.getCleanSuccessors().size() == 1 && top.getInstructions().isEmpty()) {
+			BlockNode otherTopSplitter = BlockUtils.getBlockWithFlag(top.getCleanSuccessors(), AFlag.EXC_TOP_SPLITTER);
 			if (otherTopSplitter != null && otherTopSplitter.getPredecessors().size() == 1) {
 				return otherTopSplitter;
 			}
