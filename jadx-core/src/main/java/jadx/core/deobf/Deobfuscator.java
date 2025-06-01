@@ -356,10 +356,8 @@ public class Deobfuscator {
 	public String getPkgAlias(ClassNode cls) {
 		ClassInfo classInfo = cls.getClassInfo();
 		if (classInfo.hasAliasPkg()) {
-			// already renamed
 			PackageNode pkg = getPackageNode(classInfo.getPackage(), true);
-			// update all parts of package
-			String[] aliasParts = classInfo.getAliasPkg().split("\\.");
+			String[] aliasParts = NullabilityUtil.castToNonnull(classInfo.getAliasPkg(), "checked before use").split("\\.");
 			PackageNode subPkg = pkg;
 			for (int i = aliasParts.length - 1; i >= 0; i--) {
 				String aliasPart = aliasParts[i];

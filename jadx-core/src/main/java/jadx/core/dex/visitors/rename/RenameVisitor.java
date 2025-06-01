@@ -117,7 +117,7 @@ public class RenameVisitor extends AbstractVisitor {
 			return;
 		}
 		String aliasPkg = classInfo.getAliasPkg();
-		if (args.isRenameValid() && aliasPkg.isEmpty()) {
+		if (args.isRenameValid() && NullabilityUtil.castToNonnull(aliasPkg, "method call guarantees").isEmpty()) {
 			classInfo.changePkg(Consts.DEFAULT_PACKAGE_NAME);
 			cls.addAttr(new RenameReasonAttr(cls).append("default package"));
 			return;

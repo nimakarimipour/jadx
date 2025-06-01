@@ -3,6 +3,8 @@ package jadx.core.dex.visitors.rename;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,7 +117,7 @@ public class UserRenames {
 	}
 
 	@NotNull
-	private static String cutLastPkgPart(String pkgFullName) {
+	private static String cutLastPkgPart(@Nullable String pkgFullName) {
 		int lastDotIndex = pkgFullName.lastIndexOf('.');
 		if (lastDotIndex == -1) {
 			return pkgFullName;
@@ -123,7 +125,7 @@ public class UserRenames {
 		return pkgFullName.substring(0, lastDotIndex);
 	}
 
-	private static String rebuildPkgMiddle(String aliasPkg, String renameOriginPkg, String newName) {
+	private static String rebuildPkgMiddle(@Nullable String aliasPkg, String renameOriginPkg, String newName) {
 		String[] aliasParts = aliasPkg.split("\\.");
 		String[] renameParts = renameOriginPkg.split("\\.");
 		aliasParts[renameParts.length - 1] = newName;

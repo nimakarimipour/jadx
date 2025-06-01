@@ -615,7 +615,7 @@ public class ClassGen {
 		code.add(clsName);
 	}
 
-	private String useClassInternal(ClassInfo useCls, @Nullable ClassInfo extClsInfo) {
+	private String useClassInternal(ClassInfo useCls, ClassInfo extClsInfo) {
 		String fullName = extClsInfo.getAliasFullName();
 		if (fallback || !useImports) {
 			return fullName;
@@ -649,7 +649,8 @@ public class ClassGen {
 		if (extClsInfo.isDefaultPackage()) {
 			return shortName;
 		}
-		if (extClsInfo.getAliasPkg().equals(useCls.getAliasPkg())) {
+		// Use existing getAliasPkg method that handles null cases
+		if (Objects.equals(extClsInfo.getAliasPkg(), useCls.getAliasPkg())) {
 			fullName = extClsInfo.getAliasNameWithoutPackage();
 		}
 		for (ClassInfo importCls : getImports()) {
@@ -746,8 +747,7 @@ public class ClassGen {
 	 */
 	private static boolean checkInPackageCollision(RootNode root, ClassInfo useCls, ClassInfo searchCls) {
 		String currentPkg = useCls.getAliasPkg();
-		if (currentPkg.equals(searchCls.getAliasPkg())) {
-			// search class already from current package
+		if (NullabilityUtil.castToNonnull(currentPkg, "not nullable here").equals(searchCls.getAliasPkg())) {
 			return false;
 		}
 		String shortName = searchCls.getAliasShortName();
