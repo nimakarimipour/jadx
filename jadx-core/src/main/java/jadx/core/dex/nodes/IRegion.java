@@ -2,8 +2,11 @@ package jadx.core.dex.nodes;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 public interface IRegion extends IContainer {
 
+	@Nullable
 	IRegion getParent();
 
 	void setParent(IRegion parent);
