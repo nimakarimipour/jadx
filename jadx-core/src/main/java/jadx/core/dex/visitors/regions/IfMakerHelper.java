@@ -48,7 +48,6 @@ public class IfMakerHelper {
 		return info;
 	}
 
-	@Nullable
 	static IfInfo searchNestedIf(@Nullable IfInfo info) {
 		IfInfo next = mergeNestedIfNodes(info);
 		if (next != null) {
@@ -209,6 +208,7 @@ public class IfMakerHelper {
 		return searchNestedIf(result);
 	}
 
+	@Nullable
 	private static IfInfo checkForTernaryInCondition(IfInfo currentIf) {
 		IfInfo nextThen = getNextIf(currentIf, currentIf.getThenBlock());
 		IfInfo nextElse = getNextIf(currentIf, currentIf.getElseBlock());
@@ -220,7 +220,7 @@ public class IfMakerHelper {
 		}
 		nextThen = searchNestedIf(nextThen);
 		nextElse = searchNestedIf(nextElse);
-		if (nextThen.getThenBlock() == NullabilityUtil.castToNonnull(nextElse, "checked previously").getThenBlock()
+		if (nextThen.getThenBlock() == nextElse.getThenBlock()
 				&& nextThen.getElseBlock() == nextElse.getElseBlock()) {
 			return mergeTernaryConditions(currentIf, nextThen, nextElse);
 		}
@@ -304,7 +304,7 @@ public class IfMakerHelper {
 		throw new JadxRuntimeException("Unexpected merge pattern");
 	}
 
-	static void confirmMerge(@Nullable IfInfo info) {
+	static void confirmMerge(IfInfo info) {
 		if (info.getMergedBlocks().size() > 1) {
 			for (BlockNode block : info.getMergedBlocks()) {
 				if (block != info.getFirstIfBlock()) {
