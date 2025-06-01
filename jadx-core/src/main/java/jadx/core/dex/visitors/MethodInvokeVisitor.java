@@ -7,8 +7,6 @@ import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
-import com.uber.nullaway.annotations.Initializer;
-
 import jadx.api.ICodeWriter;
 import jadx.core.Consts;
 import jadx.core.dex.attributes.AFlag;
@@ -49,7 +47,6 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 public class MethodInvokeVisitor extends AbstractVisitor {
 	private RootNode root;
 
-	@Initializer
 	@Override
 	public void init(RootNode root) {
 		this.root = root;
