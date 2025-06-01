@@ -24,7 +24,7 @@ public final class IfInfo {
 	@Nullable
 	private BlockNode outBlock;
 
-	public IfInfo(MethodNode mth, IfCondition condition, @Nullable BlockNode thenBlock, BlockNode elseBlock) {
+	public IfInfo(MethodNode mth, IfCondition condition, BlockNode thenBlock, BlockNode elseBlock) {
 		this(mth, condition, thenBlock, elseBlock, new ArrayList<>(), new HashSet<>(), new ArrayList<>());
 	}
 
@@ -80,7 +80,6 @@ public final class IfInfo {
 		return skipBlocks;
 	}
 
-	@Nullable
 	public BlockNode getThenBlock() {
 		return thenBlock;
 	}
