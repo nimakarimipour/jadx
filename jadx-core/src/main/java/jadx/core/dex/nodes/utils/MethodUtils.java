@@ -80,7 +80,8 @@ public class MethodUtils {
 		return null;
 	}
 
-	private boolean processMethodArgsOverloaded(ArgType startCls, MethodInfo mthInfo, List<IMethodDetails> collectedMths) {
+	private boolean processMethodArgsOverloaded(@Nullable ArgType startCls, MethodInfo mthInfo,
+			@Nullable List<IMethodDetails> collectedMths) {
 		if (startCls == null || !startCls.isObject()) {
 			return false;
 		}
@@ -123,9 +124,8 @@ public class MethodUtils {
 					collectedMths.add(clspMth);
 				}
 			}
-			ArgType[] parents = clsDetails.getParents();
-			if (!isMthConstructor && parents != null) {
-				for (ArgType parent : parents) {
+			if (!isMthConstructor) {
+				for (ArgType parent : clsDetails.getParents()) {
 					if (processMethodArgsOverloaded(parent, mthInfo, collectedMths)) {
 						if (collectedMths == null) {
 							return true;
