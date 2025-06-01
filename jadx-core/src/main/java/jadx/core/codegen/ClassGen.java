@@ -509,7 +509,7 @@ public class ClassGen {
 		}
 	}
 
-	public void useType(ICodeWriter code, ArgType type) {
+	public void useType(ICodeWriter code, @Nullable ArgType type) {
 		PrimitiveType stype = type.getPrimitiveType();
 		if (stype == null) {
 			code.add(type.toString());

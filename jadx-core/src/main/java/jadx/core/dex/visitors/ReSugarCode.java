@@ -110,6 +110,9 @@ public class ReSugarCode extends AbstractVisitor {
 		}
 		ArgType arrType = newArrayInsn.getArrayType();
 		ArgType elemType = arrType.getArrayElement();
+		if (elemType == null) {
+			return false;
+		}
 		boolean allowMissingKeys = arrType.getArrayDimension() == 1 && elemType.isPrimitive();
 		int minLen = allowMissingKeys ? len / 2 : len;
 

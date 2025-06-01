@@ -423,7 +423,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return false;
 	}
 
-	private List<ArgType> makePossibleTypesList(ArgType type, @Nullable SSAVar var) {
+	private List<ArgType> makePossibleTypesList(@Nullable ArgType type, @Nullable SSAVar var) {
 		if (type.isArray()) {
 			List<ArgType> list = new ArrayList<>();
 			for (ArgType arrElemType : makePossibleTypesList(type.getArrayElement(), null)) {

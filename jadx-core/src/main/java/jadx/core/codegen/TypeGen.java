@@ -19,7 +19,7 @@ public class TypeGen {
 	private TypeGen() {
 	}
 
-	public static String signature(ArgType type) {
+	public static String signature(@Nullable ArgType type) {
 		PrimitiveType stype = type.getPrimitiveType();
 		if (stype == PrimitiveType.OBJECT) {
 			return Utils.makeQualifiedObjectName(type.getObject());

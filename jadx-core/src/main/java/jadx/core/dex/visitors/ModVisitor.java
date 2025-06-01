@@ -513,17 +513,17 @@ public class ModVisitor extends AbstractVisitor {
 		ArgType insnElementType = insnArrayType.getArrayElement();
 		ArgType elType = insn.getElementType();
 		if (!elType.isTypeKnown()
-				&& insnElementType.isPrimitive()
+				&& insnElementType != null && insnElementType.isPrimitive()
 				&& elType.contains(insnElementType.getPrimitiveType())) {
 			elType = insnElementType;
 		}
-		if (!elType.equals(insnElementType) && !insnArrayType.equals(ArgType.OBJECT)) {
+		if (insnElementType != null && !elType.equals(insnElementType) && !insnArrayType.equals(ArgType.OBJECT)) {
 			mth.addWarn("Incorrect type for fill-array insn " + InsnUtils.formatOffset(insn.getOffset())
 					+ ", element type: " + elType + ", insn element type: " + insnElementType);
 		}
 		if (!elType.isTypeKnown()) {
 			LOG.warn("Unknown array element type: {} in mth: {}", elType, mth);
-			elType = insnElementType.isTypeKnown() ? insnElementType : elType.selectFirst();
+			elType = insnElementType != null && insnElementType.isTypeKnown() ? insnElementType : elType.selectFirst();
 			if (elType == null) {
 				throw new JadxRuntimeException("Null array element type");
 			}

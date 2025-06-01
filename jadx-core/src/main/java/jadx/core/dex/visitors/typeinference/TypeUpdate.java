@@ -277,7 +277,7 @@ public final class TypeUpdate {
 		}
 	}
 
-	private boolean checkAssignForUnknown(ArgType boundType, ArgType candidateType) {
+	private boolean checkAssignForUnknown(@Nullable ArgType boundType, @Nullable ArgType candidateType) {
 		if (boundType == ArgType.UNKNOWN) {
 			return true;
 		}
@@ -516,10 +516,10 @@ public final class TypeUpdate {
 			TypeUpdateResult result = updateTypeChecked(updateInfo, insn.getArg(0), ArgType.array(candidateType));
 			if (result == REJECT) {
 				ArgType arrType = insn.getArg(0).getType();
-				if (arrType.isTypeKnown() && arrType.isArray() && arrType.getArrayElement().isPrimitive()) {
+				if (arrType.isTypeKnown() && arrType.isArray()
+						&& NullabilityUtil.castToNonnull(arrType.getArrayElement(), "valid array type").isPrimitive()) {
 					TypeCompareEnum compResult = comparator.compareTypes(candidateType, arrType.getArrayElement());
 					if (compResult == TypeCompareEnum.WIDER) {
-						// allow implicit upcast for primitive types (int a = byteArr[n])
 						return CHANGED;
 					}
 				}
@@ -538,14 +538,12 @@ public final class TypeUpdate {
 				if (resType.isTypeKnown() && resType.isPrimitive()) {
 					TypeCompareEnum compResult = comparator.compareTypes(resType, arrayElement);
 					if (compResult == TypeCompareEnum.WIDER) {
-						// allow implicit upcast for primitive types (int a = byteArr[n])
 						return CHANGED;
 					}
 				}
 			}
 			return result;
 		}
-		// index argument
 		return SAME;
 	}
 
