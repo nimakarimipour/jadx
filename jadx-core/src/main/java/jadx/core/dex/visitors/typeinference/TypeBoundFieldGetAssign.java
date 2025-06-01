@@ -1,7 +1,5 @@
 package jadx.core.dex.visitors.typeinference;
 
-import javax.annotation.Nullable;
-
 import jadx.core.dex.info.FieldInfo;
 import jadx.core.dex.instructions.IndexInsnNode;
 import jadx.core.dex.instructions.args.ArgType;
@@ -53,7 +51,6 @@ public final class TypeBoundFieldGetAssign implements ITypeBoundDynamic {
 		return getNode.getArg(0);
 	}
 
-	@Nullable
 	@Override
 	public RegisterArg getArg() {
 		return getNode.getResult();

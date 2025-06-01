@@ -100,7 +100,7 @@ public class InsnGen {
 		addArg(code, arg, true);
 	}
 
-	public void addArg(ICodeWriter code, @Nullable InsnArg arg, boolean wrap) throws CodegenException {
+	public void addArg(ICodeWriter code, InsnArg arg, boolean wrap) throws CodegenException {
 		addArg(code, arg, wrap ? BODY_ONLY_FLAG : BODY_ONLY_NOWRAP_FLAGS);
 	}
 
@@ -151,7 +151,7 @@ public class InsnGen {
 		}
 	}
 
-	public void declareVar(ICodeWriter code, @Nullable RegisterArg arg) {
+	public void declareVar(ICodeWriter code, RegisterArg arg) {
 		declareVar(code, arg.getSVar().getCodeVar());
 	}
 

@@ -198,7 +198,7 @@ public class DebugInfoApplyVisitor extends AbstractVisitor {
 		});
 	}
 
-	private static void addArgName(@Nullable InsnArg arg, Set<String> names) {
+	private static void addArgName(InsnArg arg, Set<String> names) {
 		if (arg instanceof Named) {
 			String name = ((Named) arg).getName();
 			if (name != null) {

@@ -435,7 +435,7 @@ public class LoopRegionVisitor extends AbstractVisitor implements IRegionVisitor
 		return true;
 	}
 
-	private static boolean argInLoop(MethodNode mth, LoopRegion loopRegion, @Nullable RegisterArg arg) {
+	private static boolean argInLoop(MethodNode mth, LoopRegion loopRegion, RegisterArg arg) {
 		InsnNode parentInsn = arg.getParentInsn();
 		if (parentInsn == null) {
 			return false;

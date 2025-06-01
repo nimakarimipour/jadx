@@ -985,7 +985,7 @@ public final class TypeInferenceVisitor extends AbstractVisitor {
 		return convertInsn;
 	}
 
-	private TernaryInsn prepareBooleanConvertInsn(@Nullable RegisterArg resultArg, RegisterArg boundArg, ArgType useType) {
+	private TernaryInsn prepareBooleanConvertInsn(RegisterArg resultArg, RegisterArg boundArg, ArgType useType) {
 		RegisterArg useArg = boundArg.getSVar().getAssign().duplicate();
 		TernaryInsn convertInsn = ModVisitor.makeBooleanConvertInsn(resultArg, useArg, useType);
 		convertInsn.add(AFlag.SYNTHETIC);

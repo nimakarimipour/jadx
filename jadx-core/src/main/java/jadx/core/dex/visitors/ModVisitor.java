@@ -252,7 +252,7 @@ public class ModVisitor extends AbstractVisitor {
 		}
 	}
 
-	public static TernaryInsn makeBooleanConvertInsn(@Nullable RegisterArg result, InsnArg castArg, ArgType type) {
+	public static TernaryInsn makeBooleanConvertInsn(RegisterArg result, InsnArg castArg, ArgType type) {
 		InsnArg zero = LiteralArg.make(0, type);
 		long litVal = 1;
 		if (type == ArgType.DOUBLE) {
@@ -491,7 +491,7 @@ public class ModVisitor extends AbstractVisitor {
 	 * If used only once try to follow move chain
 	 */
 	@Nullable
-	private static InsnNode getFirstUseSkipMove(@Nullable RegisterArg arg) {
+	private static InsnNode getFirstUseSkipMove(RegisterArg arg) {
 		SSAVar sVar = arg.getSVar();
 		int useCount = sVar.getUseCount();
 		if (useCount == 0) {

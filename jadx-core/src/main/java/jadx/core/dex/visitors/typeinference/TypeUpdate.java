@@ -96,7 +96,7 @@ public final class TypeUpdate {
 		return CHANGED;
 	}
 
-	private TypeUpdateResult updateTypeChecked(TypeUpdateInfo updateInfo, @Nullable InsnArg arg, ArgType candidateType) {
+	private TypeUpdateResult updateTypeChecked(TypeUpdateInfo updateInfo, InsnArg arg, ArgType candidateType) {
 		if (candidateType == null) {
 			throw new JadxRuntimeException("Null type update for arg: " + arg);
 		}
