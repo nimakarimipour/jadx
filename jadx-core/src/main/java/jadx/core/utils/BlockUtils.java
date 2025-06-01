@@ -1193,7 +1193,7 @@ public class BlockUtils {
 
 		blockNodes.forEach(block -> {
 			BitSet postDoms = map.get(block);
-			NullabilityUtil.castToNonnull(postDoms, "always initialized earlier").clear(block.getId());
+			postDoms.clear(block.getId());
 			if (postDoms.isEmpty()) {
 				map.put(block, EmptyBitSet.EMPTY);
 			}
