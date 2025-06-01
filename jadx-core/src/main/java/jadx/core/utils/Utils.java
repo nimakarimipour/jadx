@@ -411,7 +411,7 @@ public class Utils {
 		return col == null || col.isEmpty();
 	}
 
-	public static <T> boolean notEmpty(Collection<T> col) {
+	public static <T> boolean notEmpty(@Nullable Collection<T> col) {
 		return col != null && !col.isEmpty();
 	}
 

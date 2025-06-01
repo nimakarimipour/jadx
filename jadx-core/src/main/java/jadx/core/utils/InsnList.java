@@ -48,7 +48,7 @@ public final class InsnList implements Iterable<InsnNode> {
 		return getIndex(list, insn, 0) != -1;
 	}
 
-	public static boolean contains(List<InsnNode> list, @Nullable InsnNode insn, int startOffset) {
+	public static boolean contains(@Nullable List<InsnNode> list, @Nullable InsnNode insn, int startOffset) {
 		return getIndex(list, insn, startOffset) != -1;
 	}
 
