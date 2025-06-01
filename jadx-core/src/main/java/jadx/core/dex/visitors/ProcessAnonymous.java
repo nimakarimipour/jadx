@@ -257,8 +257,7 @@ public class ProcessAnonymous extends AbstractVisitor {
 		}
 		if (accessFlags.isSynthetic()) {
 			// allow synthetic usage in inner class
-			ClassNode parentClass = useCls.getParentClass();
-			return parentClass != null && !parentClass.equals(cls);
+			return !useCls.getParentClass().equals(cls);
 		}
 		return true;
 	}
