@@ -1160,7 +1160,7 @@ public class BlockUtils {
 			postDoms.or(initSet);
 			map.put(block, postDoms);
 		}
-		BitSet exitBitSet = map.get(exitBlock);
+		BitSet exitBitSet = NullabilityUtil.castToNonnull(map.get(exitBlock), "never be null");
 		exitBitSet.clear();
 		exitBitSet.set(exitBlock.getId());
 
