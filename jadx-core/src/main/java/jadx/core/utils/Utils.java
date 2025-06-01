@@ -419,7 +419,7 @@ public class Utils {
 		return map == null || map.isEmpty();
 	}
 
-	public static <T> boolean isEmpty(@Nullable T[] arr) {
+	public static <T> boolean isEmpty(T[] arr) {
 		return arr == null || arr.length == 0;
 	}
 

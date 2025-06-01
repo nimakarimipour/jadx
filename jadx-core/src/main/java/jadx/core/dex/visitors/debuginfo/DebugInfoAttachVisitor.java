@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
-
 import jadx.api.plugins.input.data.IDebugInfo;
 import jadx.api.plugins.input.data.ILocalVar;
 import jadx.core.dex.attributes.AFlag;
@@ -54,7 +52,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		setMethodSourceLine(mth, insnArr);
 	}
 
-	private void attachSourceLines(MethodNode mth, Map<Integer, Integer> lineMapping, @Nullable InsnNode[] insnArr) {
+	private void attachSourceLines(MethodNode mth, Map<Integer, Integer> lineMapping, InsnNode[] insnArr) {
 		if (lineMapping.isEmpty()) {
 			return;
 		}
@@ -84,7 +82,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 		}
 	}
 
-	private void attachDebugInfo(MethodNode mth, List<ILocalVar> localVars, @Nullable InsnNode[] insnArr) {
+	private void attachDebugInfo(MethodNode mth, List<ILocalVar> localVars, InsnNode[] insnArr) {
 		if (localVars.isEmpty()) {
 			return;
 		}
@@ -172,7 +170,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 	/**
 	 * Set method source line from first instruction
 	 */
-	private void setMethodSourceLine(MethodNode mth, @Nullable InsnNode[] insnArr) {
+	private void setMethodSourceLine(MethodNode mth, InsnNode[] insnArr) {
 		for (InsnNode insn : insnArr) {
 			if (insn != null) {
 				int line = insn.getSourceLine();
