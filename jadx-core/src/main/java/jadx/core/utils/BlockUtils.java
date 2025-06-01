@@ -487,12 +487,8 @@ public class BlockUtils {
 		BitSet visited = newBlocksBitSet(mth);
 		Deque<BlockNode> queue = new ArrayDeque<>();
 		BlockNode enterBlock = mth.getEnterBlock();
-		if (enterBlock == null) {
-			// Handle the case where the enter block is null
-			return;
-		}
 		queue.addLast(enterBlock);
-		visited.set(enterBlock.getId());
+		visited.set(mth.getEnterBlock().getId());
 		while (true) {
 			BlockNode current = queue.pollLast();
 			if (current == null) {
@@ -547,7 +543,7 @@ public class BlockUtils {
 	/**
 	 * Collect blocks from all possible execution paths from 'start' to 'end'
 	 */
-	public static Set<BlockNode> getAllPathsBlocks(@Nullable BlockNode start, BlockNode end) {
+	public static Set<BlockNode> getAllPathsBlocks(BlockNode start, BlockNode end) {
 		Set<BlockNode> set = new HashSet<>();
 		set.add(start);
 		if (start != end) {
@@ -863,7 +859,7 @@ public class BlockUtils {
 	/**
 	 * Visit blocks on path without branching or merging paths.
 	 */
-	public static void visitSinglePath(@Nullable BlockNode startBlock, Consumer<BlockNode> visitor) {
+	public static void visitSinglePath(BlockNode startBlock, Consumer<BlockNode> visitor) {
 		if (startBlock == null) {
 			return;
 		}
@@ -923,7 +919,7 @@ public class BlockUtils {
 	 * Follow empty blocks and return end of path block (first not empty).
 	 * Return start block if no such path.
 	 */
-	public static BlockNode followEmptyPath(@Nullable BlockNode start) {
+	public static BlockNode followEmptyPath(BlockNode start) {
 		while (true) {
 			BlockNode next = getNextBlockOnEmptyPath(start);
 			if (next == null) {

@@ -115,11 +115,7 @@ public class ClassModifier extends AbstractVisitor {
 		if (!arg.getType().equals(fieldsCls.getClassInfo().getType())) {
 			return false;
 		}
-		BlockNode enterBlock = mth.getEnterBlock();
-		if (enterBlock == null || enterBlock.getCleanSuccessors().isEmpty()) {
-			return false; // Handle the case where enterBlock is null or has no successors
-		}
-		BlockNode block = enterBlock.getCleanSuccessors().get(0);
+		BlockNode block = mth.getEnterBlock().getCleanSuccessors().get(0);
 		List<InsnNode> instructions = block.getInstructions();
 		if (instructions.isEmpty()) {
 			return false;

@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.JumpInfo;
@@ -154,7 +152,7 @@ public class BlockSplitter extends AbstractVisitor {
 		}
 	}
 
-	public static void removeConnection(@Nullable BlockNode from, BlockNode to) {
+	public static void removeConnection(BlockNode from, BlockNode to) {
 		from.getSuccessors().remove(to);
 		to.getPredecessors().remove(from);
 	}
@@ -398,7 +396,7 @@ public class BlockSplitter extends AbstractVisitor {
 				&& !block.getSuccessors().contains(block); // no self loop
 	}
 
-	static void collectSuccessors(BlockNode startBlock, @Nullable BlockNode methodEnterBlock, Set<BlockNode> toRemove) {
+	static void collectSuccessors(BlockNode startBlock, BlockNode methodEnterBlock, Set<BlockNode> toRemove) {
 		Deque<BlockNode> stack = new ArrayDeque<>();
 		stack.add(startBlock);
 		while (!stack.isEmpty()) {
