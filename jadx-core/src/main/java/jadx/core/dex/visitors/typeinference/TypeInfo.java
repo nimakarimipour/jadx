@@ -15,6 +15,7 @@ public class TypeInfo {
 
 	private final Set<ITypeBound> bounds = new LinkedHashSet<>();
 
+	@SuppressWarnings("NullAway")
 	@NotNull
 	public ArgType getType() {
 		return type;
