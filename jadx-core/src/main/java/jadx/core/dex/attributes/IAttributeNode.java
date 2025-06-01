@@ -28,7 +28,6 @@ public interface IAttributeNode {
 
 	<T extends IJadxAttribute> boolean contains(IJadxAttrType<T> type);
 
-	@Nullable
 	<T extends IJadxAttribute> T get(IJadxAttrType<T> type);
 
 	@Nullable
