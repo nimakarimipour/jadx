@@ -44,6 +44,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	private final ClassNode parentClass;
 	private AccessInfo accFlags;
 
+	@Nullable
 	private final ICodeReader codeReader;
 	private final int insnsCount;
 
@@ -144,6 +145,10 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 				// TODO: registers not needed without code
 				initArguments(this.argTypes);
 				return;
+			}
+
+			if (this.codeReader == null) {
+				throw new DecodeException(this, "CodeReader is null");
 			}
 
 			this.regsCount = codeReader.getRegistersCount();
@@ -564,12 +569,20 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	}
 
 	public long getMethodCodeOffset() {
-		return noCode ? 0 : codeReader.getCodeOffset();
+		if (noCode || codeReader == null) {
+			return 0;
+		}
+		return codeReader.getCodeOffset();
 	}
 
-	@Nullable
 	public IDebugInfo getDebugInfo() {
-		return noCode ? null : codeReader.getDebugInfo();
+		if (noCode) {
+			return null;
+		}
+		if (codeReader == null) {
+			throw new IllegalStateException("codeReader should not be null when noCode is false");
+		}
+		return codeReader.getDebugInfo();
 	}
 
 	public void ignoreMethod() {
@@ -606,6 +619,7 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 		return loaded;
 	}
 
+	@Nullable
 	public ICodeReader getCodeReader() {
 		return codeReader;
 	}
