@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import org.jetbrains.annotations.NotNull;
 
 import jadx.core.dex.nodes.BlockNode;
@@ -144,7 +142,7 @@ public class DominatorTree {
 				BlockNode idom = block.getIDom();
 				for (BlockNode pred : preds) {
 					BlockNode runner = pred;
-					while (runner != null && runner != idom) {
+					while (runner != idom) {
 						addToDF(runner, block, blocksCount);
 						runner = runner.getIDom();
 					}
@@ -159,7 +157,7 @@ public class DominatorTree {
 		}
 	}
 
-	private static void addToDF(@Nullable BlockNode block, BlockNode dfBlock, int blocksCount) {
+	private static void addToDF(BlockNode block, BlockNode dfBlock, int blocksCount) {
 		BitSet df = block.getDomFrontier();
 		if (df == null) {
 			df = new BitSet(blocksCount);
