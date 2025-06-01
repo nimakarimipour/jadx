@@ -20,7 +20,6 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
 
 public class ProtoXMLParser {
-	@Nullable
 	private Map<String, String> nsMap;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
@@ -84,7 +83,7 @@ public class ProtoXMLParser {
 	private void decode(XmlAttribute a) {
 		writer.add(' ');
 		String namespace = a.getNamespaceUri();
-		if (!namespace.isEmpty() && nsMap.containsKey(namespace)) {
+		if (!namespace.isEmpty()) {
 			writer.add(nsMap.get(namespace)).add(':');
 		}
 		String name = a.getName();
@@ -94,12 +93,10 @@ public class ProtoXMLParser {
 	}
 
 	private void decode(XmlNamespace n) {
-		if (nsMap != null) {
-			String prefix = n.getPrefix();
-			String uri = n.getUri();
-			nsMap.put(uri, prefix);
-			writer.add(" xmlns:").add(prefix).add("=\"").add(uri).add('"');
-		}
+		String prefix = n.getPrefix();
+		String uri = n.getUri();
+		nsMap.put(uri, prefix);
+		writer.add(" xmlns:").add(prefix).add("=\"").add(uri).add('"');
 	}
 
 	private void memorizePackageName(String attrName, String attrValue) {
