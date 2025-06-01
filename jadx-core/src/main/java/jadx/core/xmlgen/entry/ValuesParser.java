@@ -17,6 +17,7 @@ import jadx.core.xmlgen.XmlGenUtils;
 public class ValuesParser extends ParserConstants {
 	private static final Logger LOG = LoggerFactory.getLogger(ValuesParser.class);
 
+	@Nullable
 	private static Map<Integer, String> androidResMap;
 
 	@Nullable
@@ -102,6 +103,10 @@ public class ValuesParser extends ParserConstants {
 
 	@Nullable
 	public String decodeValue(int dataType, int data) {
+		if (androidResMap == null) {
+			return null;
+		}
+
 		switch (dataType) {
 			case TYPE_NULL:
 				return null;
@@ -128,6 +133,9 @@ public class ValuesParser extends ParserConstants {
 			case TYPE_REFERENCE: {
 				String ri = resMap.get(data);
 				if (ri == null) {
+					if (androidResMap == null) {
+						return null;
+					}
 					String androidRi = androidResMap.get(data);
 					if (androidRi != null) {
 						return "@android:" + androidRi;
@@ -143,6 +151,9 @@ public class ValuesParser extends ParserConstants {
 			case TYPE_ATTRIBUTE: {
 				String ri = resMap.get(data);
 				if (ri == null) {
+					if (androidResMap == null) {
+						return null;
+					}
 					String androidRi = androidResMap.get(data);
 					if (androidRi != null) {
 						return "?android:" + androidRi;
@@ -179,6 +190,9 @@ public class ValuesParser extends ParserConstants {
 		if (ri != null) {
 			return ri.replace('/', '.');
 		} else {
+			if (androidResMap == null) {
+				return null;
+			}
 			String androidRi = androidResMap.get(ref);
 			if (androidRi != null) {
 				return "android:" + androidRi.replace('/', '.');
