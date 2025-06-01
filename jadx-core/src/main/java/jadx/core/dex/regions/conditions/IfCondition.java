@@ -36,7 +36,6 @@ public final class IfCondition extends AttrNode {
 
 	private final Mode mode;
 	private final List<IfCondition> args;
-	@Nullable
 	private final Compare compare;
 
 	private IfCondition(Compare compare) {
@@ -115,7 +114,6 @@ public final class IfCondition extends AttrNode {
 		return mode == Mode.COMPARE;
 	}
 
-	@Nullable
 	public Compare getCompare() {
 		return compare;
 	}
@@ -145,9 +143,8 @@ public final class IfCondition extends AttrNode {
 		if (cond.getMode() == Mode.NOT) {
 			return cond.first();
 		}
-		Compare compare = cond.getCompare(); // Store the value in a local variable for null checking
-		if (compare != null) {
-			return new IfCondition(compare.invert());
+		if (cond.getCompare() != null) {
+			return new IfCondition(cond.compare.invert());
 		}
 		return new IfCondition(Mode.NOT, Collections.singletonList(cond));
 	}
@@ -259,7 +256,7 @@ public final class IfCondition extends AttrNode {
 
 	public List<RegisterArg> getRegisterArgs() {
 		List<RegisterArg> list = new ArrayList<>();
-		if (mode == Mode.COMPARE && compare != null) {
+		if (mode == Mode.COMPARE) {
 			compare.getInsn().getRegisterArgs(list);
 		} else {
 			for (IfCondition arg : args) {
@@ -270,7 +267,7 @@ public final class IfCondition extends AttrNode {
 	}
 
 	public void visitInsns(Consumer<InsnNode> visitor) {
-		if (mode == Mode.COMPARE && compare != null) {
+		if (mode == Mode.COMPARE) {
 			compare.getInsn().visitInsns(visitor);
 		} else {
 			args.forEach(arg -> arg.visitInsns(visitor));
@@ -293,8 +290,9 @@ public final class IfCondition extends AttrNode {
 		return 0;
 	}
 
+	@Nullable
 	public InsnNode getFirstInsn() {
-		if (mode == Mode.COMPARE && compare != null) {
+		if (mode == Mode.COMPARE) {
 			return compare.getInsn();
 		}
 		return args.get(0).getFirstInsn();
@@ -304,7 +302,7 @@ public final class IfCondition extends AttrNode {
 	public String toString() {
 		switch (mode) {
 			case COMPARE:
-				return compare == null ? "null" : compare.toString();
+				return compare.toString();
 			case TERNARY:
 				return first() + " ? " + second() + " : " + third();
 			case NOT:
