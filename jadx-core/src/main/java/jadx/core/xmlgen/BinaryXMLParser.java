@@ -41,6 +41,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	private static final boolean ATTR_NEW_LINE = false;
 
 	private final Map<Integer, String> resNames;
+	@Nullable
 	private Map<String, String> nsMap;
 	private Set<String> nsMapGenerated;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
@@ -156,6 +157,10 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void parseNameSpace() throws IOException {
+		if (nsMap == null) {
+			nsMap = new HashMap<>();
+		}
+
 		int headerSize = is.readInt16();
 		if (headerSize > 0x10) {
 			LOG.warn("Invalid namespace header");
@@ -203,10 +208,12 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		is.skip(headerSize - 0x10);
 		namespaceDepth--;
 
-		String nsKey = getString(endURI);
-		String nsValue = getString(endPrefix);
-		if (StringUtils.notBlank(nsKey) && !nsMap.containsValue(nsValue)) {
-			nsMap.putIfAbsent(nsKey, nsValue);
+		if (nsMap != null) {
+			String nsKey = getString(endURI);
+			String nsValue = getString(endPrefix);
+			if (StringUtils.notBlank(nsKey) && !nsMap.containsValue(nsValue)) {
+				nsMap.putIfAbsent(nsKey, nsValue);
+			}
 		}
 	}
 
@@ -270,7 +277,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		int idIndex = is.readInt16();
 		int classIndex = is.readInt16();
 		int styleIndex = is.readInt16();
-		if ("manifest".equals(currentTag) || writer.getIndent() == 0) {
+		if (nsMap != null && ("manifest".equals(currentTag) || writer.getIndent() == 0)) {
 			for (Map.Entry<String, String> entry : nsMap.entrySet()) {
 				String nsValue = getValidTagAttributeName(entry.getValue());
 				writer.add(" xmlns");
@@ -322,7 +329,6 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		writer.add('"');
 	}
 
-	@Nullable
 	private String getAttributeNS(int attributeNS) {
 		String attrUrl = getString(attributeNS);
 		if (attrUrl == null || attrUrl.isEmpty()) {
@@ -331,6 +337,9 @@ public class BinaryXMLParser extends CommonBinaryParser {
 			} else {
 				attrUrl = ANDROID_NS_URL;
 			}
+		}
+		if (nsMap == null) { // Added check to ensure nsMap is not null
+			nsMap = new HashMap<>(); // Initialize if needed
 		}
 		String attrName = nsMap.get(attrUrl);
 		if (attrName == null) {
@@ -343,11 +352,14 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		String attrName;
 		if (ANDROID_NS_URL.equals(attrUrl)) {
 			attrName = ANDROID_NS_VALUE;
-			nsMap.put(ANDROID_NS_URL, attrName);
+			if (nsMap != null) {
+				nsMap.put(ANDROID_NS_URL, attrName);
+			}
 		} else {
 			for (int i = 1;; i++) {
 				attrName = "ns" + i;
-				if (!nsMapGenerated.contains(attrName) && !nsMap.containsValue(attrName)) {
+				if (nsMapGenerated != null && nsMap != null &&
+						!nsMapGenerated.contains(attrName) && !nsMap.containsValue(attrName)) {
 					nsMapGenerated.add(attrName);
 					// do not add generated value to nsMap
 					// because attrUrl might be used in a neighbor element, but never defined
