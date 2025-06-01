@@ -131,11 +131,7 @@ public class InsnUtils {
 		if (mth.isNoCode()) {
 			return null;
 		}
-		Collection<BlockNode> basicBlocks = mth.getBasicBlocks();
-		if (basicBlocks == null) {
-			return null;
-		}
-		for (BlockNode block : basicBlocks) {
+		for (BlockNode block : mth.getBasicBlocks()) {
 			for (InsnNode insn : block.getInstructions()) {
 				InsnNode foundInsn = recursiveInsnCheck(insn, insnType, test);
 				if (foundInsn != null) {

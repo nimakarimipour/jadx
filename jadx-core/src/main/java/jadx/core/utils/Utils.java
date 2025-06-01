@@ -407,7 +407,7 @@ public class Utils {
 		return obj;
 	}
 
-	public static <T> boolean isEmpty(@Nullable Collection<T> col) {
+	public static <T> boolean isEmpty(Collection<T> col) {
 		return col == null || col.isEmpty();
 	}
 
