@@ -254,7 +254,7 @@ public class InsnGen {
 	private static final Set<Flags> BODY_ONLY_FLAG = EnumSet.of(Flags.BODY_ONLY);
 	private static final Set<Flags> BODY_ONLY_NOWRAP_FLAGS = EnumSet.of(Flags.BODY_ONLY_NOWRAP);
 
-	protected void makeInsn(@Nullable InsnNode insn, ICodeWriter code, @Nullable Flags flag) throws CodegenException {
+	protected void makeInsn(InsnNode insn, ICodeWriter code, @Nullable Flags flag) throws CodegenException {
 		if (insn.getType() == InsnType.REGION_ARG) {
 			return;
 		}
@@ -860,8 +860,7 @@ public class InsnGen {
 			makeSimpleLambda(code, customNode);
 			return;
 		}
-		MethodNode callMth =
-				(MethodNode) NullabilityUtil.castToNonnull(customNode.getCallInsn(), "never assigned null").get(AType.METHOD_DETAILS);
+		MethodNode callMth = (MethodNode) customNode.getCallInsn().get(AType.METHOD_DETAILS);
 		makeInlinedLambdaMethod(code, customNode, callMth);
 	}
 
@@ -889,9 +888,6 @@ public class InsnGen {
 		try {
 			InsnNode callInsn = customNode.getCallInsn();
 			MethodInfo implMthInfo = customNode.getImplMthInfo();
-			if (implMthInfo == null) {
-				throw new IllegalStateException("ImplMthInfo is null"); // or handle it accordingly
-			}
 			int implArgsCount = implMthInfo.getArgsCount();
 			if (implArgsCount == 0) {
 				code.add("()");
@@ -940,11 +936,7 @@ public class InsnGen {
 		NameGen nameGen = callMthGen.getNameGen();
 		nameGen.inheritUsedNames(this.mgen.getNameGen());
 
-		MethodInfo implMthInfo = customNode.getImplMthInfo();
-		if (implMthInfo == null) {
-			throw new CodegenException("Implementation method info is missing for customNode");
-		}
-		List<ArgType> implArgs = implMthInfo.getArgumentsTypes();
+		List<ArgType> implArgs = customNode.getImplMthInfo().getArgumentsTypes();
 		List<RegisterArg> callArgs = callMth.getArgRegs();
 		if (implArgs.isEmpty()) {
 			code.add("()");
