@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.nodes.BlockNode;
@@ -66,7 +68,7 @@ public class ProcessTryCatchRegions extends AbstractRegionVisitor {
 	/**
 	 * Extract all block dominated by 'dominator' to separate region and mark as try/catch block
 	 */
-	private static boolean wrapBlocks(IRegion replaceRegion, TryCatchBlockAttr tb, BlockNode dominator) {
+	private static boolean wrapBlocks(IRegion replaceRegion, TryCatchBlockAttr tb, @Nullable BlockNode dominator) {
 		if (replaceRegion == null) {
 			return false;
 		}
