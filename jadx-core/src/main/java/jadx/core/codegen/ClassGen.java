@@ -545,9 +545,6 @@ public class ClassGen {
 
 	private void addInnerType(ICodeWriter code, ArgType baseType) {
 		ArgType innerType = baseType.getInnerType();
-		if (innerType == null) {
-			return; // Or handle according to your logic
-		}
 		ArgType outerType = innerType.getOuterType();
 		if (outerType != null) {
 			useClassWithShortName(code, baseType, outerType);
