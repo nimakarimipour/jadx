@@ -520,13 +520,7 @@ public class BlockExceptionHandler {
 			if (handler.getBlocks().size() != 1) {
 				return false;
 			}
-
 			BlockNode block = handler.getHandlerBlock();
-			if (block == null) {
-				mth.addDebugComment("Null handler block in: " + handler);
-				return false;
-			}
-
 			if (block.getInstructions().size() != 1
 					|| !BlockUtils.checkLastInsnType(block, InsnType.MOVE_EXCEPTION)) {
 				return false;
@@ -545,14 +539,7 @@ public class BlockExceptionHandler {
 			return false;
 		}
 		List<RegisterArg> regs = tryCatch.getHandlers().stream()
-				.map(h -> {
-					BlockNode handlerBlock = h.getHandlerBlock();
-					if (handlerBlock == null) {
-						return null;
-					}
-					return Objects.requireNonNull(BlockUtils.getLastInsn(handlerBlock)).getResult();
-				})
-				.filter(Objects::nonNull)
+				.map(h -> Objects.requireNonNull(BlockUtils.getLastInsn(h.getHandlerBlock())).getResult())
 				.distinct()
 				.collect(Collectors.toList());
 		if (regs.size() != 1) {

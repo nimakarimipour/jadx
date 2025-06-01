@@ -552,7 +552,7 @@ public class MethodGen {
 		return new MethodGen(clsGen, mth);
 	}
 
-	public static String getLabelName(@Nullable BlockNode block) {
+	public static String getLabelName(BlockNode block) {
 		return String.format("L%d", block.getId());
 	}
 
