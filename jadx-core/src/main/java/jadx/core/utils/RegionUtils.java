@@ -370,7 +370,7 @@ public class RegionUtils {
 	 * For simple region (not from exception handlers) search in parents
 	 * otherwise run recursive search because exception handlers can have several parents
 	 */
-	public static boolean isRegionContainsRegion(IContainer container, IRegion region) {
+	public static boolean isRegionContainsRegion(@Nullable IContainer container, IRegion region) {
 		if (container == region) {
 			return true;
 		}

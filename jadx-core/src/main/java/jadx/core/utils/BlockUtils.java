@@ -835,7 +835,8 @@ public class BlockUtils {
 	/**
 	 * Collect all block dominated by 'dominator', starting from 'start', including exception handlers
 	 */
-	public static Set<BlockNode> collectBlocksDominatedByWithExcHandlers(MethodNode mth, BlockNode dominator, BlockNode start) {
+	public static Set<BlockNode> collectBlocksDominatedByWithExcHandlers(MethodNode mth, @Nullable BlockNode dominator,
+			@Nullable BlockNode start) {
 		Set<BlockNode> result = new LinkedHashSet<>();
 		collectWhileDominates(dominator, start, result, newBlocksBitSet(mth), true);
 		return result;

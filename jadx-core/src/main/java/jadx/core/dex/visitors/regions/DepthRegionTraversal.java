@@ -1,5 +1,7 @@
 package jadx.core.dex.visitors.regions;
 
+import javax.annotation.Nullable;
+
 import jadx.core.dex.nodes.IBlock;
 import jadx.core.dex.nodes.IContainer;
 import jadx.core.dex.nodes.IRegion;
@@ -71,7 +73,7 @@ public class DepthRegionTraversal {
 		}
 	}
 
-	private static boolean traverseIterativeStepInternal(MethodNode mth, IRegionIterativeVisitor visitor, IContainer container) {
+	private static boolean traverseIterativeStepInternal(MethodNode mth, IRegionIterativeVisitor visitor, @Nullable IContainer container) {
 		if (container instanceof IRegion) {
 			IRegion region = (IRegion) container;
 			if (visitor.visitRegion(mth, region)) {
