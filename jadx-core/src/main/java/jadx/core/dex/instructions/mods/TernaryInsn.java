@@ -14,7 +14,6 @@ import jadx.core.utils.InsnUtils;
 
 public final class TernaryInsn extends InsnNode {
 
-	@Nullable
 	private IfCondition condition;
 
 	public TernaryInsn(@Nullable IfCondition condition, @Nullable RegisterArg result, InsnArg th, InsnArg els) {
@@ -38,17 +37,14 @@ public final class TernaryInsn extends InsnNode {
 		super(InsnType.TERNARY, 2);
 	}
 
-	@Nullable
 	public IfCondition getCondition() {
 		return condition;
 	}
 
 	public void simplifyCondition() {
-		if (condition != null) {
-			condition = IfCondition.simplify(condition);
-			if (condition.getMode() == IfCondition.Mode.NOT) {
-				invert();
-			}
+		condition = IfCondition.simplify(condition);
+		if (condition.getMode() == IfCondition.Mode.NOT) {
+			invert();
 		}
 	}
 
@@ -62,16 +58,12 @@ public final class TernaryInsn extends InsnNode {
 	@Override
 	public void getRegisterArgs(Collection<RegisterArg> list) {
 		super.getRegisterArgs(list);
-		if (condition != null) {
-			list.addAll(condition.getRegisterArgs());
-		}
+		list.addAll(condition.getRegisterArgs());
 	}
 
 	public void visitInsns(Consumer<InsnNode> visitor) {
 		super.visitInsns(visitor);
-		if (condition != null) {
-			condition.visitInsns(visitor);
-		}
+		condition.visitInsns(visitor);
 	}
 
 	@Override
@@ -83,7 +75,7 @@ public final class TernaryInsn extends InsnNode {
 			return false;
 		}
 		TernaryInsn that = (TernaryInsn) obj;
-		return condition != null && condition.equals(that.condition);
+		return condition.equals(that.condition);
 	}
 
 	@Override
@@ -96,12 +88,10 @@ public final class TernaryInsn extends InsnNode {
 	@Override
 	public void rebindArgs() {
 		super.rebindArgs();
-		if (condition != null) { // Check if condition is not null
-			for (RegisterArg reg : condition.getRegisterArgs()) {
-				InsnNode parentInsn = reg.getParentInsn();
-				if (parentInsn != null) {
-					parentInsn.rebindArgs();
-				}
+		for (RegisterArg reg : condition.getRegisterArgs()) {
+			InsnNode parentInsn = reg.getParentInsn();
+			if (parentInsn != null) {
+				parentInsn.rebindArgs();
 			}
 		}
 	}
