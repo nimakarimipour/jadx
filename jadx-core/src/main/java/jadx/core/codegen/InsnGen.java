@@ -753,37 +753,46 @@ public class InsnGen {
 			throw new CodegenException("Anonymous inner class unlimited recursion detected."
 					+ " Convert class to inner: " + cls.getClassInfo().getFullName());
 		}
-		ArgType parent = cls.get(AType.ANONYMOUS_CLASS).getBaseType();
-		// hide empty anonymous constructors
-		for (MethodNode ctor : cls.getMethods()) {
-			if (ctor.contains(AFlag.ANONYMOUS_CONSTRUCTOR)
-					&& RegionUtils.isEmpty(ctor.getRegion())) {
-				ctor.add(AFlag.DONT_GENERATE);
-			}
-		}
-		code.attachDefinition(cls);
-		code.add("new ");
-		useClass(code, parent);
-		MethodNode callMth = mth.root().resolveMethod(insn.getCallMth());
-		if (callMth != null) {
-			// copy var names
-			List<RegisterArg> mthArgs = callMth.getArgRegs();
-			int argsCount = Math.min(insn.getArgsCount(), mthArgs.size());
-			for (int i = 0; i < argsCount; i++) {
-				InsnArg arg = insn.getArg(i);
-				if (arg.isRegister()) {
-					RegisterArg mthArg = mthArgs.get(i);
-					RegisterArg insnArg = (RegisterArg) arg;
-					mthArg.getSVar().setCodeVar(insnArg.getSVar().getCodeVar());
+
+		AnonymousClassAttr anonClassAttr = cls.get(AType.ANONYMOUS_CLASS);
+		if (anonClassAttr != null) {
+			ArgType parent = anonClassAttr.getBaseType();
+
+			// hide empty anonymous constructors
+			for (MethodNode ctor : cls.getMethods()) {
+				if (ctor.contains(AFlag.ANONYMOUS_CONSTRUCTOR)
+						&& RegionUtils.isEmpty(ctor.getRegion())) {
+					ctor.add(AFlag.DONT_GENERATE);
 				}
 			}
-		}
-		generateMethodArguments(code, insn, 0, callMth);
-		code.add(' ');
 
-		ClassGen classGen = new ClassGen(cls, mgen.getClassGen().getParentGen());
-		classGen.setOuterNameGen(mgen.getNameGen());
-		classGen.addClassBody(code, true);
+			code.attachDefinition(cls);
+			code.add("new ");
+			useClass(code, parent);
+			MethodNode callMth = mth.root().resolveMethod(insn.getCallMth());
+			if (callMth != null) {
+				// copy var names
+				List<RegisterArg> mthArgs = callMth.getArgRegs();
+				int argsCount = Math.min(insn.getArgsCount(), mthArgs.size());
+				for (int i = 0; i < argsCount; i++) {
+					InsnArg arg = insn.getArg(i);
+					if (arg.isRegister()) {
+						RegisterArg mthArg = mthArgs.get(i);
+						RegisterArg insnArg = (RegisterArg) arg;
+						mthArg.getSVar().setCodeVar(insnArg.getSVar().getCodeVar());
+					}
+				}
+			}
+			generateMethodArguments(code, insn, 0, callMth);
+			code.add(' ');
+
+			ClassGen classGen = new ClassGen(cls, mgen.getClassGen().getParentGen());
+			classGen.setOuterNameGen(mgen.getNameGen());
+			classGen.addClassBody(code, true);
+		} else {
+			// Handle case where AType.ANONYMOUS_CLASS is null if necessary
+			throw new CodegenException("Anonymous class attribute missing for class: " + cls.getClassInfo().getFullName());
+		}
 	}
 
 	private void makeInvoke(InvokeNode insn, ICodeWriter code) throws CodegenException {
@@ -931,7 +940,8 @@ public class InsnGen {
 		}
 	}
 
-	private void makeInlinedLambdaMethod(ICodeWriter code, InvokeCustomNode customNode, MethodNode callMth) throws CodegenException {
+	private void makeInlinedLambdaMethod(ICodeWriter code, InvokeCustomNode customNode, @Nullable MethodNode callMth)
+			throws CodegenException {
 		MethodGen callMthGen = new MethodGen(mgen.getClassGen(), callMth);
 		NameGen nameGen = callMthGen.getNameGen();
 		nameGen.inheritUsedNames(this.mgen.getNameGen());

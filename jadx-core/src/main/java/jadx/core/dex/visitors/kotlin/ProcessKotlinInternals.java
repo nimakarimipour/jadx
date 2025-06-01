@@ -156,11 +156,13 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 			return ((ConstStringNode) constInsn).getString();
 		}
 		if (insnType == InsnType.SGET) {
-			// revert const field inline :(
 			FieldInfo fieldInfo = (FieldInfo) ((IndexInsnNode) constInsn).getIndex();
 			FieldNode fieldNode = mth.root().resolveField(fieldInfo);
 			if (fieldNode != null) {
-				String str = (String) fieldNode.get(JadxAttrType.CONSTANT_VALUE).getValue();
+				JadxAttrType attr = fieldNode.get(JadxAttrType.CONSTANT_VALUE);
+				if (attr == null)
+					return null;
+				String str = (String) attr.getValue();
 				InsnArg newArg = InsnArg.wrapArg(new ConstStringNode(str));
 				insn.replaceArg(strArg, newArg);
 				return str;
