@@ -174,7 +174,7 @@ public class NameGen {
 		return makeNameForType(var.getType());
 	}
 
-	private String makeNameForType(ArgType type) {
+	private String makeNameForType(@Nullable ArgType type) {
 		if (type.isPrimitive()) {
 			return type.getPrimitiveType().getShortName().toLowerCase();
 		}

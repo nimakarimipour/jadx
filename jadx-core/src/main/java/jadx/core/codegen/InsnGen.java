@@ -242,7 +242,7 @@ public class InsnGen {
 		mgen.getClassGen().useClass(code, cls);
 	}
 
-	protected void useType(ICodeWriter code, ArgType type) {
+	protected void useType(ICodeWriter code, @Nullable ArgType type) {
 		mgen.getClassGen().useType(code, type);
 	}
 
