@@ -20,9 +20,11 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
 
 public class ProtoXMLParser {
+	@Nullable
 	private Map<String, String> nsMap;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
+	@Nullable
 	private ICodeWriter writer;
 
 	private final RootNode rootNode;
@@ -45,6 +47,7 @@ public class ProtoXMLParser {
 	}
 
 	private void decode(XmlNode n) throws IOException {
+		writer = rootNode.makeCodeWriter(); // Ensure writer is initialized
 		if (n.hasSource()) {
 			writer.attachSourceLine(n.getSource().getLineNumber());
 		}
@@ -55,6 +58,9 @@ public class ProtoXMLParser {
 	}
 
 	private void decode(XmlElement e) throws IOException {
+		if (writer == null) {
+			throw new IllegalStateException("Writer is not initialized");
+		}
 		String tag = deobfClassName(e.getName());
 		tag = getValidTagAttributeName(tag);
 		currentTag = tag;
@@ -83,7 +89,7 @@ public class ProtoXMLParser {
 	private void decode(XmlAttribute a) {
 		writer.add(' ');
 		String namespace = a.getNamespaceUri();
-		if (!namespace.isEmpty()) {
+		if (!namespace.isEmpty() && nsMap.containsKey(namespace)) {
 			writer.add(nsMap.get(namespace)).add(':');
 		}
 		String name = a.getName();
@@ -93,10 +99,12 @@ public class ProtoXMLParser {
 	}
 
 	private void decode(XmlNamespace n) {
-		String prefix = n.getPrefix();
-		String uri = n.getUri();
-		nsMap.put(uri, prefix);
-		writer.add(" xmlns:").add(prefix).add("=\"").add(uri).add('"');
+		if (writer != null) {
+			String prefix = n.getPrefix();
+			String uri = n.getUri();
+			nsMap.put(uri, prefix);
+			writer.add(" xmlns:").add(prefix).add("=\"").add(uri).add('"');
+		}
 	}
 
 	private void memorizePackageName(String attrName, String attrValue) {
