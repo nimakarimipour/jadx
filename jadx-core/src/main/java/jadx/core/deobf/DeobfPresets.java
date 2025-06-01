@@ -55,12 +55,7 @@ public class DeobfPresets {
 		}
 		Path inputFilePath = jadxArgs.getInputFiles().get(0).toPath().toAbsolutePath();
 		String baseName = FileUtils.getPathBaseName(inputFilePath);
-		Path parentPath = inputFilePath.getParent();
-		if (parentPath != null) {
-			return parentPath.resolve(baseName + ".jobf");
-		} else {
-			throw new IllegalStateException("The parent path of the input file path is null");
-		}
+		return inputFilePath.getParent().resolve(baseName + ".jobf");
 	}
 
 	private DeobfPresets(Path deobfMapFile) {
