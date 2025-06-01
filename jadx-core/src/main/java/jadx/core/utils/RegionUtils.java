@@ -80,7 +80,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static int getFirstSourceLine(@Nullable IContainer container) {
+	public static int getFirstSourceLine(IContainer container) {
 		if (container instanceof IBlock) {
 			return BlockUtils.getFirstSourceLine((IBlock) container);
 		}
@@ -161,7 +161,7 @@ public class RegionUtils {
 	/**
 	 * Return true if last block in region has no successors or jump out insn (return or break)
 	 */
-	public static boolean hasExitBlock(@Nullable IContainer container) {
+	public static boolean hasExitBlock(IContainer container) {
 		if (container == null) {
 			return false;
 		}
@@ -242,7 +242,7 @@ public class RegionUtils {
 		}
 	}
 
-	public static int insnsCount(@Nullable IContainer container) {
+	public static int insnsCount(IContainer container) {
 		if (container instanceof IBlock) {
 			List<InsnNode> insnList = ((IBlock) container).getInstructions();
 			int count = 0;
@@ -265,7 +265,7 @@ public class RegionUtils {
 		throw new JadxRuntimeException(unknownContainerType(container));
 	}
 
-	public static boolean isEmpty(@Nullable IContainer container) {
+	public static boolean isEmpty(IContainer container) {
 		return !notEmpty(container);
 	}
 
