@@ -671,7 +671,7 @@ public class Deobfuscator {
 		return rootPackage;
 	}
 
-	private static boolean isR(ClassNode cls) {
+	private static boolean isR(@Nullable ClassNode cls) {
 		if (!cls.getClassInfo().getShortName().equals("R")) {
 			return false;
 		}
