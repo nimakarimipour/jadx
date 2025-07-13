@@ -26,6 +26,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.files.FileUtils;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 public class JsonMappingGen {
 	private static final Logger LOG = LoggerFactory.getLogger(JsonMappingGen.class);
@@ -72,21 +73,21 @@ public class JsonMappingGen {
 	}
 
 	private static void addMethods(ClassNode cls, JsonClsMapping jsonCls) {
-		List<MethodNode> methods = cls.getMethods();
-		if (methods.isEmpty()) {
-			return;
-		}
-		jsonCls.setMethods(new ArrayList<>(methods.size()));
-		for (MethodNode method : methods) {
-			JsonMthMapping jsonMethod = new JsonMthMapping();
-			MethodInfo methodInfo = method.getMethodInfo();
-			jsonMethod.setSignature(methodInfo.getShortId());
-			jsonMethod.setName(methodInfo.getName());
-			jsonMethod.setAlias(methodInfo.getAlias());
-			jsonMethod.setOffset("0x" + Long.toHexString(method.getMethodCodeOffset()));
-			jsonCls.getMethods().add(jsonMethod);
-		}
-	}
+ 		List<MethodNode> methods = cls.getMethods();
+ 		if (methods.isEmpty()) {
+ 			return;
+ 		}
+ 		jsonCls.setMethods(new ArrayList<>(methods.size()));
+ 		for (MethodNode method : methods) {
+ 			JsonMthMapping jsonMethod = new JsonMthMapping();
+ 			MethodInfo methodInfo = method.getMethodInfo();
+ 			jsonMethod.setSignature(methodInfo.getShortId());
+ 			jsonMethod.setName(methodInfo.getName());
+ 			jsonMethod.setAlias(methodInfo.getAlias());
+ 			jsonMethod.setOffset("0x" + Long.toHexString(method.getMethodCodeOffset()));
+ 			Nullability.castToNonnull(jsonCls.getMethods(), "initialized before access").add(jsonMethod);
+ 		}
+ }
 
 	private static void addFields(ClassNode cls, JsonClsMapping jsonCls) {
 		List<FieldNode> fields = cls.getFields();
