@@ -45,7 +45,7 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 		}
 )
 public class MethodInvokeVisitor extends AbstractVisitor {
-	private RootNode root = new RootNode();
+	private RootNode root;
 
 	@Override
 	public void init(RootNode root) {
