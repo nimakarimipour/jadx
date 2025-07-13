@@ -101,20 +101,13 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 	 */
 	private static boolean extractFinally(MethodNode mth, TryCatchBlockAttr tryBlock, ExceptionHandler allHandler) {
 		BlockNode handlerBlock = allHandler.getHandlerBlock();
-		if (handlerBlock == null) {
-			mth.addDebugComment("Null handler block in: " + allHandler);
-			return false;
-		}
 		List<BlockNode> handlerBlocks =
 				new ArrayList<>(BlockUtils.collectBlocksDominatedByWithExcHandlers(mth, handlerBlock, handlerBlock));
 		handlerBlocks.remove(handlerBlock); // exclude block with 'move-exception'
 		cutPathEnds(mth, handlerBlocks);
 		if (handlerBlocks.isEmpty() || BlockUtils.isAllBlocksEmpty(handlerBlocks)) {
 			// remove empty catch
-			TryCatchBlockAttr tryCatchBlock = allHandler.getTryBlock();
-			if (tryCatchBlock != null) {
-				tryCatchBlock.removeHandler(allHandler);
-			}
+			allHandler.getTryBlock().removeHandler(allHandler);
 			return true;
 		}
 		BlockNode startBlock = Utils.getOne(handlerBlock.getCleanSuccessors());
@@ -126,6 +119,8 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		boolean hasInnerBlocks = !tryBlock.getInnerTryBlocks().isEmpty();
 		List<ExceptionHandler> handlers;
 		if (hasInnerBlocks) {
+			// collect handlers from this and all inner blocks
+			// (intentionally not using recursive collect for now)
 			handlers = new ArrayList<>(tryBlock.getHandlers());
 			for (TryCatchBlockAttr innerTryBlock : tryBlock.getInnerTryBlocks()) {
 				handlers.addAll(innerTryBlock.getHandlers());
@@ -136,6 +131,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		if (handlers.isEmpty()) {
 			return false;
 		}
+		// search 'finally' instructions in other handlers
 		for (ExceptionHandler otherHandler : handlers) {
 			if (otherHandler == allHandler) {
 				continue;
@@ -154,19 +150,19 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 		boolean mergeInnerTryBlocks;
 		int duplicatesCount = extractInfo.getDuplicateSlices().size();
 		if (duplicatesCount == (handlers.size() - 1)) {
+			// all collected handlers have duplicate block
 			mergeInnerTryBlocks = hasInnerBlocks;
 		} else {
+			// some handlers don't have duplicated blocks
 			if (!hasInnerBlocks || duplicatesCount != (tryBlock.getHandlers().size() - 1)) {
+				// unexpected count of duplicated slices
 				return false;
 			}
 			mergeInnerTryBlocks = false;
 		}
 
-		TryCatchBlockAttr allHandlerTryBlock = allHandler.getTryBlock();
-		if (allHandlerTryBlock == null) {
-			return false;
-		}
-		List<BlockNode> tryBlocks = allHandlerTryBlock.getBlocks();
+		// remove 'finally' from 'try' blocks, check all up paths on each exit (connected with finally exit)
+		List<BlockNode> tryBlocks = allHandler.getTryBlock().getBlocks();
 		BlockNode bottomBlock = BlockUtils.getBottomBlock(allHandler.getBlocks());
 		if (bottomBlock == null) {
 			return false;
@@ -209,6 +205,7 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 			return false;
 		}
 
+		// 'finally' extract confirmed, apply
 		apply(extractInfo);
 		allHandler.setFinally(true);
 

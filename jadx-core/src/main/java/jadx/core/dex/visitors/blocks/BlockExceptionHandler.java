@@ -521,7 +521,7 @@ public class BlockExceptionHandler {
 				return false;
 			}
 			BlockNode block = handler.getHandlerBlock();
-			if (block == null || block.getInstructions().size() != 1
+			if (block.getInstructions().size() != 1
 					|| !BlockUtils.checkLastInsnType(block, InsnType.MOVE_EXCEPTION)) {
 				return false;
 			}
@@ -539,15 +539,7 @@ public class BlockExceptionHandler {
 			return false;
 		}
 		List<RegisterArg> regs = tryCatch.getHandlers().stream()
-				.map(h -> {
-					BlockNode handlerBlock = h.getHandlerBlock();
-					if (handlerBlock == null) {
-						return null;
-					}
-					InsnNode lastInsn = BlockUtils.getLastInsn(handlerBlock);
-					return lastInsn != null ? lastInsn.getResult() : null;
-				})
-				.filter(Objects::nonNull)
+				.map(h -> Objects.requireNonNull(BlockUtils.getLastInsn(h.getHandlerBlock())).getResult())
 				.distinct()
 				.collect(Collectors.toList());
 		if (regs.size() != 1) {
