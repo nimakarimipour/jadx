@@ -176,7 +176,10 @@ public class NameGen {
 
 	private String makeNameForType(ArgType type) {
 		if (type.isPrimitive()) {
-			return type.getPrimitiveType().getShortName().toLowerCase();
+			PrimitiveType primitiveType = type.getPrimitiveType();
+			if (primitiveType != null) {
+				return primitiveType.getShortName().toLowerCase();
+			}
 		}
 		if (type.isArray()) {
 			return makeNameForType(type.getArrayRootElement()) + "Arr";

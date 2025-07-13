@@ -27,6 +27,8 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.ucr.cs.riple.annotator.util.Nullability;
+
 import jadx.api.plugins.utils.ZipSecurity;
 import jadx.core.dex.info.AccessInfo;
 import jadx.core.dex.info.ClassInfo;
@@ -278,7 +280,7 @@ public class ClsSet {
 		}
 		if (argType.isPrimitive()) {
 			out.writeByte(TypeEnum.PRIMITIVE.ordinal());
-			out.writeByte(argType.getPrimitiveType().getShortName().charAt(0));
+			out.writeByte(Nullability.castToNonnull(argType.getPrimitiveType(), "implied by logic").getShortName().charAt(0));
 		} else if (argType.getOuterType() != null) {
 			out.writeByte(TypeEnum.OUTER_GENERIC.ordinal());
 			writeArgType(out, argType.getOuterType(), names);
