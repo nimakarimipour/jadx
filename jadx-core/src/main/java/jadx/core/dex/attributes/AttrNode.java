@@ -90,9 +90,13 @@ public abstract class AttrNode implements IAttributeNode {
 	}
 
 	@Override
-	public <T extends IJadxAttribute> T get(IJadxAttrType<T> type) {
-		return storage.get(type);
-	}
+   public <T extends IJadxAttribute> T get(IJadxAttrType<T> type) {
+       T result = storage.get(type);
+       if (result == null) {
+           throw new IllegalStateException("Expected non-null value");
+       }
+       return result;
+   }
 
 	@Nullable
 	@Override
