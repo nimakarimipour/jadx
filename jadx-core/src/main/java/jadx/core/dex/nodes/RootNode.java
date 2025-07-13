@@ -322,18 +322,18 @@ public class RootNode {
 	}
 
 	@Nullable
-	public ClassNode resolveClass(@Nullable ArgType clsType) {
-		if (!clsType.isTypeKnown() || clsType.isGenericType()) {
-			return null;
-		}
-		if (clsType.getWildcardBound() == ArgType.WildcardBound.UNBOUND) {
-			return null;
-		}
-		if (clsType.isGeneric()) {
-			clsType = ArgType.object(clsType.getObject());
-		}
-		return resolveClass(ClassInfo.fromType(this, clsType));
-	}
+ 	public ClassNode resolveClass(@Nullable ArgType clsType) {
+ 		if (clsType == null || !clsType.isTypeKnown() || clsType.isGenericType()) {
+ 			return null;
+ 		}
+ 		if (clsType.getWildcardBound() == ArgType.WildcardBound.UNBOUND) {
+ 			return null;
+ 		}
+ 		if (clsType.isGeneric()) {
+ 			clsType = ArgType.object(clsType.getObject());
+ 		}
+ 		return resolveClass(ClassInfo.fromType(this, clsType));
+ 	}
 
 	@Nullable
 	public ClassNode resolveClass(String fullName) {
