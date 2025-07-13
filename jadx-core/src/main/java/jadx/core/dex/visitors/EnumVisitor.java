@@ -13,6 +13,8 @@ import org.jetbrains.annotations.Nullable;
 
 import com.uber.nullaway.annotations.Initializer;
 
+import edu.ucr.cs.riple.annotator.util.Nullability;
+
 import jadx.api.plugins.input.data.AccessFlags;
 import jadx.core.codegen.TypeGen;
 import jadx.core.deobf.NameMapper;
@@ -536,7 +538,7 @@ public class EnumVisitor extends AbstractVisitor {
 	// TODO: support other method patterns ???
 	private boolean isValuesMethod(MethodNode mth, ArgType clsType) {
 		ArgType retType = mth.getReturnType();
-		if (!retType.isArray() || !retType.getArrayElement().equals(clsType)) {
+		if (!retType.isArray() || !Nullability.castToNonnull(retType.getArrayElement(), "array element exists").equals(clsType)) {
 			return false;
 		}
 		InsnNode returnInsn = BlockUtils.getOnlyOneInsnFromMth(mth);

@@ -13,6 +13,8 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.ucr.cs.riple.annotator.util.Nullability;
+
 import jadx.core.Consts;
 import jadx.core.dex.instructions.ArithNode;
 import jadx.core.dex.instructions.BaseInvokeNode;
@@ -281,9 +283,9 @@ public final class TypeUpdate {
 		if (boundType == ArgType.UNKNOWN) {
 			return true;
 		}
-		boolean candidateArray = candidateType.isArray();
-		if (boundType.isArray() && candidateArray) {
-			return checkAssignForUnknown(boundType.getArrayElement(), candidateType.getArrayElement());
+		boolean candidateArray = Nullability.castToNonnull(candidateType).isArray();
+		if (Nullability.castToNonnull(boundType).isArray() && candidateArray) {
+			return checkAssignForUnknown(Nullability.castToNonnull(boundType.getArrayElement()), candidateType.getArrayElement());
 		}
 		if (candidateArray && boundType.contains(PrimitiveType.ARRAY)) {
 			return true;
@@ -516,10 +518,10 @@ public final class TypeUpdate {
 			TypeUpdateResult result = updateTypeChecked(updateInfo, insn.getArg(0), ArgType.array(candidateType));
 			if (result == REJECT) {
 				ArgType arrType = insn.getArg(0).getType();
-				if (arrType.isTypeKnown() && arrType.isArray() && arrType.getArrayElement().isPrimitive()) {
+				if (arrType.isTypeKnown() && arrType.isArray()
+						&& Nullability.castToNonnull(arrType.getArrayElement(), "valid array type").isPrimitive()) {
 					TypeCompareEnum compResult = comparator.compareTypes(candidateType, arrType.getArrayElement());
 					if (compResult == TypeCompareEnum.WIDER) {
-						// allow implicit upcast for primitive types (int a = byteArr[n])
 						return CHANGED;
 					}
 				}
@@ -538,14 +540,12 @@ public final class TypeUpdate {
 				if (resType.isTypeKnown() && resType.isPrimitive()) {
 					TypeCompareEnum compResult = comparator.compareTypes(resType, arrayElement);
 					if (compResult == TypeCompareEnum.WIDER) {
-						// allow implicit upcast for primitive types (int a = byteArr[n])
 						return CHANGED;
 					}
 				}
 			}
 			return result;
 		}
-		// index argument
 		return SAME;
 	}
 
