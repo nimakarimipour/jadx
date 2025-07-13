@@ -76,7 +76,7 @@ public class RegisterArg extends InsnArg implements Named {
 		return contains(AFlag.IMMUTABLE_TYPE);
 	}
 
-	public SSAVar getSVar() {
+	public @Nullable SSAVar getSVar() {
 		return sVar;
 	}
 
