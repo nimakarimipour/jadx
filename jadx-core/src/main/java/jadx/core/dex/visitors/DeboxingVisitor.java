@@ -86,41 +86,41 @@ public class DeboxingVisitor extends AbstractVisitor {
 	}
 
 	@Nullable
-	private InsnNode checkForReplace(InvokeNode insnNode) {
-		if (insnNode.getInvokeType() != InvokeType.STATIC
-				|| insnNode.getResult() == null) {
-			return null;
-		}
-		MethodInfo callMth = insnNode.getCallMth();
-		if (valueOfMths.contains(callMth)) {
-			RegisterArg resArg = insnNode.getResult();
-			InsnArg arg = insnNode.getArg(0);
-			if (arg.isLiteral()) {
-				ArgType primitiveType = callMth.getArgumentsTypes().get(0);
-				ArgType boxType = callMth.getReturnType();
-				if (isNeedExplicitCast(resArg, primitiveType, boxType)) {
-					arg.add(AFlag.EXPLICIT_PRIMITIVE_TYPE);
-				}
-				arg.setType(primitiveType);
-				boolean forbidInline;
-				if (canChangeTypeToPrimitive(resArg)) {
-					resArg.setType(primitiveType);
-					forbidInline = false;
-				} else {
-					forbidInline = true;
-				}
-
-				InsnNode constInsn = new InsnNode(InsnType.CONST, 1);
-				constInsn.addArg(arg);
-				constInsn.setResult(resArg);
-				if (forbidInline) {
-					constInsn.add(AFlag.DONT_INLINE);
-				}
-				return constInsn;
-			}
-		}
-		return null;
-	}
+ 	private InsnNode checkForReplace(InvokeNode insnNode) {
+ 		if (insnNode.getInvokeType() != InvokeType.STATIC
+ 				|| insnNode.getResult() == null) {
+ 			return null;
+ 		}
+ 		MethodInfo callMth = insnNode.getCallMth();
+ 		if (valueOfMths != null && valueOfMths.contains(callMth)) {
+ 			RegisterArg resArg = insnNode.getResult();
+ 			InsnArg arg = insnNode.getArg(0);
+ 			if (arg.isLiteral()) {
+ 				ArgType primitiveType = callMth.getArgumentsTypes().get(0);
+ 				ArgType boxType = callMth.getReturnType();
+ 				if (isNeedExplicitCast(resArg, primitiveType, boxType)) {
+ 					arg.add(AFlag.EXPLICIT_PRIMITIVE_TYPE);
+ 				}
+ 				arg.setType(primitiveType);
+ 				boolean forbidInline;
+ 				if (canChangeTypeToPrimitive(resArg)) {
+ 					resArg.setType(primitiveType);
+ 					forbidInline = false;
+ 				} else {
+ 					forbidInline = true;
+ 				}
+ 
+ 				InsnNode constInsn = new InsnNode(InsnType.CONST, 1);
+ 				constInsn.addArg(arg);
+ 				constInsn.setResult(resArg);
+ 				if (forbidInline) {
+ 					constInsn.add(AFlag.DONT_INLINE);
+ 				}
+ 				return constInsn;
+ 			}
+ 		}
+ 		return null;
+ 	}
 
 	private boolean isNeedExplicitCast(RegisterArg resArg, ArgType primitiveType, ArgType boxType) {
 		if (primitiveType == ArgType.LONG) {
