@@ -109,7 +109,7 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 			return;
 		}
 		MethodInfo invokeMth = ((InvokeNode) insn).getCallMth();
-		if (!kotlinVarNameSourceMethods.contains(invokeMth)) {
+		if (kotlinVarNameSourceMethods == null || !kotlinVarNameSourceMethods.contains(invokeMth)) {
 			return;
 		}
 		InsnArg firstArg = insn.getArg(0);
@@ -124,7 +124,6 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 				renamed = checkAndRename(varArg, str);
 			}
 		} else if (argsCount == 3) {
-			// TODO: use second arg for rename class
 			String str = getConstString(mth, insn, 2);
 			if (str != null) {
 				renamed = checkAndRename(varArg, str);
