@@ -88,8 +88,11 @@ public final class IfInfo {
    }
 
 	public BlockNode getElseBlock() {
-		return elseBlock;
-	}
+       if (elseBlock == null) {
+           throw new IllegalStateException("elseBlock is null");
+       }
+       return elseBlock;
+   }
 
 	@Nullable
 	public BlockNode getOutBlock() {
