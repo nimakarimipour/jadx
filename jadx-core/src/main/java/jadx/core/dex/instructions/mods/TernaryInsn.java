@@ -33,8 +33,9 @@ public final class TernaryInsn extends InsnNode {
 		visitInsns(this::inheritMetadata);
 	}
 
-	private TernaryInsn() {
+	private TernaryInsn(IfCondition condition) {
 		super(InsnType.TERNARY, 2);
+		this.condition = condition;
 	}
 
 	public IfCondition getCondition() {
