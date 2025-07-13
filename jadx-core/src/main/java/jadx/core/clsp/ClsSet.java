@@ -164,12 +164,13 @@ public class ClsSet {
 	}
 
 	private static ClspClass getCls(String fullName, Map<String, ClspClass> names) {
-		ClspClass cls = names.get(fullName);
-		if (cls == null) {
-			LOG.debug("Class not found: {}", fullName);
-		}
-		return cls;
-	}
+     ClspClass cls = names.get(fullName);
+     if (cls == null) {
+       LOG.debug("Class not found: {}", fullName);
+       throw new NullPointerException("Class not found for name: " + fullName);
+     }
+     return cls;
+   }
 
 	public void save(Path path) throws IOException {
 		FileUtils.makeDirsForFile(path);
