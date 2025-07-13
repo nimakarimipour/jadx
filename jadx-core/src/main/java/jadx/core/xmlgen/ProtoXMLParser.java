@@ -14,19 +14,15 @@ import com.android.aapt.Resources.XmlNamespace;
 import com.android.aapt.Resources.XmlNode;
 import com.google.protobuf.InvalidProtocolBufferException;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.api.ICodeInfo;
 import jadx.api.ICodeWriter;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
 
 public class ProtoXMLParser {
-	@Nullable
 	private Map<String, String> nsMap;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
-	@Nullable
 	private ICodeWriter writer;
 
 	private final RootNode rootNode;
@@ -49,28 +45,20 @@ public class ProtoXMLParser {
 	}
 
 	private void decode(XmlNode n) throws IOException {
-		writer = rootNode.makeCodeWriter();
-		if (writer != null) {
-			if (n.hasSource()) {
-				Nullability.castToNonnull(writer, "explicitly checked for null").attachSourceLine(n.getSource().getLineNumber());
-			}
-			Nullability.castToNonnull(writer, "explicitly checked for null").add(StringUtils.escapeXML(n.getText().trim()));
-			if (n.hasElement()) {
-				decode(n.getElement());
-			}
-		} else {
-			throw new IOException("Failed to create CodeWriter");
+		if (n.hasSource()) {
+			writer.attachSourceLine(n.getSource().getLineNumber());
+		}
+		writer.add(StringUtils.escapeXML(n.getText().trim()));
+		if (n.hasElement()) {
+			decode(n.getElement());
 		}
 	}
 
 	private void decode(XmlElement e) throws IOException {
-		if (writer == null) {
-			throw new IllegalStateException("Writer is not initialized");
-		}
 		String tag = deobfClassName(e.getName());
 		tag = getValidTagAttributeName(tag);
 		currentTag = tag;
-		Nullability.castToNonnull(writer, "null check passed").startLine('<').add(tag);
+		writer.startLine('<').add(tag);
 		for (int i = 0; i < e.getNamespaceDeclarationCount(); i++) {
 			decode(e.getNamespaceDeclaration(i));
 		}
@@ -93,13 +81,10 @@ public class ProtoXMLParser {
 	}
 
 	private void decode(XmlAttribute a) {
-		if (writer == null) {
-			throw new NullPointerException("writer is null");
-		}
 		writer.add(' ');
 		String namespace = a.getNamespaceUri();
-		if (!namespace.isEmpty() && nsMap.containsKey(namespace)) {
-			writer.add(Nullability.castToNonnull(nsMap, "namespace key exists").get(namespace)).add(':');
+		if (!namespace.isEmpty()) {
+			writer.add(nsMap.get(namespace)).add(':');
 		}
 		String name = a.getName();
 		String value = deobfClassName(a.getValue());
@@ -108,12 +93,10 @@ public class ProtoXMLParser {
 	}
 
 	private void decode(XmlNamespace n) {
-		if (writer != null && nsMap != null) {
-			String prefix = n.getPrefix();
-			String uri = n.getUri();
-			nsMap.put(uri, prefix);
-			Nullability.castToNonnull(writer, "writer is not null").add(" xmlns:").add(prefix).add("=\"").add(uri).add('"');
-		}
+		String prefix = n.getPrefix();
+		String uri = n.getUri();
+		nsMap.put(uri, prefix);
+		writer.add(" xmlns:").add(prefix).add("=\"").add(uri).add('"');
 	}
 
 	private void memorizePackageName(String attrName, String attrValue) {
