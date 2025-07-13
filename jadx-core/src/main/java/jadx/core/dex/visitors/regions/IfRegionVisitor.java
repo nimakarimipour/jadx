@@ -2,6 +2,8 @@ package jadx.core.dex.visitors.regions;
 
 import java.util.List;
 
+import edu.ucr.cs.riple.annotator.util.Nullability;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.nodes.IContainer;
@@ -49,7 +51,7 @@ public class IfRegionVisitor extends AbstractVisitor {
 
 	@SuppressWarnings({ "UnnecessaryReturnStatement", "StatementWithEmptyBody" })
 	private static void orderBranches(MethodNode mth, IfRegion ifRegion) {
-		if (RegionUtils.isEmpty(ifRegion.getElseRegion())) {
+		if (RegionUtils.isEmpty(Nullability.castToNonnull(ifRegion.getElseRegion()))) {
 			return;
 		}
 		if (RegionUtils.isEmpty(ifRegion.getThenRegion())) {
@@ -58,7 +60,7 @@ public class IfRegionVisitor extends AbstractVisitor {
 		}
 		if (mth.contains(AFlag.USE_LINES_HINTS)) {
 			int thenLine = RegionUtils.getFirstSourceLine(ifRegion.getThenRegion());
-			int elseLine = RegionUtils.getFirstSourceLine(ifRegion.getElseRegion());
+			int elseLine = RegionUtils.getFirstSourceLine(Nullability.castToNonnull(ifRegion.getElseRegion()));
 			if (thenLine != 0 && elseLine != 0) {
 				if (thenLine > elseLine) {
 					invertIfRegion(ifRegion);
@@ -73,8 +75,8 @@ public class IfRegionVisitor extends AbstractVisitor {
 			}
 		}
 		int thenSize = insnsCount(ifRegion.getThenRegion());
-		int elseSize = insnsCount(ifRegion.getElseRegion());
-		if (isSimpleExitBlock(mth, ifRegion.getElseRegion())) {
+		int elseSize = insnsCount(Nullability.castToNonnull(ifRegion.getElseRegion()));
+		if (isSimpleExitBlock(mth, Nullability.castToNonnull(ifRegion.getElseRegion()))) {
 			if (isSimpleExitBlock(mth, ifRegion.getThenRegion())) {
 				if (elseSize < thenSize) {
 					invertIfRegion(ifRegion);
@@ -98,20 +100,20 @@ public class IfRegionVisitor extends AbstractVisitor {
 			return;
 		}
 		boolean thenExit = RegionUtils.hasExitBlock(ifRegion.getThenRegion());
-		boolean elseExit = RegionUtils.hasExitBlock(ifRegion.getElseRegion());
+		boolean elseExit = RegionUtils.hasExitBlock(Nullability.castToNonnull(ifRegion.getElseRegion()));
 		if (elseExit && (!thenExit || elseSize < thenSize)) {
 			invertIfRegion(ifRegion);
 			return;
 		}
 		// move 'if' from 'then' branch to make 'else if' chain
 		if (isIfRegion(ifRegion.getThenRegion())
-				&& !isIfRegion(ifRegion.getElseRegion())
+				&& !isIfRegion(Nullability.castToNonnull(ifRegion.getElseRegion()))
 				&& !thenExit) {
 			invertIfRegion(ifRegion);
 			return;
 		}
 		// move 'break' into 'then' branch
-		if (RegionUtils.hasBreakInsn(ifRegion.getElseRegion())) {
+		if (RegionUtils.hasBreakInsn(Nullability.castToNonnull(ifRegion.getElseRegion()))) {
 			invertIfRegion(ifRegion);
 			return;
 		}
