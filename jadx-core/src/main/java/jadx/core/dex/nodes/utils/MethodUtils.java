@@ -124,9 +124,8 @@ public class MethodUtils {
 					collectedMths.add(clspMth);
 				}
 			}
-			ArgType[] parents = clsDetails.getParents();
-			if (!isMthConstructor && parents != null) {
-				for (ArgType parent : parents) {
+			if (!isMthConstructor) {
+				for (ArgType parent : clsDetails.getParents()) {
 					if (processMethodArgsOverloaded(parent, mthInfo, collectedMths)) {
 						if (collectedMths == null) {
 							return true;
