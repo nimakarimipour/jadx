@@ -103,19 +103,19 @@ public class JsonCodeGen {
 	}
 
 	private void addInnerClasses(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
-		List<ClassNode> innerClasses = cls.getInnerClasses();
-		if (innerClasses.isEmpty()) {
-			return;
-		}
-		jsonCls.setInnerClasses(new ArrayList<>(innerClasses.size()));
-		for (ClassNode innerCls : innerClasses) {
-			if (innerCls.contains(AFlag.DONT_GENERATE)) {
-				continue;
-			}
-			JsonClass innerJsonCls = processCls(innerCls, classGen);
-			jsonCls.getInnerClasses().add(innerJsonCls);
-		}
-	}
+ 		List<ClassNode> innerClasses = cls.getInnerClasses();
+ 		if (innerClasses.isEmpty()) {
+ 			return;
+ 		}
+ 		jsonCls.setInnerClasses(new ArrayList<>(innerClasses.size()));
+ 		for (ClassNode innerCls : innerClasses) {
+ 			if (innerCls.contains(AFlag.DONT_GENERATE)) {
+ 				continue;
+ 			}
+ 			JsonClass innerJsonCls = processCls(innerCls, classGen);
+ 			Nullability.castToNonnull(jsonCls.getInnerClasses(), "initialized by setInnerClasses").add(innerJsonCls);
+ 		}
+   }
 
 	private void addFields(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
      jsonCls.setFields(new ArrayList<>());
