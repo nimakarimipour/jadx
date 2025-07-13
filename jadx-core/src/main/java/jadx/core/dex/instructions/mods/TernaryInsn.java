@@ -26,7 +26,7 @@ public final class TernaryInsn extends InsnNode {
 			addArg(els);
 			addArg(th);
 		} else {
-			this.condition = condition;
+			this.condition = condition != null ? condition : IfCondition.alwaysTrue(); // Provide a default non-null value
 			addArg(th);
 			addArg(els);
 		}
