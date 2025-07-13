@@ -120,8 +120,11 @@ public class TryCatchBlockAttr implements IJadxAttribute {
 	}
 
 	public BlockNode getTopSplitter() {
-		return topSplitter;
-	}
+       if (topSplitter == null) {
+           throw new IllegalStateException("topSplitter is null");
+       }
+       return topSplitter;
+   }
 
 	public void setTopSplitter(BlockNode topSplitter) {
 		this.topSplitter = topSplitter;
