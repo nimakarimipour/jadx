@@ -56,7 +56,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 			return name;
 		}
 
-		public String[] getTypeStrings() {
+		@Nullable public String[] getTypeStrings() {
 			return typeStrings;
 		}
 
@@ -247,89 +247,98 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 	}
 
 	private void parseTypeChunk(long start, PackageChunk pkg) throws IOException {
-		/* int headerSize = */
-		is.readInt16();
-		/* int size = */
-		long chunkSize = is.readUInt32();
-		long chunkEnd = start + chunkSize;
-
-		int id = is.readInt8();
-		is.checkInt8(0, "type chunk, res0");
-		is.checkInt16(0, "type chunk, res1");
-		int entryCount = is.readInt32();
-		long entriesStart = start + is.readInt32();
-
-		EntryConfig config = parseConfig();
-
-		if (config.isInvalid) {
-			String typeName = pkg.getTypeStrings()[id - 1];
-			LOG.warn("Invalid config flags detected: {}{}", typeName, config.getQualifiers());
-		}
-
-		int[] entryIndexes = new int[entryCount];
-		for (int i = 0; i < entryCount; i++) {
-			entryIndexes[i] = is.readInt32();
-		}
-		is.checkPos(entriesStart, "Expected entry start");
-		for (int i = 0; i < entryCount; i++) {
-			if (entryIndexes[i] != NO_ENTRY) {
-				if (is.getPos() >= chunkEnd) {
-					// Certain resource obfuscated apps like com.facebook.orca have more entries defined
-					// than actually fit into the chunk size -> ignore the remaining entries
-					LOG.warn("End of chunk reached - ignoring remaining {} entries", entryCount - i);
-					break;
-				}
-				parseEntry(pkg, id, i, config.getQualifiers());
-			}
-		}
-		if (chunkEnd > is.getPos()) {
-			// Skip remaining unknown data in this chunk (e.g. type 8 entries")
-			long skipSize = chunkEnd - is.getPos();
-			LOG.debug("Unknown data at the end of type chunk encountered, skipping {} bytes and continuing at offset {}", skipSize,
-					chunkEnd);
-			is.skip(skipSize);
-		}
-	}
+       /* int headerSize = */
+       is.readInt16();
+       /* int size = */
+       long chunkSize = is.readUInt32();
+       long chunkEnd = start + chunkSize;
+ 
+       int id = is.readInt8();
+       is.checkInt8(0, "type chunk, res0");
+       is.checkInt16(0, "type chunk, res1");
+       int entryCount = is.readInt32();
+       long entriesStart = start + is.readInt32();
+ 
+       EntryConfig config = parseConfig();
+ 
+       if (config.isInvalid) {
+           String[] typeStrings = pkg.getTypeStrings();
+           if (typeStrings != null) {
+               String typeName = typeStrings[id - 1];
+               LOG.warn("Invalid config flags detected: {}{}", typeName, config.getQualifiers());
+           } else {
+               LOG.warn("Type strings are null, skipping invalid config warning.");
+           }
+       }
+ 
+       int[] entryIndexes = new int[entryCount];
+       for (int i = 0; i < entryCount; i++) {
+           entryIndexes[i] = is.readInt32();
+       }
+       is.checkPos(entriesStart, "Expected entry start");
+       for (int i = 0; i < entryCount; i++) {
+           if (entryIndexes[i] != NO_ENTRY) {
+               if (is.getPos() >= chunkEnd) {
+                   // Certain resource obfuscated apps like com.facebook.orca have more entries defined
+                   // than actually fit into the chunk size -> ignore the remaining entries
+                   LOG.warn("End of chunk reached - ignoring remaining {} entries", entryCount - i);
+                   break;
+               }
+               parseEntry(pkg, id, i, config.getQualifiers());
+           }
+       }
+       if (chunkEnd > is.getPos()) {
+           // Skip remaining unknown data in this chunk (e.g. type 8 entries")
+           long skipSize = chunkEnd - is.getPos();
+           LOG.debug("Unknown data at the end of type chunk encountered, skipping {} bytes and continuing at offset {}", skipSize,
+               chunkEnd);
+           is.skip(skipSize);
+       }
+   }
 
 	private void parseEntry(PackageChunk pkg, int typeId, int entryId, String config) throws IOException {
-		int size = is.readInt16();
-		int flags = is.readInt16();
-		int key = is.readInt32();
-		if (key == -1) {
-			return;
-		}
-
-		int resRef = pkg.getId() << 24 | typeId << 16 | entryId;
-		String typeName = pkg.getTypeStrings()[typeId - 1];
-		String origKeyName = pkg.getKeyStrings()[key];
-		ResourceEntry newResEntry = new ResourceEntry(resRef, pkg.getName(), typeName, getResName(typeName, resRef, origKeyName), config);
-		ResourceEntry prevResEntry = resStorage.searchEntryWithSameName(newResEntry);
-		if (prevResEntry != null) {
-			newResEntry = newResEntry.copyWithId();
-
-			// rename also previous entry for consistency
-			ResourceEntry replaceForPrevEntry = prevResEntry.copyWithId();
-			resStorage.replace(prevResEntry, replaceForPrevEntry);
-			resStorage.addRename(replaceForPrevEntry);
-		}
-		if (!Objects.equals(origKeyName, newResEntry.getKeyName())) {
-			resStorage.addRename(newResEntry);
-		}
-
-		if ((flags & FLAG_COMPLEX) != 0 || size == 16) {
-			int parentRef = is.readInt32();
-			int count = is.readInt32();
-			newResEntry.setParentRef(parentRef);
-			List<RawNamedValue> values = new ArrayList<>(count);
-			for (int i = 0; i < count; i++) {
-				values.add(parseValueMap());
-			}
-			newResEntry.setNamedValues(values);
-		} else {
-			newResEntry.setSimpleValue(parseValue());
-		}
-		resStorage.add(newResEntry);
-	}
+       int size = is.readInt16();
+       int flags = is.readInt16();
+       int key = is.readInt32();
+       if (key == -1) {
+           return;
+       }
+ 
+       if (pkg.getTypeStrings() == null) {
+           throw new NullPointerException("Type strings are null");
+       }
+ 
+       int resRef = pkg.getId() << 24 | typeId << 16 | entryId;
+       String typeName = pkg.getTypeStrings()[typeId - 1];
+       String origKeyName = pkg.getKeyStrings()[key];
+       ResourceEntry newResEntry = new ResourceEntry(resRef, pkg.getName(), typeName, getResName(typeName, resRef, origKeyName), config);
+       ResourceEntry prevResEntry = resStorage.searchEntryWithSameName(newResEntry);
+       if (prevResEntry != null) {
+           newResEntry = newResEntry.copyWithId();
+ 
+           // rename also previous entry for consistency
+           ResourceEntry replaceForPrevEntry = prevResEntry.copyWithId();
+           resStorage.replace(prevResEntry, replaceForPrevEntry);
+           resStorage.addRename(replaceForPrevEntry);
+       }
+       if (!Objects.equals(origKeyName, newResEntry.getKeyName())) {
+           resStorage.addRename(newResEntry);
+       }
+ 
+       if ((flags & FLAG_COMPLEX) != 0 || size == 16) {
+           int parentRef = is.readInt32();
+           int count = is.readInt32();
+           newResEntry.setParentRef(parentRef);
+           List<RawNamedValue> values = new ArrayList<>(count);
+           for (int i = 0; i < count; i++) {
+               values.add(parseValueMap());
+           }
+           newResEntry.setNamedValues(values);
+       } else {
+           newResEntry.setSimpleValue(parseValue());
+       }
+       resStorage.add(newResEntry);
+   }
 
 	private String getResName(String typeName, int resRef, String origKeyName) {
 		if (this.useRawResName) {
