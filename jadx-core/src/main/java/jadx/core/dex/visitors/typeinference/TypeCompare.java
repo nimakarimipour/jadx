@@ -9,8 +9,6 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.ArgType.WildcardBound;
@@ -109,16 +107,14 @@ public class TypeCompare {
 			PrimitiveType firstPrimitiveType = first.getPrimitiveType();
 			PrimitiveType secondPrimitiveType = second.getPrimitiveType();
 			if (firstPrimitiveType == PrimitiveType.BOOLEAN
-					|| Nullability.castToNonnull(secondPrimitiveType) == PrimitiveType.BOOLEAN) {
+					|| secondPrimitiveType == PrimitiveType.BOOLEAN) {
 				return CONFLICT;
 			}
-			if (swapEquals(firstPrimitiveType, Nullability.castToNonnull(secondPrimitiveType), PrimitiveType.CHAR, PrimitiveType.BYTE)
-					|| swapEquals(firstPrimitiveType, Nullability.castToNonnull(secondPrimitiveType), PrimitiveType.CHAR,
-							PrimitiveType.SHORT)) {
+			if (swapEquals(firstPrimitiveType, secondPrimitiveType, PrimitiveType.CHAR, PrimitiveType.BYTE)
+					|| swapEquals(firstPrimitiveType, secondPrimitiveType, PrimitiveType.CHAR, PrimitiveType.SHORT)) {
 				return CONFLICT;
 			}
-			return Nullability.castToNonnull(firstPrimitiveType, "ensures primitive types")
-					.compareTo(Nullability.castToNonnull(secondPrimitiveType)) > 0 ? WIDER : NARROW;
+			return firstPrimitiveType.compareTo(secondPrimitiveType) > 0 ? WIDER : NARROW;
 		}
 
 		LOG.warn("Type compare function not complete, can't compare {} and {}", first, second);
