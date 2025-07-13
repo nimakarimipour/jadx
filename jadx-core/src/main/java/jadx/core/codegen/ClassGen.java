@@ -616,11 +616,6 @@ public class ClassGen {
 	}
 
 	private String useClassInternal(ClassInfo useCls, @Nullable ClassInfo extClsInfo) {
-		if (extClsInfo == null) {
-			// Handle the case when extClsInfo is null, you might want to throw an exception or return a default
-			// value
-			return "";
-		}
 		String fullName = extClsInfo.getAliasFullName();
 		if (fallback || !useImports) {
 			return fullName;
@@ -642,12 +637,15 @@ public class ClassGen {
 		if (isBothClassesInOneTopClass(useCls, extClsInfo)) {
 			return shortName;
 		}
+		// don't add import for top classes from 'java.lang' package (subpackages excluded)
 		if (extClsInfo.getPackage().equals("java.lang") && extClsInfo.getParentClass() == null) {
 			return shortName;
 		}
+		// don't add import if this class from same package
 		if (extClsInfo.getPackage().equals(useCls.getPackage()) && !extClsInfo.isInner()) {
 			return shortName;
 		}
+		// ignore classes from default package
 		if (extClsInfo.isDefaultPackage()) {
 			return shortName;
 		}
