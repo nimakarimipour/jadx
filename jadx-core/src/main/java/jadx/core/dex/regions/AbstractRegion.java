@@ -20,7 +20,10 @@ public abstract class AbstractRegion extends AttrNode implements IRegion {
 	}
 
 	@Override
-	public IRegion getParent() {
+	public @NonNull IRegion getParent() {
+		if (parent == null) {
+			throw new IllegalStateException("Parent region is not set");
+		}
 		return parent;
 	}
 
