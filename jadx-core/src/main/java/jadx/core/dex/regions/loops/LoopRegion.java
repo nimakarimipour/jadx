@@ -56,8 +56,11 @@ public final class LoopRegion extends ConditionRegion {
 	}
 
 	public IRegion getBody() {
-		return body;
-	}
+       if (body == null) {
+           throw new NullPointerException("The body cannot be null");
+       }
+       return body;
+   }
 
 	public void setBody(IRegion body) {
 		this.body = body;
