@@ -203,7 +203,8 @@ public class ClassModifier extends AbstractVisitor {
 			if (constr.isThis() && !args.isEmpty()) {
 				// remove first arg for non-static class (references to outer class)
 				RegisterArg firstArg = args.get(0);
-				if (firstArg.getType().equals(cls.getParentClass().getClassInfo().getType())) {
+				ClassNode parentClass = cls.getParentClass();
+				if (parentClass != null && firstArg.getType().equals(parentClass.getClassInfo().getType())) {
 					SkipMethodArgsAttr.skipArg(mth, 0);
 				}
 				// remove unused args

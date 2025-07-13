@@ -992,18 +992,18 @@ public class InsnGen {
 	private ClassInfo getClassForSuperCall(MethodInfo callMth) {
 		ArgType declClsType = callMth.getDeclClass().getType();
 		ClassNode parentNode = mth.getParentClass();
-		while (true) {
+		while (parentNode != null) {
 			ClassInfo parentCls = parentNode.getClassInfo();
 			if (ArgType.isInstanceOf(root, parentCls.getType(), declClsType)) {
 				return parentCls;
 			}
 			ClassNode nextParent = parentNode.getParentClass();
 			if (nextParent == parentNode) {
-				// no parent, class not found
 				return null;
 			}
 			parentNode = nextParent;
 		}
+		return null;
 	}
 
 	void generateMethodArguments(ICodeWriter code, BaseInvokeNode insn, int startArgNum,
