@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 public class FileUtils {
 	private static final Logger LOG = LoggerFactory.getLogger(FileUtils.class);
@@ -78,10 +79,10 @@ public class FileUtils {
 	}
 
 	public static void makeDirsForFile(Path path) {
-		if (path != null) {
-			makeDirs(path.toAbsolutePath().getParent().toFile());
-		}
-	}
+ 		if (path != null) {
+ 			makeDirs(Nullability.castToNonnull(path.toAbsolutePath().getParent()).toFile());
+ 		}
+ }
 
 	public static void makeDirsForFile(File file) {
 		if (file != null) {
