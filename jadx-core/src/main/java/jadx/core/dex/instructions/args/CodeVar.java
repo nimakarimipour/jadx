@@ -45,9 +45,6 @@ public class CodeVar {
 	}
 
 	public ArgType getType() {
-		if (type == null) {
-			throw new IllegalStateException("Type is not set");
-		}
 		return type;
 	}
 
