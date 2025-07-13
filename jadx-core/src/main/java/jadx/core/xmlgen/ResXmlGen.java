@@ -100,10 +100,8 @@ public class ResXmlGen {
 				cw.add(">");
 
 				cw.incIndent();
-				if (protoValue.getNamedValues() != null) {
-					for (ProtoValue value : protoValue.getNamedValues()) {
-						addProtoItem(cw, itemTag, ri.getTypeName(), value);
-					}
+				for (ProtoValue value : protoValue.getNamedValues()) {
+					addProtoItem(cw, itemTag, ri.getTypeName(), value);
 				}
 				cw.decIndent();
 				cw.startLine().add("</").add(ri.getTypeName()).add('>');
@@ -115,10 +113,9 @@ public class ResXmlGen {
 			cw.startLine();
 			cw.add('<').add(ri.getTypeName()).add(' ');
 			String itemTag = "item";
-			List<RawNamedValue> namedValues = ri.getNamedValues();
-			if (ri.getTypeName().equals("attr") && namedValues != null && !namedValues.isEmpty()) {
+			if (ri.getTypeName().equals("attr") && !ri.getNamedValues().isEmpty()) {
 				cw.add("name=\"").add(ri.getKeyName());
-				int type = namedValues.get(0).getRawValue().getData();
+				int type = ri.getNamedValues().get(0).getRawValue().getData();
 				if ((type & ValuesParser.ATTR_TYPE_ENUM) != 0) {
 					itemTag = "enum";
 				} else if ((type & ValuesParser.ATTR_TYPE_FLAGS) != 0) {
@@ -139,10 +136,8 @@ public class ResXmlGen {
 			cw.add(">");
 
 			cw.incIndent();
-			if (namedValues != null) {
-				for (RawNamedValue value : namedValues) {
-					addItem(cw, itemTag, ri.getTypeName(), value);
-				}
+			for (RawNamedValue value : ri.getNamedValues()) {
+				addItem(cw, itemTag, ri.getTypeName(), value);
 			}
 			cw.decIndent();
 			cw.startLine().add("</").add(ri.getTypeName()).add('>');
