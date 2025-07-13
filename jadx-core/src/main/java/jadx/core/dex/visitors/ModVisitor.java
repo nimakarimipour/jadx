@@ -510,21 +510,20 @@ public class ModVisitor extends AbstractVisitor {
 
 	private static InsnNode makeFilledArrayInsn(MethodNode mth, NewArrayNode newArrayNode, FillArrayInsn insn) {
 		ArgType insnArrayType = newArrayNode.getArrayType();
-		ArgType insnElementType = insnArrayType != null ? insnArrayType.getArrayElement() : null;
+		ArgType insnElementType = insnArrayType.getArrayElement();
 		ArgType elType = insn.getElementType();
-		if (insnElementType != null && !elType.isTypeKnown()
+		if (!elType.isTypeKnown()
 				&& insnElementType.isPrimitive()
 				&& elType.contains(insnElementType.getPrimitiveType())) {
 			elType = insnElementType;
 		}
-		if ((insnElementType == null || !elType.equals(insnElementType)) && !insnArrayType.equals(ArgType.OBJECT)) {
-			mth.addWarn("Incorrect type for fill-array insn "
-					+ InsnUtils.formatOffset(insn.getOffset())
+		if (!elType.equals(insnElementType) && !insnArrayType.equals(ArgType.OBJECT)) {
+			mth.addWarn("Incorrect type for fill-array insn " + InsnUtils.formatOffset(insn.getOffset())
 					+ ", element type: " + elType + ", insn element type: " + insnElementType);
 		}
 		if (!elType.isTypeKnown()) {
 			LOG.warn("Unknown array element type: {} in mth: {}", elType, mth);
-			elType = insnElementType != null && insnElementType.isTypeKnown() ? insnElementType : elType.selectFirst();
+			elType = insnElementType.isTypeKnown() ? insnElementType : elType.selectFirst();
 			if (elType == null) {
 				throw new JadxRuntimeException("Null array element type");
 			}

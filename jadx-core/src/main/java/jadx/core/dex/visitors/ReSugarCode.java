@@ -8,8 +8,6 @@ import java.util.TreeMap;
 
 import org.jetbrains.annotations.Nullable;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.EnumMapAttr;
@@ -112,9 +110,6 @@ public class ReSugarCode extends AbstractVisitor {
 		}
 		ArgType arrType = newArrayInsn.getArrayType();
 		ArgType elemType = arrType.getArrayElement();
-		if (elemType == null) {
-			return false;
-		}
 		boolean allowMissingKeys = arrType.getArrayDimension() == 1 && elemType.isPrimitive();
 		int minLen = allowMissingKeys ? len / 2 : len;
 
@@ -123,6 +118,7 @@ public class ReSugarCode extends AbstractVisitor {
 		if (useList.size() < minLen) {
 			return false;
 		}
+		// quick check if APUT is used
 		boolean foundPut = false;
 		for (RegisterArg registerArg : useList) {
 			InsnNode parentInsn = registerArg.getParentInsn();
@@ -134,6 +130,7 @@ public class ReSugarCode extends AbstractVisitor {
 		if (!foundPut) {
 			return false;
 		}
+		// collect put instructions sorted by array index
 		SortedMap<Long, InsnNode> arrPuts = new TreeMap<>();
 		for (RegisterArg registerArg : useList) {
 			InsnNode parentInsn = registerArg.getParentInsn();
@@ -152,6 +149,7 @@ public class ReSugarCode extends AbstractVisitor {
 				return false;
 			}
 			if (arrPuts.containsKey(index)) {
+				// stop on index rewrite
 				break;
 			}
 			arrPuts.put(index, parentInsn);
@@ -159,17 +157,20 @@ public class ReSugarCode extends AbstractVisitor {
 		if (arrPuts.size() < minLen) {
 			return false;
 		}
+		// expect all puts to be in same block
 		if (!new HashSet<>(instructions).containsAll(arrPuts.values())) {
 			return false;
 		}
 
-		InsnNode filledArr = new FilledNewArrayNode(Nullability.castToNonnull(elemType), len);
+		// checks complete, apply
+		InsnNode filledArr = new FilledNewArrayNode(elemType, len);
 		filledArr.setResult(arrArg.duplicate());
 
 		long prevIndex = -1;
 		for (Map.Entry<Long, InsnNode> entry : arrPuts.entrySet()) {
 			long index = entry.getKey();
 			if (index != prevIndex) {
+				// use zero for missing keys
 				for (long i = prevIndex + 1; i < index; i++) {
 					filledArr.addArg(InsnArg.lit(0, elemType));
 				}
