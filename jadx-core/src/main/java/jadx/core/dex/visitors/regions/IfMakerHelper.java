@@ -53,9 +53,6 @@ public class IfMakerHelper {
 		if (next != null) {
 			return next;
 		}
-		if (info == null) {
-			return new IfInfo(); // or throw an exception, or handle as needed
-		}
 		return info;
 	}
 
