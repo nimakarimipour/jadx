@@ -53,23 +53,24 @@ public class JsonMappingGen {
 	}
 
 	private static void fillMapping(JsonMapping mapping, RootNode root) {
-		List<ClassNode> classes = root.getClasses(true);
-		mapping.setClasses(new ArrayList<>(classes.size()));
-		for (ClassNode cls : classes) {
-			ClassInfo classInfo = cls.getClassInfo();
-			JsonClsMapping jsonCls = new JsonClsMapping();
-			jsonCls.setName(classInfo.getRawName());
-			jsonCls.setAlias(classInfo.getAliasFullName());
-			jsonCls.setInner(classInfo.isInner());
-			jsonCls.setJson(cls.getTopParentClass().getClassInfo().getAliasFullPath() + ".json");
-			if (classInfo.isInner()) {
-				jsonCls.setTopClass(cls.getTopParentClass().getClassInfo().getFullName());
-			}
-			addFields(cls, jsonCls);
-			addMethods(cls, jsonCls);
-			mapping.getClasses().add(jsonCls);
-		}
-	}
+       List<ClassNode> classes = root.getClasses(true);
+       List<JsonClsMapping> jsonClsMappings = new ArrayList<>(classes.size());
+       mapping.setClasses(jsonClsMappings);
+       for (ClassNode cls : classes) {
+           ClassInfo classInfo = cls.getClassInfo();
+           JsonClsMapping jsonCls = new JsonClsMapping();
+           jsonCls.setName(classInfo.getRawName());
+           jsonCls.setAlias(classInfo.getAliasFullName());
+           jsonCls.setInner(classInfo.isInner());
+           jsonCls.setJson(cls.getTopParentClass().getClassInfo().getAliasFullPath() + ".json");
+           if (classInfo.isInner()) {
+               jsonCls.setTopClass(cls.getTopParentClass().getClassInfo().getFullName());
+           }
+           addFields(cls, jsonCls);
+           addMethods(cls, jsonCls);
+           jsonClsMappings.add(jsonCls);
+       }
+   }
 
 	private static void addMethods(ClassNode cls, JsonClsMapping jsonCls) {
 		List<MethodNode> methods = cls.getMethods();
