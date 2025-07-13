@@ -2,8 +2,6 @@ package jadx.core.dex.visitors.regions;
 
 import java.util.List;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.instructions.InsnType;
 import jadx.core.dex.nodes.IContainer;
@@ -59,7 +57,7 @@ public class IfRegionVisitor extends AbstractVisitor {
 			return;
 		}
 		if (mth.contains(AFlag.USE_LINES_HINTS)) {
-			int thenLine = RegionUtils.getFirstSourceLine(Nullability.castToNonnull(ifRegion.getThenRegion()));
+			int thenLine = RegionUtils.getFirstSourceLine(ifRegion.getThenRegion());
 			int elseLine = RegionUtils.getFirstSourceLine(ifRegion.getElseRegion());
 			if (thenLine != 0 && elseLine != 0) {
 				if (thenLine > elseLine) {
@@ -74,10 +72,10 @@ public class IfRegionVisitor extends AbstractVisitor {
 				invertIfRegion(ifRegion);
 			}
 		}
-		int thenSize = insnsCount(Nullability.castToNonnull(ifRegion.getThenRegion()));
+		int thenSize = insnsCount(ifRegion.getThenRegion());
 		int elseSize = insnsCount(ifRegion.getElseRegion());
 		if (isSimpleExitBlock(mth, ifRegion.getElseRegion())) {
-			if (isSimpleExitBlock(mth, Nullability.castToNonnull(ifRegion.getThenRegion()))) {
+			if (isSimpleExitBlock(mth, ifRegion.getThenRegion())) {
 				if (elseSize < thenSize) {
 					invertIfRegion(ifRegion);
 					return;
@@ -99,14 +97,14 @@ public class IfRegionVisitor extends AbstractVisitor {
 			}
 			return;
 		}
-		boolean thenExit = RegionUtils.hasExitBlock(Nullability.castToNonnull(ifRegion.getThenRegion()));
+		boolean thenExit = RegionUtils.hasExitBlock(ifRegion.getThenRegion());
 		boolean elseExit = RegionUtils.hasExitBlock(ifRegion.getElseRegion());
 		if (elseExit && (!thenExit || elseSize < thenSize)) {
 			invertIfRegion(ifRegion);
 			return;
 		}
 		// move 'if' from 'then' branch to make 'else if' chain
-		if (isIfRegion(Nullability.castToNonnull(ifRegion.getThenRegion()))
+		if (isIfRegion(ifRegion.getThenRegion())
 				&& !isIfRegion(ifRegion.getElseRegion())
 				&& !thenExit) {
 			invertIfRegion(ifRegion);
@@ -163,11 +161,14 @@ public class IfRegionVisitor extends AbstractVisitor {
 				|| ifRegion.getElseRegion().contains(AFlag.ELSE_IF_CHAIN)) {
 			return false;
 		}
-		if (!RegionUtils.hasExitBlock(Nullability.castToNonnull(ifRegion.getThenRegion()))) {
+		if (!RegionUtils.hasExitBlock(ifRegion.getThenRegion())) {
 			return false;
 		}
+		// code style check:
+		// will remove 'return;' from 'then' and 'else' with one instruction
+		// see #jadx.tests.integration.conditions.TestConditions9
 		if (mth.isVoidReturn()
-				&& insnsCount(Nullability.castToNonnull(ifRegion.getThenRegion())) == 2
+				&& insnsCount(ifRegion.getThenRegion()) == 2
 				&& insnsCount(ifRegion.getElseRegion()) == 2) {
 			return false;
 		}
