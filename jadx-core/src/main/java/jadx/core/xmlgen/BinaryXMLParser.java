@@ -295,39 +295,47 @@ public class BinaryXMLParser extends CommonBinaryParser {
    }
 
 	private void parseAttribute(int i, boolean newLine) throws IOException {
-		int attributeNS = is.readInt32();
-		int attributeName = is.readInt32();
-		int attributeRawValue = is.readInt32();
-		is.skip(3);
-		int attrValDataType = is.readInt8();
-		int attrValData = is.readInt32();
-
-		if (newLine) {
-			writer.startLine().addIndent();
-		} else {
-			writer.add(' ');
-		}
-		String shortNsName = null;
-		if (attributeNS != -1) {
-			shortNsName = getAttributeNS(attributeNS);
-			writer.add(shortNsName).add(':');
-		}
-		String attrName = getValidTagAttributeName(getAttributeName(attributeName));
-		writer.add(attrName).add("=\"");
-		String decodedAttr = ManifestAttributes.getInstance().decode(attrName, attrValData);
-		if (decodedAttr != null) {
-			memorizePackageName(attrName, decodedAttr);
-			if (isDeobfCandidateAttr(shortNsName, attrName)) {
-				decodedAttr = deobfClassName(decodedAttr);
-			}
-			attachClassNode(writer, attrName, decodedAttr);
-			writer.add(StringUtils.escapeXML(decodedAttr));
-		} else {
-			decodeAttribute(attributeNS, attrValDataType, attrValData,
-					shortNsName, attrName);
-		}
-		writer.add('"');
-	}
+         int attributeNS = is.readInt32();
+         int attributeName = is.readInt32();
+         int attributeRawValue = is.readInt32();
+         is.skip(3);
+         int attrValDataType = is.readInt8();
+         int attrValData = is.readInt32();
+ 
+         if (newLine) {
+             writer.startLine().addIndent();
+         } else {
+             writer.add(' ');
+         }
+         String shortNsName = null;
+         if (attributeNS != -1) {
+             shortNsName = getAttributeNS(attributeNS);
+             writer.add(shortNsName).add(':');
+         }
+         String attrName = getValidTagAttributeName(getAttributeName(attributeName));
+         writer.add(attrName).add("=\"");
+ 
+         ManifestAttributes instance = ManifestAttributes.getInstance();
+         if (instance != null) {
+             String decodedAttr = instance.decode(attrName, attrValData);
+             if (decodedAttr != null) {
+                 memorizePackageName(attrName, decodedAttr);
+                 if (isDeobfCandidateAttr(shortNsName, attrName)) {
+                     decodedAttr = deobfClassName(decodedAttr);
+                 }
+                 attachClassNode(writer, attrName, decodedAttr);
+                 writer.add(StringUtils.escapeXML(decodedAttr));
+             } else {
+                 decodeAttribute(attributeNS, attrValDataType, attrValData, shortNsName, attrName);
+             }
+         } else {
+             // Handle the case where instance is null, e.g., log an error or throw an exception.
+             LOG.error("ManifestAttributes instance is null");
+             // Alternatively, you could throw an exception:
+             // throw new IllegalStateException("ManifestAttributes instance is null");
+         }
+         writer.add('"');
+     }
 
 	@Nullable private String getAttributeNS(int attributeNS) {
         String attrUrl = getString(attributeNS);
