@@ -57,8 +57,8 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 	private static final String KOTLIN_VARNAME_SOURCE_MTH2 = "(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)V";
 
 	private @Nullable ClassInfo kotlinIntrinsicsCls;
-	@Nullable
-	private Set<MethodInfo> kotlinVarNameSourceMethods;
+	
+	@Nullable private Set<MethodInfo> kotlinVarNameSourceMethods;
 	private boolean hideInsns;
 
 	@Override
@@ -104,36 +104,36 @@ public class ProcessKotlinInternals extends AbstractVisitor {
 	}
 
 	private void processInvoke(MethodNode mth, InsnNode insn) {
-		int argsCount = insn.getArgsCount();
-		if (argsCount < 2) {
-			return;
-		}
-		MethodInfo invokeMth = ((InvokeNode) insn).getCallMth();
-		if (!kotlinVarNameSourceMethods.contains(invokeMth)) {
-			return;
-		}
-		InsnArg firstArg = insn.getArg(0);
-		if (!firstArg.isRegister()) {
-			return;
-		}
-		RegisterArg varArg = (RegisterArg) firstArg;
-		boolean renamed = false;
-		if (argsCount == 2) {
-			String str = getConstString(mth, insn, 1);
-			if (str != null) {
-				renamed = checkAndRename(varArg, str);
-			}
-		} else if (argsCount == 3) {
-			// TODO: use second arg for rename class
-			String str = getConstString(mth, insn, 2);
-			if (str != null) {
-				renamed = checkAndRename(varArg, str);
-			}
-		}
-		if (renamed && hideInsns) {
-			insn.add(AFlag.DONT_GENERATE);
-		}
-	}
+       int argsCount = insn.getArgsCount();
+       if (argsCount < 2) {
+           return;
+       }
+       MethodInfo invokeMth = ((InvokeNode) insn).getCallMth();
+       if (kotlinVarNameSourceMethods == null || !kotlinVarNameSourceMethods.contains(invokeMth)) {
+           return;
+       }
+       InsnArg firstArg = insn.getArg(0);
+       if (!firstArg.isRegister()) {
+           return;
+       }
+       RegisterArg varArg = (RegisterArg) firstArg;
+       boolean renamed = false;
+       if (argsCount == 2) {
+           String str = getConstString(mth, insn, 1);
+           if (str != null) {
+               renamed = checkAndRename(varArg, str);
+           }
+       } else if (argsCount == 3) {
+           // TODO: use second arg for rename class
+           String str = getConstString(mth, insn, 2);
+           if (str != null) {
+               renamed = checkAndRename(varArg, str);
+           }
+       }
+       if (renamed && hideInsns) {
+           insn.add(AFlag.DONT_GENERATE);
+       }
+   }
 
 	private boolean checkAndRename(RegisterArg arg, String str) {
 		String name = trimName(str);
