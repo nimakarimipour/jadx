@@ -50,6 +50,7 @@ import jadx.core.utils.Utils;
 import jadx.core.utils.android.AndroidResourcesUtils;
 import jadx.core.utils.exceptions.CodegenException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 public class ClassGen {
 
@@ -497,9 +498,9 @@ public class ClassGen {
 	}
 
 	private InsnGen makeInsnGen(@Nullable MethodNode mth) {
-		MethodGen mthGen = new MethodGen(this, mth);
-		return new InsnGen(mthGen, false);
-	}
+     MethodGen mthGen = new MethodGen(this, Nullability.castToNonnull(mth));
+     return new InsnGen(mthGen, false);
+ }
 
 	private void addInsnBody(InsnGen insnGen, ICodeWriter code, InsnNode insn) {
 		try {
