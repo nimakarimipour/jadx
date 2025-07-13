@@ -38,6 +38,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.utils.files.FileUtils;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 /**
  * Classes list for import into classpath graph
@@ -72,22 +73,22 @@ public class ClsSet {
 		PRIMITIVE
 	}
 
-	private ClspClass[] classes;
+	@Nullable private ClspClass[] classes;
 
 	public void loadFromClstFile() throws IOException, DecodeException {
-		long startTime = System.currentTimeMillis();
-		try (InputStream input = ClsSet.class.getResourceAsStream(CLST_PATH)) {
-			if (input == null) {
-				throw new JadxRuntimeException("Can't load classpath file: " + CLST_PATH);
-			}
-			load(input);
-		}
-		if (LOG.isDebugEnabled()) {
-			long time = System.currentTimeMillis() - startTime;
-			int methodsCount = Stream.of(classes).mapToInt(clspClass -> clspClass.getMethodsMap().size()).sum();
-			LOG.debug("Clst file loaded in {}ms, classes: {}, methods: {}", time, classes.length, methodsCount);
-		}
-	}
+         long startTime = System.currentTimeMillis();
+         try (InputStream input = ClsSet.class.getResourceAsStream(CLST_PATH)) {
+             if (input == null) {
+                 throw new JadxRuntimeException("Can't load classpath file: " + CLST_PATH);
+             }
+             load(input);
+         }
+         if (classes != null && LOG.isDebugEnabled()) {
+             long time = System.currentTimeMillis() - startTime;
+             int methodsCount = Stream.of(classes).mapToInt(clspClass -> clspClass.getMethodsMap().size()).sum();
+             LOG.debug("Clst file loaded in {}ms, classes: {}, methods: {}", time, Nullability.castToNonnull(classes, "checked for null"), methodsCount);
+         }
+ }
 
 	public void loadFrom(RootNode root) {
 		List<ClassNode> list = root.getClasses(true);
@@ -210,29 +211,32 @@ public class ClsSet {
 	}
 
 	private void save(OutputStream output) throws IOException {
-		DataOutputStream out = new DataOutputStream(output);
-		out.writeBytes(JADX_CLS_SET_HEADER);
-		out.writeByte(VERSION);
-
-		Map<String, ClspClass> names = new HashMap<>(classes.length);
-		out.writeInt(classes.length);
-		for (ClspClass cls : classes) {
-			String clsName = cls.getName();
-			writeString(out, clsName);
-			names.put(clsName, cls);
-		}
-		for (ClspClass cls : classes) {
-			writeArgTypesArray(out, cls.getParents(), names);
-			writeArgTypesList(out, cls.getTypeParameters(), names);
-			List<ClspMethod> methods = cls.getSortedMethodsList();
-			out.writeShort(methods.size());
-			for (ClspMethod method : methods) {
-				writeMethod(out, method, names);
-			}
-		}
-		int methodsCount = Stream.of(classes).mapToInt(c -> c.getMethodsMap().size()).sum();
-		LOG.info("Classes: {}, methods: {}, file size: {} bytes", classes.length, methodsCount, out.size());
-	}
+        if (classes == null) {
+            throw new IllegalStateException("Classes array is not initialized");
+        }
+        DataOutputStream out = new DataOutputStream(output);
+        out.writeBytes(JADX_CLS_SET_HEADER);
+        out.writeByte(VERSION);
+  
+        Map<String, ClspClass> names = new HashMap<>(Nullability.castToNonnull(classes, "checked before use").length);
+        out.writeInt(classes.length);
+        for (ClspClass cls : classes) {
+            String clsName = cls.getName();
+            writeString(out, clsName);
+            names.put(clsName, cls);
+        }
+        for (ClspClass cls : classes) {
+            writeArgTypesArray(out, cls.getParents(), names);
+            writeArgTypesList(out, cls.getTypeParameters(), names);
+            List<ClspMethod> methods = cls.getSortedMethodsList();
+            out.writeShort(methods.size());
+            for (ClspMethod method : methods) {
+                writeMethod(out, method, names);
+            }
+        }
+        int methodsCount = Stream.of(classes).mapToInt(c -> c.getMethodsMap().size()).sum();
+        LOG.info("Classes: {}, methods: {}, file size: {} bytes", classes.length, methodsCount, out.size());
+   }
 
 	private static void writeMethod(DataOutputStream out, ClspMethod method, Map<String, ClspClass> names) throws IOException {
 		MethodInfo methodInfo = method.getMethodInfo();
@@ -415,50 +419,48 @@ public class ClsSet {
 	}
 
 	private ArgType readArgType(DataInputStream in) throws IOException {
-		int ordinal = in.readByte();
-		if (ordinal == -1) {
-			return null;
-		}
-		if (ordinal >= TypeEnum.values().length) {
-			throw new JadxRuntimeException("Incorrect ordinal for type enum: " + ordinal);
-		}
-		switch (TypeEnum.values()[ordinal]) {
-			case WILDCARD:
-				ArgType.WildcardBound bound = ArgType.WildcardBound.getByNum(in.readByte());
-				if (bound == ArgType.WildcardBound.UNBOUND) {
-					return ArgType.WILDCARD;
-				}
-				ArgType objType = readArgType(in);
-				return ArgType.wildcard(objType, bound);
-
-			case OUTER_GENERIC:
-				ArgType outerType = readArgType(in);
-				ArgType innerType = readArgType(in);
-				return ArgType.outerGeneric(outerType, innerType);
-
-			case GENERIC:
-				ArgType clsType = classes[in.readInt()].getClsType();
-				return ArgType.generic(clsType, readArgTypesList(in));
-
-			case GENERIC_TYPE_VARIABLE:
-				String typeVar = readString(in);
-				List<ArgType> extendTypes = readArgTypesList(in);
-				return ArgType.genericType(typeVar, extendTypes);
-
-			case OBJECT:
-				return classes[in.readInt()].getClsType();
-
-			case ARRAY:
-				return ArgType.array(readArgType(in));
-
-			case PRIMITIVE:
-				char shortName = (char) in.readByte();
-				return ArgType.parse(shortName);
-
-			default:
-				throw new JadxRuntimeException("Unsupported Arg Type: " + ordinal);
-		}
-	}
+       // Ensure that classes is initialized before using it
+       if (classes == null) {
+           throw new JadxRuntimeException("Classes array is not initialized");
+       }
+ 
+       int ordinal = in.readByte();
+       if (ordinal == -1) {
+           return null;
+       }
+       if (ordinal >= TypeEnum.values().length) {
+           throw new JadxRuntimeException("Incorrect ordinal for type enum: " + ordinal);
+       }
+       switch (TypeEnum.values()[ordinal]) {
+           case WILDCARD:
+               ArgType.WildcardBound bound = ArgType.WildcardBound.getByNum(in.readByte());
+               if (bound == ArgType.WildcardBound.UNBOUND) {
+                   return ArgType.WILDCARD;
+               }
+               ArgType objType = readArgType(in);
+               return ArgType.wildcard(objType, bound);
+           case OUTER_GENERIC:
+               ArgType outerType = readArgType(in);
+               ArgType innerType = readArgType(in);
+               return ArgType.outerGeneric(outerType, innerType);
+           case GENERIC:
+               ArgType clsType = classes[in.readInt()].getClsType();
+               return ArgType.generic(clsType, readArgTypesList(in));
+           case GENERIC_TYPE_VARIABLE:
+               String typeVar = readString(in);
+               List<ArgType> extendTypes = readArgTypesList(in);
+               return ArgType.genericType(typeVar, extendTypes);
+           case OBJECT:
+               return classes[in.readInt()].getClsType();
+           case ARRAY:
+               return ArgType.array(readArgType(in));
+           case PRIMITIVE:
+               char shortName = (char) in.readByte();
+               return ArgType.parse(shortName);
+           default:
+               throw new JadxRuntimeException("Unsupported Arg Type: " + ordinal);
+       }
+   }
 
 	private static void writeString(DataOutputStream out, String name) throws IOException {
 		byte[] bytes = name.getBytes(STRING_CHARSET);
@@ -501,12 +503,18 @@ public class ClsSet {
 	}
 
 	public int getClassesCount() {
-		return classes.length;
-	}
+        if (classes == null) {
+            throw new IllegalStateException("Classes array is not initialized");
+        }
+        return Nullability.castToNonnull(classes, "exception already thrown").length;
+   }
 
 	public void addToMap(Map<String, ClspClass> nameMap) {
-		for (ClspClass cls : classes) {
-			nameMap.put(cls.getName(), cls);
-		}
-	}
+       if (classes == null) {
+           throw new IllegalStateException("Classes not loaded");
+       }
+       for (ClspClass cls : classes) {
+           nameMap.put(cls.getName(), cls);
+       }
+   }
 }
