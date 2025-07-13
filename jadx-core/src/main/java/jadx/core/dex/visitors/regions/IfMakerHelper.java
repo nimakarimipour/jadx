@@ -9,8 +9,6 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.LoopInfo;
@@ -50,7 +48,6 @@ public class IfMakerHelper {
 		return info;
 	}
 
-	@Nullable
 	static IfInfo searchNestedIf(@Nullable IfInfo info) {
 		IfInfo next = mergeNestedIfNodes(info);
 		if (next != null) {
@@ -223,8 +220,7 @@ public class IfMakerHelper {
 		}
 		nextThen = searchNestedIf(nextThen);
 		nextElse = searchNestedIf(nextElse);
-		if (Nullability.castToNonnull(nextThen, "searchNestedIf guarantees").getThenBlock() == Nullability
-				.castToNonnull(nextElse, "checked not null").getThenBlock()
+		if (nextThen.getThenBlock() == nextElse.getThenBlock()
 				&& nextThen.getElseBlock() == nextElse.getElseBlock()) {
 			return mergeTernaryConditions(currentIf, nextThen, nextElse);
 		}
@@ -309,7 +305,7 @@ public class IfMakerHelper {
 	}
 
 	static void confirmMerge(IfInfo info) {
-		if (Nullability.castToNonnull(info).getMergedBlocks().size() > 1) {
+		if (info.getMergedBlocks().size() > 1) {
 			for (BlockNode block : info.getMergedBlocks()) {
 				if (block != info.getFirstIfBlock()) {
 					block.add(AFlag.ADDED_TO_REGION);
