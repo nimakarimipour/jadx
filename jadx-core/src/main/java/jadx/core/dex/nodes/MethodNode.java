@@ -339,8 +339,11 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	}
 
 	public BlockNode getEnterBlock() {
-		return enterBlock;
-	}
+       if (enterBlock == null) {
+           throw new IllegalStateException("Enter block has not been initialized");
+       }
+       return enterBlock;
+   }
 
 	public void setEnterBlock(BlockNode enterBlock) {
 		this.enterBlock = enterBlock;
