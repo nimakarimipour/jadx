@@ -9,6 +9,8 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.ucr.cs.riple.annotator.util.Nullability;
+
 import jadx.core.dex.info.ClassInfo;
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.ArgType.WildcardBound;
@@ -24,7 +26,6 @@ import static jadx.core.dex.visitors.typeinference.TypeCompareEnum.NARROW_BY_GEN
 import static jadx.core.dex.visitors.typeinference.TypeCompareEnum.UNKNOWN;
 import static jadx.core.dex.visitors.typeinference.TypeCompareEnum.WIDER;
 import static jadx.core.dex.visitors.typeinference.TypeCompareEnum.WIDER_BY_GENERIC;
-import static jadx.core.utils.Utils.isEmpty;
 
 public class TypeCompare {
 	private static final Logger LOG = LoggerFactory.getLogger(TypeCompare.class);
@@ -202,30 +203,26 @@ public class TypeCompare {
 			if (firstGeneric != secondGeneric) {
 				return firstGeneric ? NARROW_BY_GENERIC : WIDER_BY_GENERIC;
 			}
-			// both generics on same object
 			if (first.getWildcardBound() != null && second.getWildcardBound() != null) {
-				// both wildcards
 				return compareWildcardTypes(first, second);
 			}
 			List<ArgType> firstGenericTypes = first.getGenericTypes();
 			List<ArgType> secondGenericTypes = second.getGenericTypes();
-			if (isEmpty(firstGenericTypes) || isEmpty(secondGenericTypes)) {
-				// check outer types
-				ArgType firstOuterType = first.getOuterType();
-				ArgType secondOuterType = second.getOuterType();
-				if (firstOuterType != null && secondOuterType != null) {
-					return compareTypes(firstOuterType, secondOuterType);
-				}
-			} else {
-				// compare generics arrays
-				int len = firstGenericTypes.size();
-				if (len == secondGenericTypes.size()) {
+			if (firstGenericTypes != null && secondGenericTypes != null && !firstGenericTypes.isEmpty() && !secondGenericTypes.isEmpty()) {
+				int len = Nullability.castToNonnull(firstGenericTypes, "checked not null").size();
+				if (len == Nullability.castToNonnull(secondGenericTypes, "guaranteed nonnull above").size()) {
 					for (int i = 0; i < len; i++) {
 						TypeCompareEnum res = compareTypes(firstGenericTypes.get(i), secondGenericTypes.get(i));
 						if (res != EQUAL) {
 							return res;
 						}
 					}
+				}
+			} else {
+				ArgType firstOuterType = first.getOuterType();
+				ArgType secondOuterType = second.getOuterType();
+				if (firstOuterType != null && secondOuterType != null) {
+					return compareTypes(firstOuterType, secondOuterType);
 				}
 			}
 		}

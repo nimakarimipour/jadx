@@ -14,8 +14,6 @@ import jadx.core.dex.nodes.FieldNode;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.nodes.RootNode;
 
-import static jadx.core.utils.Utils.notEmpty;
-
 public class UsageInfo {
 	private final RootNode root;
 
@@ -94,7 +92,7 @@ public class UsageInfo {
 				consumer.accept(clsNode);
 			}
 			List<ArgType> genericTypes = type.getGenericTypes();
-			if (type.isGeneric() && notEmpty(genericTypes)) {
+			if (type.isGeneric() && genericTypes != null && !genericTypes.isEmpty()) {
 				for (ArgType argType : genericTypes) {
 					processType(argType, consumer);
 				}
