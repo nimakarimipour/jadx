@@ -417,50 +417,50 @@ public class ClsSet {
 	}
 
 	private ArgType readArgType(DataInputStream in) throws IOException {
-		int ordinal = in.readByte();
-		if (ordinal == -1) {
-			return null;
-		}
-		if (ordinal >= TypeEnum.values().length) {
-			throw new JadxRuntimeException("Incorrect ordinal for type enum: " + ordinal);
-		}
-		switch (TypeEnum.values()[ordinal]) {
-			case WILDCARD:
-				ArgType.WildcardBound bound = ArgType.WildcardBound.getByNum(in.readByte());
-				if (bound == ArgType.WildcardBound.UNBOUND) {
-					return ArgType.WILDCARD;
-				}
-				ArgType objType = readArgType(in);
-				return ArgType.wildcard(objType, bound);
-
-			case OUTER_GENERIC:
-				ArgType outerType = readArgType(in);
-				ArgType innerType = readArgType(in);
-				return ArgType.outerGeneric(outerType, innerType);
-
-			case GENERIC:
-				ArgType clsType = classes[in.readInt()].getClsType();
-				return ArgType.generic(clsType, readArgTypesList(in));
-
-			case GENERIC_TYPE_VARIABLE:
-				String typeVar = readString(in);
-				List<ArgType> extendTypes = readArgTypesList(in);
-				return ArgType.genericType(typeVar, extendTypes);
-
-			case OBJECT:
-				return classes[in.readInt()].getClsType();
-
-			case ARRAY:
-				return ArgType.array(readArgType(in));
-
-			case PRIMITIVE:
-				char shortName = (char) in.readByte();
-				return ArgType.parse(shortName);
-
-			default:
-				throw new JadxRuntimeException("Unsupported Arg Type: " + ordinal);
-		}
-	}
+     int ordinal = in.readByte();
+     if (ordinal == -1) {
+       throw new JadxRuntimeException("Ordinal -1 is not valid for type enum, cannot return null for @NonNull type");
+     }
+     if (ordinal >= TypeEnum.values().length) {
+       throw new JadxRuntimeException("Incorrect ordinal for type enum: " + ordinal);
+     }
+     switch (TypeEnum.values()[ordinal]) {
+       case WILDCARD:
+         ArgType.WildcardBound bound = ArgType.WildcardBound.getByNum(in.readByte());
+         if (bound == ArgType.WildcardBound.UNBOUND) {
+           return ArgType.WILDCARD;
+         }
+         ArgType objType = readArgType(in);
+         return ArgType.wildcard(objType, bound);
+ 
+       case OUTER_GENERIC:
+         ArgType outerType = readArgType(in);
+         ArgType innerType = readArgType(in);
+         return ArgType.outerGeneric(outerType, innerType);
+ 
+       case GENERIC:
+         ArgType clsType = classes[in.readInt()].getClsType();
+         return ArgType.generic(clsType, readArgTypesList(in));
+ 
+       case GENERIC_TYPE_VARIABLE:
+         String typeVar = readString(in);
+         List<ArgType> extendTypes = readArgTypesList(in);
+         return ArgType.genericType(typeVar, extendTypes);
+ 
+       case OBJECT:
+         return classes[in.readInt()].getClsType();
+ 
+       case ARRAY:
+         return ArgType.array(readArgType(in));
+ 
+       case PRIMITIVE:
+         char shortName = (char) in.readByte();
+         return ArgType.parse(shortName);
+ 
+       default:
+         throw new JadxRuntimeException("Unsupported Arg Type: " + ordinal);
+     }
+   }
 
 	private static void writeString(DataOutputStream out, String name) throws IOException {
 		byte[] bytes = name.getBytes(STRING_CHARSET);
