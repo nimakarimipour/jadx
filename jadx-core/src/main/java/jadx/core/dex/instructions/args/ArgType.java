@@ -600,8 +600,8 @@ public abstract class ArgType {
 	}
 
 	public List<ArgType> getGenericTypes() {
-		return null;
-	}
+       return Collections.emptyList();
+   }
 
 	public List<ArgType> getExtendTypes() {
 		return Collections.emptyList();
