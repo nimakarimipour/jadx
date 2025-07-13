@@ -48,15 +48,20 @@ public class DeobfPresets {
 	}
 
 	private static Path getPathDeobfMapPath(RootNode root) {
-		JadxArgs jadxArgs = root.getArgs();
-		File deobfMapFile = jadxArgs.getDeobfuscationMapFile();
-		if (deobfMapFile != null) {
-			return deobfMapFile.toPath();
-		}
-		Path inputFilePath = jadxArgs.getInputFiles().get(0).toPath().toAbsolutePath();
-		String baseName = FileUtils.getPathBaseName(inputFilePath);
-		return inputFilePath.getParent().resolve(baseName + ".jobf");
-	}
+       JadxArgs jadxArgs = root.getArgs();
+       File deobfMapFile = jadxArgs.getDeobfuscationMapFile();
+       if (deobfMapFile != null) {
+           return deobfMapFile.toPath();
+       }
+       Path inputFilePath = jadxArgs.getInputFiles().get(0).toPath().toAbsolutePath();
+       String baseName = FileUtils.getPathBaseName(inputFilePath);
+       Path parentPath = inputFilePath.getParent();
+       if (parentPath != null) {
+           return parentPath.resolve(baseName + ".jobf");
+       } else {
+           throw new IllegalStateException("The parent path of the input file path is null");
+       }
+   }
 
 	private DeobfPresets(Path deobfMapFile) {
 		this.deobfMapFile = deobfMapFile;
