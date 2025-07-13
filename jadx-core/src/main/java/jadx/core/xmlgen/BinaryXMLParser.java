@@ -83,7 +83,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		writer.add("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
 		firstElement = true;
 		decode();
-		nsMap.clear(); // clear the map instead of setting it to null
+		nsMap = null;
 		ICodeInfo codeInfo = writer.finish();
 		this.classNameCache = null; // reset class name cache
 		return codeInfo;
