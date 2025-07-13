@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class CommonBinaryParser extends ParserConstants {
-	protected ParserStream is;
+	protected ParserStream is = new ParserStream();
 
 	protected String[] parseStringPool() throws IOException {
 		is.checkInt16(RES_STRING_POOL_TYPE, "String pool expected");
