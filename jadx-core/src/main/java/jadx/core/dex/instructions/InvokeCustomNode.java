@@ -2,6 +2,8 @@ package jadx.core.dex.instructions;
 
 import org.jetbrains.annotations.Nullable;
 
+import edu.ucr.cs.riple.annotator.util.Nullability;
+
 import jadx.api.plugins.input.data.MethodHandleType;
 import jadx.api.plugins.input.insns.InsnData;
 import jadx.core.dex.info.MethodInfo;
@@ -10,9 +12,11 @@ import jadx.core.dex.nodes.InsnNode;
 import jadx.core.utils.InsnUtils;
 
 public class InvokeCustomNode extends InvokeNode {
+	@Nullable
 	private MethodInfo implMthInfo;
 	@Nullable
 	private MethodHandleType handleType;
+	@Nullable
 	private InsnNode callInsn;
 	private boolean inlineInsn;
 	private boolean useRef;
@@ -29,9 +33,13 @@ public class InvokeCustomNode extends InvokeNode {
 	public InsnNode copy() {
 		InvokeCustomNode copy = new InvokeCustomNode(getCallMth(), getInvokeType(), getArgsCount());
 		copyCommonParams(copy);
-		copy.setImplMthInfo(implMthInfo);
+		if (implMthInfo != null) {
+			copy.setImplMthInfo(Nullability.castToNonnull(implMthInfo));
+		}
 		copy.setHandleType(handleType);
-		copy.setCallInsn(callInsn);
+		if (callInsn != null) {
+			copy.setCallInsn(Nullability.castToNonnull(callInsn));
+		}
 		copy.setInlineInsn(inlineInsn);
 		copy.setUseRef(useRef);
 		return copy;
@@ -47,12 +55,13 @@ public class InvokeCustomNode extends InvokeNode {
 		}
 		InvokeCustomNode other = (InvokeCustomNode) obj;
 		return handleType == other.handleType
-				&& implMthInfo.equals(other.implMthInfo)
-				&& callInsn.isSame(other.callInsn)
+				&& (implMthInfo != null ? implMthInfo.equals(Nullability.castToNonnull(other.implMthInfo)) : other.implMthInfo == null)
+				&& (callInsn != null ? callInsn.isSame(Nullability.castToNonnull(other.callInsn)) : other.callInsn == null)
 				&& inlineInsn == other.inlineInsn
 				&& useRef == other.useRef;
 	}
 
+	@Nullable
 	public MethodInfo getImplMthInfo() {
 		return implMthInfo;
 	}
@@ -70,6 +79,7 @@ public class InvokeCustomNode extends InvokeNode {
 		this.handleType = handleType;
 	}
 
+	@Nullable
 	public InsnNode getCallInsn() {
 		return callInsn;
 	}
@@ -96,8 +106,9 @@ public class InvokeCustomNode extends InvokeNode {
 
 	@Nullable
 	public BaseInvokeNode getInvokeCall() {
-		if (callInsn.getType() == InsnType.INVOKE) {
-			return (BaseInvokeNode) callInsn;
+		InsnNode localCallInsn = this.callInsn;
+		if (localCallInsn != null && localCallInsn.getType() == InsnType.INVOKE) {
+			return (BaseInvokeNode) localCallInsn;
 		}
 		return null;
 	}
