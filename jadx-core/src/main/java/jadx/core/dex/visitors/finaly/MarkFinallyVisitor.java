@@ -32,6 +32,7 @@ import jadx.core.utils.BlockUtils;
 import jadx.core.utils.InsnList;
 import jadx.core.utils.ListUtils;
 import jadx.core.utils.Utils;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 @JadxVisitor(
 		name = "MarkFinallyVisitor",
@@ -333,18 +334,18 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 	}
 
 	private static boolean searchDuplicateInsns(BlockNode checkBlock, FinallyExtractInfo extractInfo) {
-		boolean isNew = extractInfo.getCheckedBlocks().add(checkBlock);
-		if (!isNew) {
-			return false;
-		}
-		BlockNode startBlock = extractInfo.getStartBlock();
-		InsnsSlice dupSlice = searchFromFirstBlock(checkBlock, startBlock, extractInfo);
-		if (dupSlice == null) {
-			return false;
-		}
-		extractInfo.getDuplicateSlices().add(dupSlice);
-		return true;
-	}
+ 		boolean isNew = extractInfo.getCheckedBlocks().add(checkBlock);
+ 		if (!isNew) {
+ 			return false;
+ 		}
+ 		BlockNode startBlock = extractInfo.getStartBlock();
+ 		InsnsSlice dupSlice = searchFromFirstBlock(checkBlock, Nullability.castToNonnull(startBlock), extractInfo);
+ 		if (dupSlice == null) {
+ 			return false;
+ 		}
+ 		extractInfo.getDuplicateSlices().add(dupSlice);
+ 		return true;
+ }
 
 	@Nullable
 	private static InsnsSlice searchFromFirstBlock(BlockNode dupBlock, BlockNode startBlock, FinallyExtractInfo extractInfo) {
