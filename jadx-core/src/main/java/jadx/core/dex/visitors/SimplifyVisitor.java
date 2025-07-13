@@ -44,14 +44,15 @@ import jadx.core.utils.InsnList;
 import jadx.core.utils.InsnRemover;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import com.uber.nullaway.annotations.Initializer;
 
 public class SimplifyVisitor extends AbstractVisitor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SimplifyVisitor.class);
 
-	private MethodInfo stringGetBytesMth;
+	@SuppressWarnings("NullAway.Init") private MethodInfo stringGetBytesMth;
 
-	@Override
+	@Initializer @Override
 	public void init(RootNode root) {
 		stringGetBytesMth = MethodInfo.fromDetails(
 				root,
