@@ -21,8 +21,8 @@ import jadx.core.utils.exceptions.JadxException;
 )
 public class AttachMethodDetails extends AbstractVisitor {
 
-	@Nullable
-	private MethodUtils methodUtils;
+	
+	@Nullable private MethodUtils methodUtils;
 
 	@Override
 	public void init(RootNode root) {
@@ -42,9 +42,11 @@ public class AttachMethodDetails extends AbstractVisitor {
 	}
 
 	private void attachMethodDetails(BaseInvokeNode insn) {
-		IMethodDetails methodDetails = methodUtils.getMethodDetails(insn.getCallMth());
-		if (methodDetails != null) {
-			insn.addAttr(methodDetails);
-		}
-	}
+       if (methodUtils != null) {
+           IMethodDetails methodDetails = methodUtils.getMethodDetails(insn.getCallMth());
+           if (methodDetails != null) {
+               insn.addAttr(methodDetails);
+           }
+       }
+   }
 }
