@@ -9,6 +9,7 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.nodes.MethodNode;
 import jadx.core.utils.exceptions.JadxOverflowException;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 public class TypeUpdateInfo {
 	private final MethodNode mth;
@@ -46,13 +47,13 @@ public class TypeUpdateInfo {
 	}
 
 	public ArgType getType(@Nullable InsnArg arg) {
-		for (TypeUpdateEntry update : updates) {
-			if (update.getArg() == arg) {
-				return update.getType();
-			}
-		}
-		return arg.getType();
-	}
+ 		for (TypeUpdateEntry update : updates) {
+ 			if (update.getArg() == arg) {
+ 				return update.getType();
+ 			}
+ 		}
+ 		return Nullability.castToNonnull(arg).getType();
+ }
 
 	public void rollbackUpdate(InsnArg arg) {
 		updates.removeIf(updateEntry -> updateEntry.getArg() == arg);
