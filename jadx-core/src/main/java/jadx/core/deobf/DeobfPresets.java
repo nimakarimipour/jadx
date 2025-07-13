@@ -26,6 +26,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.files.FileUtils;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 public class DeobfPresets {
 	private static final Logger LOG = LoggerFactory.getLogger(DeobfPresets.class);
@@ -48,15 +49,15 @@ public class DeobfPresets {
 	}
 
 	private static Path getPathDeobfMapPath(RootNode root) {
-		JadxArgs jadxArgs = root.getArgs();
-		File deobfMapFile = jadxArgs.getDeobfuscationMapFile();
-		if (deobfMapFile != null) {
-			return deobfMapFile.toPath();
-		}
-		Path inputFilePath = jadxArgs.getInputFiles().get(0).toPath().toAbsolutePath();
-		String baseName = FileUtils.getPathBaseName(inputFilePath);
-		return inputFilePath.getParent().resolve(baseName + ".jobf");
-	}
+ 		JadxArgs jadxArgs = root.getArgs();
+ 		File deobfMapFile = jadxArgs.getDeobfuscationMapFile();
+ 		if (deobfMapFile != null) {
+ 			return deobfMapFile.toPath();
+ 		}
+ 		Path inputFilePath = jadxArgs.getInputFiles().get(0).toPath().toAbsolutePath();
+ 		String baseName = FileUtils.getPathBaseName(inputFilePath);
+ 		return Nullability.castToNonnull(inputFilePath.getParent()).resolve(baseName + ".jobf");
+ }
 
 	private DeobfPresets(Path deobfMapFile) {
 		this.deobfMapFile = deobfMapFile;
