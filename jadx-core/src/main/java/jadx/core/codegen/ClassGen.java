@@ -745,6 +745,9 @@ public class ClassGen {
 	 * Check if class with same name exists in current package
 	 */
 	private static boolean checkInPackageCollision(RootNode root, ClassInfo useCls, ClassInfo searchCls) {
+		if (root == null || root.getClsp() == null) {
+			return false; // Or handle the null case as appropriate
+		}
 		String currentPkg = useCls.getAliasPkg();
 		if (currentPkg.equals(searchCls.getAliasPkg())) {
 			// search class already from current package

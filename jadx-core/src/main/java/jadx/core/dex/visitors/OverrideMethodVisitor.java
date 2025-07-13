@@ -103,7 +103,11 @@ public class OverrideMethodVisitor extends AbstractVisitor {
 					}
 				}
 			} else {
-				ClspClass clsDetails = mth.root().getClsp().getClsDetails(superType);
+				Clsp clsp = mth.root().getClsp();
+				if (clsp == null) {
+					return null;
+				}
+				ClspClass clsDetails = clsp.getClsDetails(superType);
 				if (clsDetails != null) {
 					Map<String, ClspMethod> methodsMap = clsDetails.getMethodsMap();
 					for (Map.Entry<String, ClspMethod> entry : methodsMap.entrySet()) {
@@ -299,7 +303,12 @@ public class OverrideMethodVisitor extends AbstractVisitor {
 			collectSuperTypes(classNode, superTypesMap, endTypes);
 			return 1;
 		}
-		ClspClass clsDetails = root.getClsp().getClsDetails(superType);
+		Clsp clsp = root.getClsp();
+		if (clsp == null) {
+			// handle the case where clsp is null, return or throw an exception if needed
+			return 0; // or an appropriate response
+		}
+		ClspClass clsDetails = clsp.getClsDetails(superType);
 		if (clsDetails != null) {
 			int k = 0;
 			for (ArgType parentType : clsDetails.getParents()) {
