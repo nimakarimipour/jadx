@@ -18,8 +18,8 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 	@Nullable("for inner classes")
 	private String pkg;
 	private String fullName;
-	@Nullable
-	private ClassInfo parentClass;
+	
+	@Nullable private ClassInfo parentClass;
 	@Nullable
 	private ClassAliasInfo alias;
 
@@ -87,11 +87,11 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 	}
 
 	public String getAliasPkg() {
-		if (isInner()) {
-			return parentClass.getAliasPkg();
-		}
-		return alias == null ? getPackage() : alias.getPkg();
-	}
+       if (isInner() && parentClass != null) {
+           return parentClass.getAliasPkg();
+       }
+       return alias == null ? getPackage() : alias.getPkg();
+   }
 
 	public String getAliasShortName() {
 		return alias == null ? getShortName() : alias.getShortName();
