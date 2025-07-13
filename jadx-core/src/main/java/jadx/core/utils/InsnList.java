@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import jadx.core.dex.nodes.BlockNode;
 import jadx.core.dex.nodes.InsnNode;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 public final class InsnList implements Iterable<InsnNode> {
 
@@ -49,8 +50,8 @@ public final class InsnList implements Iterable<InsnNode> {
 	}
 
 	public static boolean contains(List<InsnNode> list, @Nullable InsnNode insn, int startOffset) {
-		return getIndex(list, insn, startOffset) != -1;
-	}
+ 		return getIndex(Nullability.castToNonnull(list), insn, startOffset) != -1;
+ }
 
 	public int getIndex(InsnNode insn) {
 		return getIndex(list, insn);

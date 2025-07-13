@@ -599,21 +599,21 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 	}
 
 	@SuppressWarnings("RedundantIfStatement")
-	private static boolean assignedOutsideHandler(FinallyExtractInfo extractInfo, RegisterArg dupReg, RegisterArg fReg) {
-		if (InsnList.contains(extractInfo.getFinallyInsnsSlice().getInsnsList(), fReg.getAssignInsn())) {
-			return false;
-		}
-		InsnNode dupAssign = dupReg.getAssignInsn();
-		InsnsSlice curDupSlice = extractInfo.getCurDupSlice();
-		if (curDupSlice != null && InsnList.contains(curDupSlice.getInsnsList(), dupAssign)) {
-			return false;
-		}
-		List<InsnNode> curDupInsns = extractInfo.getCurDupInsns();
-		if (Utils.notEmpty(curDupInsns) && InsnList.contains(curDupInsns, dupAssign, extractInfo.getCurDupInsnsOffset())) {
-			return false;
-		}
-		return true;
-	}
+   private static boolean assignedOutsideHandler(FinallyExtractInfo extractInfo, RegisterArg dupReg, RegisterArg fReg) {
+     if (InsnList.contains(extractInfo.getFinallyInsnsSlice().getInsnsList(), fReg.getAssignInsn())) {
+       return false;
+     }
+     InsnNode dupAssign = dupReg.getAssignInsn();
+     InsnsSlice curDupSlice = extractInfo.getCurDupSlice();
+     if (curDupSlice != null && InsnList.contains(curDupSlice.getInsnsList(), dupAssign)) {
+       return false;
+     }
+     List<InsnNode> curDupInsns = Nullability.castToNonnull(extractInfo.getCurDupInsns());
+     if (Utils.notEmpty(curDupInsns) && InsnList.contains(curDupInsns, dupAssign, extractInfo.getCurDupInsnsOffset())) {
+       return false;
+     }
+     return true;
+   }
 
 	/**
 	 * Reload method without applying this visitor

@@ -75,7 +75,7 @@ public class FinallyExtractInfo {
 		this.curDupSlice = curDupSlice;
 	}
 
-	public List<InsnNode> getCurDupInsns() {
+	@Nullable public List<InsnNode> getCurDupInsns() {
 		return curDupInsns;
 	}
 
