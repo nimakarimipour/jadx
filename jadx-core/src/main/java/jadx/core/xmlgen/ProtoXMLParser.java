@@ -18,12 +18,13 @@ import jadx.api.ICodeInfo;
 import jadx.api.ICodeWriter;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 public class ProtoXMLParser {
-	private Map<String, String> nsMap;
+	@Nullable private Map<String, String> nsMap;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
-	private ICodeWriter writer;
+	@Nullable private ICodeWriter writer;
 
 	private final RootNode rootNode;
 	@Nullable
@@ -45,59 +46,72 @@ public class ProtoXMLParser {
 	}
 
 	private void decode(XmlNode n) throws IOException {
-		if (n.hasSource()) {
-			writer.attachSourceLine(n.getSource().getLineNumber());
-		}
-		writer.add(StringUtils.escapeXML(n.getText().trim()));
-		if (n.hasElement()) {
-			decode(n.getElement());
-		}
-	}
+          writer = rootNode.makeCodeWriter();
+          if (writer != null) {
+              if (n.hasSource()) {
+                  Nullability.castToNonnull(writer, "explicitly checked for null").attachSourceLine(n.getSource().getLineNumber());
+              }
+              Nullability.castToNonnull(writer, "explicitly checked for null").add(StringUtils.escapeXML(n.getText().trim()));
+              if (n.hasElement()) {
+                  decode(n.getElement());
+              }
+          } else {
+              throw new IOException("Failed to create CodeWriter");
+          }
+   }
 
 	private void decode(XmlElement e) throws IOException {
-		String tag = deobfClassName(e.getName());
-		tag = getValidTagAttributeName(tag);
-		currentTag = tag;
-		writer.startLine('<').add(tag);
-		for (int i = 0; i < e.getNamespaceDeclarationCount(); i++) {
-			decode(e.getNamespaceDeclaration(i));
-		}
-		for (int i = 0; i < e.getAttributeCount(); i++) {
-			decode(e.getAttribute(i));
-		}
-		if (e.getChildCount() > 0) {
-			writer.add('>');
-			writer.incIndent();
-			for (int i = 0; i < e.getChildCount(); i++) {
-				Map<String, String> oldNsMap = new HashMap<>(nsMap);
-				decode(e.getChild(i));
-				nsMap = oldNsMap;
-			}
-			writer.decIndent();
-			writer.startLine("</").add(tag).add('>');
-		} else {
-			writer.add("/>");
-		}
-	}
+        if (writer == null) {
+            throw new IllegalStateException("Writer is not initialized");
+        }
+        String tag = deobfClassName(e.getName());
+        tag = getValidTagAttributeName(tag);
+        currentTag = tag;
+        Nullability.castToNonnull(writer, "null check passed").startLine('<').add(tag);
+        for (int i = 0; i < e.getNamespaceDeclarationCount(); i++) {
+            decode(e.getNamespaceDeclaration(i));
+        }
+        for (int i = 0; i < e.getAttributeCount(); i++) {
+            decode(e.getAttribute(i));
+        }
+        if (e.getChildCount() > 0) {
+            writer.add('>');
+            writer.incIndent();
+            for (int i = 0; i < e.getChildCount(); i++) {
+                Map<String, String> oldNsMap = new HashMap<>(nsMap);
+                decode(e.getChild(i));
+                nsMap = oldNsMap;
+            }
+            writer.decIndent();
+            writer.startLine("</").add(tag).add('>');
+        } else {
+            writer.add("/>");
+        }
+   }
 
 	private void decode(XmlAttribute a) {
-		writer.add(' ');
-		String namespace = a.getNamespaceUri();
-		if (!namespace.isEmpty()) {
-			writer.add(nsMap.get(namespace)).add(':');
-		}
-		String name = a.getName();
-		String value = deobfClassName(a.getValue());
-		writer.add(name).add("=\"").add(value).add('\"');
-		memorizePackageName(name, value);
-	}
+         if (writer == null) {
+             throw new NullPointerException("writer is null");
+         }
+         writer.add(' ');
+         String namespace = a.getNamespaceUri();
+         if (!namespace.isEmpty() && nsMap.containsKey(namespace)) {
+             writer.add(Nullability.castToNonnull(nsMap, "namespace key exists").get(namespace)).add(':');
+         }
+         String name = a.getName();
+         String value = deobfClassName(a.getValue());
+         writer.add(name).add("=\"").add(value).add('\"');
+         memorizePackageName(name, value);
+   }
 
 	private void decode(XmlNamespace n) {
-		String prefix = n.getPrefix();
-		String uri = n.getUri();
-		nsMap.put(uri, prefix);
-		writer.add(" xmlns:").add(prefix).add("=\"").add(uri).add('"');
-	}
+        if (writer != null && nsMap != null) {
+            String prefix = n.getPrefix();
+            String uri = n.getUri();
+            nsMap.put(uri, prefix);
+            Nullability.castToNonnull(writer, "writer is not null").add(" xmlns:").add(prefix).add("=\"").add(uri).add('"');
+        }
+   }
 
 	private void memorizePackageName(String attrName, String attrValue) {
 		if ("manifest".equals(currentTag) && "package".equals(attrName)) {
