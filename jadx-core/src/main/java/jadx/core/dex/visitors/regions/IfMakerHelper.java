@@ -128,6 +128,9 @@ public class IfMakerHelper {
 
 	@Nullable
 	static IfInfo mergeNestedIfNodes(@Nullable IfInfo currentIf) {
+		if (currentIf == null) {
+			return null;
+		}
 		BlockNode curThen = currentIf.getThenBlock();
 		BlockNode curElse = currentIf.getElseBlock();
 		if (curThen == curElse) {
@@ -154,20 +157,17 @@ public class IfMakerHelper {
 		if (assignInlineNeeded) {
 			for (BlockNode mergedBlock : currentIf.getMergedBlocks()) {
 				if (mergedBlock.contains(AFlag.LOOP_START)) {
-					// don't inline assigns into loop condition
 					return currentIf;
 				}
 			}
 		}
 
 		if (isInversionNeeded(currentIf, nextIf)) {
-			// invert current node for match pattern
 			nextIf = IfInfo.invert(nextIf);
 		}
 		boolean thenPathSame = isEqualPaths(curThen, nextIf.getThenBlock());
 		boolean elsePathSame = isEqualPaths(curElse, nextIf.getElseBlock());
 		if (!thenPathSame && !elsePathSame) {
-			// complex condition, run additional checks
 			if (checkConditionBranches(curThen, curElse)
 					|| checkConditionBranches(curElse, curThen)) {
 				return null;
@@ -178,8 +178,6 @@ public class IfMakerHelper {
 				return checkForTernaryInCondition(currentIf);
 			}
 
-			// this is nested conditions with different mode (i.e (a && b) || c),
-			// search next condition for merge, get null if failed
 			IfInfo tmpIf = mergeNestedIfNodes(nextIf);
 			if (tmpIf != null) {
 				nextIf = tmpIf;
@@ -196,7 +194,6 @@ public class IfMakerHelper {
 			if (assignInlineNeeded) {
 				boolean sameOuts = (thenPathSame && !followThenBranch) || (elsePathSame && followThenBranch);
 				if (!sameOuts) {
-					// don't inline assigns inside simple condition
 					currentIf.resetForceInlineInsns();
 					return currentIf;
 				}
@@ -204,7 +201,6 @@ public class IfMakerHelper {
 		}
 
 		IfInfo result = mergeIfInfo(currentIf, nextIf, followThenBranch);
-		// search next nested if block
 		return searchNestedIf(result);
 	}
 
