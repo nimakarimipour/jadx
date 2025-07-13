@@ -360,12 +360,15 @@ public class BlockUtils {
 	}
 
 	public static BitSet copyBlocksBitSet(MethodNode mth, @Nullable BitSet bitSet) {
-		BitSet copy = new BitSet(mth.getBasicBlocks().size());
-		if (!bitSet.isEmpty()) {
-			copy.or(bitSet);
-		}
-		return copy;
-	}
+       if (bitSet == null) {
+           return new BitSet(mth.getBasicBlocks().size());
+       }
+       BitSet copy = new BitSet(mth.getBasicBlocks().size());
+       if (!bitSet.isEmpty()) {
+           copy.or(bitSet);
+       }
+       return copy;
+   }
 
 	public static BitSet blocksToBitSet(MethodNode mth, Collection<BlockNode> blocks) {
 		BitSet bs = newBlocksBitSet(mth);
