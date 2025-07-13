@@ -42,9 +42,6 @@ public class ExceptionHandler {
 
 	private ExceptionHandler(int addr) {
 		this.handlerOffset = addr;
-		this.handlerBlock = new BlockNode();
-		this.handlerRegion = new Region();
-		this.tryBlock = new TryCatchBlockAttr();
 	}
 
 	/**
