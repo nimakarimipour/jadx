@@ -14,15 +14,12 @@ import com.android.aapt.Resources.XmlNamespace;
 import com.android.aapt.Resources.XmlNode;
 import com.google.protobuf.InvalidProtocolBufferException;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.api.ICodeInfo;
 import jadx.api.ICodeWriter;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
 
 public class ProtoXMLParser {
-	@Nullable
 	private Map<String, String> nsMap;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
@@ -86,8 +83,8 @@ public class ProtoXMLParser {
 	private void decode(XmlAttribute a) {
 		writer.add(' ');
 		String namespace = a.getNamespaceUri();
-		if (!namespace.isEmpty() && nsMap.containsKey(namespace)) {
-			writer.add(Nullability.castToNonnull(nsMap, "namespace key exists").get(namespace)).add(':');
+		if (!namespace.isEmpty()) {
+			writer.add(nsMap.get(namespace)).add(':');
 		}
 		String name = a.getName();
 		String value = deobfClassName(a.getValue());
@@ -96,12 +93,10 @@ public class ProtoXMLParser {
 	}
 
 	private void decode(XmlNamespace n) {
-		if (nsMap != null) {
-			String prefix = n.getPrefix();
-			String uri = n.getUri();
-			nsMap.put(uri, prefix);
-			writer.add(" xmlns:").add(prefix).add("=\"").add(uri).add('"');
-		}
+		String prefix = n.getPrefix();
+		String uri = n.getUri();
+		nsMap.put(uri, prefix);
+		writer.add(" xmlns:").add(prefix).add("=\"").add(uri).add('"');
 	}
 
 	private void memorizePackageName(String attrName, String attrValue) {
