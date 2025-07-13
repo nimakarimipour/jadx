@@ -22,6 +22,7 @@ import jadx.core.xmlgen.entry.ValuesParser;
 
 import static jadx.core.xmlgen.ParserConstants.PLURALS_MAP;
 import static jadx.core.xmlgen.ParserConstants.TYPE_REFERENCE;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 public class ResXmlGen {
 
@@ -82,71 +83,71 @@ public class ResXmlGen {
 	}
 
 	private void addValue(ICodeWriter cw, ResourceEntry ri) {
-        if (ri.getProtoValue() != null) {
-            ProtoValue protoValue = ri.getProtoValue();
-            if (protoValue.getValue() != null && protoValue.getNamedValues() == null) {
-                addSimpleValue(cw, ri.getTypeName(), ri.getTypeName(), "name", ri.getKeyName(), protoValue.getValue());
-            } else {
-                cw.startLine();
-                cw.add('<').add(ri.getTypeName()).add(' ');
-                String itemTag = "item";
-                cw.add("name=\"").add(ri.getKeyName()).add('\"');
-                if (ri.getTypeName().equals("attr") && protoValue.getValue() != null) {
-                    cw.add(" format=\"").add(protoValue.getValue()).add('\"');
-                }
-                if (protoValue.getParent() != null) {
-                    cw.add(" parent=\"").add(protoValue.getParent()).add('\"');
-                }
-                cw.add(">");
-    
-                cw.incIndent();
-                if (protoValue.getNamedValues() != null) {
-                    for (ProtoValue value : protoValue.getNamedValues()) {
-                        addProtoItem(cw, itemTag, ri.getTypeName(), value);
-                    }
-                }
-                cw.decIndent();
-                cw.startLine().add("</").add(ri.getTypeName()).add('>');
-            }
-        } else if (ri.getSimpleValue() != null) {
-            String valueStr = vp.decodeValue(ri.getSimpleValue());
-            addSimpleValue(cw, ri.getTypeName(), ri.getTypeName(), "name", ri.getKeyName(), valueStr);
-        } else {
-            cw.startLine();
-            cw.add('<').add(ri.getTypeName()).add(' ');
-            String itemTag = "item";
-            List<RawNamedValue> namedValues = ri.getNamedValues();
-            if (ri.getTypeName().equals("attr") && namedValues != null && !namedValues.isEmpty()) {
-                cw.add("name=\"").add(ri.getKeyName());
-                int type = namedValues.get(0).getRawValue().getData();
-                if ((type & ValuesParser.ATTR_TYPE_ENUM) != 0) {
-                    itemTag = "enum";
-                } else if ((type & ValuesParser.ATTR_TYPE_FLAGS) != 0) {
-                    itemTag = "flag";
-                }
-                String formatValue = XmlGenUtils.getAttrTypeAsString(type);
-                if (formatValue != null) {
-                    cw.add("\" format=\"").add(formatValue);
-                }
-                cw.add("\"");
-            } else {
-                cw.add("name=\"").add(ri.getKeyName()).add('\"');
-            }
-            if (ri.getParentRef() != 0) {
-                String parent = vp.decodeValue(TYPE_REFERENCE, ri.getParentRef());
-                cw.add(" parent=\"").add(parent).add('\"');
-            }
-            cw.add(">");
-    
-            cw.incIndent();
-            if (namedValues != null) {
-                for (RawNamedValue value : namedValues) {
-                    addItem(cw, itemTag, ri.getTypeName(), value);
-                }
-            }
-            cw.decIndent();
-            cw.startLine().add("</").add(ri.getTypeName()).add('>');
-        }
+         if (ri.getProtoValue() != null) {
+             ProtoValue protoValue = ri.getProtoValue();
+             if (protoValue.getValue() != null && protoValue.getNamedValues() == null) {
+                 addSimpleValue(cw, ri.getTypeName(), ri.getTypeName(), "name", ri.getKeyName(), protoValue.getValue());
+             } else {
+                 cw.startLine();
+                 cw.add('<').add(ri.getTypeName()).add(' ');
+                 String itemTag = "item";
+                 cw.add("name=\"").add(ri.getKeyName()).add('\"');
+                 if (ri.getTypeName().equals("attr") && protoValue.getValue() != null) {
+                     cw.add(" format=\"").add(protoValue.getValue()).add('\"');
+                 }
+                 if (protoValue.getParent() != null) {
+                     cw.add(" parent=\"").add(protoValue.getParent()).add('\"');
+                 }
+                 cw.add(">");
+     
+                 cw.incIndent();
+                 if (protoValue.getNamedValues() != null) {
+                     for (ProtoValue value : Nullability.castToNonnull(protoValue.getNamedValues(), "checked before access")) {
+                         addProtoItem(cw, itemTag, ri.getTypeName(), value);
+                     }
+                 }
+                 cw.decIndent();
+                 cw.startLine().add("</").add(ri.getTypeName()).add('>');
+             }
+         } else if (ri.getSimpleValue() != null) {
+             String valueStr = vp.decodeValue(ri.getSimpleValue());
+             addSimpleValue(cw, ri.getTypeName(), ri.getTypeName(), "name", ri.getKeyName(), valueStr);
+         } else {
+             cw.startLine();
+             cw.add('<').add(ri.getTypeName()).add(' ');
+             String itemTag = "item";
+             List<RawNamedValue> namedValues = ri.getNamedValues();
+             if (ri.getTypeName().equals("attr") && namedValues != null && !namedValues.isEmpty()) {
+                 cw.add("name=\"").add(ri.getKeyName());
+                 int type = namedValues.get(0).getRawValue().getData();
+                 if ((type & ValuesParser.ATTR_TYPE_ENUM) != 0) {
+                     itemTag = "enum";
+                 } else if ((type & ValuesParser.ATTR_TYPE_FLAGS) != 0) {
+                     itemTag = "flag";
+                 }
+                 String formatValue = XmlGenUtils.getAttrTypeAsString(type);
+                 if (formatValue != null) {
+                     cw.add("\" format=\"").add(formatValue);
+                 }
+                 cw.add("\"");
+             } else {
+                 cw.add("name=\"").add(ri.getKeyName()).add('\"');
+             }
+             if (ri.getParentRef() != 0) {
+                 String parent = vp.decodeValue(TYPE_REFERENCE, ri.getParentRef());
+                 cw.add(" parent=\"").add(parent).add('\"');
+             }
+             cw.add(">");
+     
+             cw.incIndent();
+             if (namedValues != null) {
+                 for (RawNamedValue value : namedValues) {
+                     addItem(cw, itemTag, ri.getTypeName(), value);
+                 }
+             }
+             cw.decIndent();
+             cw.startLine().add("</").add(ri.getTypeName()).add('>');
+         }
    }
 
 	private void addProtoItem(ICodeWriter cw, String itemTag, String typeName, ProtoValue protoValue) {
