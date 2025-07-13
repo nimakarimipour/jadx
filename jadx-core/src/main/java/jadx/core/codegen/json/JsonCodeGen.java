@@ -137,30 +137,31 @@ public class JsonCodeGen {
 	}
 
 	private void addMethods(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
-		jsonCls.setMethods(new ArrayList<>());
-		for (MethodNode mth : cls.getMethods()) {
-			if (mth.contains(AFlag.DONT_GENERATE)) {
-				continue;
-			}
-			JsonMethod jsonMth = new JsonMethod();
-			jsonMth.setName(mth.getName());
-			if (mth.getMethodInfo().hasAlias()) {
-				jsonMth.setAlias(mth.getAlias());
-			}
-			jsonMth.setSignature(mth.getMethodInfo().getShortId());
-			jsonMth.setReturnType(getTypeAlias(mth.getReturnType()));
-			jsonMth.setArguments(Utils.collectionMap(mth.getMethodInfo().getArgumentsTypes(), this::getTypeAlias));
-
-			MethodGen mthGen = new MethodGen(classGen, mth);
-			ICodeWriter cw = new AnnotatedCodeWriter();
-			mthGen.addDefinition(cw);
-			jsonMth.setDeclaration(cw.getCodeStr());
-			jsonMth.setAccessFlags(mth.getAccessFlags().rawValue());
-			jsonMth.setLines(fillMthCode(mth, mthGen));
-			jsonMth.setOffset("0x" + Long.toHexString(mth.getMethodCodeOffset()));
-			jsonCls.getMethods().add(jsonMth);
-		}
-	}
+       List<JsonMethod> methods = new ArrayList<>();
+       jsonCls.setMethods(methods);
+       for (MethodNode mth : cls.getMethods()) {
+           if (mth.contains(AFlag.DONT_GENERATE)) {
+               continue;
+           }
+           JsonMethod jsonMth = new JsonMethod();
+           jsonMth.setName(mth.getName());
+           if (mth.getMethodInfo().hasAlias()) {
+               jsonMth.setAlias(mth.getAlias());
+           }
+           jsonMth.setSignature(mth.getMethodInfo().getShortId());
+           jsonMth.setReturnType(getTypeAlias(mth.getReturnType()));
+           jsonMth.setArguments(Utils.collectionMap(mth.getMethodInfo().getArgumentsTypes(), this::getTypeAlias));
+ 
+           MethodGen mthGen = new MethodGen(classGen, mth);
+           ICodeWriter cw = new AnnotatedCodeWriter();
+           mthGen.addDefinition(cw);
+           jsonMth.setDeclaration(cw.getCodeStr());
+           jsonMth.setAccessFlags(mth.getAccessFlags().rawValue());
+           jsonMth.setLines(fillMthCode(mth, mthGen));
+           jsonMth.setOffset("0x" + Long.toHexString(mth.getMethodCodeOffset()));
+           methods.add(jsonMth);
+       }
+   }
 
 	private List<JsonCodeLine> fillMthCode(MethodNode mth, MethodGen mthGen) {
 		if (mth.isNoCode()) {
