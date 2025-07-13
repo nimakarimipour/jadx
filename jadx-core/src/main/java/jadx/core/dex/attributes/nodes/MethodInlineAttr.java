@@ -58,8 +58,8 @@ public class MethodInlineAttr extends PinnedAttribute {
 		return insn;
 	}
 
-	@Nullable
-	public int[] getArgsRegNums() {
+	
+	@Nullable public int[] getArgsRegNums() {
 		return argsRegNums;
 	}
 
