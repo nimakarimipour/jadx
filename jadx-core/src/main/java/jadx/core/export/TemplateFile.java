@@ -14,8 +14,6 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.core.utils.exceptions.JadxRuntimeException;
 
 /**
@@ -30,7 +28,6 @@ public class TemplateFile {
 
 	private static class ParserState {
 		private State state = State.NONE;
-		@Nullable
 		private StringBuilder curVariable;
 		private boolean skip;
 	}
@@ -117,9 +114,6 @@ public class TemplateFile {
 
 					case END:
 						parser.state = State.NONE;
-						if (parser.curVariable == null) {
-							return null;
-						}
 						String varName = parser.curVariable.toString();
 						parser.curVariable = new StringBuilder();
 						return processVar(varName);
@@ -129,7 +123,6 @@ public class TemplateFile {
 			default:
 				switch (state) {
 					case VARIABLE:
-						Nullability.castToNonnull(parser.curVariable, "initialized in START");
 						parser.curVariable.append(ch);
 						parser.skip = true;
 						return null;
