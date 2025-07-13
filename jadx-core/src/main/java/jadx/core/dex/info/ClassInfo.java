@@ -10,6 +10,7 @@ import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.nodes.ClassNode;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 public final class ClassInfo implements Comparable<ClassInfo> {
 	private final ArgType type;
@@ -158,20 +159,20 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		this.fullName = makeFullName();
 	}
 
-	private static String makeFullClsName(@Nullable String pkg, String shortName, @Nullable ClassInfo parentClass, boolean alias,
-			boolean raw) {
-		if (parentClass != null) {
-			String innerSep = raw ? "$" : ".";
-			String parentFullName;
-			if (alias) {
-				parentFullName = raw ? parentClass.makeAliasRawFullName() : parentClass.getAliasFullName();
-			} else {
-				parentFullName = raw ? parentClass.makeRawFullName() : parentClass.getFullName();
-			}
-			return parentFullName + innerSep + shortName;
-		}
-		return pkg.isEmpty() ? shortName : pkg + '.' + shortName;
-	}
+	private static String makeFullClsName( @Nullable String pkg, String shortName,  @Nullable ClassInfo parentClass, boolean alias,
+ 			boolean raw) {
+ 		if (parentClass != null) {
+ 			String innerSep = raw ? "$" : ".";
+ 			String parentFullName;
+ 			if (alias) {
+ 				parentFullName = raw ? parentClass.makeAliasRawFullName() : parentClass.getAliasFullName();
+ 			} else {
+ 				parentFullName = raw ? parentClass.makeRawFullName() : parentClass.getFullName();
+ 			}
+ 			return parentFullName + innerSep + shortName;
+ 		}
+ 		return Nullability.castToNonnull(pkg).isEmpty() ? shortName : Nullability.castToNonnull(pkg) + '.' + shortName;
+ }
 
 	private String makeFullName() {
 		return makeFullClsName(pkg, name, parentClass, false, false);
