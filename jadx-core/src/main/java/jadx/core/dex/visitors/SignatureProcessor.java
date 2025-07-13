@@ -18,12 +18,13 @@ import jadx.core.dex.nodes.utils.TypeUtils;
 import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
+import com.uber.nullaway.annotations.Initializer;
 
 public class SignatureProcessor extends AbstractVisitor {
 
-	private RootNode root;
+	@SuppressWarnings("NullAway.Init") private RootNode root;
 
-	@Override
+	@Initializer @Override
 	public void init(RootNode root) {
 		this.root = root;
 	}
