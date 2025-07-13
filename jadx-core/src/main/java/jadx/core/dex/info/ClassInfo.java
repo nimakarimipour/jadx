@@ -170,7 +170,7 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 			}
 			return parentFullName + innerSep + shortName;
 		}
-		return pkg.isEmpty() ? shortName : pkg + '.' + shortName;
+		return (pkg != null && !pkg.isEmpty()) ? pkg + '.' + shortName : shortName;
 	}
 
 	private String makeFullName() {
