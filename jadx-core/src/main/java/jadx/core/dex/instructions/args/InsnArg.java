@@ -86,8 +86,8 @@ public abstract class InsnArg extends Typed {
 		return false;
 	}
 
-	@Nullable
-	public InsnNode getParentInsn() {
+	
+	@Nullable public InsnNode getParentInsn() {
 		return parentInsn;
 	}
 
