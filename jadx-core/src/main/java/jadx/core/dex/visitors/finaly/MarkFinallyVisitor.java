@@ -333,18 +333,21 @@ public class MarkFinallyVisitor extends AbstractVisitor {
 	}
 
 	private static boolean searchDuplicateInsns(BlockNode checkBlock, FinallyExtractInfo extractInfo) {
-		boolean isNew = extractInfo.getCheckedBlocks().add(checkBlock);
-		if (!isNew) {
-			return false;
-		}
-		BlockNode startBlock = extractInfo.getStartBlock();
-		InsnsSlice dupSlice = searchFromFirstBlock(checkBlock, startBlock, extractInfo);
-		if (dupSlice == null) {
-			return false;
-		}
-		extractInfo.getDuplicateSlices().add(dupSlice);
-		return true;
-	}
+       boolean isNew = extractInfo.getCheckedBlocks().add(checkBlock);
+       if (!isNew) {
+           return false;
+       }
+       BlockNode startBlock = extractInfo.getStartBlock();
+       if (startBlock == null) {
+           return false;
+       }
+       InsnsSlice dupSlice = searchFromFirstBlock(checkBlock, startBlock, extractInfo);
+       if (dupSlice == null) {
+           return false;
+       }
+       extractInfo.getDuplicateSlices().add(dupSlice);
+       return true;
+   }
 
 	@Nullable
 	private static InsnsSlice searchFromFirstBlock(BlockNode dupBlock, BlockNode startBlock, FinallyExtractInfo extractInfo) {
