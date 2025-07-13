@@ -8,8 +8,6 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.api.CommentsLevel;
 import jadx.api.ICodeWriter;
 import jadx.api.metadata.annotations.InsnCodeOffset;
@@ -79,7 +77,7 @@ public class RegionGen extends InsnGen {
 
 	private void makeRegionIndent(ICodeWriter code, IContainer region) throws CodegenException {
 		code.incIndent();
-		makeRegion(code, Nullability.castToNonnull(region));
+		makeRegion(code, region);
 		code.decIndent();
 	}
 
@@ -136,7 +134,7 @@ public class RegionGen extends InsnGen {
 				return;
 			}
 			code.add('{');
-			makeRegionIndent(code, Nullability.castToNonnull(els));
+			makeRegionIndent(code, els);
 			if (comment) {
 				code.startLine("// }");
 			} else {
@@ -149,7 +147,7 @@ public class RegionGen extends InsnGen {
 	 * Connect if-else-if block
 	 */
 	private boolean connectElseIf(ICodeWriter code, IContainer els) throws CodegenException {
-		if (Nullability.castToNonnull(els).contains(AFlag.ELSE_IF_CHAIN) && els instanceof Region) {
+		if (els.contains(AFlag.ELSE_IF_CHAIN) && els instanceof Region) {
 			List<IContainer> subBlocks = ((Region) els).getSubBlocks();
 			if (subBlocks.size() == 1) {
 				IContainer elseBlock = subBlocks.get(0);
