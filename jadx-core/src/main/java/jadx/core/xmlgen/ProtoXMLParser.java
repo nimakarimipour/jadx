@@ -32,8 +32,10 @@ public class ProtoXMLParser {
 	private String appPackageName;
 
 	public ProtoXMLParser(RootNode rootNode) {
-		this.rootNode = rootNode;
-	}
+       this.rootNode = rootNode;
+       this.nsMap = new HashMap<>();
+       this.writer = rootNode.makeCodeWriter();
+   }
 
 	public synchronized ICodeInfo parse(InputStream inputStream) throws IOException {
 		nsMap = new HashMap<>();
