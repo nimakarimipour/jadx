@@ -42,9 +42,11 @@ public class AttachMethodDetails extends AbstractVisitor {
 	}
 
 	private void attachMethodDetails(BaseInvokeNode insn) {
-		IMethodDetails methodDetails = methodUtils.getMethodDetails(insn.getCallMth());
-		if (methodDetails != null) {
-			insn.addAttr(methodDetails);
-		}
-	}
+     if (methodUtils != null) {
+       IMethodDetails methodDetails = methodUtils.getMethodDetails(insn.getCallMth());
+       if (methodDetails != null) {
+         insn.addAttr(methodDetails);
+       }
+     }
+   }
 }
