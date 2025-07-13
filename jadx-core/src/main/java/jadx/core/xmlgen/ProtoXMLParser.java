@@ -38,13 +38,13 @@ public class ProtoXMLParser {
    }
 
 	public synchronized ICodeInfo parse(InputStream inputStream) throws IOException {
-		nsMap = new HashMap<>();
-		writer = rootNode.makeCodeWriter();
-		writer.add("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-		decode(decodeProto(inputStream));
-		nsMap = null;
-		return writer.finish();
-	}
+ 		nsMap = new HashMap<>();
+ 		writer = rootNode.makeCodeWriter();
+ 		writer.add("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+ 		decode(decodeProto(inputStream));
+ 		nsMap.clear();
+ 		return writer.finish();
+ 	}
 
 	private void decode(XmlNode n) throws IOException {
 		if (n.hasSource()) {
