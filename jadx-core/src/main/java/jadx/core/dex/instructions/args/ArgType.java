@@ -749,30 +749,29 @@ public abstract class ArgType {
 	}
 
 	public static ArgType parse(char f) {
-		switch (f) {
-			case 'Z':
-				return BOOLEAN;
-			case 'B':
-				return BYTE;
-			case 'C':
-				return CHAR;
-			case 'S':
-				return SHORT;
-			case 'I':
-				return INT;
-			case 'J':
-				return LONG;
-			case 'F':
-				return FLOAT;
-			case 'D':
-				return DOUBLE;
-			case 'V':
-				return VOID;
-
-			default:
-				return null;
-		}
-	}
+       switch (f) {
+           case 'Z':
+               return BOOLEAN;
+           case 'B':
+               return BYTE;
+           case 'C':
+               return CHAR;
+           case 'S':
+               return SHORT;
+           case 'I':
+               return INT;
+           case 'J':
+               return LONG;
+           case 'F':
+               return FLOAT;
+           case 'D':
+               return DOUBLE;
+           case 'V':
+               return VOID;
+           default:
+               throw new IllegalArgumentException("Invalid char: " + f);
+       }
+   }
 
 	public int getRegCount() {
 		if (isPrimitive()) {
