@@ -2,6 +2,8 @@ package jadx.core.dex.instructions.args;
 
 import org.jetbrains.annotations.Nullable;
 
+import edu.ucr.cs.riple.annotator.util.Nullability;
+
 import jadx.core.codegen.TypeGen;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
@@ -59,6 +61,9 @@ public final class LiteralArg extends InsnArg {
 	}
 
 	public boolean isInteger() {
+		if (type == null) {
+			return false; // or throw an exception based on your design decision
+		}
 		switch (type.getPrimitiveType()) {
 			case INT:
 			case BYTE:
@@ -89,23 +94,30 @@ public final class LiteralArg extends InsnArg {
 	@Nullable
 	public LiteralArg negate() {
 		long neg;
+		ArgType currentType = this.type;
+		if (currentType == null) {
+			return null;
+		}
 		if (isInteger()) {
 			neg = -literal;
-		} else if (type == ArgType.FLOAT) {
+		} else if (currentType.equals(ArgType.FLOAT)) {
 			float val = Float.intBitsToFloat(((int) literal));
 			neg = Float.floatToIntBits(-val);
-		} else if (type == ArgType.DOUBLE) {
+		} else if (currentType.equals(ArgType.DOUBLE)) {
 			double val = Double.longBitsToDouble(literal);
 			neg = Double.doubleToLongBits(-val);
 		} else {
 			return null;
 		}
-		return new LiteralArg(neg, type);
+		return new LiteralArg(neg, Nullability.castToNonnull(type));
 	}
 
 	@Override
 	public InsnArg duplicate() {
-		return copyCommonParams(new LiteralArg(literal, type));
+		if (type == null) {
+			throw new NullPointerException("Type cannot be null");
+		}
+		return copyCommonParams(new LiteralArg(literal, Nullability.castToNonnull(type)));
 	}
 
 	@Override

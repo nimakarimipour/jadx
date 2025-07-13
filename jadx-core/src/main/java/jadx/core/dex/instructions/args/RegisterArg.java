@@ -5,6 +5,8 @@ import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import edu.ucr.cs.riple.annotator.util.Nullability;
+
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
@@ -33,6 +35,7 @@ public class RegisterArg extends InsnArg implements Named {
 		return true;
 	}
 
+	@Nullable
 	public ArgType getInitType() {
 		return type;
 	}
@@ -165,7 +168,7 @@ public class RegisterArg extends InsnArg implements Named {
 	}
 
 	public boolean equalRegisterAndType(RegisterArg arg) {
-		return regNum == arg.regNum && type.equals(arg.type);
+		return regNum == arg.regNum && Nullability.castToNonnull(type, "checked nonnull before").equals(arg.type);
 	}
 
 	public boolean sameRegAndSVar(InsnArg arg) {
