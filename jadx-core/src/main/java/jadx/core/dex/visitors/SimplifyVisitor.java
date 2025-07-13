@@ -292,9 +292,9 @@ public class SimplifyVisitor extends AbstractVisitor {
 	 */
 	private static void simplifyTernary(MethodNode mth, TernaryInsn insn) {
 		IfCondition condition = insn.getCondition();
-		if (condition.isCompare()) {
+		if (condition != null && condition.isCompare()) {
 			simplifyIf(mth, condition.getCompare().getInsn());
-		} else {
+		} else if (condition != null) {
 			insn.simplifyCondition();
 		}
 	}
