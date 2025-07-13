@@ -60,8 +60,8 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 			return typeStrings;
 		}
 
-		@Nullable
-		public String[] getKeyStrings() {
+		
+		@Nullable public String[] getKeyStrings() {
 			return keyStrings;
 		}
 	}
@@ -297,47 +297,51 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
    }
 
 	private void parseEntry(PackageChunk pkg, int typeId, int entryId, String config) throws IOException {
-       int size = is.readInt16();
-       int flags = is.readInt16();
-       int key = is.readInt32();
-       if (key == -1) {
-           return;
-       }
- 
-       if (pkg.getTypeStrings() == null) {
-           throw new NullPointerException("Type strings are null");
-       }
- 
-       int resRef = pkg.getId() << 24 | typeId << 16 | entryId;
-       String typeName = pkg.getTypeStrings()[typeId - 1];
-       String origKeyName = pkg.getKeyStrings()[key];
-       ResourceEntry newResEntry = new ResourceEntry(resRef, pkg.getName(), typeName, getResName(typeName, resRef, origKeyName), config);
-       ResourceEntry prevResEntry = resStorage.searchEntryWithSameName(newResEntry);
-       if (prevResEntry != null) {
-           newResEntry = newResEntry.copyWithId();
- 
-           // rename also previous entry for consistency
-           ResourceEntry replaceForPrevEntry = prevResEntry.copyWithId();
-           resStorage.replace(prevResEntry, replaceForPrevEntry);
-           resStorage.addRename(replaceForPrevEntry);
-       }
-       if (!Objects.equals(origKeyName, newResEntry.getKeyName())) {
-           resStorage.addRename(newResEntry);
-       }
- 
-       if ((flags & FLAG_COMPLEX) != 0 || size == 16) {
-           int parentRef = is.readInt32();
-           int count = is.readInt32();
-           newResEntry.setParentRef(parentRef);
-           List<RawNamedValue> values = new ArrayList<>(count);
-           for (int i = 0; i < count; i++) {
-               values.add(parseValueMap());
-           }
-           newResEntry.setNamedValues(values);
-       } else {
-           newResEntry.setSimpleValue(parseValue());
-       }
-       resStorage.add(newResEntry);
+        int size = is.readInt16();
+        int flags = is.readInt16();
+        int key = is.readInt32();
+        if (key == -1) {
+            return;
+        }
+  
+        if (pkg.getTypeStrings() == null) {
+            throw new NullPointerException("Type strings are null");
+        }
+        
+        if (pkg.getKeyStrings() == null) {
+            throw new NullPointerException("Key strings are null");
+        }
+  
+        int resRef = pkg.getId() << 24 | typeId << 16 | entryId;
+        String typeName = pkg.getTypeStrings()[typeId - 1];
+        String origKeyName = pkg.getKeyStrings()[key];
+        ResourceEntry newResEntry = new ResourceEntry(resRef, pkg.getName(), typeName, getResName(typeName, resRef, origKeyName), config);
+        ResourceEntry prevResEntry = resStorage.searchEntryWithSameName(newResEntry);
+        if (prevResEntry != null) {
+            newResEntry = newResEntry.copyWithId();
+  
+            // rename also previous entry for consistency
+            ResourceEntry replaceForPrevEntry = prevResEntry.copyWithId();
+            resStorage.replace(prevResEntry, replaceForPrevEntry);
+            resStorage.addRename(replaceForPrevEntry);
+        }
+        if (!Objects.equals(origKeyName, newResEntry.getKeyName())) {
+            resStorage.addRename(newResEntry);
+        }
+  
+        if ((flags & FLAG_COMPLEX) != 0 || size == 16) {
+            int parentRef = is.readInt32();
+            int count = is.readInt32();
+            newResEntry.setParentRef(parentRef);
+            List<RawNamedValue> values = new ArrayList<>(count);
+            for (int i = 0; i < count; i++) {
+                values.add(parseValueMap());
+            }
+            newResEntry.setNamedValues(values);
+        } else {
+            newResEntry.setSimpleValue(parseValue());
+        }
+        resStorage.add(newResEntry);
    }
 
 	private String getResName(String typeName, int resRef, String origKeyName) {
