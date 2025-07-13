@@ -92,7 +92,7 @@ public final class ResourceEntry {
 	}
 
 	public List<RawNamedValue> getNamedValues() {
-		return namedValues != null ? namedValues : Collections.emptyList();
+		return namedValues;
 	}
 
 	@Override
