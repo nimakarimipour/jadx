@@ -10,6 +10,8 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
 
+import edu.ucr.cs.riple.annotator.util.Nullability;
+
 import jadx.core.dex.attributes.AttrNode;
 import jadx.core.dex.instructions.ArithNode;
 import jadx.core.dex.instructions.ArithOp;
@@ -36,6 +38,7 @@ public final class IfCondition extends AttrNode {
 
 	private final Mode mode;
 	private final List<IfCondition> args;
+	@Nullable
 	private final Compare compare;
 
 	private IfCondition(Compare compare) {
@@ -114,6 +117,7 @@ public final class IfCondition extends AttrNode {
 		return mode == Mode.COMPARE;
 	}
 
+	@Nullable
 	public Compare getCompare() {
 		return compare;
 	}
@@ -143,8 +147,9 @@ public final class IfCondition extends AttrNode {
 		if (cond.getMode() == Mode.NOT) {
 			return cond.first();
 		}
-		if (cond.getCompare() != null) {
-			return new IfCondition(cond.compare.invert());
+		Compare compare = cond.getCompare();
+		if (compare != null) {
+			return new IfCondition(Nullability.castToNonnull(cond.compare.invert(), "validated non-null"));
 		}
 		return new IfCondition(Mode.NOT, Collections.singletonList(cond));
 	}
@@ -256,7 +261,7 @@ public final class IfCondition extends AttrNode {
 
 	public List<RegisterArg> getRegisterArgs() {
 		List<RegisterArg> list = new ArrayList<>();
-		if (mode == Mode.COMPARE) {
+		if (mode == Mode.COMPARE && compare != null) {
 			compare.getInsn().getRegisterArgs(list);
 		} else {
 			for (IfCondition arg : args) {
@@ -267,8 +272,8 @@ public final class IfCondition extends AttrNode {
 	}
 
 	public void visitInsns(Consumer<InsnNode> visitor) {
-		if (mode == Mode.COMPARE) {
-			compare.getInsn().visitInsns(visitor);
+		if (mode == Mode.COMPARE && compare != null) {
+			Nullability.castToNonnull(compare, "checked if not null").getInsn().visitInsns(visitor);
 		} else {
 			args.forEach(arg -> arg.visitInsns(visitor));
 		}
@@ -292,8 +297,8 @@ public final class IfCondition extends AttrNode {
 
 	@Nullable
 	public InsnNode getFirstInsn() {
-		if (mode == Mode.COMPARE) {
-			return compare.getInsn();
+		if (mode == Mode.COMPARE && compare != null) {
+			return Nullability.castToNonnull(compare, "checked for null").getInsn();
 		}
 		return args.get(0).getFirstInsn();
 	}
@@ -302,11 +307,13 @@ public final class IfCondition extends AttrNode {
 	public String toString() {
 		switch (mode) {
 			case COMPARE:
-				return compare.toString();
+				return (compare == null) ? "null" : compare.toString();
 			case TERNARY:
-				return first() + " ? " + second() + " : " + third();
+				return (first() == null ? "null" : first()) + " ? "
+						+ (second() == null ? "null" : second()) + " : "
+						+ (third() == null ? "null" : third());
 			case NOT:
-				return "!(" + first() + ')';
+				return "!(" + (first() == null ? "null" : first()) + ')';
 			case AND:
 			case OR:
 				String op = mode == Mode.OR ? " || " : " && ";
@@ -314,7 +321,7 @@ public final class IfCondition extends AttrNode {
 				sb.append('(');
 				for (Iterator<IfCondition> it = args.iterator(); it.hasNext();) {
 					IfCondition arg = it.next();
-					sb.append(arg);
+					sb.append(arg == null ? "null" : arg);
 					if (it.hasNext()) {
 						sb.append(op);
 					}
