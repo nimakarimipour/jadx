@@ -21,6 +21,7 @@ import jadx.core.dex.instructions.args.RegisterArg;
 import jadx.core.dex.instructions.args.SSAVar;
 import jadx.core.dex.nodes.InsnNode;
 import jadx.core.dex.nodes.MethodNode;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 /**
  * Slow and memory consuming multi-variable type search algorithm.
@@ -169,23 +170,22 @@ public class TypeSearch {
 	}
 
 	private boolean resolveIndependentVariables(TypeSearchVarInfo varInfo) {
-		boolean allRelatedVarsResolved = varInfo.getConstraints().stream()
-				.flatMap(c -> c.getRelatedVars().stream())
-				.allMatch(v -> state.getVarInfo(v).isTypeResolved());
-		if (!allRelatedVarsResolved) {
-			return false;
-		}
-		// variable is independent, run single search
-		varInfo.reset();
-		do {
-			if (singleCheck(varInfo)) {
-				varInfo.setTypeResolved(true);
-				return true;
-			}
-		} while (!varInfo.nextType());
-
-		return false;
-	}
+   		boolean allRelatedVarsResolved = Nullability.castToNonnull(varInfo.getConstraints(), "initialized before use").stream()
+   				.flatMap(c -> c.getRelatedVars().stream())
+   				.allMatch(v -> state.getVarInfo(v).isTypeResolved());
+   		if (!allRelatedVarsResolved) {
+   			return false;
+   		}
+   		varInfo.reset();
+   		do {
+   			if (singleCheck(varInfo)) {
+   				varInfo.setTypeResolved(true);
+   				return true;
+   			}
+   		} while (!varInfo.nextType());
+ 
+   		return false;
+   }
 
 	private boolean fullCheck(List<TypeSearchVarInfo> vars) {
 		for (TypeSearchVarInfo var : vars) {
@@ -197,16 +197,16 @@ public class TypeSearch {
 	}
 
 	private boolean singleCheck(TypeSearchVarInfo var) {
-		if (var.isTypeResolved()) {
-			return true;
-		}
-		for (ITypeConstraint constraint : var.getConstraints()) {
-			if (!constraint.check(state)) {
-				return false;
-			}
-		}
-		return true;
-	}
+ 		if (var.isTypeResolved()) {
+ 			return true;
+ 		}
+ 		for (ITypeConstraint constraint : Nullability.castToNonnull(var.getConstraints(), "never set to null")) {
+ 			if (!constraint.check(state)) {
+ 				return false;
+ 			}
+ 		}
+ 		return true;
+ }
 
 	private void fillTypeCandidates(SSAVar ssaVar) {
 		TypeSearchVarInfo varInfo = state.getVarInfo(ssaVar);
@@ -346,10 +346,10 @@ public class TypeSearch {
 	}
 
 	private void addConstraint(TypeSearchVarInfo varInfo, @Nullable ITypeConstraint constraint) {
-		if (constraint != null) {
-			varInfo.getConstraints().add(constraint);
-		}
-	}
+ 		if (constraint != null) {
+ 			Nullability.castToNonnull(varInfo.getConstraints(), "always set earlier").add(constraint);
+ 		}
+   }
 
 	@Nullable
 	private ITypeConstraint makeConstraint(RegisterArg arg) {
