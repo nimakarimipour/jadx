@@ -37,6 +37,7 @@ import jadx.core.dex.nodes.MethodNode;
 import jadx.core.dex.regions.conditions.IfCondition;
 import jadx.core.dex.trycatch.ExceptionHandler;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 public class BlockUtils {
 
@@ -359,13 +360,13 @@ public class BlockUtils {
 		return new BitSet(mth.getBasicBlocks().size());
 	}
 
-	public static BitSet copyBlocksBitSet(MethodNode mth, @Nullable BitSet bitSet) {
-		BitSet copy = new BitSet(mth.getBasicBlocks().size());
-		if (!bitSet.isEmpty()) {
-			copy.or(bitSet);
-		}
-		return copy;
-	}
+	public static BitSet copyBlocksBitSet(MethodNode mth,  @Nullable BitSet bitSet) {
+ 		BitSet copy = new BitSet(mth.getBasicBlocks().size());
+ 		if (!Nullability.castToNonnull(bitSet).isEmpty()) {
+ 			copy.or(bitSet);
+ 		}
+ 		return copy;
+ }
 
 	public static BitSet blocksToBitSet(MethodNode mth, Collection<BlockNode> blocks) {
 		BitSet bs = newBlocksBitSet(mth);
