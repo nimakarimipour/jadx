@@ -38,8 +38,11 @@ public final class IfRegion extends ConditionRegion implements IBranchRegion {
 	}
 
 	public IContainer getElseRegion() {
-		return elseRegion;
-	}
+       if (elseRegion == null) {
+           throw new IllegalStateException("elseRegion is not initialized");
+       }
+       return elseRegion;
+   }
 
 	public void setElseRegion(@Nullable IContainer elseRegion) {
 		this.elseRegion = elseRegion;
