@@ -56,6 +56,7 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 			return name;
 		}
 
+		@Nullable
 		public String[] getTypeStrings() {
 			return typeStrings;
 		}
@@ -262,8 +263,13 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		EntryConfig config = parseConfig();
 
 		if (config.isInvalid) {
-			String typeName = pkg.getTypeStrings()[id - 1];
-			LOG.warn("Invalid config flags detected: {}{}", typeName, config.getQualifiers());
+			String[] typeStrings = pkg.getTypeStrings();
+			if (typeStrings != null) {
+				String typeName = typeStrings[id - 1];
+				LOG.warn("Invalid config flags detected: {}{}", typeName, config.getQualifiers());
+			} else {
+				LOG.warn("Type strings are null, skipping invalid config warning.");
+			}
 		}
 
 		int[] entryIndexes = new int[entryCount];
@@ -297,6 +303,10 @@ public class ResTableParser extends CommonBinaryParser implements IResParser {
 		int key = is.readInt32();
 		if (key == -1) {
 			return;
+		}
+
+		if (pkg.getTypeStrings() == null) {
+			throw new NullPointerException("Type strings are null");
 		}
 
 		int resRef = pkg.getId() << 24 | typeId << 16 | entryId;
