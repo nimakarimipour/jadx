@@ -19,8 +19,6 @@ import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.LoopInfo;
@@ -1182,7 +1180,7 @@ public class BlockUtils {
 				for (BlockNode scc : block.getSuccessors()) {
 					BitSet scPDoms = map.get(scc);
 					if (scPDoms != null) {
-						Nullability.castToNonnull(d, "previously inserted into map").and(scPDoms);
+						d.and(scPDoms);
 					}
 				}
 				d.set(block.getId());
