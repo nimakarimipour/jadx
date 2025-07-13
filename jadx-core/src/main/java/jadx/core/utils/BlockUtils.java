@@ -19,8 +19,6 @@ import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.LoopInfo;
@@ -757,9 +755,12 @@ public class BlockUtils {
 			return oneBlock;
 		}
 		BitSet excluded = newBlocksBitSet(mth);
+		// exclude method exit and loop start blocks
 		excluded.set(mth.getExitBlock().getId());
+		// exclude loop start blocks
 		mth.getLoops().forEach(l -> excluded.set(l.getStart().getId()));
 		if (!mth.isNoExceptionHandlers()) {
+			// exclude exception handlers paths
 			mth.getExceptionHandlers().forEach(h -> mergeExcHandlerDomFrontier(mth, h, excluded));
 		}
 		domFrontBS.andNot(excluded);
@@ -770,8 +771,9 @@ public class BlockUtils {
 		BitSet combinedDF = newBlocksBitSet(mth);
 		int k = mth.getBasicBlocks().size();
 		while (true) {
+			// collect dom frontier blocks from current set until only one block left
 			forEachBlockFromBitSet(mth, domFrontBS, block -> {
-				BitSet domFrontier = Nullability.castToNonnull(block.getDomFrontier(), "not documented as nullable");
+				BitSet domFrontier = block.getDomFrontier();
 				if (!domFrontier.isEmpty()) {
 					combinedDF.or(domFrontier);
 					combinedDF.clear(block.getId());
@@ -789,6 +791,7 @@ public class BlockUtils {
 				mth.addWarnComment("Path cross not found for " + blocks + ", limit reached: " + mth.getBasicBlocks().size());
 				return null;
 			}
+			// replace domFrontBS with combinedDF
 			domFrontBS.clear();
 			domFrontBS.or(combinedDF);
 			combinedDF.clear();

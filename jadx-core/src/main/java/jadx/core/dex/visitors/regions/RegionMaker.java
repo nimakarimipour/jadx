@@ -881,7 +881,7 @@ public class RegionMaker {
 	@Nullable
 	private BlockNode searchFallThroughCase(BlockNode successor, BlockNode out, BitSet caseBlocks) {
 		BitSet df = successor.getDomFrontier();
-		if (df != null && df.intersects(caseBlocks)) {
+		if (df.intersects(caseBlocks)) {
 			return getOneIntersectionBlock(out, caseBlocks, df);
 		}
 		Set<BlockNode> allPathsBlocks = BlockUtils.getAllPathsBlocks(successor, out);
@@ -999,8 +999,7 @@ public class RegionMaker {
 	private void insertContinueInSwitch(BlockNode block, BlockNode out, BlockNode end) {
 		int endId = end.getId();
 		for (BlockNode s : block.getCleanSuccessors()) {
-			BitSet domFrontier = s.getDomFrontier();
-			if (domFrontier != null && domFrontier.get(endId) && s != out) {
+			if (s.getDomFrontier().get(endId) && s != out) {
 				// search predecessor of loop end on path from this successor
 				List<BlockNode> list = BlockUtils.collectBlocksDominatedBy(mth, s, s);
 				for (BlockNode p : end.getPredecessors()) {
