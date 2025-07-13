@@ -303,7 +303,7 @@ public class Deobfuscator {
 			}
 		} while (!fullPkgName.isEmpty() && result != null);
 
-		return result;
+		return result != null ? result : rootPackage;
 	}
 
 	String getNameWithoutPackage(ClassInfo clsInfo) {
