@@ -105,22 +105,22 @@ public class MethodNode extends NotificationAttrNode implements IMethodDetails, 
 	}
 
 	@Initializer
-	@Override
-	public void unload() {
-		loaded = false;
-		// don't unload retType, argTypes, typeParameters
-		thisArg = null;
-		argsList = null;
-		sVars = Collections.emptyList();
-		instructions = null;
-		blocks = null;
-		enterBlock = null;
-		exitBlock = null;
-		region = null;
-		exceptionHandlers = Collections.emptyList();
-		loops = Collections.emptyList();
-		unloadAttributes();
-	}
+   @Override
+   public void unload() {
+       loaded = false;
+       // don't unload retType, argTypes, typeParameters
+       thisArg = null;
+       argsList = null;
+       sVars = Collections.emptyList();
+       instructions = null;
+       blocks = Collections.emptyList(); // Set to an empty list instead of null
+       enterBlock = null;
+       exitBlock = null;
+       region = null;
+       exceptionHandlers = Collections.emptyList();
+       loops = Collections.emptyList();
+       unloadAttributes();
+   }
 
 	public void updateTypes(List<ArgType> argTypes, ArgType retType) {
 		this.argTypes = argTypes;
