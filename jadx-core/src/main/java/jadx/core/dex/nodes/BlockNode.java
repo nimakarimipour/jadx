@@ -170,8 +170,11 @@ public final class BlockNode extends AttrNode implements IBlock, Comparable<Bloc
 	}
 
 	public BitSet getDomFrontier() {
-		return domFrontier;
-	}
+       if (domFrontier == null) {
+           return new BitSet();
+       }
+       return domFrontier;
+   }
 
 	public void setDomFrontier(@Nullable BitSet domFrontier) {
 		this.domFrontier = domFrontier;
