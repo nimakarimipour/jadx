@@ -53,8 +53,8 @@ public class MethodInlineAttr extends PinnedAttribute {
 		return insn == null;
 	}
 
-	@Nullable
-	public InsnNode getInsn() {
+	
+	@Nullable public InsnNode getInsn() {
 		return insn;
 	}
 
