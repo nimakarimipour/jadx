@@ -73,21 +73,21 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	public synchronized ICodeInfo parse(InputStream inputStream) throws IOException {
-		is = new ParserStream(inputStream);
-		if (!isBinaryXml()) {
-			return ResourcesLoader.loadToCodeWriter(inputStream);
-		}
-		nsMapGenerated = new HashSet<>();
-		nsMap = new HashMap<>();
-		writer = rootNode.makeCodeWriter();
-		writer.add("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-		firstElement = true;
-		decode();
-		nsMap = null;
-		ICodeInfo codeInfo = writer.finish();
-		this.classNameCache = null; // reset class name cache
-		return codeInfo;
-	}
+     is = new ParserStream(inputStream);
+     if (!isBinaryXml()) {
+       return ResourcesLoader.loadToCodeWriter(inputStream);
+     }
+     nsMapGenerated = new HashSet<>();
+     nsMap = new HashMap<>();
+     writer = rootNode.makeCodeWriter();
+     writer.add("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+     firstElement = true;
+     decode();
+     nsMap.clear(); // clear the map instead of setting it to null
+     ICodeInfo codeInfo = writer.finish();
+     this.classNameCache = null; // reset class name cache
+     return codeInfo;
+   }
 
 	private boolean isBinaryXml() throws IOException {
 		is.mark(4);
