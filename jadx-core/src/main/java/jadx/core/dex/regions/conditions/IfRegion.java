@@ -27,8 +27,11 @@ public final class IfRegion extends ConditionRegion implements IBranchRegion {
 	}
 
 	public IContainer getThenRegion() {
-		return thenRegion;
-	}
+       if (thenRegion == null) {
+           throw new IllegalStateException("thenRegion is not initialized");
+       }
+       return thenRegion;
+   }
 
 	public void setThenRegion(IContainer thenRegion) {
 		this.thenRegion = thenRegion;
