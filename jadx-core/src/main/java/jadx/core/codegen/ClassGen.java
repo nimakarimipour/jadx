@@ -649,8 +649,7 @@ public class ClassGen {
 		if (extClsInfo.isDefaultPackage()) {
 			return shortName;
 		}
-		// Use existing getAliasPkg method that handles null cases
-		if (Objects.equals(extClsInfo.getAliasPkg(), useCls.getAliasPkg())) {
+		if (extClsInfo.getAliasPkg().equals(useCls.getAliasPkg())) {
 			fullName = extClsInfo.getAliasNameWithoutPackage();
 		}
 		for (ClassInfo importCls : getImports()) {
@@ -747,7 +746,7 @@ public class ClassGen {
 	 */
 	private static boolean checkInPackageCollision(RootNode root, ClassInfo useCls, ClassInfo searchCls) {
 		String currentPkg = useCls.getAliasPkg();
-		if (currentPkg != null && currentPkg.equals(searchCls.getAliasPkg())) {
+		if (currentPkg.equals(searchCls.getAliasPkg())) {
 			// search class already from current package
 			return false;
 		}
