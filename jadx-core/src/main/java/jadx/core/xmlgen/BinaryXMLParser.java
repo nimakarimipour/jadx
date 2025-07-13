@@ -22,6 +22,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.StringUtils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
 import jadx.core.xmlgen.entry.ValuesParser;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 /*
  * TODO:
@@ -391,36 +392,36 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void decodeAttribute(int attributeNS, int attrValDataType, int attrValData,
-			@Nullable String shortNsName, String attrName) {
-		if (attrValDataType == TYPE_REFERENCE) {
-			// reference custom processing
-			String resName = resNames.get(attrValData);
-			if (resName != null) {
-				writer.add('@');
-				if (resName.startsWith("id/")) {
-					writer.add('+');
-				}
-				writer.add(resName);
-			} else {
-				String androidResName = ValuesParser.getAndroidResMap().get(attrValData);
-				if (androidResName != null) {
-					writer.add("@android:").add(androidResName);
-				} else if (attrValData == 0) {
-					writer.add("@null");
-				} else {
-					writer.add("0x").add(Integer.toHexString(attrValData));
-				}
-			}
-		} else {
-			String str = valuesParser.decodeValue(attrValDataType, attrValData);
-			memorizePackageName(attrName, str);
-			if (isDeobfCandidateAttr(shortNsName, attrName)) {
-				str = deobfClassName(str);
-			}
-			attachClassNode(writer, attrName, str);
-			writer.add(str != null ? StringUtils.escapeXML(str) : "null");
-		}
-	}
+ 			 @Nullable String shortNsName, String attrName) {
+ 		if (attrValDataType == TYPE_REFERENCE) {
+ 			// reference custom processing
+ 			String resName = resNames.get(attrValData);
+ 			if (resName != null) {
+ 				writer.add('@');
+ 				if (resName.startsWith("id/")) {
+ 					writer.add('+');
+ 				}
+ 				writer.add(resName);
+ 			} else {
+ 				String androidResName = ValuesParser.getAndroidResMap().get(attrValData);
+ 				if (androidResName != null) {
+ 					writer.add("@android:").add(androidResName);
+ 				} else if (attrValData == 0) {
+ 					writer.add("@null");
+ 				} else {
+ 					writer.add("0x").add(Integer.toHexString(attrValData));
+ 				}
+ 			}
+ 		} else {
+ 			String str = valuesParser.decodeValue(attrValDataType, attrValData);
+ 			memorizePackageName(attrName, str);
+ 			if (isDeobfCandidateAttr(shortNsName, attrName)) {
+ 				str = deobfClassName(Nullability.castToNonnull(str));
+ 			}
+ 			attachClassNode(writer, attrName, str);
+ 			writer.add(str != null ? StringUtils.escapeXML(str) : "null");
+ 		}
+ }
 
 	private void parseElementEnd() throws IOException {
 		if (is.readInt16() != 0x10) {
