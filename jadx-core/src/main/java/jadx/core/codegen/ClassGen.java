@@ -718,12 +718,12 @@ public class ClassGen {
 	}
 
 	private static boolean isClassInnerFor(@Nullable ClassInfo inner, ClassInfo parent) {
-		if (inner.isInner()) {
-			ClassInfo p = inner.getParentClass();
-			return Objects.equals(p, parent) || isClassInnerFor(p, parent);
-		}
-		return false;
-	}
+       if (inner != null && inner.isInner()) {
+           ClassInfo p = inner.getParentClass();
+           return Objects.equals(p, parent) || isClassInnerFor(p, parent);
+       }
+       return false;
+   }
 
 	private static boolean checkInnerCollision(RootNode root, @Nullable ClassInfo useCls, ClassInfo searchCls) {
 		if (useCls == null) {
