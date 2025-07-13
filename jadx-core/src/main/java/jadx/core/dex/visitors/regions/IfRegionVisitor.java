@@ -173,9 +173,6 @@ public class IfRegionVisitor extends AbstractVisitor {
 			return false;
 		}
 		IRegion parent = ifRegion.getParent();
-		if (parent == null) {
-			return false; // add this check to handle the case where parent might be null
-		}
 		Region newRegion = new Region(parent);
 		if (parent.replaceSubBlock(ifRegion, newRegion)) {
 			newRegion.add(ifRegion);
