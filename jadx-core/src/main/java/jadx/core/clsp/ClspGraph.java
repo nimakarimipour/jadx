@@ -20,6 +20,7 @@ import jadx.core.dex.nodes.IMethodDetails;
 import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.exceptions.DecodeException;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 /**
  * Classes hierarchy graph with methods additional info
@@ -28,9 +29,9 @@ public class ClspGraph {
 	private static final Logger LOG = LoggerFactory.getLogger(ClspGraph.class);
 
 	private final RootNode root;
-	private Map<String, ClspClass> nameMap;
-	private Map<String, Set<String>> superTypesCache;
-	private Map<String, List<String>> implementsCache;
+	@Nullable private Map<String, ClspClass> nameMap;
+	@Nullable private Map<String, Set<String>> superTypesCache;
+	@Nullable private Map<String, List<String>> implementsCache;
 
 	private final Set<String> missingClasses = new HashSet<>();
 
@@ -68,37 +69,44 @@ public class ClspGraph {
 	}
 
 	public boolean isClsKnown(String fullName) {
-		return nameMap.containsKey(fullName);
-	}
+        if (nameMap == null) {
+            throw new JadxRuntimeException("Classpath must be loaded first");
+        }
+        return Nullability.castToNonnull(nameMap, "checked if null first").containsKey(fullName);
+ }
 
-	@Nullable
-	public ClspClass getClsDetails(ArgType type) {
-		return nameMap.get(type.getObject());
-	}
+	@Nullable public ClspClass getClsDetails(ArgType type) {
+        if (nameMap == null) {
+            throw new JadxRuntimeException("Classpath must be loaded first");
+        }
+        return Nullability.castToNonnull(nameMap, "null check performed").get(type.getObject());
+   }
 
-	@Nullable
-	public IMethodDetails getMethodDetails(MethodInfo methodInfo) {
-		ClspClass cls = nameMap.get(methodInfo.getDeclClass().getRawName());
-		if (cls == null) {
-			return null;
-		}
-		ClspMethod clspMethod = getMethodFromClass(cls, methodInfo);
-		if (clspMethod != null) {
-			return clspMethod;
-		}
-		// deep search
-		for (ArgType parent : cls.getParents()) {
-			ClspClass clspParent = getClspClass(parent);
-			if (clspParent != null) {
-				ClspMethod methodFromParent = getMethodFromClass(clspParent, methodInfo);
-				if (methodFromParent != null) {
-					return methodFromParent;
-				}
-			}
-		}
-		// unknown method
-		return new SimpleMethodDetails(methodInfo);
-	}
+	@Nullable public IMethodDetails getMethodDetails(MethodInfo methodInfo) {
+       if (nameMap == null) {
+           throw new JadxRuntimeException("Classpath must be loaded first");
+       }
+       ClspClass cls = nameMap.get(methodInfo.getDeclClass().getRawName());
+       if (cls == null) {
+           return null;
+       }
+       ClspMethod clspMethod = getMethodFromClass(cls, methodInfo);
+       if (clspMethod != null) {
+           return clspMethod;
+       }
+       // deep search
+       for (ArgType parent : cls.getParents()) {
+           ClspClass clspParent = getClspClass(parent);
+           if (clspParent != null) {
+               ClspMethod methodFromParent = getMethodFromClass(clspParent, methodInfo);
+               if (methodFromParent != null) {
+                   return methodFromParent;
+               }
+           }
+       }
+       // unknown method
+       return new SimpleMethodDetails(methodInfo);
+   }
 
 	@Nullable
 	private ClspMethod getMethodFromClass(ClspClass cls, MethodInfo methodInfo) {
@@ -106,12 +114,15 @@ public class ClspGraph {
 	}
 
 	private void addClass(ClassNode cls) {
-		ArgType clsType = cls.getClassInfo().getType();
-		String rawName = clsType.getObject();
-		ClspClass clspClass = new ClspClass(clsType, -1);
-		clspClass.setParents(ClsSet.makeParentsArray(cls));
-		nameMap.put(rawName, clspClass);
-	}
+       if (nameMap == null) {
+           throw new JadxRuntimeException("Classpath must be loaded first");
+       }
+       ArgType clsType = cls.getClassInfo().getType();
+       String rawName = clsType.getObject();
+       ClspClass clspClass = new ClspClass(clsType, -1);
+       clspClass.setParents(ClsSet.makeParentsArray(cls));
+       nameMap.put(rawName, clspClass);
+   }
 
 	/**
 	 * @return {@code clsName} instanceof {@code implClsName}
@@ -122,38 +133,46 @@ public class ClspGraph {
 	}
 
 	public List<String> getImplementations(String clsName) {
-		List<String> list = implementsCache.get(clsName);
-		return list == null ? Collections.emptyList() : list;
-	}
+       if (implementsCache == null) {
+           throw new JadxRuntimeException("Implements cache must be initialized first");
+       }
+       List<String> list = implementsCache.get(clsName);
+       return list == null ? Collections.emptyList() : list;
+   }
 
 	private void fillImplementsCache() {
-		Map<String, List<String>> map = new HashMap<>(nameMap.size());
-		List<String> classes = new ArrayList<>(nameMap.keySet());
-		Collections.sort(classes);
-		for (String cls : classes) {
-			for (String st : getSuperTypes(cls)) {
-				map.computeIfAbsent(st, v -> new ArrayList<>()).add(cls);
-			}
-		}
-		implementsCache = map;
-	}
+        if (nameMap == null) {
+            throw new JadxRuntimeException("Classpath must be loaded first");
+        }
+        Map<String, List<String>> map = new HashMap<>(Nullability.castToNonnull(nameMap, "null check").size());
+        List<String> classes = new ArrayList<>(nameMap.keySet());
+        Collections.sort(classes);
+        for (String cls : classes) {
+            for (String st : getSuperTypes(cls)) {
+                map.computeIfAbsent(st, v -> new ArrayList<>()).add(cls);
+            }
+        }
+        implementsCache = map;
+   }
 
-	@Nullable
-	public String getCommonAncestor(String clsName, String implClsName) {
-		if (clsName.equals(implClsName)) {
-			return clsName;
-		}
-		ClspClass cls = nameMap.get(implClsName);
-		if (cls == null) {
-			missingClasses.add(clsName);
-			return null;
-		}
-		if (isImplements(clsName, implClsName)) {
-			return implClsName;
-		}
-		Set<String> anc = getSuperTypes(clsName);
-		return searchCommonParent(anc, cls);
-	}
+	@Nullable public String getCommonAncestor(String clsName, String implClsName) {
+        if (nameMap == null) {
+            throw new JadxRuntimeException("Classpath must be loaded first");
+        }
+        if (clsName.equals(implClsName)) {
+            return clsName;
+        }
+        ClspClass cls = Nullability.castToNonnull(nameMap, "not null if checked").get(implClsName);
+        if (cls == null) {
+            missingClasses.add(clsName);
+            return null;
+        }
+        if (isImplements(clsName, implClsName)) {
+            return implClsName;
+        }
+        Set<String> anc = getSuperTypes(clsName);
+        return searchCommonParent(anc, cls);
+   }
 
 	@Nullable
 	private String searchCommonParent(Set<String> anc, ClspClass cls) {
@@ -174,27 +193,33 @@ public class ClspGraph {
 	}
 
 	public Set<String> getSuperTypes(String clsName) {
-		Set<String> result = superTypesCache.get(clsName);
-		return result == null ? Collections.emptySet() : result;
-	}
+       if (superTypesCache == null) {
+           throw new IllegalStateException("Super types cache must be initialized first");
+       }
+       Set<String> result = superTypesCache.get(clsName);
+       return result == null ? Collections.emptySet() : result;
+   }
 
 	private void fillSuperTypesCache() {
-		Map<String, Set<String>> map = new HashMap<>(nameMap.size());
-		Set<String> tmpSet = new HashSet<>();
-		for (Map.Entry<String, ClspClass> entry : nameMap.entrySet()) {
-			ClspClass cls = entry.getValue();
-			tmpSet.clear();
-			addSuperTypes(cls, tmpSet);
-			Set<String> result;
-			if (tmpSet.isEmpty()) {
-				result = Collections.emptySet();
-			} else {
-				result = new HashSet<>(tmpSet);
-			}
-			map.put(cls.getName(), result);
-		}
-		superTypesCache = map;
-	}
+        if (nameMap == null) {
+            throw new JadxRuntimeException("Classpath must be loaded first");
+        }
+        Map<String, Set<String>> map = new HashMap<>(Nullability.castToNonnull(nameMap, "preceding null check").size());
+        Set<String> tmpSet = new HashSet<>();
+        for (Map.Entry<String, ClspClass> entry : nameMap.entrySet()) {
+            ClspClass cls = entry.getValue();
+            tmpSet.clear();
+            addSuperTypes(cls, tmpSet);
+            Set<String> result;
+            if (tmpSet.isEmpty()) {
+                result = Collections.emptySet();
+            } else {
+                result = new HashSet<>(tmpSet);
+            }
+            map.put(cls.getName(), result);
+        }
+        superTypesCache = map;
+ }
 
 	private void addSuperTypes(ClspClass cls, Set<String> result) {
 		for (ArgType parentType : cls.getParents()) {
@@ -214,14 +239,16 @@ public class ClspGraph {
 		}
 	}
 
-	@Nullable
-	private ClspClass getClspClass(ArgType clsType) {
-		ClspClass clspClass = nameMap.get(clsType.getObject());
-		if (clspClass == null) {
-			missingClasses.add(clsType.getObject());
-		}
-		return clspClass;
-	}
+	@Nullable private ClspClass getClspClass(ArgType clsType) {
+       if (nameMap == null) {
+           throw new JadxRuntimeException("Classpath must be loaded first");
+       }
+       ClspClass clspClass = nameMap.get(clsType.getObject());
+       if (clspClass == null) {
+           missingClasses.add(clsType.getObject());
+       }
+       return clspClass;
+   }
 
 	public void printMissingClasses() {
 		int count = missingClasses.size();
