@@ -40,7 +40,7 @@ public class ProtoXMLParser {
 		writer = rootNode.makeCodeWriter();
 		writer.add("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
 		decode(decodeProto(inputStream));
-		nsMap.clear(); // Instead of setting to null, clear the map
+		nsMap = null;
 		return writer.finish();
 	}
 
