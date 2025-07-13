@@ -616,56 +616,57 @@ public class ClassGen {
 	}
 
 	private String useClassInternal(ClassInfo useCls, @Nullable ClassInfo extClsInfo) {
-		String fullName = extClsInfo.getAliasFullName();
-		if (fallback || !useImports) {
-			return fullName;
-		}
-		String shortName = extClsInfo.getAliasShortName();
-		if (useCls.equals(extClsInfo)) {
-			return shortName;
-		}
-		if (isClassInnerFor(useCls, extClsInfo)) {
-			return shortName;
-		}
-		if (extClsInfo.isInner()) {
-			return expandInnerClassName(useCls, extClsInfo);
-		}
-		if (checkInnerCollision(cls.root(), useCls, extClsInfo)
-				|| checkInPackageCollision(cls.root(), useCls, extClsInfo)) {
-			return fullName;
-		}
-		if (isBothClassesInOneTopClass(useCls, extClsInfo)) {
-			return shortName;
-		}
-		// don't add import for top classes from 'java.lang' package (subpackages excluded)
-		if (extClsInfo.getPackage().equals("java.lang") && extClsInfo.getParentClass() == null) {
-			return shortName;
-		}
-		// don't add import if this class from same package
-		if (extClsInfo.getPackage().equals(useCls.getPackage()) && !extClsInfo.isInner()) {
-			return shortName;
-		}
-		// ignore classes from default package
-		if (extClsInfo.isDefaultPackage()) {
-			return shortName;
-		}
-		if (extClsInfo.getAliasPkg().equals(useCls.getAliasPkg())) {
-			fullName = extClsInfo.getAliasNameWithoutPackage();
-		}
-		for (ClassInfo importCls : getImports()) {
-			if (!importCls.equals(extClsInfo)
-					&& importCls.getAliasShortName().equals(shortName)) {
-				if (extClsInfo.isInner()) {
-					String parent = useClassInternal(useCls, extClsInfo.getParentClass());
-					return parent + '.' + shortName;
-				} else {
-					return fullName;
-				}
-			}
-		}
-		addImport(extClsInfo);
-		return shortName;
-	}
+       if (extClsInfo == null) {
+           // Handle the case when extClsInfo is null, you might want to throw an exception or return a default value
+           return "";
+       }
+       String fullName = extClsInfo.getAliasFullName();
+       if (fallback || !useImports) {
+           return fullName;
+       }
+       String shortName = extClsInfo.getAliasShortName();
+       if (useCls.equals(extClsInfo)) {
+           return shortName;
+       }
+       if (isClassInnerFor(useCls, extClsInfo)) {
+           return shortName;
+       }
+       if (extClsInfo.isInner()) {
+           return expandInnerClassName(useCls, extClsInfo);
+       }
+       if (checkInnerCollision(cls.root(), useCls, extClsInfo)
+               || checkInPackageCollision(cls.root(), useCls, extClsInfo)) {
+           return fullName;
+       }
+       if (isBothClassesInOneTopClass(useCls, extClsInfo)) {
+           return shortName;
+       }
+       if (extClsInfo.getPackage().equals("java.lang") && extClsInfo.getParentClass() == null) {
+           return shortName;
+       }
+       if (extClsInfo.getPackage().equals(useCls.getPackage()) && !extClsInfo.isInner()) {
+           return shortName;
+       }
+       if (extClsInfo.isDefaultPackage()) {
+           return shortName;
+       }
+       if (extClsInfo.getAliasPkg().equals(useCls.getAliasPkg())) {
+           fullName = extClsInfo.getAliasNameWithoutPackage();
+       }
+       for (ClassInfo importCls : getImports()) {
+           if (!importCls.equals(extClsInfo)
+                   && importCls.getAliasShortName().equals(shortName)) {
+               if (extClsInfo.isInner()) {
+                   String parent = useClassInternal(useCls, extClsInfo.getParentClass());
+                   return parent + '.' + shortName;
+               } else {
+                   return fullName;
+               }
+           }
+       }
+       addImport(extClsInfo);
+       return shortName;
+   }
 
 	private String expandInnerClassName(ClassInfo useCls, ClassInfo extClsInfo) {
 		List<ClassInfo> clsList = new ArrayList<>();
