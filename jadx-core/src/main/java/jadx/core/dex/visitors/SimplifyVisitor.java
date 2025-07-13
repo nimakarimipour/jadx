@@ -49,7 +49,7 @@ public class SimplifyVisitor extends AbstractVisitor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SimplifyVisitor.class);
 
-	private MethodInfo stringGetBytesMth;
+	private MethodInfo stringGetBytesMth = null;
 
 	@Override
 	public void init(RootNode root) {
