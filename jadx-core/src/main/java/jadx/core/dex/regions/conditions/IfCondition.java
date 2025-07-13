@@ -47,10 +47,7 @@ public final class IfCondition extends AttrNode {
 	private IfCondition(Mode mode, List<IfCondition> args) {
 		this.mode = mode;
 		this.args = args;
-		if (mode == Mode.COMPARE) {
-			throw new IllegalArgumentException("Mode cannot be COMPARE when using this constructor");
-		}
-		this.compare = new Compare(); // Assuming a valid default Compare instance is possible
+		this.compare = null;
 	}
 
 	private IfCondition(IfCondition c) {
