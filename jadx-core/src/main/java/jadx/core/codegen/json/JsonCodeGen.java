@@ -211,15 +211,18 @@ public class JsonCodeGen {
 	}
 
 	private String getTypeAlias(@Nullable ArgType clsType) {
-		if (Objects.equals(clsType, ArgType.OBJECT)) {
-			return ArgType.OBJECT.getObject();
-		}
-		if (clsType.isObject()) {
-			ClassInfo classInfo = ClassInfo.fromType(root, clsType);
-			return classInfo.getAliasFullName();
-		}
-		return clsType.toString();
-	}
+       if (clsType == null) {
+           return "null"; // or another default value or behavior you prefer
+       }
+       if (Objects.equals(clsType, ArgType.OBJECT)) {
+           return ArgType.OBJECT.getObject();
+       }
+       if (clsType.isObject()) {
+           ClassInfo classInfo = ClassInfo.fromType(root, clsType);
+           return classInfo.getAliasFullName();
+       }
+       return clsType.toString();
+   }
 
 	private String getClassTypeStr(ClassNode cls) {
 		if (cls.isEnum()) {
