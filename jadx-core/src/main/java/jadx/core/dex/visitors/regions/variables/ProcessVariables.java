@@ -35,6 +35,7 @@ import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.RegionUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxException;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 public class ProcessVariables extends AbstractVisitor {
 	private static final Logger LOG = LoggerFactory.getLogger(ProcessVariables.class);
@@ -248,19 +249,19 @@ public class ProcessVariables extends AbstractVisitor {
 	}
 
 	private static boolean checkDeclareAtAssign(@Nullable SSAVar var) {
-		RegisterArg arg = var.getAssign();
-		InsnNode parentInsn = arg.getParentInsn();
-		if (parentInsn == null
-				|| parentInsn.contains(AFlag.WRAPPED)
-				|| parentInsn.getType() == InsnType.PHI) {
-			return false;
-		}
-		if (!arg.equals(parentInsn.getResult())) {
-			return false;
-		}
-		parentInsn.add(AFlag.DECLARE_VAR);
-		return true;
-	}
+ 		RegisterArg arg = Nullability.castToNonnull(var).getAssign();
+ 		InsnNode parentInsn = arg.getParentInsn();
+ 		if (parentInsn == null
+ 				|| parentInsn.contains(AFlag.WRAPPED)
+ 				|| parentInsn.getType() == InsnType.PHI) {
+ 			return false;
+ 		}
+ 		if (!arg.equals(parentInsn.getResult())) {
+ 			return false;
+ 		}
+ 		parentInsn.add(AFlag.DECLARE_VAR);
+ 		return true;
+ }
 
 	private static void declareVarInRegion(IContainer region, CodeVar var) {
 		if (var.isDeclared()) {
