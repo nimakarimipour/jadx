@@ -53,30 +53,33 @@ public class ConditionGen extends InsnGen {
 	}
 
 	private void add(ICodeWriter code, CondStack stack, @Nullable IfCondition condition) throws CodegenException {
-		stack.push(condition);
-		switch (condition.getMode()) {
-			case COMPARE:
-				addCompare(code, stack, condition.getCompare());
-				break;
-
-			case TERNARY:
-				addTernary(code, stack, condition);
-				break;
-
-			case NOT:
-				addNot(code, stack, condition);
-				break;
-
-			case AND:
-			case OR:
-				addAndOr(code, stack, condition);
-				break;
-
-			default:
-				throw new JadxRuntimeException("Unknown condition mode: " + condition.getMode());
-		}
-		stack.pop();
-	}
+       if (condition == null) {
+           throw new IllegalArgumentException("Condition cannot be null");
+       }
+       stack.push(condition);
+       switch (condition.getMode()) {
+           case COMPARE:
+               addCompare(code, stack, condition.getCompare());
+               break;
+ 
+           case TERNARY:
+               addTernary(code, stack, condition);
+               break;
+ 
+           case NOT:
+               addNot(code, stack, condition);
+               break;
+ 
+           case AND:
+           case OR:
+               addAndOr(code, stack, condition);
+               break;
+ 
+           default:
+               throw new JadxRuntimeException("Unknown condition mode: " + condition.getMode());
+       }
+       stack.pop();
+   }
 
 	private void wrap(ICodeWriter code, CondStack stack, IfCondition cond) throws CodegenException {
 		boolean wrap = isWrapNeeded(cond);
