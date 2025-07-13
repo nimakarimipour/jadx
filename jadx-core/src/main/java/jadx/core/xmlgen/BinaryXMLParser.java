@@ -307,17 +307,25 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		}
 		String attrName = getValidTagAttributeName(getAttributeName(attributeName));
 		writer.add(attrName).add("=\"");
-		String decodedAttr = ManifestAttributes.getInstance().decode(attrName, attrValData);
-		if (decodedAttr != null) {
-			memorizePackageName(attrName, decodedAttr);
-			if (isDeobfCandidateAttr(shortNsName, attrName)) {
-				decodedAttr = deobfClassName(decodedAttr);
+
+		ManifestAttributes instance = ManifestAttributes.getInstance();
+		if (instance != null) {
+			String decodedAttr = instance.decode(attrName, attrValData);
+			if (decodedAttr != null) {
+				memorizePackageName(attrName, decodedAttr);
+				if (isDeobfCandidateAttr(shortNsName, attrName)) {
+					decodedAttr = deobfClassName(decodedAttr);
+				}
+				attachClassNode(writer, attrName, decodedAttr);
+				writer.add(StringUtils.escapeXML(decodedAttr));
+			} else {
+				decodeAttribute(attributeNS, attrValDataType, attrValData, shortNsName, attrName);
 			}
-			attachClassNode(writer, attrName, decodedAttr);
-			writer.add(StringUtils.escapeXML(decodedAttr));
 		} else {
-			decodeAttribute(attributeNS, attrValDataType, attrValData,
-					shortNsName, attrName);
+			// Handle the case where instance is null, e.g., log an error or throw an exception.
+			LOG.error("ManifestAttributes instance is null");
+			// Alternatively, you could throw an exception:
+			// throw new IllegalStateException("ManifestAttributes instance is null");
 		}
 		writer.add('"');
 	}
