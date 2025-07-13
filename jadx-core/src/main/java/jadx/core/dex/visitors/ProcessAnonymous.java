@@ -293,9 +293,9 @@ public class ProcessAnonymous extends AbstractVisitor {
 		if (interfacesCount == 0) {
 			return superCls;
 		}
+		// check if super class already implement that interface (weird case)
 		ArgType interfaceType = cls.getInterfaces().get(0);
-		if (cls.root() != null && cls.root().getClsp() != null
-				&& cls.root().getClsp().isImplements(superCls.getObject(), interfaceType.getObject())) {
+		if (cls.root().getClsp().isImplements(superCls.getObject(), interfaceType.getObject())) {
 			return superCls;
 		}
 		return null;

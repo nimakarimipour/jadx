@@ -36,18 +36,11 @@ public class TypeUtils {
 	}
 
 	public List<ArgType> getClassGenerics(ArgType type) {
-		if (root == null) {
-			return Collections.emptyList();
-		}
 		ClassNode classNode = root.resolveClass(type);
 		if (classNode != null) {
 			return classNode.getGenericTypeParameters();
 		}
-		ClspGraph clsp = root.getClsp();
-		if (clsp == null) {
-			return Collections.emptyList();
-		}
-		ClspClass clsDetails = clsp.getClsDetails(type);
+		ClspClass clsDetails = root.getClsp().getClsDetails(type);
 		if (clsDetails == null || clsDetails.getTypeParameters().isEmpty()) {
 			return Collections.emptyList();
 		}
@@ -363,18 +356,16 @@ public class TypeUtils {
 	}
 
 	public void visitSuperTypes(ArgType type, BiConsumer<ArgType, ArgType> consumer) {
-		if (root != null && root.getClsp() != null) {
-			ClassNode cls = root.resolveClass(type);
-			if (cls != null) {
-				cls.visitSuperTypes(consumer);
-			} else {
-				ClspClass clspClass = root.getClsp().getClsDetails(type);
-				if (clspClass != null) {
-					for (ArgType superType : clspClass.getParents()) {
-						if (!superType.equals(ArgType.OBJECT)) {
-							consumer.accept(type, superType);
-							visitSuperTypes(superType, consumer);
-						}
+		ClassNode cls = root.resolveClass(type);
+		if (cls != null) {
+			cls.visitSuperTypes(consumer);
+		} else {
+			ClspClass clspClass = root.getClsp().getClsDetails(type);
+			if (clspClass != null) {
+				for (ArgType superType : clspClass.getParents()) {
+					if (!superType.equals(ArgType.OBJECT)) {
+						consumer.accept(type, superType);
+						visitSuperTypes(superType, consumer);
 					}
 				}
 			}

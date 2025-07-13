@@ -42,8 +42,7 @@ public class MethodUtils {
 		if (mthNode != null) {
 			return mthNode;
 		}
-		Clsp clsp = root.getClsp();
-		return clsp != null ? clsp.getMethodDetails(callMth) : null;
+		return root.getClsp().getMethodDetails(callMth);
 	}
 
 	@Nullable
@@ -112,27 +111,24 @@ public class MethodUtils {
 				}
 			}
 		} else {
-			ClspGraph clsp = root.getClsp();
-			if (clsp != null) {
-				ClspClass clsDetails = clsp.getClsDetails(startCls);
-				if (clsDetails == null) {
-					// class info not available
-					return false;
+			ClspClass clsDetails = root.getClsp().getClsDetails(startCls);
+			if (clsDetails == null) {
+				// class info not available
+				return false;
+			}
+			for (ClspMethod clspMth : clsDetails.getMethodsMap().values()) {
+				if (mthInfo.isOverloadedBy(clspMth.getMethodInfo())) {
+					if (collectedMths == null) {
+						return true;
+					}
+					collectedMths.add(clspMth);
 				}
-				for (ClspMethod clspMth : clsDetails.getMethodsMap().values()) {
-					if (mthInfo.isOverloadedBy(clspMth.getMethodInfo())) {
+			}
+			if (!isMthConstructor) {
+				for (ArgType parent : clsDetails.getParents()) {
+					if (processMethodArgsOverloaded(parent, mthInfo, collectedMths)) {
 						if (collectedMths == null) {
 							return true;
-						}
-						collectedMths.add(clspMth);
-					}
-				}
-				if (!isMthConstructor) {
-					for (ArgType parent : clsDetails.getParents()) {
-						if (processMethodArgsOverloaded(parent, mthInfo, collectedMths)) {
-							if (collectedMths == null) {
-								return true;
-							}
 						}
 					}
 				}
