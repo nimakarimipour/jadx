@@ -35,6 +35,7 @@ import jadx.core.dex.nodes.RootNode;
 import jadx.core.utils.CodeGenUtils;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import edu.ucr.cs.riple.annotator.util.Nullability;
 
 public class JsonCodeGen {
 
@@ -117,24 +118,24 @@ public class JsonCodeGen {
 	}
 
 	private void addFields(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
-		jsonCls.setFields(new ArrayList<>());
-		for (FieldNode field : cls.getFields()) {
-			if (field.contains(AFlag.DONT_GENERATE)) {
-				continue;
-			}
-			JsonField jsonField = new JsonField();
-			jsonField.setName(field.getName());
-			if (field.getFieldInfo().hasAlias()) {
-				jsonField.setAlias(field.getAlias());
-			}
-
-			ICodeWriter cw = new SimpleCodeWriter();
-			classGen.addField(cw, field);
-			jsonField.setDeclaration(cw.getCodeStr());
-			jsonField.setAccessFlags(field.getAccessFlags().rawValue());
-			jsonCls.getFields().add(jsonField);
-		}
-	}
+     jsonCls.setFields(new ArrayList<>());
+     for (FieldNode field : cls.getFields()) {
+         if (field.contains(AFlag.DONT_GENERATE)) {
+             continue;
+         }
+         JsonField jsonField = new JsonField();
+         jsonField.setName(field.getName());
+         if (field.getFieldInfo().hasAlias()) {
+             jsonField.setAlias(field.getAlias());
+         }
+ 
+         ICodeWriter cw = new SimpleCodeWriter();
+         classGen.addField(cw, field);
+         jsonField.setDeclaration(cw.getCodeStr());
+         jsonField.setAccessFlags(field.getAccessFlags().rawValue());
+         Nullability.castToNonnull(jsonCls.getFields(), "initialized with ArrayList").add(jsonField);
+     }
+ }
 
 	private void addMethods(ClassNode cls, JsonClass jsonCls, ClassGen classGen) {
 		jsonCls.setMethods(new ArrayList<>());
