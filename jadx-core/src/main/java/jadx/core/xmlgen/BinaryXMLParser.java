@@ -13,6 +13,8 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.ucr.cs.riple.annotator.util.Nullability;
+
 import jadx.api.ICodeInfo;
 import jadx.api.ICodeWriter;
 import jadx.api.ResourcesLoader;
@@ -415,7 +417,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 			String str = valuesParser.decodeValue(attrValDataType, attrValData);
 			memorizePackageName(attrName, str);
 			if (isDeobfCandidateAttr(shortNsName, attrName)) {
-				str = deobfClassName(str);
+				str = deobfClassName(Nullability.castToNonnull(str));
 			}
 			attachClassNode(writer, attrName, str);
 			writer.add(str != null ? StringUtils.escapeXML(str) : "null");
