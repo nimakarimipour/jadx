@@ -65,36 +65,35 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 	}
 
 	private static void markTryBounds(InsnNode[] insnByOffset, ITry aTry, CatchAttr catchAttr) {
-		int offset = aTry.getStartOffset();
-		int end = aTry.getEndOffset();
-
-		boolean tryBlockStarted = false;
-		InsnNode insn = null;
-		while (offset <= end) {
-			InsnNode insnAtOffset = insnByOffset[offset];
-			if (insnAtOffset != null) {
-				insn = insnAtOffset;
-				attachCatchAttr(catchAttr, insn);
-				if (!tryBlockStarted) {
-					insn.add(AFlag.TRY_ENTER);
-					tryBlockStarted = true;
-				}
-			}
-			offset = getNextInsnOffset(insnByOffset, offset);
-			if (offset == -1) {
-				break;
-			}
-		}
-		if (tryBlockStarted) {
-			insn.add(AFlag.TRY_LEAVE);
-		} else {
-			// no instructions found in range -> add nop at start offset
-			InsnNode nop = insertNOP(insnByOffset, aTry.getStartOffset());
-			nop.add(AFlag.TRY_ENTER);
-			nop.add(AFlag.TRY_LEAVE);
-			nop.addAttr(catchAttr);
-		}
-	}
+       int offset = aTry.getStartOffset();
+       int end = aTry.getEndOffset();
+ 
+       boolean tryBlockStarted = false;
+       InsnNode insn = null;
+       while (offset <= end) {
+           InsnNode insnAtOffset = insnByOffset[offset];
+           if (insnAtOffset != null) {
+               insn = insnAtOffset;
+               attachCatchAttr(catchAttr, insn);
+               if (!tryBlockStarted) {
+                   insn.add(AFlag.TRY_ENTER);
+                   tryBlockStarted = true;
+               }
+           }
+           offset = getNextInsnOffset(insnByOffset, offset);
+           if (offset == -1) {
+               break;
+           }
+       }
+       if (tryBlockStarted && insn != null) {
+           insn.add(AFlag.TRY_LEAVE);
+       } else {
+           InsnNode nop = insertNOP(insnByOffset, aTry.getStartOffset());
+           nop.add(AFlag.TRY_ENTER);
+           nop.add(AFlag.TRY_LEAVE);
+           nop.addAttr(catchAttr);
+       }
+   }
 
 	private static void attachCatchAttr(CatchAttr catchAttr, InsnNode insn) {
 		CatchAttr existAttr = insn.get(AType.EXC_CATCH);
