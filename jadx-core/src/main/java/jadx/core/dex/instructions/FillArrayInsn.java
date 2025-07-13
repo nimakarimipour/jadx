@@ -3,10 +3,6 @@ package jadx.core.dex.instructions;
 import java.util.List;
 import java.util.Objects;
 
-import javax.annotation.Nullable;
-
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.core.dex.instructions.args.ArgType;
 import jadx.core.dex.instructions.args.InsnArg;
 import jadx.core.dex.instructions.args.LiteralArg;
@@ -14,7 +10,6 @@ import jadx.core.dex.nodes.InsnNode;
 
 public final class FillArrayInsn extends InsnNode {
 	private final int target;
-	@Nullable
 	private FillArrayData arrayData;
 
 	public FillArrayInsn(InsnArg arg, int target) {
@@ -55,15 +50,15 @@ public final class FillArrayInsn extends InsnNode {
 	}
 
 	public int getSize() {
-		return arrayData != null ? Nullability.castToNonnull(arrayData, "not null check").getSize() : 0;
+		return arrayData.getSize();
 	}
 
 	public ArgType getElementType() {
-		return arrayData != null ? arrayData.getElementType() : null;
+		return arrayData.getElementType();
 	}
 
 	public List<LiteralArg> getLiteralArgs(ArgType elType) {
-		return Objects.requireNonNull(arrayData, "arrayData is null").getLiteralArgs(elType);
+		return arrayData.getLiteralArgs(elType);
 	}
 
 	public String dataToString() {
