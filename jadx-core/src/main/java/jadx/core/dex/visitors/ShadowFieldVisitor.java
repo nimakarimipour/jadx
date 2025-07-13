@@ -134,25 +134,28 @@ public class ShadowFieldVisitor extends AbstractVisitor {
 	}
 
 	private static void processInsn(MethodNode mth, InsnNode insn, @Nullable Map<String, FieldFixInfo> fixInfoMap) {
-       FieldInfo fieldInfo = getFieldInfo(insn);
-       if (fieldInfo == null) {
-           return;
-       }
-       InsnArg arg = insn.getArg(insn.getArgsCount() - 1);
-       ArgType type = arg.getType();
-       if (!type.isTypeKnown() || !type.isObject()) {
-           return;
-       }
-       FieldFixInfo fieldFixInfo = fixInfoMap.get(type.getObject());
-       if (fieldFixInfo == null || fieldFixInfo.fieldFixMap == null) {
-           return;
-       }
-       FieldFixType fieldFixType = fieldFixInfo.fieldFixMap.get(fieldInfo);
-       if (fieldFixType == null) {
-           return;
-       }
-       fixFieldAccess(mth, fieldInfo, fieldFixType, arg);
-   }
+        if (fixInfoMap == null) {
+            return;
+        }
+        FieldInfo fieldInfo = getFieldInfo(insn);
+        if (fieldInfo == null) {
+            return;
+        }
+        InsnArg arg = insn.getArg(insn.getArgsCount() - 1);
+        ArgType type = arg.getType();
+        if (!type.isTypeKnown() || !type.isObject()) {
+            return;
+        }
+        FieldFixInfo fieldFixInfo = fixInfoMap.get(type.getObject());
+        if (fieldFixInfo == null || fieldFixInfo.fieldFixMap == null) {
+            return;
+        }
+        FieldFixType fieldFixType = fieldFixInfo.fieldFixMap.get(fieldInfo);
+        if (fieldFixType == null) {
+            return;
+        }
+        fixFieldAccess(mth, fieldInfo, fieldFixType, arg);
+    }
 
 	@Nullable
 	private static FieldInfo getFieldInfo(InsnNode insn) {
