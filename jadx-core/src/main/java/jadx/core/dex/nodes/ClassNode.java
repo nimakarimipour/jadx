@@ -63,8 +63,8 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 
 	private final ClassInfo clsInfo;
 	private AccessInfo accessFlags;
-	@Nullable
-	private ArgType superClass;
+	
+	@Nullable private ArgType superClass;
 	private List<ArgType> interfaces;
 	private List<ArgType> generics = Collections.emptyList();
 
@@ -595,17 +595,17 @@ public class ClassNode extends NotificationAttrNode implements ILoadable, ICodeN
 	}
 
 	public void visitSuperTypes(BiConsumer<ArgType, ArgType> consumer) {
-		TypeUtils typeUtils = root.getTypeUtils();
-		ArgType thisType = this.getType();
-		if (!superClass.equals(ArgType.OBJECT)) {
-			consumer.accept(thisType, superClass);
-			typeUtils.visitSuperTypes(superClass, consumer);
-		}
-		for (ArgType iface : interfaces) {
-			consumer.accept(thisType, iface);
-			typeUtils.visitSuperTypes(iface, consumer);
-		}
-	}
+ 		TypeUtils typeUtils = root.getTypeUtils();
+ 		ArgType thisType = this.getType();
+ 		if (superClass != null && !superClass.equals(ArgType.OBJECT)) {
+ 			consumer.accept(thisType, superClass);
+ 			typeUtils.visitSuperTypes(superClass, consumer);
+ 		}
+ 		for (ArgType iface : interfaces) {
+ 			consumer.accept(thisType, iface);
+ 			typeUtils.visitSuperTypes(iface, consumer);
+ 		}
+   }
 
 	public boolean hasNotGeneratedParent() {
 		if (contains(AFlag.DONT_GENERATE)) {
