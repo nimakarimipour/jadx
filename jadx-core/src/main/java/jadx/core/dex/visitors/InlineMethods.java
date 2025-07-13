@@ -78,44 +78,49 @@ public class InlineMethods extends AbstractVisitor {
 	}
 
 	private void inlineMethod(MethodNode mth, MethodNode callMth, MethodInlineAttr mia, BlockNode block, InvokeNode insn) {
- 		InsnNode inlCopy = mia.getInsn().copyWithoutResult();
- 		RegisterArg resultArg = insn.getResult();
- 		if (resultArg != null) {
- 			inlCopy.setResult(resultArg.duplicate());
- 		} else if (isAssignNeeded(mia.getInsn(), insn, callMth)) {
- 			inlCopy.setResult(makeFakeArg(mth, callMth.getReturnType(), "unused"));
- 		}
- 		int[] regNums = mia.getArgsRegNums();
- 		if (regNums != null && regNums.length > 0 && !callMth.getMethodInfo().getArgumentsTypes().isEmpty()) {
- 			InsnArg[] regs = new InsnArg[callMth.getRegsCount()];
- 			for (int i = 0; i < regNums.length; i++) {
- 				InsnArg arg = insn.getArg(i);
- 				regs[regNums[i]] = arg;
- 			}
- 			List<RegisterArg> inlArgs = new ArrayList<>();
- 			inlCopy.getRegisterArgs(inlArgs);
- 			for (RegisterArg r : inlArgs) {
- 				int regNum = r.getRegNum();
- 				if (regNum >= regs.length) {
- 					LOG.warn("Unknown register number {} in method call: {} from {}", r, callMth, mth);
- 				} else {
- 					InsnArg repl = regs[regNum];
- 					if (repl == null) {
- 						LOG.warn("Not passed register {} in method call: {} from {}", r, callMth, mth);
- 					} else {
- 						inlCopy.replaceArg(r, repl);
- 					}
- 				}
- 			}
- 		}
- 		IMethodDetails methodDetailsAttr = inlCopy.get(AType.METHOD_DETAILS);
- 		if (!BlockUtils.replaceInsn(mth, block, insn, inlCopy)) {
- 			mth.addWarnComment("Failed to inline method: " + callMth);
- 		}
- 		if (methodDetailsAttr != null) {
- 			inlCopy.addAttr(methodDetailsAttr);
- 		}
- 		updateUsageInfo(mth, callMth, mia.getInsn());
+       InsnNode originalInsn = mia.getInsn();
+       if (originalInsn == null) {
+           mth.addWarnComment("Inlining failed: original instruction is null for method: " + callMth);
+           return;
+       }
+       InsnNode inlCopy = originalInsn.copyWithoutResult();
+       RegisterArg resultArg = insn.getResult();
+       if (resultArg != null) {
+           inlCopy.setResult(resultArg.duplicate());
+       } else if (isAssignNeeded(originalInsn, insn, callMth)) {
+           inlCopy.setResult(makeFakeArg(mth, callMth.getReturnType(), "unused"));
+       }
+       int[] regNums = mia.getArgsRegNums();
+       if (regNums != null && regNums.length > 0 && !callMth.getMethodInfo().getArgumentsTypes().isEmpty()) {
+           InsnArg[] regs = new InsnArg[callMth.getRegsCount()];
+           for (int i = 0; i < regNums.length; i++) {
+               InsnArg arg = insn.getArg(i);
+               regs[regNums[i]] = arg;
+           }
+           List<RegisterArg> inlArgs = new ArrayList<>();
+           inlCopy.getRegisterArgs(inlArgs);
+           for (RegisterArg r : inlArgs) {
+               int regNum = r.getRegNum();
+               if (regNum >= regs.length) {
+                   LOG.warn("Unknown register number {} in method call: {} from {}", r, callMth, mth);
+               } else {
+                   InsnArg repl = regs[regNum];
+                   if (repl == null) {
+                       LOG.warn("Not passed register {} in method call: {} from {}", r, callMth, mth);
+                   } else {
+                       inlCopy.replaceArg(r, repl);
+                   }
+               }
+           }
+       }
+       IMethodDetails methodDetailsAttr = inlCopy.get(AType.METHOD_DETAILS);
+       if (!BlockUtils.replaceInsn(mth, block, insn, inlCopy)) {
+           mth.addWarnComment("Failed to inline method: " + callMth);
+       }
+       if (methodDetailsAttr != null) {
+           inlCopy.addAttr(methodDetailsAttr);
+       }
+       updateUsageInfo(mth, callMth, originalInsn);
    }
 
 	private boolean isAssignNeeded(InsnNode inlineInsn, InvokeNode parentInsn, MethodNode callMthNode) {
