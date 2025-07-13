@@ -640,7 +640,8 @@ public abstract class ArgType {
 	}
 
 	public ArgType getArrayElement() {
-		return null;
+		// Assuming ArgType.DEFAULT is a non-null safe default of ArgType.
+		return ArgType.DEFAULT;
 	}
 
 	public ArgType getArrayRootElement() {
