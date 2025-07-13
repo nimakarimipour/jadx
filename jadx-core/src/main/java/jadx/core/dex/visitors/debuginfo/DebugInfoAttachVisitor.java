@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.api.plugins.input.data.IDebugInfo;
 import jadx.api.plugins.input.data.ILocalVar;
 import jadx.core.dex.attributes.AFlag;
@@ -49,20 +47,20 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 
 	private void processDebugInfo(MethodNode mth, IDebugInfo debugInfo) {
 		InsnNode[] insnArr = mth.getInstructions();
-		attachSourceLines(mth, debugInfo.getSourceLineMapping(), Nullability.castToNonnull(insnArr));
+		attachSourceLines(mth, debugInfo.getSourceLineMapping(), insnArr);
 		attachDebugInfo(mth, debugInfo.getLocalVars(), insnArr);
-		setMethodSourceLine(mth, Nullability.castToNonnull(insnArr));
+		setMethodSourceLine(mth, insnArr);
 	}
 
 	private void attachSourceLines(MethodNode mth, Map<Integer, Integer> lineMapping, InsnNode[] insnArr) {
 		if (lineMapping.isEmpty()) {
 			return;
 		}
-		Map<Integer, Integer> linesStat = new HashMap<>();
+		Map<Integer, Integer> linesStat = new HashMap<>(); // count repeating lines
 		for (Map.Entry<Integer, Integer> entry : lineMapping.entrySet()) {
 			try {
 				Integer offset = entry.getKey();
-				InsnNode insn = Nullability.castToNonnull(insnArr)[offset];
+				InsnNode insn = insnArr[offset];
 				if (insn != null) {
 					int line = entry.getValue();
 					insn.setSourceLine(line);
@@ -74,6 +72,8 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 				mth.addWarnComment("Error attach source line", e);
 			}
 		}
+		// 3 here is allowed maximum for lines repeat,
+		// can occur in indexed 'for' loops (3 instructions with same line)
 		List<Map.Entry<Integer, Integer>> repeatingLines = ListUtils.filter(linesStat.entrySet(), p -> p.getValue() > 3);
 		if (repeatingLines.isEmpty()) {
 			mth.add(AFlag.USE_LINES_HINTS);
@@ -105,7 +105,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 				start = 0;
 			}
 			for (int i = start; i <= end; i++) {
-				InsnNode insn = Nullability.castToNonnull(insnArr)[i];
+				InsnNode insn = insnArr[i];
 				if (insn == null) {
 					continue;
 				}
@@ -171,7 +171,7 @@ public class DebugInfoAttachVisitor extends AbstractVisitor {
 	 * Set method source line from first instruction
 	 */
 	private void setMethodSourceLine(MethodNode mth, InsnNode[] insnArr) {
-		for (InsnNode insn : Nullability.castToNonnull(insnArr)) {
+		for (InsnNode insn : insnArr) {
 			if (insn != null) {
 				int line = insn.getSourceLine();
 				if (line != 0) {

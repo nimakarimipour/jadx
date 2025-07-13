@@ -38,7 +38,7 @@ public class CheckCode extends AbstractVisitor {
 			return true;
 		}
 		InsnNode[] insns = mth.getInstructions();
-		if (insns == null || insns.length == 0) { // Added null check here
+		if (insns.length == 0) {
 			return true;
 		}
 		for (InsnNode insn : insns) {
@@ -55,13 +55,12 @@ public class CheckCode extends AbstractVisitor {
 	}
 
 	public void checkInstructions(MethodNode mth) {
-		InsnNode[] instructions = mth.getInstructions();
-		if (instructions == null || isEmpty(instructions)) {
+		if (isEmpty(mth.getInstructions())) {
 			return;
 		}
 		int regsCount = mth.getRegsCount();
 		List<RegisterArg> list = new ArrayList<>();
-		for (InsnNode insnNode : instructions) {
+		for (InsnNode insnNode : mth.getInstructions()) {
 			if (insnNode == null) {
 				continue;
 			}
