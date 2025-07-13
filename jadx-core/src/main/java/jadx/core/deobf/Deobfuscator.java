@@ -279,32 +279,32 @@ public class Deobfuscator {
 	 *         {@code false}
 	 */
 	private PackageNode getPackageNode(String fullPkgName, boolean create) {
-		if (fullPkgName.isEmpty() || fullPkgName.equals(CLASS_NAME_SEPARATOR)) {
-			return rootPackage;
-		}
-		PackageNode result = rootPackage;
-		PackageNode parentNode;
-		do {
-			String pkgName;
-			int idx = fullPkgName.indexOf(CLASS_NAME_SEPARATOR);
-
-			if (idx > -1) {
-				pkgName = fullPkgName.substring(0, idx);
-				fullPkgName = fullPkgName.substring(idx + 1);
-			} else {
-				pkgName = fullPkgName;
-				fullPkgName = "";
-			}
-			parentNode = result;
-			result = result.getInnerPackageByName(pkgName);
-			if (result == null && create) {
-				result = new PackageNode(pkgName);
-				parentNode.addInnerPackage(result);
-			}
-		} while (!fullPkgName.isEmpty() && result != null);
-
-		return result;
-	}
+     if (fullPkgName.isEmpty() || fullPkgName.equals(CLASS_NAME_SEPARATOR)) {
+         return rootPackage;
+     }
+     PackageNode result = rootPackage;
+     PackageNode parentNode;
+     do {
+         String pkgName;
+         int idx = fullPkgName.indexOf(CLASS_NAME_SEPARATOR);
+ 
+         if (idx > -1) {
+             pkgName = fullPkgName.substring(0, idx);
+             fullPkgName = fullPkgName.substring(idx + 1);
+         } else {
+             pkgName = fullPkgName;
+             fullPkgName = "";
+         }
+         parentNode = result;
+         result = result.getInnerPackageByName(pkgName);
+         if (result == null && create) {
+             result = new PackageNode(pkgName);
+             parentNode.addInnerPackage(result);
+         }
+     } while (!fullPkgName.isEmpty() && result != null);
+ 
+     return result != null ? result : rootPackage;
+   }
 
 	String getNameWithoutPackage(ClassInfo clsInfo) {
 		String prefix;
