@@ -58,10 +58,6 @@ public class IfMakerHelper {
 
 	@Nullable
 	static IfInfo restructureIf(MethodNode mth, BlockNode block, @Nullable IfInfo info) {
-		if (info == null) {
-			return null;
-		}
-
 		BlockNode thenBlock = info.getThenBlock();
 		BlockNode elseBlock = info.getElseBlock();
 
@@ -71,6 +67,7 @@ public class IfMakerHelper {
 			return ifInfo;
 		}
 
+		// select 'then', 'else' and 'exit' blocks
 		if (thenBlock.contains(AFlag.RETURN) && elseBlock.contains(AFlag.RETURN)) {
 			info.setOutBlock(null);
 			return info;
