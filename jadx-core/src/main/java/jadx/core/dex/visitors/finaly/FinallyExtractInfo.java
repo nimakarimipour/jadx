@@ -76,7 +76,7 @@ public class FinallyExtractInfo {
 	}
 
 	public List<InsnNode> getCurDupInsns() {
-		return curDupInsns != null ? curDupInsns : Collections.emptyList();
+		return curDupInsns;
 	}
 
 	public int getCurDupInsnsOffset() {
