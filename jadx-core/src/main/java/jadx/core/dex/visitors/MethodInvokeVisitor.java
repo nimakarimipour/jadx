@@ -32,6 +32,7 @@ import jadx.core.dex.visitors.typeinference.TypeCompare;
 import jadx.core.dex.visitors.typeinference.TypeCompareEnum;
 import jadx.core.utils.Utils;
 import jadx.core.utils.exceptions.JadxRuntimeException;
+import com.uber.nullaway.annotations.Initializer;
 
 @JadxVisitor(
 		name = "MethodInvokeVisitor",
@@ -45,9 +46,9 @@ import jadx.core.utils.exceptions.JadxRuntimeException;
 		}
 )
 public class MethodInvokeVisitor extends AbstractVisitor {
-	private RootNode root;
+	@SuppressWarnings("NullAway.Init") private RootNode root;
 
-	@Override
+	@Initializer @Override
 	public void init(RootNode root) {
 		this.root = root;
 	}
