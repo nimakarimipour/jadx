@@ -1119,7 +1119,10 @@ public class RegionMaker {
 		if (excHandlerAttr == null) {
 			mth.addWarn("Missing exception handler attribute for start block: " + start);
 		} else {
-			handler.getHandlerRegion().addAttr(excHandlerAttr);
+			IContainer region = handler.getHandlerRegion();
+			if (region != null) {
+				region.addAttr(excHandlerAttr);
+			}
 		}
 	}
 
