@@ -64,19 +64,9 @@ public class BinaryXMLParser extends CommonBinaryParser {
 
 	public BinaryXMLParser(RootNode rootNode) {
 		this.rootNode = rootNode;
-		nsMapGenerated = new HashSet<>();
-		nsMap = new HashMap<>();
-		writer = null;
-		strings = null;
-		valuesParser = null;
-		resourceIds = null;
 		try {
 			ConstStorage constStorage = rootNode.getConstValues();
 			resNames = constStorage.getResourcesNames();
-			writer = rootNode.makeCodeWriter();
-			valuesParser = new ValuesParser();
-			strings = new String[0];
-			resourceIds = new int[0];
 		} catch (Exception e) {
 			throw new JadxRuntimeException("BinaryXMLParser init error", e);
 		}
