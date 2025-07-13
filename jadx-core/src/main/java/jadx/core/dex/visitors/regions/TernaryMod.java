@@ -104,35 +104,35 @@ public class TernaryMod extends AbstractRegionVisitor implements IRegionIterativ
 			if (thenPhi == null || thenPhi != elsePhi) {
 				return false;
 			}
-			if (!ifRegion.getParent().replaceSubBlock(ifRegion, header)) {
-				return false;
+			IRegion parentRegion = ifRegion.getParent();
+			if (parentRegion != null && parentRegion.replaceSubBlock(ifRegion, header)) {
+				InsnList.remove(tb, thenInsn);
+				InsnList.remove(eb, elseInsn);
+
+				RegisterArg resArg;
+				if (thenPhi.getArgsCount() == 2) {
+					resArg = thenPhi.getResult();
+					InsnRemover.unbindResult(mth, thenInsn);
+				} else {
+					resArg = thenResArg;
+					thenPhi.removeArg(elseResArg);
+				}
+				InsnArg thenArg = InsnArg.wrapInsnIntoArg(thenInsn);
+				InsnArg elseArg = InsnArg.wrapInsnIntoArg(elseInsn);
+				TernaryInsn ternInsn = new TernaryInsn(ifRegion.getCondition(), resArg, thenArg, elseArg);
+				int branchLine = Math.max(thenInsn.getSourceLine(), elseInsn.getSourceLine());
+				ternInsn.setSourceLine(Math.max(ifRegion.getSourceLine(), branchLine));
+
+				InsnRemover.unbindResult(mth, elseInsn);
+
+				// remove 'if' instruction
+				header.getInstructions().clear();
+				ternInsn.rebindArgs();
+				header.getInstructions().add(ternInsn);
+
+				clearConditionBlocks(conditionBlocks, header);
+				return true;
 			}
-			InsnList.remove(tb, thenInsn);
-			InsnList.remove(eb, elseInsn);
-
-			RegisterArg resArg;
-			if (thenPhi.getArgsCount() == 2) {
-				resArg = thenPhi.getResult();
-				InsnRemover.unbindResult(mth, thenInsn);
-			} else {
-				resArg = thenResArg;
-				thenPhi.removeArg(elseResArg);
-			}
-			InsnArg thenArg = InsnArg.wrapInsnIntoArg(thenInsn);
-			InsnArg elseArg = InsnArg.wrapInsnIntoArg(elseInsn);
-			TernaryInsn ternInsn = new TernaryInsn(ifRegion.getCondition(), resArg, thenArg, elseArg);
-			int branchLine = Math.max(thenInsn.getSourceLine(), elseInsn.getSourceLine());
-			ternInsn.setSourceLine(Math.max(ifRegion.getSourceLine(), branchLine));
-
-			InsnRemover.unbindResult(mth, elseInsn);
-
-			// remove 'if' instruction
-			header.getInstructions().clear();
-			ternInsn.rebindArgs();
-			header.getInstructions().add(ternInsn);
-
-			clearConditionBlocks(conditionBlocks, header);
-			return true;
 		}
 
 		if (!mth.isVoidReturn()
@@ -145,27 +145,27 @@ public class TernaryMod extends AbstractRegionVisitor implements IRegionIterativ
 				return false;
 			}
 
-			if (!ifRegion.getParent().replaceSubBlock(ifRegion, header)) {
-				return false;
+			IRegion parentRegion = ifRegion.getParent();
+			if (parentRegion != null && parentRegion.replaceSubBlock(ifRegion, header)) {
+				InsnList.remove(tb, thenInsn);
+				InsnList.remove(eb, elseInsn);
+				tb.remove(AFlag.RETURN);
+				eb.remove(AFlag.RETURN);
+
+				TernaryInsn ternInsn = new TernaryInsn(ifRegion.getCondition(), null, thenArg, elseArg);
+				InsnNode retInsn = new InsnNode(InsnType.RETURN, 1);
+				InsnArg arg = InsnArg.wrapInsnIntoArg(ternInsn);
+				arg.setType(thenArg.getType());
+				retInsn.addArg(arg);
+
+				header.getInstructions().clear();
+				retInsn.rebindArgs();
+				header.getInstructions().add(retInsn);
+				header.add(AFlag.RETURN);
+
+				clearConditionBlocks(conditionBlocks, header);
+				return true;
 			}
-			InsnList.remove(tb, thenInsn);
-			InsnList.remove(eb, elseInsn);
-			tb.remove(AFlag.RETURN);
-			eb.remove(AFlag.RETURN);
-
-			TernaryInsn ternInsn = new TernaryInsn(ifRegion.getCondition(), null, thenArg, elseArg);
-			InsnNode retInsn = new InsnNode(InsnType.RETURN, 1);
-			InsnArg arg = InsnArg.wrapInsnIntoArg(ternInsn);
-			arg.setType(thenArg.getType());
-			retInsn.addArg(arg);
-
-			header.getInstructions().clear();
-			retInsn.rebindArgs();
-			header.getInstructions().add(retInsn);
-			header.add(AFlag.RETURN);
-
-			clearConditionBlocks(conditionBlocks, header);
-			return true;
 		}
 		return false;
 	}
@@ -317,7 +317,8 @@ public class TernaryMod extends AbstractRegionVisitor implements IRegionIterativ
 
 		// all checks passed
 		BlockNode header = ifRegion.getConditionBlocks().get(0);
-		if (!ifRegion.getParent().replaceSubBlock(ifRegion, header)) {
+		IRegion parentRegion = ifRegion.getParent();
+		if (parentRegion != null && !parentRegion.replaceSubBlock(ifRegion, header)) {
 			return;
 		}
 		InsnArg elseArg;
