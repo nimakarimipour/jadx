@@ -85,10 +85,9 @@ public class AttachTryCatchVisitor extends AbstractVisitor {
 				break;
 			}
 		}
-		if (tryBlockStarted) {
+		if (tryBlockStarted && insn != null) {
 			insn.add(AFlag.TRY_LEAVE);
 		} else {
-			// no instructions found in range -> add nop at start offset
 			InsnNode nop = insertNOP(insnByOffset, aTry.getStartOffset());
 			nop.add(AFlag.TRY_ENTER);
 			nop.add(AFlag.TRY_LEAVE);
