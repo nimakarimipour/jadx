@@ -90,8 +90,11 @@ public class InsnNode extends LineAttrNode {
 	}
 
 	public RegisterArg getResult() {
-		return result;
-	}
+       if (result == null) {
+           throw new IllegalStateException("Result is null");
+       }
+       return result;
+   }
 
 	public Iterable<InsnArg> getArguments() {
 		return arguments;
