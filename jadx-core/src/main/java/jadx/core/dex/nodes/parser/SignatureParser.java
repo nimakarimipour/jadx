@@ -131,43 +131,43 @@ public class SignatureParser {
 	}
 
 	public ArgType consumeType() {
-		char ch = next();
-		switch (ch) {
-			case 'L':
-				ArgType obj = consumeObjectType(false);
-				if (obj != null) {
-					return obj;
-				}
-				break;
-			case 'T':
-				next();
-				mark();
-				String typeVarName = consumeUntil(';');
-				if (typeVarName != null) {
-					consume(';');
-					if (typeVarName.contains(")")) {
-						throw new JadxRuntimeException("Bad name for type variable: " + typeVarName);
-					}
-					return ArgType.genericType(typeVarName);
-				}
-				break;
-
-			case '[':
-				return ArgType.array(consumeType());
-
-			case STOP_CHAR:
-				return null;
-
-			default:
-				// primitive type (one char)
-				ArgType type = ArgType.parse(ch);
-				if (type != null) {
-					return type;
-				}
-				break;
-		}
-		throw new JadxRuntimeException("Can't parse type: " + debugString() + ", unexpected: " + ch);
-	}
+       char ch = next();
+       switch (ch) {
+           case 'L':
+               ArgType obj = consumeObjectType(false);
+               if (obj != null) {
+                   return obj;
+               }
+               break;
+           case 'T':
+               next();
+               mark();
+               String typeVarName = consumeUntil(';');
+               if (typeVarName != null) {
+                   consume(';');
+                   if (typeVarName.contains(")")) {
+                       throw new JadxRuntimeException("Bad name for type variable: " + typeVarName);
+                   }
+                   return ArgType.genericType(typeVarName);
+               }
+               break;
+ 
+           case '[':
+               return ArgType.array(consumeType());
+ 
+           case STOP_CHAR:
+               throw new JadxRuntimeException("Unexpected STOP_CHAR reached in type parsing.");
+ 
+           default:
+               // primitive type (one char)
+               ArgType type = ArgType.parse(ch);
+               if (type != null) {
+                   return type;
+               }
+               break;
+       }
+       throw new JadxRuntimeException("Can't parse type: " + debugString() + ", unexpected: " + ch);
+   }
 
 	@Nullable
 	private ArgType consumeObjectType(boolean innerType) {
