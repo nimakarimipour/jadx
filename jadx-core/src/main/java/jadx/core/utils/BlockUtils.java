@@ -19,8 +19,6 @@ import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 import jadx.core.dex.attributes.AFlag;
 import jadx.core.dex.attributes.AType;
 import jadx.core.dex.attributes.nodes.LoopInfo;
@@ -416,9 +414,6 @@ public class BlockUtils {
 	 */
 	@Nullable
 	public static BlockNode getNextBlock(BlockNode block) {
-		if (block == null) {
-			return null;
-		}
 		List<BlockNode> s = block.getCleanSuccessors();
 		return s.isEmpty() ? null : s.get(0);
 	}
@@ -492,12 +487,8 @@ public class BlockUtils {
 		BitSet visited = newBlocksBitSet(mth);
 		Deque<BlockNode> queue = new ArrayDeque<>();
 		BlockNode enterBlock = mth.getEnterBlock();
-		if (enterBlock == null) {
-			// Handle the case where the enter block is null
-			return;
-		}
-		queue.addLast(Nullability.castToNonnull(enterBlock));
-		visited.set(enterBlock.getId());
+		queue.addLast(enterBlock);
+		visited.set(mth.getEnterBlock().getId());
 		while (true) {
 			BlockNode current = queue.pollLast();
 			if (current == null) {
@@ -556,7 +547,7 @@ public class BlockUtils {
 		Set<BlockNode> set = new HashSet<>();
 		set.add(start);
 		if (start != end) {
-			addPredecessors(set, end, Nullability.castToNonnull(start));
+			addPredecessors(set, end, start);
 		}
 		return set;
 	}
@@ -616,7 +607,7 @@ public class BlockUtils {
 
 	public static boolean isPathExists(BlockNode start, BlockNode end) {
 		if (start == end
-				|| Nullability.castToNonnull(end).isDominator(start)
+				|| end.isDominator(start)
 				|| start.getCleanSuccessors().contains(end)) {
 			return true;
 		}
@@ -928,10 +919,9 @@ public class BlockUtils {
 	 * Follow empty blocks and return end of path block (first not empty).
 	 * Return start block if no such path.
 	 */
-	@Nullable
 	public static BlockNode followEmptyPath(BlockNode start) {
 		while (true) {
-			BlockNode next = getNextBlockOnEmptyPath(Nullability.castToNonnull(start));
+			BlockNode next = getNextBlockOnEmptyPath(start);
 			if (next == null) {
 				return start;
 			}
@@ -1057,10 +1047,11 @@ public class BlockUtils {
 	}
 
 	public static boolean isFirstInsn(MethodNode mth, InsnNode insn) {
-		BlockNode startBlock = followEmptyPath(Nullability.castToNonnull(mth.getEnterBlock()));
+		BlockNode startBlock = followEmptyPath(mth.getEnterBlock());
 		if (startBlock != null && !startBlock.getInstructions().isEmpty()) {
 			return startBlock.getInstructions().get(0) == insn;
 		}
+		// handle branching with empty blocks
 		BlockNode block = getBlockByInsn(mth, insn);
 		if (block == null) {
 			throw new JadxRuntimeException("Insn not found in method: " + insn);

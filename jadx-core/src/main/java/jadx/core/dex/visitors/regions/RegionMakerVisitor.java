@@ -48,11 +48,7 @@ public class RegionMakerVisitor extends AbstractVisitor {
 		RegionStack state = new RegionStack(mth);
 
 		// fill region structure
-		BlockNode enterBlock = mth.getEnterBlock();
-		if (enterBlock == null) {
-			throw new IllegalStateException("Enter block should not be null");
-		}
-		BlockNode startBlock = Utils.first(enterBlock.getCleanSuccessors());
+		BlockNode startBlock = Utils.first(mth.getEnterBlock().getCleanSuccessors());
 		mth.setRegion(rm.makeRegion(startBlock, state));
 
 		if (!mth.isNoExceptionHandlers()) {
