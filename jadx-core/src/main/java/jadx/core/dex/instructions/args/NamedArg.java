@@ -2,8 +2,6 @@ package jadx.core.dex.instructions.args;
 
 import org.jetbrains.annotations.NotNull;
 
-import edu.ucr.cs.riple.annotator.util.Nullability;
-
 public final class NamedArg extends InsnArg implements Named {
 
 	@NotNull
@@ -31,10 +29,7 @@ public final class NamedArg extends InsnArg implements Named {
 
 	@Override
 	public InsnArg duplicate() {
-		if (type == null) {
-			throw new JadxRuntimeException("Type cannot be null in InsnArg duplicate");
-		}
-		return copyCommonParams(new NamedArg(name, Nullability.castToNonnull(type)));
+		return copyCommonParams(new NamedArg(name, type));
 	}
 
 	@Override
