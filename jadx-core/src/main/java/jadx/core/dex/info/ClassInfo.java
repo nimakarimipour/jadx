@@ -230,8 +230,8 @@ public final class ClassInfo implements Comparable<ClassInfo> {
 		return parentClass.getAliasNameWithoutPackage() + '.' + getAliasShortName();
 	}
 
-	@Nullable
-	public ClassInfo getParentClass() {
+	
+	@Nullable public ClassInfo getParentClass() {
 		return parentClass;
 	}
 

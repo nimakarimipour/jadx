@@ -172,27 +172,28 @@ public class ClassModifier extends AbstractVisitor {
 	}
 
 	private static boolean isRemovedClassInArgs(ClassNode cls, List<RegisterArg> mthArgs) {
-		for (RegisterArg arg : mthArgs) {
-			ArgType argType = arg.getType();
-			if (!argType.isObject()) {
-				continue;
-			}
-			ClassNode argCls = cls.root().resolveClass(argType);
-			if (argCls == null) {
-				// check if missing class from current top class
-				ClassInfo argClsInfo = ClassInfo.fromType(cls.root(), argType);
-				if (argClsInfo.isInner()
-						&& cls.getFullName().startsWith(argClsInfo.getParentClass().getFullName())) {
-					return true;
-				}
-			} else {
-				if (argCls.contains(AFlag.DONT_GENERATE) || isEmptySyntheticClass(argCls)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+     for (RegisterArg arg : mthArgs) {
+         ArgType argType = arg.getType();
+         if (!argType.isObject()) {
+             continue;
+         }
+         ClassNode argCls = cls.root().resolveClass(argType);
+         if (argCls == null) {
+             // check if missing class from current top class
+             ClassInfo argClsInfo = ClassInfo.fromType(cls.root(), argType);
+             ClassInfo parentClassInfo = argClsInfo.getParentClass();
+             if (argClsInfo.isInner() && parentClassInfo != null
+                     && cls.getFullName().startsWith(parentClassInfo.getFullName())) {
+                 return true;
+             }
+         } else {
+             if (argCls.contains(AFlag.DONT_GENERATE) || isEmptySyntheticClass(argCls)) {
+                 return true;
+             }
+         }
+     }
+     return false;
+   }
 
 	/**
 	 * Remove synthetic constructor and redirect calls to existing constructor
