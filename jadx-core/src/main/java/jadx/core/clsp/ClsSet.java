@@ -59,8 +59,9 @@ public class ClsSet {
 	private final RootNode root;
 
 	public ClsSet(RootNode root) {
-		this.root = root;
-	}
+       this.root = root;
+       this.classes = new ClspClass[0]; // Initialize the 'classes' field
+   }
 
 	private enum TypeEnum {
 		WILDCARD,
