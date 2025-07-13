@@ -57,8 +57,11 @@ public final class TryCatchRegion extends AbstractRegion implements IBranchRegio
 	}
 
 	public TryCatchBlockAttr getTryCatchBlock() {
-		return tryCatchBlock;
-	}
+       if (tryCatchBlock == null) {
+           throw new IllegalStateException("tryCatchBlock is not initialized.");
+       }
+       return tryCatchBlock;
+   }
 
 	@Nullable
 	public IContainer getFinallyRegion() {
