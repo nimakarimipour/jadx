@@ -42,7 +42,7 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	private static final boolean ATTR_NEW_LINE = false;
 
 	private final Map<Integer, String> resNames;
-	private Map<String, String> nsMap;
+	@Nullable private Map<String, String> nsMap;
 	private Set<String> nsMapGenerated;
 	private final Map<String, String> tagAttrDeobfNames = new HashMap<>();
 
@@ -157,59 +157,65 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void parseNameSpace() throws IOException {
-		int headerSize = is.readInt16();
-		if (headerSize > 0x10) {
-			LOG.warn("Invalid namespace header");
-		} else if (headerSize < 0x10) {
-			die("NAMESPACE header is not 0x10 big");
-		}
-		int size = is.readInt32();
-		if (size > 0x18) {
-			LOG.warn("Invalid namespace size");
-		} else if (size < 0x18) {
-			die("NAMESPACE header chunk is not 0x18 big");
-		}
-
-		int beginLineNumber = is.readInt32();
-		int comment = is.readInt32();
-		int beginPrefix = is.readInt32();
-		int beginURI = is.readInt32();
-		is.skip(headerSize - 0x10);
-
-		String nsKey = getString(beginURI);
-		String nsValue = getString(beginPrefix);
-		if (StringUtils.notBlank(nsKey) && !nsMap.containsValue(nsValue)) {
-			nsMap.putIfAbsent(nsKey, nsValue);
-		}
-		namespaceDepth++;
-	}
+        if (nsMap == null) {
+            nsMap = new HashMap<>();
+        }
+  
+        int headerSize = is.readInt16();
+        if (headerSize > 0x10) {
+            LOG.warn("Invalid namespace header");
+        } else if (headerSize < 0x10) {
+            die("NAMESPACE header is not 0x10 big");
+        }
+        int size = is.readInt32();
+        if (size > 0x18) {
+            LOG.warn("Invalid namespace size");
+        } else if (size < 0x18) {
+            die("NAMESPACE header chunk is not 0x18 big");
+        }
+  
+        int beginLineNumber = is.readInt32();
+        int comment = is.readInt32();
+        int beginPrefix = is.readInt32();
+        int beginURI = is.readInt32();
+        is.skip(headerSize - 0x10);
+  
+        String nsKey = getString(beginURI);
+        String nsValue = getString(beginPrefix);
+        if (StringUtils.notBlank(nsKey) && !Nullability.castToNonnull(nsMap, "initialized if null").containsValue(nsValue)) {
+            nsMap.putIfAbsent(nsKey, nsValue);
+        }
+        namespaceDepth++;
+ }
 
 	private void parseNameSpaceEnd() throws IOException {
-		int headerSize = is.readInt16();
-		if (headerSize > 0x10) {
-			LOG.warn("Invalid namespace end");
-		} else if (headerSize < 0x10) {
-			die("NAMESPACE end is not 0x10 big");
-		}
-		int dataSize = is.readInt32();
-		if (dataSize > 0x18) {
-			LOG.warn("Invalid namespace size");
-		} else if (dataSize < 0x18) {
-			die("NAMESPACE header chunk is not 0x18 big");
-		}
-		int endLineNumber = is.readInt32();
-		int comment = is.readInt32();
-		int endPrefix = is.readInt32();
-		int endURI = is.readInt32();
-		is.skip(headerSize - 0x10);
-		namespaceDepth--;
-
-		String nsKey = getString(endURI);
-		String nsValue = getString(endPrefix);
-		if (StringUtils.notBlank(nsKey) && !nsMap.containsValue(nsValue)) {
-			nsMap.putIfAbsent(nsKey, nsValue);
-		}
-	}
+       int headerSize = is.readInt16();
+       if (headerSize > 0x10) {
+           LOG.warn("Invalid namespace end");
+       } else if (headerSize < 0x10) {
+           die("NAMESPACE end is not 0x10 big");
+       }
+       int dataSize = is.readInt32();
+       if (dataSize > 0x18) {
+           LOG.warn("Invalid namespace size");
+       } else if (dataSize < 0x18) {
+           die("NAMESPACE header chunk is not 0x18 big");
+       }
+       int endLineNumber = is.readInt32();
+       int comment = is.readInt32();
+       int endPrefix = is.readInt32();
+       int endURI = is.readInt32();
+       is.skip(headerSize - 0x10);
+       namespaceDepth--;
+ 
+       if (nsMap != null) {
+           String nsKey = getString(endURI);
+           String nsValue = getString(endPrefix);
+           if (StringUtils.notBlank(nsKey) && !nsMap.containsValue(nsValue)) {
+               nsMap.putIfAbsent(nsKey, nsValue);
+           }
+       }
+   }
 
 	private void parseCData() throws IOException {
 		if (is.readInt16() != 0x10) {
@@ -236,57 +242,57 @@ public class BinaryXMLParser extends CommonBinaryParser {
 	}
 
 	private void parseElement() throws IOException {
-		if (firstElement) {
-			firstElement = false;
-		} else {
-			writer.incIndent();
-		}
-		if (is.readInt16() != 0x10) {
-			die("ELEMENT HEADER SIZE is not 0x10");
-		}
-		// TODO: Check element chunk size
-		is.readInt32();
-		int elementBegLineNumber = is.readInt32();
-		int comment = is.readInt32();
-		int startNS = is.readInt32();
-		int startNSName = is.readInt32(); // actually is elementName...
-		if (!isLastEnd && !"ERROR".equals(currentTag)) {
-			writer.add('>');
-		}
-		isOneLine = true;
-		isLastEnd = false;
-		currentTag = deobfClassName(getString(startNSName));
-		currentTag = getValidTagAttributeName(currentTag);
-		writer.startLine('<').add(currentTag);
-		writer.attachSourceLine(elementBegLineNumber);
-		int attributeStart = is.readInt16();
-		if (attributeStart != 0x14) {
-			die("startNS's attributeStart is not 0x14");
-		}
-		int attributeSize = is.readInt16();
-		if (attributeSize != 0x14) {
-			die("startNS's attributeSize is not 0x14");
-		}
-		int attributeCount = is.readInt16();
-		int idIndex = is.readInt16();
-		int classIndex = is.readInt16();
-		int styleIndex = is.readInt16();
-		if ("manifest".equals(currentTag) || writer.getIndent() == 0) {
-			for (Map.Entry<String, String> entry : nsMap.entrySet()) {
-				String nsValue = getValidTagAttributeName(entry.getValue());
-				writer.add(" xmlns");
-				if (nsValue != null && !nsValue.trim().isEmpty()) {
-					writer.add(':');
-					writer.add(nsValue);
-				}
-				writer.add("=\"").add(StringUtils.escapeXML(entry.getKey())).add('"');
-			}
-		}
-		boolean attrNewLine = attributeCount != 1 && ATTR_NEW_LINE;
-		for (int i = 0; i < attributeCount; i++) {
-			parseAttribute(i, attrNewLine);
-		}
-	}
+       if (firstElement) {
+           firstElement = false;
+       } else {
+           writer.incIndent();
+       }
+       if (is.readInt16() != 0x10) {
+           die("ELEMENT HEADER SIZE is not 0x10");
+       }
+       // TODO: Check element chunk size
+       is.readInt32();
+       int elementBegLineNumber = is.readInt32();
+       int comment = is.readInt32();
+       int startNS = is.readInt32();
+       int startNSName = is.readInt32(); // actually is elementName...
+       if (!isLastEnd && !"ERROR".equals(currentTag)) {
+           writer.add('>');
+       }
+       isOneLine = true;
+       isLastEnd = false;
+       currentTag = deobfClassName(getString(startNSName));
+       currentTag = getValidTagAttributeName(currentTag);
+       writer.startLine('<').add(currentTag);
+       writer.attachSourceLine(elementBegLineNumber);
+       int attributeStart = is.readInt16();
+       if (attributeStart != 0x14) {
+           die("startNS's attributeStart is not 0x14");
+       }
+       int attributeSize = is.readInt16();
+       if (attributeSize != 0x14) {
+           die("startNS's attributeSize is not 0x14");
+       }
+       int attributeCount = is.readInt16();
+       int idIndex = is.readInt16();
+       int classIndex = is.readInt16();
+       int styleIndex = is.readInt16();
+       if (nsMap != null && ("manifest".equals(currentTag) || writer.getIndent() == 0)) {
+           for (Map.Entry<String, String> entry : nsMap.entrySet()) {
+               String nsValue = getValidTagAttributeName(entry.getValue());
+               writer.add(" xmlns");
+               if (nsValue != null && !nsValue.trim().isEmpty()) {
+                   writer.add(':');
+                   writer.add(nsValue);
+               }
+               writer.add("=\"").add(StringUtils.escapeXML(entry.getKey())).add('"');
+           }
+       }
+       boolean attrNewLine = attributeCount != 1 && ATTR_NEW_LINE;
+       for (int i = 0; i < attributeCount; i++) {
+           parseAttribute(i, attrNewLine);
+       }
+   }
 
 	private void parseAttribute(int i, boolean newLine) throws IOException {
 		int attributeNS = is.readInt32();
@@ -323,42 +329,45 @@ public class BinaryXMLParser extends CommonBinaryParser {
 		writer.add('"');
 	}
 
-	@Nullable
-	private String getAttributeNS(int attributeNS) {
-		String attrUrl = getString(attributeNS);
-		if (attrUrl == null || attrUrl.isEmpty()) {
-			if (isResInternalId(attributeNS)) {
-				return null;
-			} else {
-				attrUrl = ANDROID_NS_URL;
-			}
-		}
-		String attrName = nsMap.get(attrUrl);
-		if (attrName == null) {
-			attrName = generateNameForNS(attrUrl);
-		}
-		return attrName;
-	}
+	@Nullable private String getAttributeNS(int attributeNS) {
+        String attrUrl = getString(attributeNS);
+        if (attrUrl == null || attrUrl.isEmpty()) {
+            if (isResInternalId(attributeNS)) {
+                return null;
+            } else {
+                attrUrl = ANDROID_NS_URL;
+            }
+        }
+        if (nsMap == null) {
+            nsMap = new HashMap<>();
+        }
+        String attrName = Nullability.castToNonnull(nsMap, "initialized if needed").get(attrUrl);
+        if (attrName == null) {
+            attrName = generateNameForNS(attrUrl);
+        }
+        return attrName;
+   }
 
 	private String generateNameForNS(String attrUrl) {
-		String attrName;
-		if (ANDROID_NS_URL.equals(attrUrl)) {
-			attrName = ANDROID_NS_VALUE;
-			nsMap.put(ANDROID_NS_URL, attrName);
-		} else {
-			for (int i = 1;; i++) {
-				attrName = "ns" + i;
-				if (!nsMapGenerated.contains(attrName) && !nsMap.containsValue(attrName)) {
-					nsMapGenerated.add(attrName);
-					// do not add generated value to nsMap
-					// because attrUrl might be used in a neighbor element, but never defined
-					break;
-				}
-			}
-		}
-		writer.add("xmlns:").add(attrName).add("=\"").add(attrUrl).add("\" ");
-		return attrName;
-	}
+          String attrName;
+          if (ANDROID_NS_URL.equals(attrUrl)) {
+              attrName = ANDROID_NS_VALUE;
+              if (nsMap != null) {
+                  Nullability.castToNonnull(nsMap, "checked before access").put(ANDROID_NS_URL, attrName);
+              }
+          } else {
+              for (int i = 1;; i++) {
+                  attrName = "ns" + i;
+                  if (nsMapGenerated != null && nsMap != null && 
+                      !nsMapGenerated.contains(attrName) && !Nullability.castToNonnull(nsMap, "checked before access").containsValue(attrName)) {
+                      nsMapGenerated.add(attrName);
+                      break;
+                  }
+              }
+          }
+          writer.add("xmlns:").add(attrName).add("=\"").add(attrUrl).add("\" ");
+          return attrName;
+ }
 
 	private String getAttributeName(int id) {
 		// As the outcome of https://github.com/skylot/jadx/issues/1208
