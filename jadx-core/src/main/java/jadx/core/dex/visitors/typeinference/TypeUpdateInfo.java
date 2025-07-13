@@ -46,9 +46,6 @@ public class TypeUpdateInfo {
 	}
 
 	public ArgType getType(@Nullable InsnArg arg) {
-		if (arg == null) {
-			return null; // or throw an exception based on what makes sense for your use case
-		}
 		for (TypeUpdateEntry update : updates) {
 			if (update.getArg() == arg) {
 				return update.getType();
