@@ -227,16 +227,16 @@ public class BlockUtils {
 	}
 
 	public static boolean isExitBlock(@Nullable BlockNode block) {
-		List<BlockNode> successors = block.getSuccessors();
-		if (successors.isEmpty()) {
-			return true;
-		}
-		if (successors.size() == 1) {
-			BlockNode next = successors.get(0);
-			return next.getSuccessors().isEmpty();
-		}
-		return false;
-	}
+ 		List<BlockNode> successors = Nullability.castToNonnull(block).getSuccessors();
+ 		if (successors.isEmpty()) {
+ 			return true;
+ 		}
+ 		if (successors.size() == 1) {
+ 			BlockNode next = successors.get(0);
+ 			return next.getSuccessors().isEmpty();
+ 		}
+ 		return false;
+ }
 
 	public static boolean containsExitInsn(IBlock block) {
 		InsnNode lastInsn = BlockUtils.getLastInsn(block);
