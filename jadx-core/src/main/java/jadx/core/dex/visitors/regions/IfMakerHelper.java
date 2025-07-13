@@ -57,42 +57,45 @@ public class IfMakerHelper {
 	}
 
 	@Nullable
-	static IfInfo restructureIf(MethodNode mth, BlockNode block, @Nullable IfInfo info) {
-		BlockNode thenBlock = info.getThenBlock();
-		BlockNode elseBlock = info.getElseBlock();
-
-		if (Objects.equals(thenBlock, elseBlock)) {
-			IfInfo ifInfo = new IfInfo(info, null, null);
-			ifInfo.setOutBlock(thenBlock);
-			return ifInfo;
-		}
-
-		// select 'then', 'else' and 'exit' blocks
-		if (thenBlock.contains(AFlag.RETURN) && elseBlock.contains(AFlag.RETURN)) {
-			info.setOutBlock(null);
-			return info;
-		}
-		boolean badThen = isBadBranchBlock(info, thenBlock);
-		boolean badElse = isBadBranchBlock(info, elseBlock);
-		if (badThen && badElse) {
-			LOG.debug("Stop processing blocks after 'if': {}, method: {}", info.getMergedBlocks(), mth);
-			return null;
-		}
-		if (badElse) {
-			info = new IfInfo(info, thenBlock, null);
-			info.setOutBlock(elseBlock);
-		} else if (badThen) {
-			info = IfInfo.invert(info);
-			info = new IfInfo(info, elseBlock, null);
-			info.setOutBlock(thenBlock);
-		} else {
-			info.setOutBlock(BlockUtils.getPathCross(mth, thenBlock, elseBlock));
-		}
-		if (BlockUtils.isBackEdge(block, info.getOutBlock())) {
-			info.setOutBlock(null);
-		}
-		return info;
-	}
+ 	static IfInfo restructureIf(MethodNode mth, BlockNode block, @Nullable IfInfo info) {
+ 		if (info == null) {
+ 			return null;
+ 		}
+ 
+ 		BlockNode thenBlock = info.getThenBlock();
+ 		BlockNode elseBlock = info.getElseBlock();
+ 
+ 		if (Objects.equals(thenBlock, elseBlock)) {
+ 			IfInfo ifInfo = new IfInfo(info, null, null);
+ 			ifInfo.setOutBlock(thenBlock);
+ 			return ifInfo;
+ 		}
+ 
+ 		if (thenBlock.contains(AFlag.RETURN) && elseBlock.contains(AFlag.RETURN)) {
+ 			info.setOutBlock(null);
+ 			return info;
+ 		}
+ 		boolean badThen = isBadBranchBlock(info, thenBlock);
+ 		boolean badElse = isBadBranchBlock(info, elseBlock);
+ 		if (badThen && badElse) {
+ 			LOG.debug("Stop processing blocks after 'if': {}, method: {}", info.getMergedBlocks(), mth);
+ 			return null;
+ 		}
+ 		if (badElse) {
+ 			info = new IfInfo(info, thenBlock, null);
+ 			info.setOutBlock(elseBlock);
+ 		} else if (badThen) {
+ 			info = IfInfo.invert(info);
+ 			info = new IfInfo(info, elseBlock, null);
+ 			info.setOutBlock(thenBlock);
+ 		} else {
+ 			info.setOutBlock(BlockUtils.getPathCross(mth, thenBlock, elseBlock));
+ 		}
+ 		if (BlockUtils.isBackEdge(block, info.getOutBlock())) {
+ 			info.setOutBlock(null);
+ 		}
+ 		return info;
+ 	}
 
 	private static boolean isBadBranchBlock(IfInfo info, BlockNode block) {
 		// check if block at end of loop edge
