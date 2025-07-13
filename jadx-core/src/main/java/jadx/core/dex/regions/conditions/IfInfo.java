@@ -81,8 +81,11 @@ public final class IfInfo {
 	}
 
 	public BlockNode getThenBlock() {
-		return thenBlock;
-	}
+       if (thenBlock == null) {
+           throw new IllegalStateException("thenBlock is null");
+       }
+       return thenBlock;
+   }
 
 	public BlockNode getElseBlock() {
 		return elseBlock;
